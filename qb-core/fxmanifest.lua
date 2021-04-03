@@ -1,7 +1,6 @@
 fx_version 'cerulean'
 game 'gta5'
 
-author 'Jon Doe'
 description 'QB-Core'
 version '1.0.0'
 
