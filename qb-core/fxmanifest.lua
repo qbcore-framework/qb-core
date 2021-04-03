@@ -1,18 +1,9 @@
-resource_manifest_version '44febabe-d386-4d18-afbe-5e627f4af937'
+fx_version 'cerulean'
+game 'gta5'
 
-description 'Qbus:Core'
-
-server_scripts {
-	"config.lua",
-	"shared.lua",
-	"server/main.lua",
-	"server/functions.lua",
-	"server/player.lua",
-	--"server/loops.lua",
-	"server/events.lua",
-	"server/commands.lua",
-	"server/debug.lua",
-}
+author 'Jon Doe'
+description 'QB-Core'
+version '1.0.0'
 
 client_scripts {
 	"config.lua",
@@ -22,6 +13,17 @@ client_scripts {
 	"client/loops.lua",
 	"client/events.lua",
 	"client/debug.lua",
+}
+
+server_scripts {
+	"config.lua",
+	"shared.lua",
+	"server/main.lua",
+	"server/functions.lua",
+	"server/player.lua",
+	"server/events.lua",
+	"server/commands.lua",
+	"server/debug.lua",
 }
 
 ui_page {
