@@ -158,33 +158,6 @@ QBCore.Functions.GetPlayers = function()
 end
 
 QBCore.Functions.GetClosestVehicle = function(coords)
-	--[[local coordFrom = coords
-	local playerPed = PlayerPedId()
-
-	if coordFrom == nil then
-		coordFrom = GetEntityCoords(playerPed)
-	end
-	local coordTo = GetOffsetFromEntityInWorldCoords(playerPed, 0.0, 255.0, 0.0)
-
-	local offset = 0
-	local rayHandle
-	local vehicle
-
-	for i = 0, 100 do
-		rayHandle = CastRayPointToPoint(coordFrom.x, coordFrom.y, coordFrom.z, coordTo.x, coordTo.y, coordTo.z + offset, 10, PlayerPedId(), 0)	
-		a, b, c, d, vehicle = GetRaycastResult(rayHandle)
-		
-		offset = offset - 1
-
-		if vehicle ~= 0 then break end
-	end
-	
-	local distance = Vdist2(coordFrom, GetEntityCoords(vehicle))
-	
-	if distance > 25 then vehicle = nil end
-
-	return vehicle ~= nil and vehicle or 0]]--
-	
 	local vehicles        = QBCore.Functions.GetVehicles()
 	local closestDistance = -1
 	local closestVehicle  = -1
@@ -196,7 +169,7 @@ QBCore.Functions.GetClosestVehicle = function(coords)
 	end
 	for i=1, #vehicles, 1 do
 		local vehicleCoords = GetEntityCoords(vehicles[i])
-		local distance      = GetDistanceBetweenCoords(vehicleCoords, coords.x, coords.y, coords.z, true)
+		local distance = #(vehicleCoords - coords)
 
 		if closestDistance == -1 or closestDistance > distance then
 			closestVehicle  = vehicles[i]
@@ -218,7 +191,7 @@ QBCore.Functions.GetClosestPed = function(coords, ignoreList)
 
 	for i=1, #peds, 1 do
 		local pedCoords = GetEntityCoords(peds[i])
-		local distance  = GetDistanceBetweenCoords(pedCoords, coords.x, coords.y, coords.z, true)
+		local distance = #(pedCoords - coords)
 
 		if closestDistance == -1 or closestDistance > distance then
 			closestPed      = peds[i]
@@ -242,7 +215,7 @@ QBCore.Functions.GetClosestPlayer = function(coords)
     for i=1, #closestPlayers, 1 do
         if closestPlayers[i] ~= PlayerId() and closestPlayers[i] ~= -1 then
             local pos = GetEntityCoords(GetPlayerPed(closestPlayers[i]))
-            local distance = GetDistanceBetweenCoords(pos.x, pos.y, pos.z, coords.x, coords.y, coords.z, true)
+			local distance = #(pos - coords)
 
             if closestDistance == -1 or closestDistance > distance then
                 closestPlayer = closestPlayers[i]
@@ -267,7 +240,7 @@ QBCore.Functions.GetPlayersFromCoords = function(coords, distance)
     for _, player in pairs(players) do
 		local target = GetPlayerPed(player)
 		local targetCoords = GetEntityCoords(target)
-		local targetdistance = GetDistanceBetweenCoords(targetCoords, coords.x, coords.y, coords.z, true)
+		local targetdistance = #(targetCoords - coords)
 		if targetdistance <= distance then
 			table.insert(closePlayers, player)
 		end

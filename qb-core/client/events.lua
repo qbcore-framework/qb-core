@@ -128,7 +128,8 @@ RegisterNetEvent('QBCore:Client:LocalOutOfCharacter')
 AddEventHandler('QBCore:Client:LocalOutOfCharacter', function(playerId, playerName, message)
 	local sourcePos = GetEntityCoords(GetPlayerPed(GetPlayerFromServerId(playerId)), false)
     local pos = GetEntityCoords(PlayerPedId(), false)
-    if (GetDistanceBetweenCoords(pos.x, pos.y, pos.z, sourcePos.x, sourcePos.y, sourcePos.z, true) < 20.0) then
+	local dist = #(pos - sourcePos)
+    if dist < 20.0 then
 		TriggerEvent("chatMessage", "OOC " .. playerName, "normal", message)
     end
 end)
