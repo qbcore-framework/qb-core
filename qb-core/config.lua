@@ -24,8 +24,8 @@ QBConfig.Player.Bloodtypes = {
 
 QBConfig.Server = {} -- General server config
 QBConfig.Server.closed = false -- Set server closed (no one can join except people with ace permission 'qbadmin.join')
-QBConfig.Server.closedReason = "We\'re still testing." -- Reason message to display when people can't join the server
+QBConfig.Server.closedReason = "Server Closed" -- Reason message to display when people can't join the server
 QBConfig.Server.uptime = 0 -- Time the server has been up.
 QBConfig.Server.whitelist = false -- Enable or disable whitelist on the server
-QBConfig.Server.discord = "https://discord.gg/Ttr6fY6" -- Discord invite link
+QBConfig.Server.discord = "" -- Discord invite link
 QBConfig.Server.PermissionList = {} -- permission list
