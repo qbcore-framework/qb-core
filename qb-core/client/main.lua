@@ -17,11 +17,8 @@ end)
 
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded')
 AddEventHandler('QBCore:Client:OnPlayerLoaded', function()
-	local ped = PlayerPedId()
 	ShutdownLoadingScreenNui()
 	isLoggedIn = true
-	SetCanAttackFriendly(ped, true, true)
-	NetworkSetFriendlyFireOption(true)
 end)
 
 RegisterNetEvent('QBCore:Client:OnPlayerUnload')
