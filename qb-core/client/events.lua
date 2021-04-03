@@ -3,7 +3,7 @@ RegisterNetEvent('QBCore:Command:TeleportToPlayer')
 AddEventHandler('QBCore:Command:TeleportToPlayer', function(othersource)
 	local coords = QBCore.Functions.GetCoords(GetPlayerPed(GetPlayerFromServerId(othersource)))
 	local entity = PlayerPedId()
-	if IsPedInAnyVehicle(Entity, false) then
+	if IsPedInAnyVehicle(entity, false) then
 		entity = GetVehiclePedIsUsing(entity)
 	end
 	SetEntityCoords(entity, coords.x, coords.y, coords.z)
