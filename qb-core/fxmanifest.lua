@@ -11,7 +11,7 @@ client_scripts {
 	"client/functions.lua",
 	"client/loops.lua",
 	"client/events.lua",
-	"client/debug.lua",
+	"client/debug.lua"
 }
 
 server_scripts {
@@ -22,7 +22,7 @@ server_scripts {
 	"server/player.lua",
 	"server/events.lua",
 	"server/commands.lua",
-	"server/debug.lua",
+	"server/debug.lua"
 }
 
 ui_page {
@@ -32,5 +32,5 @@ ui_page {
 files {
 	'html/ui.html',
 	'html/css/main.css',
-	'html/js/app.js',
+	'html/js/app.js'
 }
