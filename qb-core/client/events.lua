@@ -13,7 +13,7 @@ end)
 RegisterNetEvent('QBCore:Command:TeleportToCoords')
 AddEventHandler('QBCore:Command:TeleportToCoords', function(x, y, z)
 	local entity = PlayerPedId()
-	if IsPedInAnyVehicle(Entity, false) then
+	if IsPedInAnyVehicle(entity, false) then
 		entity = GetVehiclePedIsUsing(entity)
 	end
 	SetEntityCoords(entity, x, y, z)
