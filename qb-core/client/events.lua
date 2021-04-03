@@ -2,7 +2,7 @@
 RegisterNetEvent('QBCore:Command:TeleportToPlayer')
 AddEventHandler('QBCore:Command:TeleportToPlayer', function(othersource)
 	local coords = QBCore.Functions.GetCoords(GetPlayerPed(GetPlayerFromServerId(othersource)))
-	local entity = GetPlayerPed(-1)
+	local entity = PlayerPedId()
 	if IsPedInAnyVehicle(Entity, false) then
 		entity = GetVehiclePedIsUsing(entity)
 	end
@@ -12,7 +12,7 @@ end)
 
 RegisterNetEvent('QBCore:Command:TeleportToCoords')
 AddEventHandler('QBCore:Command:TeleportToCoords', function(x, y, z)
-	local entity = GetPlayerPed(-1)
+	local entity = PlayerPedId()
 	if IsPedInAnyVehicle(Entity, false) then
 		entity = GetVehiclePedIsUsing(entity)
 	end
@@ -22,7 +22,7 @@ end)
 RegisterNetEvent('QBCore:Command:SpawnVehicle')
 AddEventHandler('QBCore:Command:SpawnVehicle', function(model)
 	QBCore.Functions.SpawnVehicle(model, function(vehicle)
-		TaskWarpPedIntoVehicle(GetPlayerPed(-1), vehicle, -1)
+		TaskWarpPedIntoVehicle(PlayerPedId(), vehicle, -1)
 		TriggerEvent("vehiclekeys:client:SetOwner", GetVehicleNumberPlateText(vehicle))
 	end)
 end)
@@ -30,17 +30,17 @@ end)
 RegisterNetEvent('QBCore:Command:DeleteVehicle')
 AddEventHandler('QBCore:Command:DeleteVehicle', function()
 	local vehicle = QBCore.Functions.GetClosestVehicle()
-	if IsPedInAnyVehicle(GetPlayerPed(-1)) then vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false) else vehicle = QBCore.Functions.GetClosestVehicle() end
+	if IsPedInAnyVehicle(PlayerPedId()) then vehicle = GetVehiclePedIsIn(PlayerPedId(), false) else vehicle = QBCore.Functions.GetClosestVehicle() end
 	-- TriggerServerEvent('QBCore:Command:CheckOwnedVehicle', GetVehicleNumberPlateText(vehicle))
 	QBCore.Functions.DeleteVehicle(vehicle)
 end)
 
 RegisterNetEvent('QBCore:Command:Revive')
 AddEventHandler('QBCore:Command:Revive', function()
-	local coords = QBCore.Functions.GetCoords(GetPlayerPed(-1))
+	local coords = QBCore.Functions.GetCoords(PlayerPedId())
 	NetworkResurrectLocalPlayer(coords.x, coords.y, coords.z+0.2, coords.a, true, false)
-	SetPlayerInvincible(GetPlayerPed(-1), false)
-	ClearPedBloodDamage(GetPlayerPed(-1))
+	SetPlayerInvincible(PlayerPedId(), false)
+	ClearPedBloodDamage(PlayerPedId())
 end)
 
 RegisterNetEvent('QBCore:Command:GoToMarker')
@@ -114,20 +114,20 @@ end)
 RegisterNetEvent('QBCore:Player:UpdatePlayerData')
 AddEventHandler('QBCore:Player:UpdatePlayerData', function()
 	local data = {}
-	data.position = QBCore.Functions.GetCoords(GetPlayerPed(-1))
+	data.position = QBCore.Functions.GetCoords(PlayerPedId())
 	TriggerServerEvent('QBCore:UpdatePlayer', data)
 end)
 
 RegisterNetEvent('QBCore:Player:UpdatePlayerPosition')
 AddEventHandler('QBCore:Player:UpdatePlayerPosition', function()
-	local position = QBCore.Functions.GetCoords(GetPlayerPed(-1))
+	local position = QBCore.Functions.GetCoords(PlayerPedId())
 	TriggerServerEvent('QBCore:UpdatePlayerPosition', position)
 end)
 
 RegisterNetEvent('QBCore:Client:LocalOutOfCharacter')
 AddEventHandler('QBCore:Client:LocalOutOfCharacter', function(playerId, playerName, message)
 	local sourcePos = GetEntityCoords(GetPlayerPed(GetPlayerFromServerId(playerId)), false)
-    local pos = GetEntityCoords(GetPlayerPed(-1), false)
+    local pos = GetEntityCoords(PlayerPedId(), false)
     if (GetDistanceBetweenCoords(pos.x, pos.y, pos.z, sourcePos.x, sourcePos.y, sourcePos.z, true) < 20.0) then
 		TriggerEvent("chatMessage", "OOC " .. playerName, "normal", message)
     end

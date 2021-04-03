@@ -51,7 +51,7 @@ end
 
 QBCore.Functions.SpawnVehicle = function(model, cb, coords, isnetworked)
     local model = (type(model)=="number" and model or GetHashKey(model))
-    local coords = coords ~= nil and coords or QBCore.Functions.GetCoords(GetPlayerPed(-1))
+    local coords = coords ~= nil and coords or QBCore.Functions.GetCoords(PlayerPedId())
     local isnetworked = isnetworked ~= nil and isnetworked or true
 
     RequestModel(model)
@@ -159,7 +159,7 @@ end
 
 QBCore.Functions.GetClosestVehicle = function(coords)
 	--[[local coordFrom = coords
-	local playerPed = GetPlayerPed(-1)
+	local playerPed = PlayerPedId()
 
 	if coordFrom == nil then
 		coordFrom = GetEntityCoords(playerPed)
@@ -171,7 +171,7 @@ QBCore.Functions.GetClosestVehicle = function(coords)
 	local vehicle
 
 	for i = 0, 100 do
-		rayHandle = CastRayPointToPoint(coordFrom.x, coordFrom.y, coordFrom.z, coordTo.x, coordTo.y, coordTo.z + offset, 10, GetPlayerPed(-1), 0)	
+		rayHandle = CastRayPointToPoint(coordFrom.x, coordFrom.y, coordFrom.z, coordTo.x, coordTo.y, coordTo.z + offset, 10, PlayerPedId(), 0)	
 		a, b, c, d, vehicle = GetRaycastResult(rayHandle)
 		
 		offset = offset - 1
@@ -213,7 +213,7 @@ QBCore.Functions.GetClosestPed = function(coords, ignoreList)
     local closestPed      = -1
     
     if coords == nil then
-        coords = GetEntityCoords(GetPlayerPed(-1))
+        coords = GetEntityCoords(PlayerPedId())
     end
 
 	for i=1, #peds, 1 do
@@ -232,7 +232,7 @@ end
 
 QBCore.Functions.GetClosestPlayer = function(coords)
 	if coords == nil then
-        coords = GetEntityCoords(GetPlayerPed(-1))
+        coords = GetEntityCoords(PlayerPedId())
 	end
 	
 	local closestPlayers = QBCore.Functions.GetPlayersFromCoords(coords)
@@ -259,7 +259,7 @@ QBCore.Functions.GetPlayersFromCoords = function(coords, distance)
     local closePlayers = {}
 
     if coords == nil then
-		coords = GetEntityCoords(GetPlayerPed(-1))
+		coords = GetEntityCoords(PlayerPedId())
     end
     if distance == nil then
         distance = 5.0
