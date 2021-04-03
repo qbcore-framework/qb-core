@@ -1,0 +1,44 @@
+body {
+    background-color: transparent !important;
+}
+
+.template, .notification {
+    display: none;
+}
+
+.notif-container {
+    width: 20vw;
+    position: absolute;
+    top: 4vh;
+    right: 12vw;
+    display: flex;
+    flex-flow: row;
+    flex-wrap: wrap;
+}
+
+.notification {
+    position: relative;
+    padding: 1vh;
+    width: fit-content;
+    border-radius: .4vh;
+    margin: 5px;
+    font: caption;
+    font-size: 1.2vh;
+    font-weight: bold;
+    float: left;
+}
+
+.success {
+    background: #27ae60;
+    color: #fff;
+}
+
+.primary {
+    background-color: #2980b9;
+    color: #ffffff;
+}
+
+.error {
+    background: #c0392b;
+    color: #fff;
+}
