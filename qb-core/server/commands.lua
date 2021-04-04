@@ -30,7 +30,7 @@ QBCore.Commands.Add("tp", "Teleport to a player or location", {{name="id/x", hel
 		if Player ~= nil then
 			TriggerClientEvent('QBCore:Command:TeleportToPlayer', source, Player.PlayerData.source)
 		else
-			TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "Player is not online!")
+			TriggerClientEvent('QBCore:Notify', source, "Player is not online!", "error")
 		end
 	else
 		-- tp to location
@@ -40,7 +40,7 @@ QBCore.Commands.Add("tp", "Teleport to a player or location", {{name="id/x", hel
 			local z = tonumber(args[3])
 			TriggerClientEvent('QBCore:Command:TeleportToCoords', source, x, y, z)
 		else
-			TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "Not every argument has been entered (x, y, z)")
+			TriggerClientEvent('QBCore:Notify', source, "Not every argument has been entered (x, y, z)", "error")
 		end
 	end
 end, "admin")
@@ -51,7 +51,7 @@ QBCore.Commands.Add("addpermission", "Grant permissions to someone (god/admin)",
 	if Player ~= nil then
 		QBCore.Functions.AddPermission(Player.PlayerData.source, permission)
 	else
-		TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "Player is not online!")	
+		TriggerClientEvent('QBCore:Notify', source, "Player is not online!", "error")	
 	end
 end, "god")
 
@@ -60,7 +60,7 @@ QBCore.Commands.Add("removepermission", "Remove permissions from someone", {{nam
 	if Player ~= nil then
 		QBCore.Functions.RemovePermission(Player.PlayerData.source)
 	else
-		TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "Player is not online!")	
+		TriggerClientEvent('QBCore:Notify', source, "Player is not online!", "error")	
 	end
 end, "god")
 
@@ -85,7 +85,7 @@ QBCore.Commands.Add("givemoney", "Give money to a player", {{name="id", help="Pl
 	if Player ~= nil then
 		Player.Functions.AddMoney(tostring(args[2]), tonumber(args[3]))
 	else
-		TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "Player is not online!")
+		TriggerClientEvent('QBCore:Notify', source, "Player is not online!", "error")
 	end
 end, "admin")
 
@@ -94,7 +94,7 @@ QBCore.Commands.Add("setmoney", "set a players money amount", {{name="id", help=
 	if Player ~= nil then
 		Player.Functions.SetMoney(tostring(args[2]), tonumber(args[3]))
 	else
-		TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "Player is not online!")
+		TriggerClientEvent('QBCore:Notify', source, "Player is not online!", "error")
 	end
 end, "admin")
 
@@ -103,13 +103,13 @@ QBCore.Commands.Add("setjob", "Assign a job to a player", {{name="id", help="Spe
 	if Player ~= nil then
 		Player.Functions.SetJob(tostring(args[2]))
 	else
-		TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "Player is not online!")
+		TriggerClientEvent('QBCore:Notify', source, "Player is not online!", "error")
 	end
 end, "admin")
 
 QBCore.Commands.Add("job", "See what job you have", {}, false, function(source, args)
 	local Player = QBCore.Functions.GetPlayer(source)
-	TriggerClientEvent('chatMessage', source, "SYSTEM", "warning", "Job: "..Player.PlayerData.job.label)
+	TriggerClientEvent('QBCore:Notify', source, "Job: "..Player.PlayerData.job.label)
 end)
 
 QBCore.Commands.Add("setgang", "Assign a player to a gang", {{name="id", help="Player ID"}, {name="job", help="Name of a gang"}}, true, function(source, args)
@@ -117,7 +117,7 @@ QBCore.Commands.Add("setgang", "Assign a player to a gang", {{name="id", help="P
 	if Player ~= nil then
 		Player.Functions.SetGang(tostring(args[2]))
 	else
-		TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "Player is not online!")
+		TriggerClientEvent('QBCore:Notify', source, "Player is not online!", "error")
 	end
 end, "admin")
 
@@ -125,7 +125,7 @@ QBCore.Commands.Add("gang", "See what gang you're in", {}, false, function(sourc
 	local Player = QBCore.Functions.GetPlayer(source)
 
 	if Player.PlayerData.gang.name ~= "geen" then
-		TriggerClientEvent('chatMessage', source, "SYSTEM", "warning", "Gang: "..Player.PlayerData.gang.label)
+		TriggerClientEvent('QBCore:Notify', source, "Gang: "..Player.PlayerData.gang.label)
 	else
 		TriggerClientEvent('QBCore:Notify', source, "You're not in a gang!", "error")
 	end
@@ -141,7 +141,7 @@ QBCore.Commands.Add("clearinv", "Clear the inventory of a player", {{name="id", 
 	if Player ~= nil then
 		Player.Functions.ClearInventory()
 	else
-		TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "Player is not online!")
+		TriggerClientEvent('QBCore:Notify', source, "Player is not online!", "error")
 	end
 end, "admin")
 

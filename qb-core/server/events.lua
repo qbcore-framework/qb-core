@@ -191,7 +191,7 @@ AddEventHandler('chatMessage', function(source, n, message)
 				table.remove(args, 1)
 				if (QBCore.Functions.HasPermission(source, "god") or QBCore.Functions.HasPermission(source, QBCore.Commands.List[command].permission)) then
 					if (QBCore.Commands.List[command].argsrequired and #QBCore.Commands.List[command].arguments ~= 0 and args[#QBCore.Commands.List[command].arguments] == nil) then
-					    TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "All arguments must be filled out!")
+					    TriggerClientEvent('QBCore:Notify', source, "All arguments must be filled out!", "error")
 					    local agus = ""
 					    for name, help in pairs(QBCore.Commands.List[command].arguments) do
 					    	agus = agus .. " ["..help.name.."]"
@@ -201,7 +201,7 @@ AddEventHandler('chatMessage', function(source, n, message)
 						QBCore.Commands.List[command].callback(source, args)
 					end
 				else
-					TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "No access to this command!")
+					TriggerClientEvent('QBCore:Notify', source, "No Access To This Command", "error")
 				end
 			end
 		end
@@ -215,7 +215,7 @@ AddEventHandler('QBCore:CallCommand', function(command, args)
 		if Player ~= nil then
 			if (QBCore.Functions.HasPermission(source, "god")) or (QBCore.Functions.HasPermission(source, QBCore.Commands.List[command].permission)) or (QBCore.Commands.List[command].permission == Player.PlayerData.job.name) then
 				if (QBCore.Commands.List[command].argsrequired and #QBCore.Commands.List[command].arguments ~= 0 and args[#QBCore.Commands.List[command].arguments] == nil) then
-					TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "All arguments must be filled out!")
+					TriggerClientEvent('QBCore:Notify', source, "All arguments must be filled out!", "error")
 					local agus = ""
 					for name, help in pairs(QBCore.Commands.List[command].arguments) do
 						agus = agus .. " ["..help.name.."]"
@@ -225,7 +225,7 @@ AddEventHandler('QBCore:CallCommand', function(command, args)
 					QBCore.Commands.List[command].callback(source, args)
 				end
 			else
-				TriggerClientEvent('chatMessage', source, "SYSTEM", "error", "No access to this command!")
+				TriggerClientEvent('QBCore:Notify', source, "No Access To This Command", "error")
 			end
 		end
 	end
