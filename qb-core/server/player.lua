@@ -237,7 +237,7 @@ QBCore.Player.CreatePlayer = function(PlayerData)
 	self.Functions.AddItem = function(item, amount, slot, info)
 		local totalWeight = QBCore.Player.GetTotalWeight(self.PlayerData.items)
 		local itemInfo = QBCore.Shared.Items[item:lower()]
-		if itemInfo == nil then TriggerClientEvent('QBCore:Notify', -1, "Item Does Not Exist", "error") return end
+		if itemInfo == nil then TriggerClientEvent('QBCore:Notify', source, "Item Does Not Exist", "error") return end
 		local amount = tonumber(amount)
 		local slot = tonumber(slot) ~= nil and tonumber(slot) or QBCore.Player.GetFirstSlotByItem(self.PlayerData.items, item)
 		if itemInfo["type"] == "weapon" and info == nil then
