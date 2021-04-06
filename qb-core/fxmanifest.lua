@@ -36,5 +36,6 @@ files {
 }
 
 dependencies {
-	'progressbar'
+	'progressbar',
+	'connectqueue'
 }
