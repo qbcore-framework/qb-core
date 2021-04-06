@@ -34,3 +34,7 @@ files {
 	'html/css/main.css',
 	'html/js/app.js'
 }
+
+dependencies {
+	'progressbar'
+}
