@@ -16,7 +16,7 @@ AddEventHandler('playerDropped', function(reason)
 end)
 
 -- Checking everything before joining
-AddEventHandler('playerConnecting', function(playerName, setKickReason, deferrals)
+--[[ AddEventHandler('playerConnecting', function(playerName, setKickReason, deferrals)
 	deferrals.defer()
 	local src = source
 	deferrals.update("\nChecking name...")
@@ -71,7 +71,7 @@ AddEventHandler('playerConnecting', function(playerName, setKickReason, deferral
 	TriggerEvent("qb-log:server:CreateLog", "joinleave", "Queue", "orange", "**"..name .. "** ("..json.encode(GetPlayerIdentifiers(src))..") in queue..")
 	TriggerEvent("qb-log:server:sendLog", GetPlayerIdentifiers(src)[1], "left", {})
 	TriggerEvent("connectqueue:playerConnect", src, setKickReason, deferrals)
-end)
+end) ]]
 
 RegisterServerEvent("QBCore:server:CloseServer")
 AddEventHandler('QBCore:server:CloseServer', function(reason)
@@ -116,7 +116,7 @@ AddEventHandler('QBCore:UpdatePlayer', function(data)
 		Player.Functions.SetMetaData("hunger", newHunger)
 
 		Player.Functions.AddMoney("bank", Player.PlayerData.job.payment)
-		TriggerClientEvent('QBCore:Notify', src, "You received your paycheck of €"..Player.PlayerData.job.payment)
+		TriggerClientEvent('QBCore:Notify', src, "You received your paycheck of $"..Player.PlayerData.job.payment)
 		TriggerClientEvent("hud:client:UpdateNeeds", src, newHunger, newThirst)
 
 		Player.Functions.Save()
