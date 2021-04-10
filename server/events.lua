@@ -8,7 +8,6 @@ AddEventHandler('playerDropped', function(reason)
 	local src = source
 	print("Dropped: "..GetPlayerName(src))
 	TriggerEvent("qb-log:server:CreateLog", "joinleave", "Dropped", "red", "**".. GetPlayerName(src) .. "** ("..GetPlayerIdentifiers(src)[1]..") left..")
-	TriggerEvent("qb-log:server:sendLog", GetPlayerIdentifiers(src)[1], "joined", {})
 	if reason ~= "Reconnecting" and src > 60000 then return false end
 	if(src==nil or (QBCore.Players[src] == nil)) then return false end
 	QBCore.Players[src].Functions.Save()
@@ -69,7 +68,6 @@ end)
         return false
 	end
 	TriggerEvent("qb-log:server:CreateLog", "joinleave", "Queue", "orange", "**"..name .. "** ("..json.encode(GetPlayerIdentifiers(src))..") in queue..")
-	TriggerEvent("qb-log:server:sendLog", GetPlayerIdentifiers(src)[1], "left", {})
 	TriggerEvent("connectqueue:playerConnect", src, setKickReason, deferrals)
 end) ]]
 
