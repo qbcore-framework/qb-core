@@ -247,6 +247,7 @@ QBShared.Items = {
 	["firstaid"] 			 		 = {["name"] = "firstaid", 						["label"] = "First Aid", 				["weight"] = 2500, 		["type"] = "item", 		["image"] = "firstaid.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,	   ["combinable"] = nil,   ["description"] = "You can use this First Aid kit to get people back on their feet."},
 	["printerdocument"] 			 = {["name"] = "printerdocument", 				["label"] = "Document", 				["weight"] = 500, 		["type"] = "item", 		["image"] = "printerdocument.png", 		["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,	   ["combinable"] = nil,   ["description"] = "A nice document"},
 	["weaponlicense"] 				 = {["name"] = "weaponlicense",				    ["label"] = "Weapon License",			["weight"] = 0,			["type"] = "item",		["image"] = "weapon_license.png",		["unique"] = true,		["useable"] = true,		["shouldClose"] = true,		["combinable"] = nil,	["description"] = "Weapon License"},
+	["oxy"] 				 			= {["name"] = "oxy",				    	["label"] = "Prescription Oxy",			["weight"] = 0,			["type"] = "item",		["image"] = "oxy.png",		["unique"] = false,		["useable"] = true,		["shouldClose"] = true,		["combinable"] = nil,				["description"] = "The Label Has Been Ripped Off"},
 }
 
 -- // HASH WEAPON ITEMS, NEED SOMETIMES TO GET INFO FOR CLIENT
