@@ -246,6 +246,7 @@ QBShared.Items = {
 	["pinger"] 			 			 = {["name"] = "pinger", 						["label"] = "Pinger", 			["weight"] = 1000, 		["type"] = "item", 		["image"] = "pinger.png", 				["unique"] = false, 	["useable"] = false, 	["shouldClose"] = true,	   ["combinable"] = nil,   ["description"] = "With a pinger and your phone you can send out your location"},
 	["firstaid"] 			 		 = {["name"] = "firstaid", 						["label"] = "First Aid", 				["weight"] = 2500, 		["type"] = "item", 		["image"] = "firstaid.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,	   ["combinable"] = nil,   ["description"] = "You can use this First Aid kit to get people back on their feet."},
 	["printerdocument"] 			 = {["name"] = "printerdocument", 				["label"] = "Document", 				["weight"] = 500, 		["type"] = "item", 		["image"] = "printerdocument.png", 		["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,	   ["combinable"] = nil,   ["description"] = "A nice document"},
+	["weaponlicense"] 				 = {["name"] = "weaponlicense",				    ["label"] = "Weapon License",			["weight"] = 0,			["type"] = "item",		["image"] = "weapon_license.png",		["unique"] = true,		["useable"] = true,		["shouldClose"] = true,		["combinable"] = nil,	["description"] = "Weapon License"},
 }
 
 -- // HASH WEAPON ITEMS, NEED SOMETIMES TO GET INFO FOR CLIENT
@@ -6180,89 +6181,281 @@ QBShared.VehicleModels = {
 }
 
 QBShared.Gangs = {
-	["geen"] = {
+	["none"] = {
 		label = "No Gang"
 	},
-	["testgang"] = {
-		label = "Test Gang"
+	["lostmc"] = {
+		label = "The Lost MC"
+	},
+	["ballas"] = {
+		label = "Ballas"
+	},
+	["vagos"] = {
+		label = "Vagos"
+	},
+	["cartel"] = {
+		label = "Cartel"
+	},
+	["familes"] = {
+		label = "Families"
+	},
+	["triads"] = {
+		label = "Triads"
 	}
 }
 
 QBShared.Jobs = {
 	["unemployed"] = {
-		label = "Unemployed",
-		payment = 10,
+		label = "Civilian",
 		defaultDuty = true,
+		grades = {
+            ['0'] = {
+                name = "Freelancer",
+                payment = 10
+            },
+        },
 	},
 	["police"] = {
-		label = "Police",
-		payment = 400,
+		label = "Law Enforcement",
 		defaultDuty = true,
-	},
-	["doctor"] = {
-		label = "Doctor",
-		payment = 600,
-		defaultDuty = true,
+		grades = {
+            ['0'] = {
+                name = "Recruit",
+                payment = 50
+            },
+			['1'] = {
+                name = "Officer",
+                payment = 75
+            },
+			['2'] = {
+                name = "Sergeant",
+                payment = 100
+            },
+			['3'] = {
+                name = "Lieutenant",
+                payment = 125
+            },
+			['4'] = {
+                name = "Chief",
+				isboss = true,
+                payment = 150
+            },
+        },
 	},
 	["ambulance"] = {
-		label = "Ambulance",
-		payment = 400,
+		label = "EMS",
 		defaultDuty = true,
-	},
-	["trucker"] = {
-		label = "Trucker",
-		payment = 10,
-		defaultDuty = true,
-	},
-	["taxi"] = {
-		label = "Taxi",
-		payment = 10,
-		defaultDuty = true,
+		grades = {
+            ['0'] = {
+                name = "Recruit",
+                payment = 50
+            },
+			['1'] = {
+                name = "Paramedic",
+                payment = 75
+            },
+			['2'] = {
+                name = "Doctor",
+                payment = 100
+            },
+			['3'] = {
+                name = "Surgeon",
+                payment = 125
+            },
+			['4'] = {
+                name = "Chief",
+				isboss = true,
+                payment = 150
+            },
+        },
 	},
 	["realestate"] = {
 		label = "Real Estate",
-		payment = 10,
 		defaultDuty = true,
+		grades = {
+            ['0'] = {
+                name = "Recruit",
+                payment = 50
+            },
+			['1'] = {
+                name = "House Sales",
+                payment = 75
+            },
+			['2'] = {
+                name = "Business Sales",
+                payment = 100
+            },
+			['3'] = {
+                name = "Broker",
+                payment = 125
+            },
+			['4'] = {
+                name = "Manager",
+				isboss = true,
+                payment = 150
+            },
+        },
 	},
-	["tow"] = {
-		label = "Begnet's Towing",
-		payment = 10,
+	["taxi"] = {
+		label = "Taxi",
 		defaultDuty = true,
-	},
-	["reporter"] = {
-		label = "Reporter",
-		payment = 10,
-		defaultDuty = true,
-	},
-	["judge"] = {
-		label = "Judge",
-		payment = 500,
-		defaultDuty = true,
-	},
-	["lawyer"] = {
-		label = "Lawyer",
-		payment = 50,
-		defaultDuty = true,
+		grades = {
+            ['0'] = {
+                name = "Recruit",
+                payment = 50
+            },
+			['1'] = {
+                name = "Driver",
+                payment = 75
+            },
+			['2'] = {
+                name = "Event Driver",
+                payment = 100
+            },
+			['3'] = {
+                name = "Sales",
+                payment = 125
+            },
+			['4'] = {
+                name = "Manager",
+				isboss = true,
+                payment = 150
+            },
+        },
 	},
 	["cardealer"] = {
 		label = "Vehicle Dealer",
-		payment = 150,
 		defaultDuty = true,
+		grades = {
+            ['0'] = {
+                name = "Recruit",
+                payment = 50
+            },
+			['1'] = {
+                name = "Showroom Sales",
+                payment = 75
+            },
+			['2'] = {
+                name = "Business Sales",
+                payment = 100
+            },
+			['3'] = {
+                name = "Finance",
+                payment = 125
+            },
+			['4'] = {
+                name = "Manager",
+				isboss = true,
+                payment = 150
+            },
+        },
 	},
 	["mechanic"] = {
 		label = "Mechanic",
-		payment = 150,
 		defaultDuty = true,
+		grades = {
+            ['0'] = {
+                name = "Recruit",
+                payment = 50
+            },
+			['1'] = {
+                name = "Novice",
+                payment = 75
+            },
+			['2'] = {
+                name = "Experienced",
+                payment = 100
+            },
+			['3'] = {
+                name = "Advanced",
+                payment = 125
+            },
+			['4'] = {
+                name = "Manager",
+				isboss = true,
+                payment = 150
+            },
+        },
+	},
+	["judge"] = {
+		label = "Honorary",
+		defaultDuty = true,
+		grades = {
+            ['0'] = {
+                name = "Judge",
+                payment = 100
+            },
+        },
+	},
+	["lawyer"] = {
+		label = "Law Firm",
+		defaultDuty = true,
+		grades = {
+            ['0'] = {
+                name = "Associate",
+                payment = 50
+            },
+        },
+	},
+	["reporter"] = {
+		label = "Reporter",
+		defaultDuty = true,
+		grades = {
+            ['0'] = {
+                name = "Journalist",
+                payment = 50
+            },
+        },
+	},
+	["trucker"] = {
+		label = "Trucker",
+		defaultDuty = true,
+		grades = {
+            ['0'] = {
+                name = "Driver",
+                payment = 50
+            },
+        },
+	},
+	["tow"] = {
+		label = "Towing",
+		defaultDuty = true,
+		grades = {
+            ['0'] = {
+                name = "Driver",
+                payment = 50
+            },
+        },
 	},
 	["garbage"] = {
-		label = "Garbage Collector",
-		payment = 12,
+		label = "Garbage",
 		defaultDuty = true,
+		grades = {
+            ['0'] = {
+                name = "Collector",
+                payment = 50
+            },
+        },
+	},
+	["vineyard"] = {
+		label = "Vineyard",
+		defaultDuty = true,
+		grades = {
+            ['0'] = {
+                name = "Picker",
+                payment = 50
+            },
+        },
 	},
 	["hotdog"] = {
-		label = "Hotdog Stand",
-		payment = 12,
+		label = "Hotdog",
 		defaultDuty = true,
+		grades = {
+            ['0'] = {
+                name = "Sales",
+                payment = 50
+            },
+        },
 	},
 }
 

@@ -90,7 +90,8 @@ QBCore.Player.CheckPlayerData = function(source, PlayerData)
 	}	
 	PlayerData.metadata["licences"] = PlayerData.metadata["licences"] ~= nil and PlayerData.metadata["licences"] or {
 		["driver"] = true,
-		["business"] = false
+		["business"] = false,
+		["weapon"] = false
 	}	
 	PlayerData.metadata["inside"] = PlayerData.metadata["inside"] ~= nil and PlayerData.metadata["inside"] or {
 		house = nil,
@@ -106,13 +107,18 @@ QBCore.Player.CheckPlayerData = function(source, PlayerData)
 
 	PlayerData.job = PlayerData.job ~= nil and PlayerData.job or {}
 	PlayerData.job.name = PlayerData.job.name ~= nil and PlayerData.job.name or "unemployed"
-	PlayerData.job.label = PlayerData.job.label ~= nil and PlayerData.job.label or "unemployed"
+	PlayerData.job.label = PlayerData.job.label ~= nil and PlayerData.job.label or ""
 	PlayerData.job.payment = PlayerData.job.payment ~= nil and PlayerData.job.payment or 10
 	PlayerData.job.onduty = PlayerData.job.onduty ~= nil and PlayerData.job.onduty or true
+	-- Added for grade system
+	PlayerData.job.isboss = PlayerData.job.isboss ~= nil and PlayerData.job.isboss or false
+	PlayerData.job.grade = PlayerData.job.grade ~= nil and PlayerData.job.grade or {}
+	PlayerData.job.grade.name = PlayerData.job.grade.name ~= nil and PlayerData.job.grade.name or nil
+	PlayerData.job.grade.level = PlayerData.job.grade.level ~= nil and PlayerData.job.grade.level or 0
 
 	PlayerData.gang = PlayerData.gang ~= nil and PlayerData.gang or {}
-	PlayerData.gang.name = PlayerData.gang.name ~= nil and PlayerData.gang.name or "geen"
-	PlayerData.gang.label = PlayerData.gang.label ~= nil and PlayerData.gang.label or "Geen Gang"
+	PlayerData.gang.name = PlayerData.gang.name ~= nil and PlayerData.gang.name or "none"
+	PlayerData.gang.label = PlayerData.gang.label ~= nil and PlayerData.gang.label or "No Gang Affiliaton"
 
 	PlayerData.position = PlayerData.position ~= nil and PlayerData.position or QBConfig.DefaultSpawn
 	PlayerData.LoggedIn = true
@@ -131,17 +137,36 @@ QBCore.Player.CreatePlayer = function(PlayerData)
 		QBCore.Commands.Refresh(self.PlayerData.source)
 	end
 
-	self.Functions.SetJob = function(job)
+	self.Functions.SetJob = function(job, grade)
 		local job = job:lower()
-		local grade = tonumber(grade)
+		local grade = tostring(grade) ~= nil and tostring(grade) or '0'
+
 		if QBCore.Shared.Jobs[job] ~= nil then
 			self.PlayerData.job.name = job
 			self.PlayerData.job.label = QBCore.Shared.Jobs[job].label
-			self.PlayerData.job.payment = QBCore.Shared.Jobs[job].payment
 			self.PlayerData.job.onduty = QBCore.Shared.Jobs[job].defaultDuty
+			
+			if QBCore.Shared.Jobs[job].grades[grade] then
+				local jobgrade = QBCore.Shared.Jobs[job].grades[grade]
+				self.PlayerData.job.grade = {}
+				self.PlayerData.job.grade.name = jobgrade.name
+				self.PlayerData.job.grade.level = tonumber(grade)
+				self.PlayerData.job.payment = jobgrade.payment ~= nil and jobgrade.payment or 30
+				self.PlayerData.job.isboss = jobgrade.isboss ~= nil and jobgrade.isboss or false
+			else
+				self.PlayerData.job.grade = {}
+				self.PlayerData.job.grade.name = 'No Grades'
+				self.PlayerData.job.grade.level = 0
+				self.PlayerData.job.payment = 30
+				self.PlayerData.job.isboss = false
+			end
+
 			self.Functions.UpdatePlayerData()
 			TriggerClientEvent("QBCore:Client:OnJobUpdate", self.PlayerData.source, self.PlayerData.job)
+			return true
 		end
+
+		return false
 	end
 
 	self.Functions.SetGang = function(gang)

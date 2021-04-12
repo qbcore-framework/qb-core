@@ -98,18 +98,21 @@ QBCore.Commands.Add("setmoney", "Set Players Money Amount (Admin Only)", {{name=
 	end
 end, "admin")
 
-QBCore.Commands.Add("setjob", "Set A Players Job (Admin Only)", {{name="id", help="Speler ID"}, {name="job", help="Job name"}}, true, function(source, args)
+QBCore.Commands.Add("setjob", "Set A Players Job (Admin Only)", {{name="id", help="Player ID"}, {name="job", help="Job name"}, {name="grade", help="Grade"}}, true, function(source, args)
 	local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
-	if Player ~= nil then
-		Player.Functions.SetJob(tostring(args[2]))
-	else
+	if (args[1] == nil) or (args[2] == nil) or (args[3] == nil) then
+		TriggerClientEvent('QBCore:Notify', source, "All Arguments Must Be Filled", "error")
+	elseif Player == nil then
 		TriggerClientEvent('QBCore:Notify', source, "Player is not online!", "error")
+	else
+		Player.Functions.SetJob(tostring(args[2]), tonumber(args[3]))
 	end
 end, "admin")
 
+
 QBCore.Commands.Add("job", "Check Your Job", {}, false, function(source, args)
 	local Player = QBCore.Functions.GetPlayer(source)
-	TriggerClientEvent('QBCore:Notify', source, "Job: "..Player.PlayerData.job.label)
+	TriggerClientEvent('QBCore:Notify', source, "Job: "..Player.PlayerData.job.label.. " Grade: "..Player.PlayerData.job.grade.name)
 end)
 
 QBCore.Commands.Add("setgang", "Set A Players Gang (Admin Only)", {{name="id", help="Player ID"}, {name="job", help="Name of a gang"}}, true, function(source, args)
