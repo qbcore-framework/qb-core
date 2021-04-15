@@ -49,6 +49,7 @@ local function OnPlayerConnecting(name, setKickReason, deferrals)
         deferrals.done("Welcome to {Server Name}!")
     end
     --Add any additional defferals you may need!
+    TriggerEvent("connectqueue:playerConnect", src, setKickReason, deferrals)
 end
 
 AddEventHandler("playerConnecting", OnPlayerConnecting)
