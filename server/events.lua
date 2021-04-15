@@ -35,21 +35,25 @@ local function OnPlayerConnecting(name, setKickReason, deferrals)
     -- mandatory wait!
     Wait(2500)
 
-	deferrals.update(string.format("Hello %s. We are checking if you are banned.", name))
+    deferrals.update(string.format("Hello %s. We are checking if you are banned.", name))
 	
-	local isBanned, Reason = QBCore.Functions.IsPlayerBanned(src)
+    local isBanned, Reason = QBCore.Functions.IsPlayerBanned(player)
 	
-	Wait(2500)
+    Wait(2500)
+	
+    deferrals.update(string.format("Welcome %s to {Server Name}.", name))
 
     if not steamIdentifier then
         deferrals.done("You are not connected to Steam.")
-	elseif isBanned then
-		deferrals.done(Reason)
-	else
-        deferrals.done("Welcome to {Server Name}!")
+    elseif isBanned then
+	deferrals.done(Reason)
+    else
+        deferrals.done()
+	Wait(1000)
+	TriggerEvent("connectqueue:playerConnect", name, setKickReason, deferrals)
     end
     --Add any additional defferals you may need!
-    TriggerEvent("connectqueue:playerConnect", src, setKickReason, deferrals)
+    
 end
 
 AddEventHandler("playerConnecting", OnPlayerConnecting)
