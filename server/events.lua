@@ -14,62 +14,50 @@ AddEventHandler('playerDropped', function(reason)
 	QBCore.Players[src] = nil
 end)
 
--- Checking everything before joining
---[[ AddEventHandler('playerConnecting', function(playerName, setKickReason, deferrals)
-	deferrals.defer()
-	local src = source
-	deferrals.update("\nChecking name...")
-	local name = GetPlayerName(src)
-	if name == nil then 
-		QBCore.Functions.Kick(src, 'Please don\'t use a blank Steam username.', setKickReason, deferrals)
-        CancelEvent()
-        return false
-	end
-	if(string.match(name, "[*%%'=`\"]")) then
-        QBCore.Functions.Kick(src, 'You have a character in your username ('..string.match(name, "[*%%'=`\"]")..') that is not allowed.\nPlease remove this out of your Steam username.', setKickReason, deferrals)
-        CancelEvent()
-        return false
-	end
-	if (string.match(name, "drop") or string.match(name, "table") or string.match(name, "database")) then
-        QBCore.Functions.Kick(src, 'Your username contains a word (drop/table/database) that is not allowed.\nPlease change your Steam username.', setKickReason, deferrals)
-        CancelEvent()
-        return false
-	end
-	deferrals.update("\nChecking identifiers...")
-    local identifiers = GetPlayerIdentifiers(src)
-	local steamid = identifiers[1]
-	local license = identifiers[2]
-    if (QBConfig.IdentifierType == "steam" and (steamid:sub(1,6) == "steam:") == false) then
-        QBCore.Functions.Kick(src, 'You need to open Steam to play.', setKickReason, deferrals)
-        CancelEvent()
-		return false
-	elseif (QBConfig.IdentifierType == "license" and (steamid:sub(1,6) == "license:") == false) then
-		QBCore.Functions.Kick(src, 'No Social Club license found.', setKickReason, deferrals)
-        CancelEvent()
-		return false
+local function OnPlayerConnecting(name, setKickReason, deferrals)
+    local player = source
+    local steamIdentifier
+    local identifiers = GetPlayerIdentifiers(player)
+    deferrals.defer()
+
+    -- mandatory wait!
+    Wait(0)
+
+    deferrals.update(string.format("Hello %s. Your Steam ID is being checked.", name))
+
+    for _, v in pairs(identifiers) do
+        if string.find(v, "steam") then
+            steamIdentifier = v
+            break
+        end
     end
-	deferrals.update("\nChecking ban status...")
-    local isBanned, Reason = QBCore.Functions.IsPlayerBanned(src)
-    if(isBanned) then
-        QBCore.Functions.Kick(src, Reason, setKickReason, deferrals)
-        CancelEvent()
-        return false
+
+    -- mandatory wait!
+    Wait(2500)
+
+    deferrals.update(string.format("Hello %s. We are checking if you are banned.", name))
+	
+    local isBanned, Reason = QBCore.Functions.IsPlayerBanned(player)
+	
+    Wait(2500)
+	
+    deferrals.update(string.format("Welcome %s to {Server Name}.", name))
+
+    if not steamIdentifier then
+        deferrals.done("You are not connected to Steam.")
+    elseif isBanned then
+	deferrals.done(Reason)
+    else
+        deferrals.done()
+	Wait(1000)
+	TriggerEvent("connectqueue:playerConnect", name, setKickReason, deferrals)
     end
-	deferrals.update("\nChecking whitelist status...")
-    if(not QBCore.Functions.IsWhitelisted(src)) then
-        QBCore.Functions.Kick(src, 'You aren\'t whitelisted.', setKickReason, deferrals)
-        CancelEvent()
-        return false
-    end
-	deferrals.update("\nChecking server status...")
-    if(QBCore.Config.Server.closed and not IsPlayerAceAllowed(src, "qbadmin.join")) then
-		QBCore.Functions.Kick(_source, 'the server is closed:\n'..QBCore.Config.Server.closedReason, setKickReason, deferrals)
-        CancelEvent()
-        return false
-	end
-	TriggerEvent("qb-log:server:CreateLog", "joinleave", "Queue", "orange", "**"..name .. "** ("..json.encode(GetPlayerIdentifiers(src))..") in queue..")
-	TriggerEvent("connectqueue:playerConnect", src, setKickReason, deferrals)
-end) ]]
+    --Add any additional defferals you may need!
+    
+end
+
+AddEventHandler("playerConnecting", OnPlayerConnecting)
+
 
 RegisterServerEvent("QBCore:server:CloseServer")
 AddEventHandler('QBCore:server:CloseServer', function(reason)
