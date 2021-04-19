@@ -3043,7 +3043,7 @@ QBShared.Vehicles = {
 		["trunkspace"] = 60000,
 		["trunkslots"] = 40,
 		["shop"] = "pdm",
-	},								
+	},					
 	["camper"] = {
 		["name"] = "Stafford",
 		["brand"] = "Brute",
