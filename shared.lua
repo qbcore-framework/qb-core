@@ -250,10 +250,6 @@ QBShared.Items = {
 	["cash"]						 = {["name"] = "cash", 							["label"] = "Cash", 					["weight"] = 0,			["type"] = "item",		["image"] = "cash.png", 				["unique"] = false, ["useable"] = false, ["shouldClose"] = true, ["combinable"] = nil, ["description"] = "Just some cash"},
 	["visa"] 					 	 = {["name"] = "visa", 			 	  	  		["label"] = "Visa Card", 				["weight"] = 0, 		["type"] = "item", 		["image"] = "visacard.png", 			["unique"] = true, 		["useable"] = true, 	["shouldClose"] = false,   ["combinable"] = nil,   ["description"] = "Visa can be used via ATM"},
 	["mastercard"] 					 = {["name"] = "mastercard", 					["label"] = "Master Card", 				["weight"] = 0, 		["type"] = "item", 		["image"] = "mastercard.png", 			["unique"] = true, 		["useable"] = true, 	["shouldClose"] = false,   ["combinable"] = nil,   ["description"] = "MasterCard can be used via ATM."},
-
-  
-  
-  >>> main
 }
 
 -- // HASH WEAPON ITEMS, NEED SOMETIMES TO GET INFO FOR CLIENT
