@@ -247,6 +247,7 @@ QBShared.Items = {
 	["printerdocument"] 			 = {["name"] = "printerdocument", 				["label"] = "Document", 				["weight"] = 500, 		["type"] = "item", 		["image"] = "printerdocument.png", 		["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,	   ["combinable"] = nil,   ["description"] = "A nice document"},
 	["weaponlicense"] 				 = {["name"] = "weaponlicense",				    ["label"] = "Weapon License",			["weight"] = 0,			["type"] = "item",		["image"] = "weapon_license.png",		["unique"] = true,		["useable"] = true,		["shouldClose"] = true,		["combinable"] = nil,	["description"] = "Weapon License"},
 	["oxy"] 				 			= {["name"] = "oxy",				    	["label"] = "Prescription Oxy",			["weight"] = 0,			["type"] = "item",		["image"] = "oxy.png",		["unique"] = false,		["useable"] = true,		["shouldClose"] = true,		["combinable"] = nil,				["description"] = "The Label Has Been Ripped Off"},
+	["cash"]						 = {["name"] = "cash", 							["label"] = "Cash", 					["weight"] = 0,			["type"] = "item",		["image"] = "cash.png", 				["unique"] = false, ["useable"] = false, ["shouldClose"] = true, ["combinable"] = nil, ["description"] = "Just some cash"},
 }
 
 -- // HASH WEAPON ITEMS, NEED SOMETIMES TO GET INFO FOR CLIENT
