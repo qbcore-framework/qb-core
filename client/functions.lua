@@ -302,6 +302,8 @@ QBCore.Functions.GetVehicleProperties = function(vehicle)
 
 		health            = GetEntityHealth(vehicle),
 		dirtLevel         = GetVehicleDirtLevel(vehicle),
+		enginehealth	  = GetVehicleEngineHealth(vehicle),
+		fuel 			  = GetVehicleFuelLevel(vehicle),
 
 		color1            = color1,
 		color2            = color2,
@@ -397,6 +399,14 @@ QBCore.Functions.SetVehicleProperties = function(vehicle, props)
 	if props.dirtLevel ~= nil then
 		SetVehicleDirtLevel(vehicle, props.dirtLevel)
 	end
+
+	if props.enginehealth ~= nil then
+		SetVehicleEngineHealth(vehicle, props.enginehealth)
+	end
+
+	if props.fuel ~= nil then
+		SetVehicleFuelLevel(vehicle, props.fuel)
+	end	
 
 	if props.color1 ~= nil then
 		local color1, color2 = GetVehicleColours(vehicle)
