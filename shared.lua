@@ -247,6 +247,8 @@ QBShared.Items = {
 	["printerdocument"] 			 = {["name"] = "printerdocument", 				["label"] = "Document", 				["weight"] = 500, 		["type"] = "item", 		["image"] = "printerdocument.png", 		["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,	   ["combinable"] = nil,   ["description"] = "A nice document"},
 	["weaponlicense"] 				 = {["name"] = "weaponlicense",				    ["label"] = "Weapon License",			["weight"] = 0,			["type"] = "item",		["image"] = "weapon_license.png",		["unique"] = true,		["useable"] = true,		["shouldClose"] = true,		["combinable"] = nil,	["description"] = "Weapon License"},
 	["oxy"] 				 			= {["name"] = "oxy",				    	["label"] = "Prescription Oxy",			["weight"] = 0,			["type"] = "item",		["image"] = "oxy.png",		["unique"] = false,		["useable"] = true,		["shouldClose"] = true,		["combinable"] = nil,				["description"] = "The Label Has Been Ripped Off"},
+	["visa"] 					 	 = {["name"] = "visa", 			 	  	  		["label"] = "Visa Card", 				["weight"] = 0, 		["type"] = "item", 		["image"] = "visacard.png", 			["unique"] = true, 		["useable"] = true, 	["shouldClose"] = false,   ["combinable"] = nil,   ["description"] = "Visa can be used via ATM"},
+	["mastercard"] 					 = {["name"] = "mastercard", 					["label"] = "Master Card", 				["weight"] = 0, 		["type"] = "item", 		["image"] = "mastercard.png", 			["unique"] = true, 		["useable"] = true, 	["shouldClose"] = false,   ["combinable"] = nil,   ["description"] = "MasterCard can be used via ATM."},
 }
 
 -- // HASH WEAPON ITEMS, NEED SOMETIMES TO GET INFO FOR CLIENT
@@ -6346,7 +6348,7 @@ QBShared.Jobs = {
 	["mechanic"] = {
 		label = "Mechanic",
 		defaultDuty = true,
-		bossmenu = vector3(-342.291, -133.370, 38.009),
+		bossmenu = vector3(-342.291, -133.370, 39.009),
 		grades = {
             ['0'] = {
                 name = "Recruit",

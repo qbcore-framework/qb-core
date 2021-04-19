@@ -256,6 +256,14 @@ QBCore.Player.CreatePlayer = function(PlayerData)
 		return false
 	end
 
+	self.Functions.GetMoney = function(moneytype)
+		if moneytype ~= nil then
+			local moneytype = moneytype:lower()
+			return self.PlayerData.money[moneytype]
+		end
+		return false
+	end
+
 	self.Functions.AddItem = function(item, amount, slot, info)
 		local totalWeight = QBCore.Player.GetTotalWeight(self.PlayerData.items)
 		local itemInfo = QBCore.Shared.Items[item:lower()]
@@ -356,6 +364,23 @@ QBCore.Player.CreatePlayer = function(PlayerData)
 			return self.PlayerData.items[slot]
 		end
 		return nil
+	end
+
+	self.Functions.GetItemsByName = function(item)
+		local item = tostring(item):lower()
+		local items = {}
+		local slots = QBCore.Player.GetSlotsByItem(self.PlayerData.items, item)
+		for _, slot in pairs(slots) do
+			if slot ~= nil then
+				table.insert(items, self.PlayerData.items[slot])
+			end
+		end
+		return items
+	end
+
+	self.Functions.SetCreditCard = function(cardNumber)
+		self.PlayerData.charinfo.card = cardNumber
+		self.Functions.UpdatePlayerData()
 	end
 
 	self.Functions.GetItemBySlot = function(slot)
