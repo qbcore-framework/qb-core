@@ -52,7 +52,7 @@ QBCore.Player.CheckPlayerData = function(source, PlayerData)
 	PlayerData.charinfo.gender = PlayerData.charinfo.gender ~= nil and PlayerData.charinfo.gender or 0
 	PlayerData.charinfo.backstory = PlayerData.charinfo.backstory ~= nil and PlayerData.charinfo.backstory or "placeholder backstory"
 	PlayerData.charinfo.nationality = PlayerData.charinfo.nationality ~= nil and PlayerData.charinfo.nationality or "Dutch"
-	PlayerData.charinfo.phone = PlayerData.charinfo.phone ~= nil and PlayerData.charinfo.phone or "06"..math.random(11111111, 99999999)
+	PlayerData.charinfo.phone = PlayerData.charinfo.phone ~= nil and PlayerData.charinfo.phone or QBCore.Player.CreatePhoneNum()
 	PlayerData.charinfo.account = PlayerData.charinfo.account ~= nil and PlayerData.charinfo.account or "NL0"..math.random(1,9).."QBUS"..math.random(1111,9999)..math.random(1111,9999)..math.random(11,99)
 	
 	PlayerData.metadata = PlayerData.metadata ~= nil and PlayerData.metadata or {}
@@ -590,6 +590,20 @@ QBCore.Player.CreateSerialNumber = function()
         end)
     end
     return SerialNumber
+end
+
+QBCore.Player.CreatePhoneNum = function()
+	local UniqueFound = false
+	local number = 0
+	while not UniqueFound do
+		number = "06"..math.random(11111111, 99999999)
+		exports['ghmattimysql']:execute('SELECT * FROM `players` WHERE `charinfo` LIKE "%'.. number ..'%"', false, function(result)
+			if not result[1] then 
+				UniqueFound = true 
+			end
+		end)
+	end
+	return number
 end
 
 QBCore.EscapeSqli = function(str)
