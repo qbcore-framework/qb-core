@@ -1,13 +1,8 @@
 -- QBCore Command Events
 RegisterNetEvent('QBCore:Command:TeleportToPlayer')
-AddEventHandler('QBCore:Command:TeleportToPlayer', function(othersource)
-	local coords = QBCore.Functions.GetCoords(GetPlayerPed(GetPlayerFromServerId(othersource)))
-	local entity = PlayerPedId()
-	if IsPedInAnyVehicle(entity, false) then
-		entity = GetVehiclePedIsUsing(entity)
-	end
-	SetEntityCoords(entity, coords.x, coords.y, coords.z)
-	SetEntityHeading(entity, coords.a)
+AddEventHandler('QBCore:Command:TeleportToPlayer', function(coords)
+	local ped = PlayerPedId()
+	SetPedCoordsKeepVehicle(ped, coords.x, coords.y, coords.z)
 end)
 
 RegisterNetEvent('QBCore:Command:TeleportToCoords')

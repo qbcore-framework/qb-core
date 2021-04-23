@@ -25,15 +25,17 @@ end
 
 QBCore.Commands.Add("tp", "TP To Player or Coords (Admin Only)", {{name="id/x", help="ID of player or X position"}, {name="y", help="Y position"}, {name="z", help="Z position"}}, false, function(source, args)
 	if (args[1] ~= nil and (args[2] == nil and args[3] == nil)) then
-		-- tp to player
-		local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
-		if Player ~= nil then
-			TriggerClientEvent('QBCore:Command:TeleportToPlayer', source, Player.PlayerData.source)
-		else
-			TriggerClientEvent('QBCore:Notify', source, "Player is not online!", "error")
+		for k,v in ipairs(GetPlayers()) do
+			local id = args[1]
+			if v == id then
+				local target = GetPlayerPed(v)
+				local coords = GetEntityCoords(target)
+				TriggerClientEvent('QBCore:Command:TeleportToPlayer', source, coords)
+			else
+				TriggerClientEvent('QBCore:Notify', source, "Player is not online!", "error")
+			end
 		end
 	else
-		-- tp to location
 		if args[1] ~= nil and args[2] ~= nil and args[3] ~= nil then
 			local x = tonumber(args[1])
 			local y = tonumber(args[2])
