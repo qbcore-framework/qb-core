@@ -439,8 +439,32 @@ QBCore.Player.Logout = function(source)
 	QBCore.Players[source] = nil
 end
 
+local playertables = {
+    {table = "players"},
+    {table = "apartments"},
+    {table = "bank_accounts"},
+    {table = "bills"},
+    {table = "crypto_transactions"},
+    {table = "phone_invoices"},
+    {table = "phone_messages"},
+    {table = "playerammo"},
+	{table = "playeritems"},
+    {table = "playerskins"},
+    {table = "player_boats"},
+    {table = "player_contacts"},
+    {table = "player_convictions"},
+    {table = "player_houses"},
+    {table = "player_mails"},
+    {table = "player_outfits"},
+	{table = "player_reports"},
+    {table = "player_vehicles"},
+    {table = "player_warrants"}
+}
+
 QBCore.Player.DeleteCharacter = function(source, citizenid)
-	QBCore.Functions.ExecuteSql(true, "DELETE FROM `players` WHERE `citizenid` = '"..citizenid.."'")
+	for k,v in pairs(playertables) do
+		QBCore.Functions.ExecuteSql(true, "DELETE FROM `"..v.table.."` WHERE `citizenid` = '"..citizenid.."'")
+	end
 	TriggerEvent("qb-log:server:CreateLog", "joinleave", "Character Deleted", "red", "**".. GetPlayerName(source) .. "** ("..GetPlayerIdentifiers(source)[1]..") deleted **"..citizenid.."**..")
 end
 
