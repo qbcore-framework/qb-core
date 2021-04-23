@@ -383,6 +383,19 @@ QBCore.Player.CreatePlayer = function(PlayerData)
 		self.Functions.UpdatePlayerData()
 	end
 
+	self.Functions.GetCardSlot = function(cardNumber, cardType)
+        local item = tostring(cardType):lower()
+        local slots = QBCore.Player.GetSlotsByItem(self.PlayerData.items, item)
+        for _, slot in pairs(slots) do
+            if slot ~= nil then
+                if self.PlayerData.items[slot].info.cardNumber == cardNumber then 
+                    return slot
+                end
+            end
+        end
+        return nil
+    end
+
 	self.Functions.GetItemBySlot = function(slot)
 		local slot = tonumber(slot)
 		if self.PlayerData.items[slot] ~= nil then
