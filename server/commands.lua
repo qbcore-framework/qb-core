@@ -25,22 +25,25 @@ end
 
 QBCore.Commands.Add("tp", "TP To Player or Coords (Admin Only)", {{name="id/x", help="ID of player or X position"}, {name="y", help="Y position"}, {name="z", help="Z position"}}, false, function(source, args)
 	if (args[1] ~= nil and (args[2] == nil and args[3] == nil)) then
-		for k,v in ipairs(GetPlayers()) do
-			local id = args[1]
-			if v == id then
-				local target = GetPlayerPed(v)
-				local coords = GetEntityCoords(target)
-				TriggerClientEvent('QBCore:Command:TeleportToPlayer', source, coords)
-			else
-				TriggerClientEvent('QBCore:Notify', source, "Player is not online!", "error")
-			end
+		local player = GetPlayerPed(source)
+		local target = GetPlayerPed(tonumber(args[1]))
+		if target ~= 0 then
+			local coords = GetEntityCoords(target)
+			SetPedCoordsKeepVehicle(player, coords.x, coords.y, coords.z)
+		else
+			TriggerClientEvent('QBCore:Notify', source, "Player Not Online", "error")
 		end
 	else
 		if args[1] ~= nil and args[2] ~= nil and args[3] ~= nil then
+			local player = GetPlayerPed(source)
 			local x = tonumber(args[1])
 			local y = tonumber(args[2])
 			local z = tonumber(args[3])
-			TriggerClientEvent('QBCore:Command:TeleportToCoords', source, x, y, z)
+			if (x ~= 0) and (y ~= 0) and (z ~= 0) then
+				SetPedCoordsKeepVehicle(player, x, y, z)
+			else
+				TriggerClientEvent('QBCore:Notify', source, "Incorrect Format", "error")
+			end
 		else
 			TriggerClientEvent('QBCore:Notify', source, "Not every argument has been entered (x, y, z)", "error")
 		end
@@ -53,7 +56,7 @@ QBCore.Commands.Add("addpermission", "Give Player Permissions (God Only)", {{nam
 	if Player ~= nil then
 		QBCore.Functions.AddPermission(Player.PlayerData.source, permission)
 	else
-		TriggerClientEvent('QBCore:Notify', source, "Player is not online!", "error")	
+		TriggerClientEvent('QBCore:Notify', source, "Player Not Online", "error")	
 	end
 end, "god")
 
@@ -62,7 +65,7 @@ QBCore.Commands.Add("removepermission", "Remove Players Permissions (God Only)",
 	if Player ~= nil then
 		QBCore.Functions.RemovePermission(Player.PlayerData.source)
 	else
-		TriggerClientEvent('QBCore:Notify', source, "Player is not online!", "error")	
+		TriggerClientEvent('QBCore:Notify', source, "Player Not Online", "error")	
 	end
 end, "god")
 
@@ -87,7 +90,7 @@ QBCore.Commands.Add("givemoney", "Give A Player Money (Admin Only)", {{name="id"
 	if Player ~= nil then
 		Player.Functions.AddMoney(tostring(args[2]), tonumber(args[3]))
 	else
-		TriggerClientEvent('QBCore:Notify', source, "Player is not online!", "error")
+		TriggerClientEvent('QBCore:Notify', source, "Player Not Online", "error")
 	end
 end, "admin")
 
@@ -96,7 +99,7 @@ QBCore.Commands.Add("setmoney", "Set Players Money Amount (Admin Only)", {{name=
 	if Player ~= nil then
 		Player.Functions.SetMoney(tostring(args[2]), tonumber(args[3]))
 	else
-		TriggerClientEvent('QBCore:Notify', source, "Player is not online!", "error")
+		TriggerClientEvent('QBCore:Notify', source, "Player Not Online", "error")
 	end
 end, "admin")
 
@@ -105,7 +108,7 @@ QBCore.Commands.Add("setjob", "Set A Players Job (Admin Only)", {{name="id", hel
 	if (args[1] == nil) or (args[2] == nil) or (args[3] == nil) then
 		TriggerClientEvent('QBCore:Notify', source, "All Arguments Must Be Filled", "error")
 	elseif Player == nil then
-		TriggerClientEvent('QBCore:Notify', source, "Player is not online!", "error")
+		TriggerClientEvent('QBCore:Notify', source, "Player Not Online", "error")
 	else
 		Player.Functions.SetJob(tostring(args[2]), tonumber(args[3]))
 	end
@@ -122,7 +125,7 @@ QBCore.Commands.Add("setgang", "Set A Players Gang (Admin Only)", {{name="id", h
 	if Player ~= nil then
 		Player.Functions.SetGang(tostring(args[2]))
 	else
-		TriggerClientEvent('QBCore:Notify', source, "Player is not online!", "error")
+		TriggerClientEvent('QBCore:Notify', source, "Player Not Online", "error")
 	end
 end, "admin")
 
@@ -142,7 +145,7 @@ QBCore.Commands.Add("clearinv", "Clear Players Inventory (Admin Only)", {{name="
 	if Player ~= nil then
 		Player.Functions.ClearInventory()
 	else
-		TriggerClientEvent('QBCore:Notify', source, "Player is not online!", "error")
+		TriggerClientEvent('QBCore:Notify', source, "Player Not Online", "error")
 	end
 end, "admin")
 
