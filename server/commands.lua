@@ -29,7 +29,7 @@ QBCore.Commands.Add("tp", "TP To Player or Coords (Admin Only)", {{name="id/x", 
 		local target = GetPlayerPed(tonumber(args[1]))
 		if target ~= 0 then
 			local coords = GetEntityCoords(target)
-			SetPedCoordsKeepVehicle(player, coords.x, coords.y, coords.z)
+			TriggerClientEvent('QBCore:Command:TeleportToPlayer', source, coords)
 		else
 			TriggerClientEvent('QBCore:Notify', source, "Player Not Online", "error")
 		end
@@ -40,7 +40,7 @@ QBCore.Commands.Add("tp", "TP To Player or Coords (Admin Only)", {{name="id/x", 
 			local y = tonumber(args[2])
 			local z = tonumber(args[3])
 			if (x ~= 0) and (y ~= 0) and (z ~= 0) then
-				SetPedCoordsKeepVehicle(player, x, y, z)
+				TriggerClientEvent('QBCore:Command:TeleportToCoords', source, x, y, z)
 			else
 				TriggerClientEvent('QBCore:Notify', source, "Incorrect Format", "error")
 			end
