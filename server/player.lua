@@ -107,13 +107,13 @@ QBCore.Player.CheckPlayerData = function(source, PlayerData)
 
 	PlayerData.job = PlayerData.job ~= nil and PlayerData.job or {}
 	PlayerData.job.name = PlayerData.job.name ~= nil and PlayerData.job.name or "unemployed"
-	PlayerData.job.label = PlayerData.job.label ~= nil and PlayerData.job.label or ""
+	PlayerData.job.label = PlayerData.job.label ~= nil and PlayerData.job.label or "Civilian"
 	PlayerData.job.payment = PlayerData.job.payment ~= nil and PlayerData.job.payment or 10
-	PlayerData.job.onduty = PlayerData.job.onduty ~= nil and PlayerData.job.onduty or true
+	PlayerData.job.onduty = PlayerData.job.onduty ~= nil and PlayerData.job.onduty or true 
 	-- Added for grade system
 	PlayerData.job.isboss = PlayerData.job.isboss ~= nil and PlayerData.job.isboss or false
 	PlayerData.job.grade = PlayerData.job.grade ~= nil and PlayerData.job.grade or {}
-	PlayerData.job.grade.name = PlayerData.job.grade.name ~= nil and PlayerData.job.grade.name or nil
+	PlayerData.job.grade.name = PlayerData.job.grade.name ~= nil and PlayerData.job.grade.name or "Freelancer"
 	PlayerData.job.grade.level = PlayerData.job.grade.level ~= nil and PlayerData.job.grade.level or 0
 
 	PlayerData.gang = PlayerData.gang ~= nil and PlayerData.gang or {}
