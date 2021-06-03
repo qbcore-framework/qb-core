@@ -593,17 +593,17 @@ QBCore.Player.CreateSerialNumber = function()
 end
 
 QBCore.Player.CreatePhoneNum = function()
-	local UniqueFound = false
-	local number = 0
-	while not UniqueFound do
-		number = "06"..math.random(11111111, 99999999)
-		exports['ghmattimysql']:execute('SELECT * FROM `players` WHERE `charinfo` LIKE "%'.. number ..'%"', false, function(result)
-			if not result[1] then 
-				UniqueFound = true 
+	local unique = false
+	local numb = 0 
+	while not unique do
+		numb = "06"..math.random(11111111, 99999999)
+		exports['ghmattimysql']:execute('SELECT COUNT(*) as count FROM `players` WHERE `charinfo` LIKE "%'.. numb ..'%"', false, function(result)
+			if result[1].count == 0 then 
+				unique = true 
 			end
 		end)
 	end
-	return number
+	return numb
 end
 
 QBCore.EscapeSqli = function(str)
