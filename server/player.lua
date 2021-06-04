@@ -597,7 +597,7 @@ QBCore.Player.CreatePhoneNum = function()
 	local numb = 0 
 	while not unique do
 		numb = "06"..math.random(11111111, 99999999)
-		exports['ghmattimysql']:execute('SELECT COUNT(*) as count FROM `players` WHERE `charinfo` LIKE "%'.. numb ..'%"', false, function(result)
+		QBCore.Functions.ExecuteSql(true, 'SELECT COUNT(*) as count FROM `players` WHERE `charinfo` LIKE "%'.. numb ..'%"', function(result)
 			if result[1].count == 0 then 
 				unique = true 
 			end
