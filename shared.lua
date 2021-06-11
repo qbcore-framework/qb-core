@@ -256,6 +256,9 @@ QBShared.Items = {
 	["oxy"] 				 			= {["name"] = "oxy",				    	["label"] = "Prescription Oxy",			["weight"] = 0,			["type"] = "item",		["image"] = "oxy.png",		["unique"] = false,		["useable"] = true,		["shouldClose"] = true,		["combinable"] = nil,				["description"] = "The Label Has Been Ripped Off"},
 	["visa"] 					 	 = {["name"] = "visa", 			 	  	  		["label"] = "Visa Card", 				["weight"] = 0, 		["type"] = "item", 		["image"] = "visacard.png", 			["unique"] = true, 		["useable"] = true, 	["shouldClose"] = false,   ["combinable"] = nil,   ["description"] = "Visa can be used via ATM"},
 	["mastercard"] 					 = {["name"] = "mastercard", 					["label"] = "Master Card", 				["weight"] = 0, 		["type"] = "item", 		["image"] = "mastercard.png", 			["unique"] = true, 		["useable"] = true, 	["shouldClose"] = false,   ["combinable"] = nil,   ["description"] = "MasterCard can be used via ATM."},
+	["grape"] 					 = {["name"] = "grape", 					["label"] = "Grape", 					["weight"] = 100, 		["type"] = "item", 		["image"] = "grape.png", 			["unique"] = false, 		["useable"] = true, 	["shouldClose"] = false,   ["combinable"] = nil,   ["description"] = "Mmmmh yummie, grapes."},
+	["wine"] 					 = {["name"] = "wine", 						["label"] = "Wine", 					["weight"] = 300, 		["type"] = "item", 		["image"] = "wine.png", 			["unique"] = false, 		["useable"] = true, 	["shouldClose"] = false,   ["combinable"] = nil,   ["description"] = "Some good wine to drink on a fine evening."},
+	["grapejuice"] 					 = {["name"] = "grapejuice", 					["label"] = "Grape Juice", 				["weight"] = 200, 		["type"] = "item", 		["image"] = "grapejuice.png", 			["unique"] = false, 		["useable"] = true, 	["shouldClose"] = false,   ["combinable"] = nil,   ["description"] = "Grape juice is said to be healthy.."},
 }
 
 -- // HASH WEAPON ITEMS, NEED SOMETIMES TO GET INFO FOR CLIENT
