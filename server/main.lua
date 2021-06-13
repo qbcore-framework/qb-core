@@ -5,10 +5,10 @@ QBCore.ServerCallbacks = {}
 QBCore.UseableItems = {}
 
 function GetCoreObject()
-	return QBCore
+    return QBCore
 end
 
 RegisterServerEvent('QBCore:GetObject')
 AddEventHandler('QBCore:GetObject', function(cb)
-	cb(GetCoreObject())
+    cb(GetCoreObject())
 end)
