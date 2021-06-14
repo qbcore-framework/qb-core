@@ -6,6 +6,10 @@ QBCore.Functions.ExecuteSql = function(wait, params, query, cb)
 
 	-- Really bad hack for backwards compatibility
 	if type(params) == 'string' then
+		print('=== WARNING ===')
+		print('Using backward compatibility for this SQL query, using the new function schema it\'s highly recommended!')
+		print('QUERY: '..params)
+		print('===============')
 		cb = query
 		query = params
 		params = {}
