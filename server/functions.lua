@@ -3,9 +3,18 @@ QBCore.Functions = {}
 QBCore.Functions.ExecuteSql = function(wait, params, query, cb)
 	local rtndata = {}
 	local waiting = true
+
+	-- Really bad hack for backwards compatibility
+	if type(params) == 'string' then
+		cb = query
+		query = params
+		params = {}
+	end
+
 	if params == nil then 
 		params = {} 
 	end
+	
 	exports['ghmattimysql']:execute(query, params, function(data)
 		if cb ~= nil and wait == false then
 			cb(data)
