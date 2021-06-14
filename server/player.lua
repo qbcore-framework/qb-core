@@ -4,7 +4,7 @@ QBCore.Player = {}
 QBCore.Player.Login = function(source, citizenid, newData)
 	if source ~= nil then
 		if citizenid then
-			QBCore.Functions.ExecuteSql(true, "SELECT * FROM `players` WHERE `citizenid` = '"..citizenid.."'", function(result)
+			QBCore.Functions.ExecuteSql(true, {['a'] = citizenid}, "SELECT * FROM `players` WHERE `citizenid` = @a", function(result)
 				local PlayerData = result[1]
 				if PlayerData ~= nil then
 					PlayerData.money = json.decode(PlayerData.money)
@@ -416,11 +416,40 @@ end
 QBCore.Player.Save = function(source)
 	local PlayerData = QBCore.Players[source].PlayerData
 	if PlayerData ~= nil then
-		QBCore.Functions.ExecuteSql(true, "SELECT * FROM `players` WHERE `citizenid` = '"..PlayerData.citizenid.."'", function(result)
+		QBCore.Functions.ExecuteSql(true, {['a'] = PlayerData.citizenid}, "SELECT * FROM `players` WHERE `citizenid` = @a", function(result)
 			if result[1] == nil then
-				QBCore.Functions.ExecuteSql(true, "INSERT INTO `players` (`citizenid`, `cid`, `steam`, `license`, `name`, `money`, `charinfo`, `job`, `gang`, `position`, `metadata`) VALUES ('"..PlayerData.citizenid.."', '"..tonumber(PlayerData.cid).."', '"..PlayerData.steam.."', '"..PlayerData.license.."', '"..PlayerData.name.."', '"..json.encode(PlayerData.money).."', '"..QBCore.EscapeSqli(json.encode(PlayerData.charinfo)).."', '"..json.encode(PlayerData.job).."', '"..json.encode(PlayerData.gang).."', '"..json.encode(PlayerData.position).."', '"..json.encode(PlayerData.metadata).."')")
+				QBCore.Functions.ExecuteSql(
+					true, 
+					{
+						['a'] = PlayerData.citizenid,
+						['b'] = tonumber(PlayerData.cid),
+						['c'] = PlayerData.steam,
+						['d'] = PlayerData.license,
+						['e'] = PlayerData.name,
+						['f'] = json.encode(PlayerData.money),
+						['g'] = json.encode(PlayerData.charinfo),
+						['h'] = json.encode(PlayerData.job),
+						['i'] = json.encode(PlayerData.gang),
+						['j'] = json.encode(PlayerData.position),
+						['k'] = json.encode(PlayerData.metadata)
+					}, 
+					"INSERT INTO `players` (`citizenid`, `cid`, `steam`, `license`, `name`, `money`, `charinfo`, `job`, `gang`, `position`, `metadata`) VALUES (@a, @b, @c, @d, @e, @f, @g, @h, @i, @j, @k)")
 			else
-				QBCore.Functions.ExecuteSql(true, "UPDATE `players` SET steam='"..PlayerData.steam.."',license='"..PlayerData.license.."',name='"..PlayerData.name.."',money='"..json.encode(PlayerData.money).."',charinfo='"..QBCore.EscapeSqli(json.encode(PlayerData.charinfo)).."',job='"..json.encode(PlayerData.job).."',gang='"..json.encode(PlayerData.gang).."', position='"..json.encode(PlayerData.position).."',metadata='"..json.encode(PlayerData.metadata).."' WHERE `citizenid` = '"..PlayerData.citizenid.."'")
+				QBCore.Functions.ExecuteSql(
+					true,
+					{
+						['a'] = PlayerData.steam,
+						['b'] = PlayerData.license,
+						['c'] = PlayerData.name,
+						['d'] = json.encode(PlayerData.money),
+						['e'] = json.encode(PlayerData.charinfo),
+						['f'] = json.encode(PlayerData.job),
+						['g'] = json.encode(PlayerData.gang),
+						['h'] = json.encode(PlayerData.position),
+						['i'] = json.encode(PlayerData.metadata),
+						['j'] = PlayerData.citizenid
+					}, 
+					"UPDATE `players` SET steam=@a, license=@b, name=@c, money=@d, charinfo=@e,job=@f, gang=@g, position=@h, metadata=@i WHERE `citizenid` = @j")
 			end
 			QBCore.Player.SaveInventory(source)
 		end)
@@ -463,14 +492,14 @@ local playertables = {
 
 QBCore.Player.DeleteCharacter = function(source, citizenid)
 	for k,v in pairs(playertables) do
-		QBCore.Functions.ExecuteSql(true, "DELETE FROM `"..v.table.."` WHERE `citizenid` = '"..citizenid.."'")
+		QBCore.Functions.ExecuteSql(true, {['a']=v.table, ['b']=citizenid}, "DELETE FROM `"..v.table.."` WHERE `citizenid` = @b")
 	end
 	TriggerEvent("qb-log:server:CreateLog", "joinleave", "Character Deleted", "red", "**".. GetPlayerName(source) .. "** ("..GetPlayerIdentifiers(source)[1]..") deleted **"..citizenid.."**..")
 end
 
 QBCore.Player.LoadInventory = function(PlayerData)
 	PlayerData.items = {}
-	QBCore.Functions.ExecuteSql(true, "SELECT * FROM `playeritems` WHERE `citizenid` = '"..PlayerData.citizenid.."'", function(oldInventory)
+	QBCore.Functions.ExecuteSql(true, {['a']=PlayerData.citizenid}, "SELECT * FROM `playeritems` WHERE `citizenid` = @a", function(oldInventory)
 		if oldInventory[1] ~= nil then
 			for _, item in pairs(oldInventory) do
 				if item ~= nil then
@@ -479,9 +508,9 @@ QBCore.Player.LoadInventory = function(PlayerData)
 				end
 				Citizen.Wait(1)
 			end
-			QBCore.Functions.ExecuteSql(true, "DELETE FROM `playeritems` WHERE `citizenid` = '"..PlayerData.citizenid.."'")
+			QBCore.Functions.ExecuteSql(true, {['a']=PlayerData.citizenid}, "DELETE FROM `playeritems` WHERE `citizenid` = @a")
 		else
-			QBCore.Functions.ExecuteSql(true, "SELECT * FROM `players` WHERE `citizenid` = '"..PlayerData.citizenid.."'", function(result)
+			QBCore.Functions.ExecuteSql(true, {['a']=PlayerData.citizenid}, "SELECT * FROM `players` WHERE `citizenid` = @a", function(result)
 				if result[1] ~= nil then 
 					if result[1].inventory ~= nil then
 						plyInventory = json.decode(result[1].inventory)
@@ -533,7 +562,7 @@ QBCore.Player.SaveInventory = function(source)
 				end
 			end
 	
-			QBCore.Functions.ExecuteSql(true, "UPDATE `players` SET `inventory` = '"..QBCore.EscapeSqli(json.encode(ItemsJson)).."' WHERE `citizenid` = '"..PlayerData.citizenid.."'")
+			QBCore.Functions.ExecuteSql(true, {['a']=json.encode(ItemsJson), ['b']=PlayerData.citizenid}, "UPDATE `players` SET `inventory` = @a WHERE `citizenid` = @b")
 		end
 	end
 end
@@ -577,7 +606,7 @@ QBCore.Player.CreateCitizenId = function()
 
 	while not UniqueFound do
 		CitizenId = tostring(QBCore.Shared.RandomStr(3) .. QBCore.Shared.RandomInt(5)):upper()
-		QBCore.Functions.ExecuteSql(true, "SELECT COUNT(*) as count FROM `players` WHERE `citizenid` = '"..CitizenId.."'", function(result)
+		QBCore.Functions.ExecuteSql(true, {['a']=CitizenId}, "SELECT COUNT(*) as count FROM `players` WHERE `citizenid` = @a", function(result)
 			if result[1].count == 0 then
 				UniqueFound = true
 			end
@@ -591,7 +620,7 @@ QBCore.Player.CreateFingerId = function()
 	local FingerId = nil
 	while not UniqueFound do
 		FingerId = tostring(QBCore.Shared.RandomStr(2) .. QBCore.Shared.RandomInt(3) .. QBCore.Shared.RandomStr(1) .. QBCore.Shared.RandomInt(2) .. QBCore.Shared.RandomStr(3) .. QBCore.Shared.RandomInt(4))
-		QBCore.Functions.ExecuteSql(true, "SELECT COUNT(*) as count FROM `players` WHERE `metadata` LIKE '%"..FingerId.."%'", function(result)
+		QBCore.Functions.ExecuteSql(true, {['a']="%"..FingerId.."%"}, "SELECT COUNT(*) as count FROM `players` WHERE `metadata` LIKE @", function(result)
 			if result[1].count == 0 then
 				UniqueFound = true
 			end
@@ -605,7 +634,7 @@ QBCore.Player.CreateWalletId = function()
 	local WalletId = nil
 	while not UniqueFound do
 		WalletId = "QB-"..math.random(11111111, 99999999)
-		QBCore.Functions.ExecuteSql(true, "SELECT COUNT(*) as count FROM `players` WHERE `metadata` LIKE '%"..WalletId.."%'", function(result)
+		QBCore.Functions.ExecuteSql(true, {['a']="%"..WalletId.."%"}, "SELECT COUNT(*) as count FROM `players` WHERE `metadata` LIKE @a", function(result)
 			if result[1].count == 0 then
 				UniqueFound = true
 			end
@@ -620,7 +649,7 @@ QBCore.Player.CreateSerialNumber = function()
 
     while not UniqueFound do
         SerialNumber = math.random(11111111, 99999999)
-        QBCore.Functions.ExecuteSql(true, "SELECT COUNT(*) as count FROM players WHERE metadata LIKE '%"..SerialNumber.."%'", function(result)
+        QBCore.Functions.ExecuteSql(true, {['a']="%"..SerialNumber.."%"}, "SELECT COUNT(*) as count FROM players WHERE metadata LIKE @a", function(result)
             if result[1].count == 0 then
                 UniqueFound = true
             end

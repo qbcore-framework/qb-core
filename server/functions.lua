@@ -1,9 +1,12 @@
 QBCore.Functions = {}
 
-QBCore.Functions.ExecuteSql = function(wait, query, cb)
+QBCore.Functions.ExecuteSql = function(wait, params, query, cb)
 	local rtndata = {}
 	local waiting = true
-	exports['ghmattimysql']:execute(query, {}, function(data)
+	if params == nil then 
+		params = {} 
+	end
+	exports['ghmattimysql']:execute(query, params, function(data)
 		if cb ~= nil and wait == false then
 			cb(data)
 		end
@@ -162,8 +165,16 @@ QBCore.Functions.AddPermission = function(source, permission)
 			license = GetPlayerIdentifiers(source)[2],
 			permission = permission:lower(),
 		}
-		QBCore.Functions.ExecuteSql(true, "DELETE FROM `permissions` WHERE `steam` = '"..GetPlayerIdentifiers(source)[1].."'")
-		QBCore.Functions.ExecuteSql(true, "INSERT INTO `permissions` (`name`, `steam`, `license`, `permission`) VALUES ('"..GetPlayerName(source).."', '"..GetPlayerIdentifiers(source)[1].."', '"..GetPlayerIdentifiers(source)[2].."', '"..permission:lower().."')")
+		QBCore.Functions.ExecuteSql(true, {['a']=GetPlayerIdentifiers(source)[1]}, "DELETE FROM `permissions` WHERE `steam` = @a")
+		QBCore.Functions.ExecuteSql(
+			true,
+			{
+				['a'] = GetPlayerName(source),
+				['b'] = GetPlayerIdentifiers(source)[1],
+				['c'] = GetPlayerIdentifiers(source)[2],
+				['d'] = permission:lower()
+			},
+			"INSERT INTO `permissions` (`name`, `steam`, `license`, `permission`) VALUES (@a, @b, @c, @d)")
 		Player.Functions.UpdatePlayerData()
 		TriggerClientEvent('QBCore:Client:OnPermissionUpdate', source, permission)
 	end
@@ -173,7 +184,7 @@ QBCore.Functions.RemovePermission = function(source)
 	local Player = QBCore.Functions.GetPlayer(source)
 	if Player ~= nil then 
 		QBCore.Config.Server.PermissionList[GetPlayerIdentifiers(source)[1]] = nil	
-		QBCore.Functions.ExecuteSql(true, "DELETE FROM `permissions` WHERE `steam` = '"..GetPlayerIdentifiers(source)[1].."'")
+		QBCore.Functions.ExecuteSql(true, {['a'] = GetPlayerIdentifiers(source)[1]}, "DELETE FROM `permissions` WHERE `steam` = @a")
 		Player.Functions.UpdatePlayerData()
 	end
 end
@@ -231,14 +242,21 @@ end
 QBCore.Functions.IsPlayerBanned = function (source)
 	local retval = false
 	local message = ""
-	QBCore.Functions.ExecuteSql(true, "SELECT * FROM `bans` WHERE `steam` = '"..GetPlayerIdentifiers(source)[1].."' OR `license` = '"..GetPlayerIdentifiers(source)[2].."' OR `ip` = '"..GetPlayerIdentifiers(source)[3].."'", function(result)
+	QBCore.Functions.ExecuteSql(
+		true, 
+		{
+			['a'] = GetPlayerIdentifiers(source)[1],
+			['b'] = GetPlayerIdentifiers(source)[2],
+			['c'] = GetPlayerIdentifiers(source)[3]
+		}, 
+		"SELECT * FROM `bans` WHERE `steam` = @a OR `license` = @b OR `ip` = @c", function(result)
 		if result[1] ~= nil then 
 			if os.time() < result[1].expire then
 				retval = true
 				local timeTable = os.date("*t", tonumber(result[1].expire))
 				message = "You have been banned from the server:\n"..result[1].reason.."\nJe ban verloopt "..timeTable.day.. "/" .. timeTable.month .. "/" .. timeTable.year .. " " .. timeTable.hour.. ":" .. timeTable.min .. "\n"
 			else
-				QBCore.Functions.ExecuteSql(true, "DELETE FROM `bans` WHERE `id` = "..result[1].id)
+				QBCore.Functions.ExecuteSql(true, {['a'] = result[1].id}, "DELETE FROM `bans` WHERE `id` = @a")
 			end
 		end
 	end)
