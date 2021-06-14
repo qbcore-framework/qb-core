@@ -141,7 +141,7 @@ QBCore.Functions.IsWhitelisted = function(source)
 	local identifiers = GetPlayerIdentifiers(source)
 	local rtn = false
 	if (QBCore.Config.Server.whitelist) then
-		QBCore.Functions.ExecuteSql(true, "SELECT * FROM `whitelist` WHERE `"..QBCore.Config.IdentifierType.."` = '".. QBCore.Functions.GetIdentifier(source).."'", function(result)
+		QBCore.Functions.ExecuteSql(true, {['a'] = QBCore.Config.IdentifierType, ['b'] = QBCore.Functions.GetIdentifier(source)}, "SELECT * FROM `whitelist` WHERE `@a` = @b", function(result)
 			local data = result[1]
 			if data ~= nil then
 				for _, id in pairs(identifiers) do

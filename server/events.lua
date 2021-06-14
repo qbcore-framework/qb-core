@@ -237,7 +237,7 @@ AddEventHandler('QBCore:ToggleDuty', function()
 end)
 
 Citizen.CreateThread(function()
-	QBCore.Functions.ExecuteSql(true, "SELECT * FROM `permissions`", function(result)
+	QBCore.Functions.ExecuteSql(true, nil, "SELECT * FROM `permissions`", function(result)
 		if result[1] ~= nil then
 			for k, v in pairs(result) do
 				QBCore.Config.Server.PermissionList[v.steam] = {
@@ -266,9 +266,9 @@ end)
 RegisterServerEvent('QBCore:Command:CheckOwnedVehicle')
 AddEventHandler('QBCore:Command:CheckOwnedVehicle', function(VehiclePlate)
 	if VehiclePlate ~= nil then
-		QBCore.Functions.ExecuteSql(false, "SELECT * FROM `player_vehicles` WHERE `plate` = '"..VehiclePlate.."'", function(result)
+		QBCore.Functions.ExecuteSql(false, {['a'] = VehiclePlate}, "SELECT * FROM `player_vehicles` WHERE `plate` = @a", function(result)
 			if result[1] ~= nil then
-				QBCore.Functions.ExecuteSql(false, "UPDATE `player_vehicles` SET `state` = '1' WHERE `citizenid` = '"..result[1].citizenid.."'")
+				QBCore.Functions.ExecuteSql(false, {['a'] = result[1].citizenid}, "UPDATE `player_vehicles` SET `state` = '1' WHERE `citizenid` = @a")
 				TriggerEvent('qb-garages:server:RemoveVehicle', result[1].citizenid, VehiclePlate)
 			end
 		end)
