@@ -81,6 +81,10 @@ QBCore.Commands.Add("dv", "Delete Vehicle (Admin Only)", {}, false, function(sou
 	TriggerClientEvent('QBCore:Command:DeleteVehicle', source)
 end, "admin")
 
+QBCore.Commands.Add("repair", "Repair Vehicle (Admin Only)", {}, false, function(source, args)
+    TriggerClientEvent('QBCore:Command:RepairVehicle', source)
+end, "admin")
+
 QBCore.Commands.Add("tpm", "TP To Marker (Admin Only)", {}, false, function(source, args)
 	TriggerClientEvent('QBCore:Command:GoToMarker', source)
 end, "admin")

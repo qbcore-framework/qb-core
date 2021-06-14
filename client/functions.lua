@@ -80,6 +80,10 @@ QBCore.Functions.DeleteVehicle = function(vehicle)
     DeleteVehicle(vehicle)
 end
 
+QBCore.Functions.RepairVehicle = function(vehicle)
+    SetVehicleFixed(vehicle)
+end
+
 QBCore.Functions.Notify = function(text, textype, length) -- [text] = message, [type] = primary | error | success, [length] = time till fadeout.
     local ttype = textype ~= nil and textype or "primary"
     local length = length ~= nil and length or 5000

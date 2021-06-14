@@ -27,6 +27,17 @@ AddEventHandler('QBCore:Command:DeleteVehicle', function()
 	QBCore.Functions.DeleteVehicle(vehicle)
 end)
 
+RegisterNetEvent('QBCore:Command:RepairVehicle')
+AddEventHandler('QBCore:Command:RepairVehicle', function()
+    local vehicle = QBCore.Functions.GetClosestVehicle()
+    if IsPedInAnyVehicle(GetPlayerPed(-1)) then
+        vehicle = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+    else
+        vehicle = QBCore.Functions.GetClosestVehicle()
+    end
+    QBCore.Functions.RepairVehicle(vehicle)
+end)
+
 RegisterNetEvent('QBCore:Command:Revive')
 AddEventHandler('QBCore:Command:Revive', function()
 	local coords = QBCore.Functions.GetCoords(PlayerPedId())
