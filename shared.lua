@@ -266,6 +266,7 @@ QBShared.Items = {
 	["grape"] 					 = {["name"] = "grape", 					["label"] = "Grape", 					["weight"] = 100, 		["type"] = "item", 		["image"] = "grape.png", 			["unique"] = false, 		["useable"] = true, 	["shouldClose"] = false,   ["combinable"] = nil,   ["description"] = "Mmmmh yummie, grapes."},
 	["wine"] 					 = {["name"] = "wine", 						["label"] = "Wine", 					["weight"] = 300, 		["type"] = "item", 		["image"] = "wine.png", 			["unique"] = false, 		["useable"] = true, 	["shouldClose"] = false,   ["combinable"] = nil,   ["description"] = "Some good wine to drink on a fine evening."},
 	["grapejuice"] 					 = {["name"] = "grapejuice", 					["label"] = "Grape Juice", 				["weight"] = 200, 		["type"] = "item", 		["image"] = "grapejuice.png", 			["unique"] = false, 		["useable"] = true, 	["shouldClose"] = false,   ["combinable"] = nil,   ["description"] = "Grape juice is said to be healthy.."},
+	["cocaleaf"] 					 = {["name"] = "cocaleaf", 					["label"] = "Cocaine Leaf", 				["weight"] = 200, 		["type"] = "item", 		["image"] = "cocaineleaf.png", 			["unique"] = false, 		["useable"] = true, 	["shouldClose"] = false,   ["combinable"] = nil,   ["description"] = "Make that white girl"},
 }
 
 -- // HASH WEAPON ITEMS, NEED SOMETIMES TO GET INFO FOR CLIENT
