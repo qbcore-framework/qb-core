@@ -273,3 +273,14 @@ AddEventHandler('QBCore:Command:CheckOwnedVehicle', function(VehiclePlate)
 		end)
 	end
 end)
+
+
+RegisterServerEvent('QBCore:server:givepaycheck')
+AddEventHandler('QBCore:server:givepaycheck', function()
+	local src = source
+	local player = QBCore.Functions.GetPlayer(src)
+	
+	if player then
+		player.Functions.AddMoney("bank", Player.PlayerData.job.payment)
+	end
+end)
