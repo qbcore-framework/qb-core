@@ -132,9 +132,11 @@ QBCore.Player.CreatePlayer = function(PlayerData)
 	self.Functions = {}
 	self.PlayerData = PlayerData
 
-	self.Functions.UpdatePlayerData = function()
+	self.Functions.UpdatePlayerData = function(dontUpdateChat)
 		TriggerClientEvent("QBCore:Player:SetPlayerData", self.PlayerData.source, self.PlayerData)
-		QBCore.Commands.Refresh(self.PlayerData.source)
+		if dontUpdateChat == nil then
+			QBCore.Commands.Refresh(self.PlayerData.source)
+		end
 	end
 
 	self.Functions.SetJob = function(job, grade)
@@ -345,9 +347,9 @@ QBCore.Player.CreatePlayer = function(PlayerData)
 		return false
 	end
 
-	self.Functions.SetInventory = function(items)
+	self.Functions.SetInventory = function(items, dontUpdateChat)
 		self.PlayerData.items = items
-		self.Functions.UpdatePlayerData()
+		self.Functions.UpdatePlayerData(dontUpdateChat)
 		TriggerEvent("qb-log:server:CreateLog", "playerinventory", "SetInventory", "blue", "**"..GetPlayerName(self.PlayerData.source) .. " (citizenid: "..self.PlayerData.citizenid.." | id: "..self.PlayerData.source..")** items set: " .. json.encode(items))
 	end
 
