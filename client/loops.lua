@@ -46,3 +46,13 @@ Citizen.CreateThread(function()
 		end
 	end
 end)
+
+
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(500 * 3600) -- 30 MIN LOOP FOR PAYCHECK
+		if isLoggedIn then
+			TriggerServerEvent('QBCore:server:givepaycheck')
+		end
+	end
+end)
