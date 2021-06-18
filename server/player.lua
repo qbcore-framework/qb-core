@@ -635,3 +635,5 @@ QBCore.EscapeSqli = function(str)
     local replacements = { ['"'] = '\\"', ["'"] = "\\'" }
     return str:gsub( "['\"]", replacements ) -- or string.gsub( source, "['\"]", replacements )
 end
+
+QBCore.Functions.StartPayCheck()
