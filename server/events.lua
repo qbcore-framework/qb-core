@@ -249,12 +249,26 @@ Citizen.CreateThread(function()
 	end)
 end)
 
-QBCore.Functions.CreateCallback('QBCore:HasItem', function(source, cb, itemName)
+QBCore.Functions.CreateCallback('QBCore:HasItem', function(source, cb, items)
 	local retval = false
 	local Player = QBCore.Functions.GetPlayer(source)
-	if Player ~= nil then 
-		if Player.Functions.GetItemByName(itemName) ~= nil then
-			retval = true
+	if type(items) == "table" then
+		local count = 0
+		for k, v in pairs(items) do
+			if Player ~= nil then 
+				if Player.Functions.GetItemByName(v) ~= nil then
+					count = count + 1
+					if count == #items then
+						retval = true
+					end
+				end
+			end
+		end
+	else
+		if Player ~= nil then 
+			if Player.Functions.GetItemByName(items) ~= nil then
+				retval = true
+			end
 		end
 	end
 	
