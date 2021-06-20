@@ -576,8 +576,8 @@ QBCore.Functions.SetVehicleProperties = function(vehicle, props)
 			ToggleVehicleMod(vehicle,  22, props.modXenon)
 		end
 
-		if props.modXenonColor ~= nil then
-			SetVehicleXenonLightsColour(vehicle, props.modXenonColor)
+		if props.xenonColor ~= nil then
+			SetVehicleXenonLightsColor(vehicle, props.xenonColor)
 		end
 
 		if props.modFrontWheels ~= nil then
