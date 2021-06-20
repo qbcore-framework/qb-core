@@ -489,7 +489,7 @@ QBCore.Functions.SetVehicleProperties = function(vehicle, props)
 		end
 
 		if props.neonColor ~= nil then
-			SetVehicleNeonLightsColour(vehicle, props.neonColor[1], props.neonColor[2], props.neonColor[3])
+			SetVehicleNeonLightsColour(vehicle, props.neonColor["1"], props.neonColor["2"], props.neonColor["3"])
 		end
 
 		if props.modSmokeEnabled ~= nil then
@@ -497,7 +497,7 @@ QBCore.Functions.SetVehicleProperties = function(vehicle, props)
 		end
 
 		if props.tyreSmokeColor ~= nil then
-			SetVehicleTyreSmokeColor(vehicle, props.tyreSmokeColor[1], props.tyreSmokeColor[2], props.tyreSmokeColor[3])
+			SetVehicleTyreSmokeColor(vehicle, props.tyreSmokeColor["1"], props.tyreSmokeColor["2"], props.tyreSmokeColor["3"])
 		end
 
 		if props.modSpoilers ~= nil then
