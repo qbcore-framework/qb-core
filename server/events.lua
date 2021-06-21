@@ -87,12 +87,14 @@ AddEventHandler('QBCore:server:OpenServer', function()
 end)
 
 RegisterServerEvent("QBCore:UpdatePlayer")
-AddEventHandler('QBCore:UpdatePlayer', function(data)
+AddEventHandler('QBCore:UpdatePlayer', function()
 	local src = source
+	local entity = GetPlayerPed(src)
+	local position = QBCore.Functions.GetEntityCoords(entity)
 	local Player = QBCore.Functions.GetPlayer(src)
 	
 	if Player ~= nil then
-		Player.PlayerData.position = data.position
+		Player.PlayerData.position = position
 
 		local newHunger = Player.PlayerData.metadata["hunger"] - 4.2
 		local newThirst = Player.PlayerData.metadata["thirst"] - 3.8
@@ -108,8 +110,10 @@ AddEventHandler('QBCore:UpdatePlayer', function(data)
 end)
 
 RegisterServerEvent("QBCore:UpdatePlayerPosition")
-AddEventHandler("QBCore:UpdatePlayerPosition", function(position)
+AddEventHandler("QBCore:UpdatePlayerPosition", function()
 	local src = source
+	local entity = GetPlayerPed(src)
+	local position = QBCore.Functions.GetEntityCoords(entity)
 	local Player = QBCore.Functions.GetPlayer(src)
 	if Player ~= nil then
 		Player.PlayerData.position = position
