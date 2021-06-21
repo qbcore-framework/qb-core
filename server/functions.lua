@@ -21,6 +21,17 @@ QBCore.Functions.ExecuteSql = function(wait, query, cb)
 	return rtndata
 end
 
+QBCore.Functions.GetEntityCoords = function(entity)
+    local coords = GetEntityCoords(entity, false)
+    local heading = GetEntityHeading(entity)
+    return {
+        x = coords.x,
+        y = coords.y,
+        z = coords.z,
+        a = heading
+    }
+end
+
 QBCore.Functions.GetIdentifier = function(source, idtype)
 	local idtype = idtype ~=nil and idtype or QBConfig.IdentifierType
 	for _, identifier in pairs(GetPlayerIdentifiers(source)) do
