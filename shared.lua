@@ -356,29 +356,7 @@ QBShared.Weapons = {
 }
 
 -- Gangs
-QBShared.Gangs = {
-	["none"] = {
-		label = "No Gang"
-	},
-	["lostmc"] = {
-		label = "The Lost MC"
-	},
-	["ballas"] = {
-		label = "Ballas"
-	},
-	["vagos"] = {
-		label = "Vagos"
-	},
-	["cartel"] = {
-		label = "Cartel"
-	},
-	["familes"] = {
-		label = "Families"
-	},
-	["triads"] = {
-		label = "Triads"
-	}
-}
+QBShared.Gangs = json.decode(LoadResourceFile("qb-gangs", "gangs.json")) --- for it to recognize custom gangs
 
 -- Jobs
 QBShared.Jobs = {
