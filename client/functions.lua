@@ -45,7 +45,7 @@ QBCore.Functions.GetCoords = function(entity)
         x = coords.x,
         y = coords.y,
         z = coords.z,
-        a = heading
+        w = heading
     }
 end
 
@@ -59,7 +59,7 @@ QBCore.Functions.SpawnVehicle = function(model, cb, coords, isnetworked)
         Citizen.Wait(10)
     end
 
-    local veh = CreateVehicle(model, coords.x, coords.y, coords.z, coords.a, isnetworked, false)
+    local veh = CreateVehicle(model, coords.x, coords.y, coords.z, coords.w, isnetworked, false)
     local netid = NetworkGetNetworkIdFromEntity(veh)
 
 	SetVehicleHasBeenOwnedByPlayer(vehicle,  true)
