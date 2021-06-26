@@ -36,6 +36,33 @@ QBShared.SplitStr = function(str, delimiter)
 	return result
 end
 
+QBShared._ = function(Locale, str, ...)  -- Translate string
+	
+	if Locale[QBConfig.Locale] ~= nil then -- check primary language
+
+		if Locale[QBConfig.Locale][str] ~= nil then
+			return string.format(Locale[QBConfig.Locale][str], ...)
+		else
+			return 'Translation [' .. QBConfig.Locale .. '][' .. str .. '] does not exist'
+		end
+
+	elseif Locale[QBConfig.DefaultLocale] ~= nil then --if exist alternative language
+		if Locale[QBConfig.DefaultLocale][str] ~= nil then
+			return string.format(Locale[QBConfig.DefaultLocale][str], ...)
+		else
+			return 'Translation [' .. QBConfig.DefaultLocale .. '][' .. str .. '] does not exist'
+		end
+	else
+		return 'Locale [' .. QBConfig.Locale .. '] does not exist'
+	end
+
+end
+
+QBShared._U = function (str, ...) -- Translate string first char uppercase
+	return tostring(QBShared._(str, ...):gsub("^%l", string.upper))
+end
+
+
 QBShared.StarterItems = {
     ["phone"] = {amount = 1, item = "phone"},
     ["id_card"] = {amount = 1, item = "id_card"},

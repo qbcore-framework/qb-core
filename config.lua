@@ -4,6 +4,9 @@ QBConfig.MaxPlayers = GetConvarInt('sv_maxclients', 64) -- Gets max players from
 QBConfig.IdentifierType = "steam" -- Set the identifier type (can be: steam, license)
 QBConfig.DefaultSpawn = vector4(-1035.71, -2731.87, 12.86, 0.0)
 
+QBConfig.Locale = "it" -- Primary language
+QBConfig.DefaultLocale = "en" -- Alternative Language if the primary language is not exist 
+
 QBConfig.Money = {}
 QBConfig.Money.MoneyTypes = {['cash'] = 500, ['bank'] = 5000, ['crypto'] = 0 } -- ['type']=startamount - Add or remove money types for your server (for ex. ['blackmoney']=0), remember once added it will not be removed from the database!
 QBConfig.Money.DontAllowMinus = {'cash', 'crypto'} -- Money that is not allowed going in minus
