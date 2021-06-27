@@ -260,7 +260,7 @@ QBCore.Functions.CreateCallback('QBCore:HasItem', function(source, cb, items)
 		local count = 0
 		for k, v in pairs(items) do
 			if Player ~= nil then 
-				if Player.Functions.GetItemByName(v) ~= nil then
+				if Player.Functions.GetItemByName(v) > 0 then
 					count = count + 1
 					if count == #items then
 						retval = true
@@ -270,7 +270,7 @@ QBCore.Functions.CreateCallback('QBCore:HasItem', function(source, cb, items)
 		end
 	else
 		if Player ~= nil then 
-			if Player.Functions.GetItemByName(items) ~= nil then
+			if Player.Functions.GetItemByName(items) > 0 then
 				retval = true
 			end
 		end
