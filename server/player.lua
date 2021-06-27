@@ -365,7 +365,7 @@ QBCore.Player.CreatePlayer = function(PlayerData)
 		if slot ~= nil then
 			return self.PlayerData.items[slot]
 		end
-		return 0
+		return nil
 	end
 
 	self.Functions.GetItemsByName = function(item)
