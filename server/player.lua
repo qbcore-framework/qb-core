@@ -435,6 +435,7 @@ QBCore.Player.Save = function(source)
 				})
 			else
 				exports.ghmattimysql:execute('UPDATE players SET steam=@steam, license=@license, name=@name, money=@money, charinfo=@charinfo, job=@job, gang=@gang, position=@position, metadata=@metadata WHERE citizenid=@citizenid', {
+					['@citizenid'] = PlayerData.citizenid,
 					['@steam'] = PlayerData.steam,
 					['@license'] = PlayerData.license,
 					['@name'] = PlayerData.name,
@@ -443,8 +444,7 @@ QBCore.Player.Save = function(source)
 					['@job'] = json.encode(PlayerData.job),
 					['@gang'] = json.encode(PlayerData.gang),
 					['@position'] = json.encode(PlayerData.position),
-					['@metadata'] = json.encode(PlayerData.metadata),
-					['@citizenid'] = json.encode(PlayerData.citizenid)
+					['@metadata'] = json.encode(PlayerData.metadata)
 				})
 			end
 			QBCore.Player.SaveInventory(source)
