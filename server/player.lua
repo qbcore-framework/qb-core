@@ -420,9 +420,32 @@ QBCore.Player.Save = function(source)
 	if PlayerData ~= nil then
 		QBCore.Functions.ExecuteSql(true, "SELECT * FROM `players` WHERE `citizenid` = '"..PlayerData.citizenid.."'", function(result)
 			if result[1] == nil then
-				QBCore.Functions.ExecuteSql(true, "INSERT INTO `players` (`citizenid`, `cid`, `steam`, `license`, `name`, `money`, `charinfo`, `job`, `gang`, `position`, `metadata`) VALUES ('"..PlayerData.citizenid.."', '"..tonumber(PlayerData.cid).."', '"..PlayerData.steam.."', '"..PlayerData.license.."', '"..PlayerData.name.."', '"..json.encode(PlayerData.money).."', '"..QBCore.EscapeSqli(json.encode(PlayerData.charinfo)).."', '"..json.encode(PlayerData.job).."', '"..json.encode(PlayerData.gang).."', '"..json.encode(PlayerData.position).."', '"..json.encode(PlayerData.metadata).."')")
+				exports.ghmattimysql:execute('INSERT INTO players (citizenid, cid, steam, license, name, money, charinfo, job, gang, position, metadata) VALUES (@citizenid, @cid, @steam, @license, @name, @money, @charinfo, @job, @gang, @position, @metadata)', {
+					['@citizenid'] = PlayerData.citizenid,
+					['@cid'] = tonumber(PlayerData.cid),
+					['@steam'] = PlayerData.steam,
+					['@license'] = PlayerData.license,
+					['@name'] = PlayerData.name,
+					['@money'] = json.encode(PlayerData.money),
+					['@charinfo'] = QBCore.EscapeSqli(json.encode(PlayerData.charinfo)),
+					['@job'] = json.encode(PlayerData.job),
+					['@gang'] = json.encode(PlayerData.gang),
+					['@position'] = json.encode(PlayerData.position),
+					['@metadata'] = json.encode(PlayerData.metadata)
+				})
 			else
-				QBCore.Functions.ExecuteSql(true, "UPDATE `players` SET steam='"..PlayerData.steam.."',license='"..PlayerData.license.."',name='"..PlayerData.name.."',money='"..json.encode(PlayerData.money).."',charinfo='"..QBCore.EscapeSqli(json.encode(PlayerData.charinfo)).."',job='"..json.encode(PlayerData.job).."',gang='"..json.encode(PlayerData.gang).."', position='"..json.encode(PlayerData.position).."',metadata='"..json.encode(PlayerData.metadata).."' WHERE `citizenid` = '"..PlayerData.citizenid.."'")
+				exports.ghmattimysql:execute('UPDATE players SET steam=@steam, license=@license, name=@name, money=@money, charinfo=@charinfo, job=@job, gang=@gang, position=@position, metadata=@metadata WHERE citizenid=@citizenid', {
+					['@steam'] = PlayerData.steam,
+					['@license'] = PlayerData.license,
+					['@name'] = PlayerData.name,
+					['@money'] = json.encode(PlayerData.money),
+					['@charinfo'] = QBCore.EscapeSqli(json.encode(PlayerData.charinfo)),
+					['@job'] = json.encode(PlayerData.job),
+					['@gang'] = json.encode(PlayerData.gang),
+					['@position'] = json.encode(PlayerData.position),
+					['@metadata'] = json.encode(PlayerData.metadata),
+					['@citizenid'] = json.encode(PlayerData.citizenid)
+				})
 			end
 			QBCore.Player.SaveInventory(source)
 		end)
@@ -436,8 +459,6 @@ QBCore.Player.Logout = function(source)
 	TriggerClientEvent('QBCore:Client:OnPlayerUnload', source)
 	TriggerClientEvent("QBCore:Player:UpdatePlayerData", source)
 	Citizen.Wait(200)
-	-- TriggerEvent('QBCore:Server:OnPlayerUnload')
-	-- QBCore.Players[source].Functions.Save()
 	QBCore.Players[source] = nil
 end
 
@@ -534,8 +555,7 @@ QBCore.Player.SaveInventory = function(source)
 					})
 				end
 			end
-	
-			QBCore.Functions.ExecuteSql(true, "UPDATE `players` SET `inventory` = '"..QBCore.EscapeSqli(json.encode(ItemsJson)).."' WHERE `citizenid` = '"..PlayerData.citizenid.."'")
+			exports.ghmattimysql:execute('UPDATE players SET inventory=@inventory WHERE citizenid=@citizenid', {['@inventory'] = QBCore.EscapeSqli(json.encode(ItemsJson)), ['@citizenid'] = PlayerData.citizenid})
 		end
 	end
 end
