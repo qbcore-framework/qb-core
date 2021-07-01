@@ -96,52 +96,35 @@ QBCore.Functions.TriggerCallback = function(name, cb, ...)
     TriggerServerEvent("QBCore:Server:TriggerCallback", name, ...)
 end
 
-QBCore.Functions.EnumerateEntities = function(initFunc, moveFunc, disposeFunc)
-	return coroutine.wrap(function()
-		local iter, id = initFunc()
-		if not id or id == 0 then
-			disposeFunc(iter)
-			return
-		end
-
-		local enum = {handle = iter, destructor = disposeFunc}
-		setmetatable(enum, entityEnumerator)
-
-		local next = true
-		repeat
-		coroutine.yield(id)
-		next, id = moveFunc(iter)
-		until not next
-
-		enum.destructor, enum.handle = nil, nil
-		disposeFunc(iter)
-    end)
-end
-
 QBCore.Functions.GetVehicles = function()
+    local vehiclePool = GetGamePool('CVehicle') 
     local vehicles = {}
-	for vehicle in QBCore.Functions.EnumerateEntities(FindFirstVehicle, FindNextVehicle, EndFindVehicle) do
-		table.insert(vehicles, vehicle)
-	end
+
+    for i = 1, #vehiclePool, 1 do
+        table.insert(vehicles, vehiclePool[i])
+    end
+
 	return vehicles
 end
 
 QBCore.Functions.GetPeds = function(ignoreList)
-    local ignoreList = ignoreList or {}
-	local peds       = {}
-	for ped in QBCore.Functions.EnumerateEntities(FindFirstPed, FindNextPed, EndFindPed) do
+    local pedPool = GetGamePool('CPed')
+	local ignoreList = ignoreList or {}
+    local peds = {}
+
+    for i = 1, #pedPool, 1 do
 		local found = false
 
-        for j=1, #ignoreList, 1 do
-			if ignoreList[j] == ped then
+		for j=1, #ignoreList, 1 do
+			if ignoreList[j] == pedPool[i] then
 				found = true
 			end
 		end
 
 		if not found then
-			table.insert(peds, ped)
+			table.insert(peds, pedPool[i])
 		end
-	end
+    end
 
 	return peds
 end
@@ -179,7 +162,7 @@ QBCore.Functions.GetClosestVehicle = function(coords)
 	return closestVehicle
 end
 
-QBCore.Functions.GetClosestPed = function(coords, ignoreList)
+QBCore.Functions.GetClosestPed = function(coords, ignoreList) 
 	local ignoreList      = ignoreList or {}
 	local peds            = QBCore.Functions.GetPeds(ignoreList)
 	local closestDistance = -1
