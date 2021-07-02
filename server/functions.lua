@@ -6,7 +6,7 @@ QBCore.Functions.ExecuteSql = function(wait, query, cb)
 
 	print('=== WARNING ===')
 	print('Using backward compatibility for this SQL query, using the new function schema it\'s highly recommended!')
-	print('QUERY: '..params)
+	print('QUERY: '..query)
 	print('===============')
 
 	exports['ghmattimysql']:execute(query, {}, function(data)
