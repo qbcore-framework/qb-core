@@ -4,26 +4,28 @@ game 'gta5'
 description 'QB-Core'
 version '1.0.0'
 
+shared_scripts { 
+	'import.lua',
+	'config.lua',
+	'shared.lua'
+}
+
 client_scripts {
-	"config.lua",
-	"shared.lua",
-	"client/main.lua",
-	"client/functions.lua",
-	"client/loops.lua",
-	"client/events.lua",
-	"client/debug.lua"
+	'client/main.lua',
+	'client/functions.lua',
+	'client/loops.lua',
+	'client/events.lua',
+	'client/debug.lua'
 }
 
 server_scripts {
-	"config.lua",
-	"shared.lua",
-	"server/main.lua",
-	"server/functions.lua",
-	"server/loops.lua",
-	"server/player.lua",
-	"server/events.lua",
-	"server/commands.lua",
-	"server/debug.lua"
+	'server/main.lua',
+	'server/functions.lua',
+	'server/loops.lua',
+	'server/player.lua',
+	'server/events.lua',
+	'server/commands.lua',
+	'server/debug.lua'
 }
 
 ui_page {
