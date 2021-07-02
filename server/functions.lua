@@ -260,7 +260,8 @@ QBCore.Functions.IsPlayerBanned = function (source)
 				local timeTable = os.date("*t", tonumber(result[1].expire))
 				message = "You have been banned from the server:\n"..result[1].reason.."\nJe ban verloopt "..timeTable.day.. "/" .. timeTable.month .. "/" .. timeTable.year .. " " .. timeTable.hour.. ":" .. timeTable.min .. "\n"
 			else
-				exports.ghmattimysql:execute("DELETE FROM `bans` WHERE `id` = @id", {['@id'] = result[1].id}, function(result)
+				exports.ghmattimysql:execute("DELETE FROM `bans` WHERE `id` = @id", {['@id'] = result[1].id})
+
 			end
 		end
 	end)
