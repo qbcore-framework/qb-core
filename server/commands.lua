@@ -132,7 +132,7 @@ end, "admin")
 QBCore.Commands.Add("gang", "Check Your Gang", {}, false, function(source, args)
 	local Player = QBCore.Functions.GetPlayer(source)
 
-	if Player.PlayerData.gang.name ~= "geen" then
+	if Player.PlayerData.gang.name ~= "none" then
 		TriggerClientEvent('QBCore:Notify', source, "Gang: "..Player.PlayerData.gang.label)
 	else
 		TriggerClientEvent('QBCore:Notify', source, "No Gang Affiliation", "error")
