@@ -3,6 +3,12 @@ QBCore.Functions = {}
 QBCore.Functions.ExecuteSql = function(wait, query, cb)
 	local rtndata = {}
 	local waiting = true
+
+	print('=== WARNING ===')
+	print('Using backward compatibility for this SQL query, using the new function schema it\'s highly recommended!')
+	print('QUERY: '..params)
+	print('===============')
+
 	exports['ghmattimysql']:execute(query, {}, function(data)
 		if cb ~= nil and wait == false then
 			cb(data)
@@ -149,7 +155,7 @@ QBCore.Functions.IsWhitelisted = function(source)
 	local identifiers = GetPlayerIdentifiers(source)
 	local rtn = false
 	if (QBCore.Config.Server.whitelist) then
-		QBCore.Functions.ExecuteSql(true, "SELECT * FROM `whitelist` WHERE `"..QBCore.Config.IdentifierType.."` = '".. QBCore.Functions.GetIdentifier(source).."'", function(result)
+		exports.ghmattimysql:execute("SELECT * FROM `whitelist` WHERE @identifierType = @identifier", {['@identifierType'] = QBCore.Config.IdentifierType, ['@identifier'] = QBCore.Functions.GetIdentifier(source)}, function(result)
 			local data = result[1]
 			if data ~= nil then
 				for _, id in pairs(identifiers) do
@@ -173,8 +179,13 @@ QBCore.Functions.AddPermission = function(source, permission)
 			license = GetPlayerIdentifiers(source)[2],
 			permission = permission:lower(),
 		}
-		QBCore.Functions.ExecuteSql(true, "DELETE FROM `permissions` WHERE `steam` = '"..GetPlayerIdentifiers(source)[1].."'")
-		QBCore.Functions.ExecuteSql(true, "INSERT INTO `permissions` (`name`, `steam`, `license`, `permission`) VALUES ('"..GetPlayerName(source).."', '"..GetPlayerIdentifiers(source)[1].."', '"..GetPlayerIdentifiers(source)[2].."', '"..permission:lower().."')")
+		exports.ghmattimysql:execute("DELETE FROM `permissions` WHERE `steam` = @identifier", {['@identifier'] = GetPlayerIdentifiers(source)[1]})
+		exports.ghmattimysql:execute("INSERT INTO `permissions` (`name`, `steam`, `license`, `permission`) VALUES (@playername, @ida, @idb, @permission)", {
+			['@playername'] = GetPlayerName(source),
+			['@ida'] = GetPlayerIdentifiers(source)[1],
+			['@idb'] = GetPlayerIdentifiers(source)[2],
+			['@permission'] = permission:lower()
+		})
 		Player.Functions.UpdatePlayerData()
 		TriggerClientEvent('QBCore:Client:OnPermissionUpdate', source, permission)
 	end
@@ -184,7 +195,7 @@ QBCore.Functions.RemovePermission = function(source)
 	local Player = QBCore.Functions.GetPlayer(source)
 	if Player ~= nil then 
 		QBCore.Config.Server.PermissionList[GetPlayerIdentifiers(source)[1]] = nil	
-		QBCore.Functions.ExecuteSql(true, "DELETE FROM `permissions` WHERE `steam` = '"..GetPlayerIdentifiers(source)[1].."'")
+		exports.ghmattimysql:execute("DELETE FROM `permissions` WHERE `steam` = @identifier", {['@identifier'] = GetPlayerIdentifiers(source)[1]})
 		Player.Functions.UpdatePlayerData()
 	end
 end
@@ -242,14 +253,14 @@ end
 QBCore.Functions.IsPlayerBanned = function (source)
 	local retval = false
 	local message = ""
-	QBCore.Functions.ExecuteSql(true, "SELECT * FROM `bans` WHERE `steam` = '"..GetPlayerIdentifiers(source)[1].."' OR `license` = '"..GetPlayerIdentifiers(source)[2].."' OR `ip` = '"..GetPlayerIdentifiers(source)[3].."'", function(result)
+	exports.ghmattimysql:execute("SELECT * FROM `bans` WHERE `steam` = @ida OR `license` = @idb OR `ip` = @idc", {['@ida'] = GetPlayerIdentifiers(source)[1], ['idb'] = GetPlayerIdentifiers(source)[2], ['idc'] = GetPlayerIdentifiers(source)[3]}, function(result)
 		if result[1] ~= nil then 
 			if os.time() < result[1].expire then
 				retval = true
 				local timeTable = os.date("*t", tonumber(result[1].expire))
 				message = "You have been banned from the server:\n"..result[1].reason.."\nJe ban verloopt "..timeTable.day.. "/" .. timeTable.month .. "/" .. timeTable.year .. " " .. timeTable.hour.. ":" .. timeTable.min .. "\n"
 			else
-				QBCore.Functions.ExecuteSql(true, "DELETE FROM `bans` WHERE `id` = "..result[1].id)
+				exports.ghmattimysql:execute("DELETE FROM `bans` WHERE `id` = @id", {['@id'] = result[1].id}, function(result)
 			end
 		end
 	end)

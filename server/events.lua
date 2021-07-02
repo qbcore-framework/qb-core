@@ -282,9 +282,9 @@ end)
 RegisterServerEvent('QBCore:Command:CheckOwnedVehicle')
 AddEventHandler('QBCore:Command:CheckOwnedVehicle', function(VehiclePlate)
 	if VehiclePlate ~= nil then
-		exports.ghmattimysql:execute('SELECT * FROM player_vehicles WHERE plate=@plate', {['@plate'] = VehiclePlate}, function(result)
+		exports.ghmattimysql:execute('SELECT * FROM player_vehicles WHERE plate = @plate', {['@plate'] = VehiclePlate}, function(result)
 			if result[1] ~= nil then
-				exports.ghmattimysql:execute('UPDATE player_vehicles SET state=@state WHERE citizenid=@citizenid', {['@state'] = 1, ['@citizenid'] = result[1].citizenid})
+				exports.ghmattimysql:execute('UPDATE player_vehicles SET state=@state WHERE citizenid = @citizenid', {['@state'] = 1, ['@citizenid'] = result[1].citizenid})
 				TriggerEvent('qb-garages:server:RemoveVehicle', result[1].citizenid, VehiclePlate)
 			end
 		end)

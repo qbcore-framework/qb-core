@@ -4,7 +4,7 @@ QBCore.Player = {}
 QBCore.Player.Login = function(source, citizenid, newData)
 	if source ~= nil then
 		if citizenid then
-			QBCore.Functions.ExecuteSql(true, "SELECT * FROM `players` WHERE `citizenid` = '"..citizenid.."'", function(result)
+			exports.ghmattimysql:execute('SELECT * FROM `players` WHERE `citizenid` = @citizenid', {['@citizenid'] = citizenid}, function(result)
 				local PlayerData = result[1]
 				if PlayerData ~= nil then
 					PlayerData.money = json.decode(PlayerData.money)
@@ -418,7 +418,7 @@ end
 QBCore.Player.Save = function(source)
 	local PlayerData = QBCore.Players[source].PlayerData
 	if PlayerData ~= nil then
-		QBCore.Functions.ExecuteSql(true, "SELECT * FROM `players` WHERE `citizenid` = '"..PlayerData.citizenid.."'", function(result)
+		exports.ghmattimysql:execute('SELECT * FROM `players` WHERE `citizenid` = @citizenid', {['@citizenid'] = PlayerData.citizenid}, function(result)
 			if result[1] == nil then
 				exports.ghmattimysql:execute('INSERT INTO players (citizenid, cid, steam, license, name, money, charinfo, job, gang, position, metadata) VALUES (@citizenid, @cid, @steam, @license, @name, @money, @charinfo, @job, @gang, @position, @metadata)', {
 					['@citizenid'] = PlayerData.citizenid,
@@ -486,14 +486,14 @@ local playertables = {
 
 QBCore.Player.DeleteCharacter = function(source, citizenid)
 	for k,v in pairs(playertables) do
-		QBCore.Functions.ExecuteSql(true, "DELETE FROM `"..v.table.."` WHERE `citizenid` = '"..citizenid.."'")
+		exports.ghmattimysql:execute('DELETE FROM @table WHERE `citizenid` = @citizenid', {['@table'] = v.table, ['@citizenid'] = citizenid})
 	end
 	TriggerEvent("qb-log:server:CreateLog", "joinleave", "Character Deleted", "red", "**".. GetPlayerName(source) .. "** ("..GetPlayerIdentifiers(source)[1]..") deleted **"..citizenid.."**..")
 end
 
 QBCore.Player.LoadInventory = function(PlayerData)
 	PlayerData.items = {}
-	QBCore.Functions.ExecuteSql(true, "SELECT * FROM `playeritems` WHERE `citizenid` = '"..PlayerData.citizenid.."'", function(oldInventory)
+	exports.ghmattimysql:execute('SELECT * FROM `playeritems` WHERE `citizenid` = @citizenid', {['@citizenid'] = PlayerData.citizenid}, function(oldInventory)
 		if oldInventory[1] ~= nil then
 			for _, item in pairs(oldInventory) do
 				if item ~= nil then
@@ -502,9 +502,9 @@ QBCore.Player.LoadInventory = function(PlayerData)
 				end
 				Citizen.Wait(1)
 			end
-			QBCore.Functions.ExecuteSql(true, "DELETE FROM `playeritems` WHERE `citizenid` = '"..PlayerData.citizenid.."'")
+			exports.ghmattimysql:execute('DELETE FROM `playeritems` WHERE `citizenid` = @citizenid', {['@citizenid'] = PlayerData.citizenid})
 		else
-			QBCore.Functions.ExecuteSql(true, "SELECT * FROM `players` WHERE `citizenid` = '"..PlayerData.citizenid.."'", function(result)
+			exports.ghmattimysql:execute('SELECT * FROM `players` WHERE `citizenid` = @citizenid', {['@citizenid'] = PlayerData.citizenid}, function(result)
 				if result[1] ~= nil then 
 					if result[1].inventory ~= nil then
 						plyInventory = json.decode(result[1].inventory)
@@ -599,7 +599,7 @@ QBCore.Player.CreateCitizenId = function()
 
 	while not UniqueFound do
 		CitizenId = tostring(QBCore.Shared.RandomStr(3) .. QBCore.Shared.RandomInt(5)):upper()
-		QBCore.Functions.ExecuteSql(true, "SELECT COUNT(*) as count FROM `players` WHERE `citizenid` = '"..CitizenId.."'", function(result)
+		exports.ghmattimysql:execute('SELECT COUNT(*) as count FROM `players` WHERE `citizenid` = @citizenid', {['@citizenid'] = CitizenId}, function(result)
 			if result[1].count == 0 then
 				UniqueFound = true
 			end
@@ -613,7 +613,7 @@ QBCore.Player.CreateFingerId = function()
 	local FingerId = nil
 	while not UniqueFound do
 		FingerId = tostring(QBCore.Shared.RandomStr(2) .. QBCore.Shared.RandomInt(3) .. QBCore.Shared.RandomStr(1) .. QBCore.Shared.RandomInt(2) .. QBCore.Shared.RandomStr(3) .. QBCore.Shared.RandomInt(4))
-		QBCore.Functions.ExecuteSql(true, "SELECT COUNT(*) as count FROM `players` WHERE `metadata` LIKE '%"..FingerId.."%'", function(result)
+		exports.ghmattimysql:execute('SELECT COUNT(*) as count FROM `players` WHERE `metadata` LIKE @finger', {['@finger'] = "%"..FingerId.."%"}, function(result)
 			if result[1].count == 0 then
 				UniqueFound = true
 			end
@@ -627,7 +627,7 @@ QBCore.Player.CreateWalletId = function()
 	local WalletId = nil
 	while not UniqueFound do
 		WalletId = "QB-"..math.random(11111111, 99999999)
-		QBCore.Functions.ExecuteSql(true, "SELECT COUNT(*) as count FROM `players` WHERE `metadata` LIKE '%"..WalletId.."%'", function(result)
+		exports.ghmattimysql:execute('SELECT COUNT(*) as count FROM `players` WHERE `metadata` LIKE @WalletId', {['@WalletId'] = "%"..WalletId.."%'"}, function(result)
 			if result[1].count == 0 then
 				UniqueFound = true
 			end
@@ -642,7 +642,7 @@ QBCore.Player.CreateSerialNumber = function()
 
     while not UniqueFound do
         SerialNumber = math.random(11111111, 99999999)
-        QBCore.Functions.ExecuteSql(true, "SELECT COUNT(*) as count FROM players WHERE metadata LIKE '%"..SerialNumber.."%'", function(result)
+		exports.ghmattimysql:execute('SELECT COUNT(*) as count FROM `players` WHERE `metadata` LIKE @SerialNumber', {['@SerialNumber'] = "%"..SerialNumber.."%'"}, function(result)
             if result[1].count == 0 then
                 UniqueFound = true
             end
