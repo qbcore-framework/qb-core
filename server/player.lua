@@ -604,6 +604,7 @@ QBCore.Player.CreateCitizenId = function()
 				UniqueFound = true
 			end
 		end)
+		Citizen.Wait(200)
 	end
 	return CitizenId
 end
@@ -618,6 +619,7 @@ QBCore.Player.CreateFingerId = function()
 				UniqueFound = true
 			end
 		end)
+		Citizen.Wait(200)
 	end
 	return FingerId
 end
@@ -632,6 +634,7 @@ QBCore.Player.CreateWalletId = function()
 				UniqueFound = true
 			end
 		end)
+		Citizen.Wait(200)
 	end
 	return WalletId
 end
@@ -642,11 +645,12 @@ QBCore.Player.CreateSerialNumber = function()
 
     while not UniqueFound do
         SerialNumber = math.random(11111111, 99999999)
-		exports.ghmattimysql:execute('SELECT COUNT(*) as count FROM `players` WHERE `metadata` LIKE @SerialNumber', {['@SerialNumber'] = "%"..SerialNumber.."%'"}, function(result)
+	exports.ghmattimysql:execute('SELECT COUNT(*) as count FROM `players` WHERE `metadata` LIKE @SerialNumber', {['@SerialNumber'] = "%"..SerialNumber.."%'"}, function(result)
             if result[1].count == 0 then
                 UniqueFound = true
             end
         end)
+	Citizen.Wait(200)
     end
     return SerialNumber
 end
