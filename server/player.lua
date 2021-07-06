@@ -200,63 +200,91 @@ QBCore.Player.CreatePlayer = function(PlayerData)
 		self.Functions.UpdatePlayerData()
 	end
 
-	self.Functions.AddMoney = function(moneytype, amount, reason)
-		reason = reason ~= nil and reason or "unkown"
-		local moneytype = moneytype:lower()
-		local amount = tonumber(amount)
-		if amount < 0 then return end
-		if self.PlayerData.money[moneytype] ~= nil then
-			self.PlayerData.money[moneytype] = self.PlayerData.money[moneytype]+amount
-			self.Functions.UpdatePlayerData()
-			if amount > 100000 then
-				TriggerEvent("qb-log:server:CreateLog", "playermoney", "AddMoney", "lightgreen", "**"..GetPlayerName(self.PlayerData.source) .. " (citizenid: "..self.PlayerData.citizenid.." | id: "..self.PlayerData.source..")** $"..amount .. " ("..moneytype..") added, new "..moneytype.." balance: "..self.PlayerData.money[moneytype], true)
-			else
-				TriggerEvent("qb-log:server:CreateLog", "playermoney", "AddMoney", "lightgreen", "**"..GetPlayerName(self.PlayerData.source) .. " (citizenid: "..self.PlayerData.citizenid.." | id: "..self.PlayerData.source..")** $"..amount .. " ("..moneytype..") added, new "..moneytype.." balance: "..self.PlayerData.money[moneytype])
-			end
-			TriggerClientEvent("hud:client:OnMoneyChange", self.PlayerData.source, moneytype, amount, false)
-			return true
-		end
-		return false
-	end
+    self.Functions.AddMoney = function(moneytype, amount, reason)
+        reason = reason ~= nil and reason or "unkown"
+        local moneytype = moneytype:lower()
+        local amount = tonumber(amount)
+        if amount < 0 then return end
 
-	self.Functions.RemoveMoney = function(moneytype, amount, reason)
-		reason = reason ~= nil and reason or "unkown"
-		local moneytype = moneytype:lower()
-		local amount = tonumber(amount)
-		if amount < 0 then return end
-		if self.PlayerData.money[moneytype] ~= nil then
-			for _, mtype in pairs(QBCore.Config.Money.DontAllowMinus) do
-				if mtype == moneytype then
-					if self.PlayerData.money[moneytype] - amount < 0 then return false end
-				end
-			end
-			self.PlayerData.money[moneytype] = self.PlayerData.money[moneytype] - amount
-			self.Functions.UpdatePlayerData()
-			if amount > 100000 then
-				TriggerEvent("qb-log:server:CreateLog", "playermoney", "RemoveMoney", "red", "**"..GetPlayerName(self.PlayerData.source) .. " (citizenid: "..self.PlayerData.citizenid.." | id: "..self.PlayerData.source..")** $"..amount .. " ("..moneytype..") removed, new "..moneytype.." balance: "..self.PlayerData.money[moneytype], true)
-			else
-				TriggerEvent("qb-log:server:CreateLog", "playermoney", "RemoveMoney", "red", "**"..GetPlayerName(self.PlayerData.source) .. " (citizenid: "..self.PlayerData.citizenid.." | id: "..self.PlayerData.source..")** $"..amount .. " ("..moneytype..") removed, new "..moneytype.." balance: "..self.PlayerData.money[moneytype])
-			end
-			TriggerClientEvent("hud:client:OnMoneyChange", self.PlayerData.source, moneytype, amount, true)
-			TriggerClientEvent('qb-phone:client:RemoveBankMoney', self.PlayerData.source, amount)
-			return true
-		end
-		return false
-	end
-
-	self.Functions.SetMoney = function(moneytype, amount, reason)
-		reason = reason ~= nil and reason or "unkown"
-		local moneytype = moneytype:lower()
-		local amount = tonumber(amount)
-		if amount < 0 then return end
-		if self.PlayerData.money[moneytype] ~= nil then
-			self.PlayerData.money[moneytype] = amount
-			self.Functions.UpdatePlayerData()
-			TriggerEvent("qb-log:server:CreateLog", "playermoney", "SetMoney", "green", "**"..GetPlayerName(self.PlayerData.source) .. " (citizenid: "..self.PlayerData.citizenid.." | id: "..self.PlayerData.source..")** $"..amount .. " ("..moneytype..") gezet, nieuw "..moneytype.." balans: "..self.PlayerData.money[moneytype])
-			return true
-		end
-		return false
-	end
+        if moneytype == 'cash' then
+            self.Functions.AddItem('cash', amount)
+            self.Functions.UpdatePlayerData()
+        else
+            if self.PlayerData.money[moneytype] ~= nil then
+                self.PlayerData.money[moneytype] = self.PlayerData.money[moneytype]+amount
+                self.Functions.UpdatePlayerData()
+                return true
+            end
+        end
+        return false
+    end
+    self.Functions.RemoveMoney = function(moneytype, amount, reason)
+        reason = reason ~= nil and reason or "unkown"
+        local moneytype = moneytype:lower()
+        local amount = tonumber(amount)
+        if amount < 0 then return end
+                if moneytype == 'cash' then
+                    if self.Functions.GetItemByName('cash') ~= nil then
+                        if self.Functions.GetItemByName('cash').amount >= amount then
+                            self.Functions.RemoveItem('cash', amount)
+                            self.Functions.UpdatePlayerData()
+                            return true
+                        else
+                            return false
+                        end
+                    else
+                        return false
+                    end
+                else
+                    if self.PlayerData.money[moneytype] ~= nil then
+                        for _, mtype in pairs(QBCore.Config.Money.DontAllowMinus) do
+                            if mtype == moneytype then
+                                if self.PlayerData.money[moneytype] - amount < 0 then return false end
+                            end
+                        end
+                        self.PlayerData.money[moneytype] = self.PlayerData.money[moneytype] - amount
+                        self.Functions.UpdatePlayerData()
+                        return true
+                    else
+                return false
+            end
+        end
+    end
+    self.Functions.SetMoney = function(moneytype, amount, reason)
+        reason = reason ~= nil and reason or "unkown"
+        local moneytype = moneytype:lower()
+        local amount = tonumber(amount)
+        if amount < 0 then return end
+        if moneytype == 'cash' then
+            if self.Functions.GetItemByName('cash') ~= nil then
+                local cashitem = self.Functions.GetItemByName('cash').amount
+                self.Functions.RemoveItem('cash', cashitem)
+                self.Functions.AddItem('cash', amount)
+                self.Functions.UpdatePlayerData()
+                return true
+            else
+                self.Functions.AddItem('cash', amount)
+                self.Functions.UpdatePlayerData()
+                return true
+            end
+        elseif self.PlayerData.money[moneytype] ~= nil then
+            self.PlayerData.money[moneytype] = amount
+            self.Functions.UpdatePlayerData()
+            return true
+        end
+        return false
+   end
+    self.Functions.GetMoney = function(moneytype)
+        if moneytype ~= nil then
+            local moneytype = moneytype:lower()
+            if moneytype == "cash" then
+                return self.Functions.getQuantity("cash")
+            else
+                return self.PlayerData.money[moneytype]
+            end
+        end
+        return false
+    end
 
 	self.Functions.GetMoney = function(moneytype)
 		if moneytype ~= nil then
