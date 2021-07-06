@@ -7,7 +7,7 @@ end)
 AddEventHandler('playerDropped', function(reason) 
 	local src = source
 	print("Dropped: "..GetPlayerName(src))
-	TriggerEvent("qb-log:server:CreateLog", "joinleave", "Dropped", "red", "**".. GetPlayerName(src) .. "** ("..GetPlayerIdentifiers(src)[1]..") left..")
+	TriggerEvent("qb-log:server:CreateLog", "joinleave", "Dropped", "red", "**".. GetPlayerName(src) .. "** ("..GetPlayerIdentifiers(src)[1]..") left.")
 	if reason ~= "Reconnecting" and src > 60000 then return false end
 	if(src==nil or (QBCore.Players[src] == nil)) then return false end
 	QBCore.Players[src].Functions.Save()
@@ -23,7 +23,7 @@ local function OnPlayerConnecting(name, setKickReason, deferrals)
     -- mandatory wait!
     Wait(0)
 
-    deferrals.update(string.format("Hello %s. Your Steam ID is being checked.", name))
+    deferrals.update(string.format("Hello %s. Validating your SteamID...", name))
 
     for _, v in pairs(identifiers) do
         if string.find(v, "steam") then
@@ -35,16 +35,16 @@ local function OnPlayerConnecting(name, setKickReason, deferrals)
     -- mandatory wait!
     Wait(2500)
 
-    deferrals.update(string.format("Hello %s. We are checking if you are banned.", name))
+    deferrals.update(string.format("Hello %s. Let us check if you are banned...", name))
 	
     local isBanned, Reason = QBCore.Functions.IsPlayerBanned(player)
 	
     Wait(2500)
 	
-    deferrals.update(string.format("Welcome %s to {Server Name}.", name))
+    deferrals.update(string.format("Welcome to the server, %s!", name))
 
     if not steamIdentifier then
-        deferrals.done("You are not connected to Steam.")
+        deferrals.done("You are not connected to Steam. You must have Steam open in order to be able to play on this server! If you believe this is an error, please contact the server administrators.")
     elseif isBanned then
 	deferrals.done(Reason)
     else
@@ -70,7 +70,7 @@ AddEventHandler('QBCore:server:CloseServer', function(reason)
         QBCore.Config.Server.closedReason = reason
         TriggerClientEvent("qbadmin:client:SetServerStatus", -1, true)
 	else
-		QBCore.Functions.Kick(src, "You don't have permissions for this..", nil, nil)
+		QBCore.Functions.Kick(src, "Why even try?", nil, nil)
     end
 end)
 
@@ -82,7 +82,7 @@ AddEventHandler('QBCore:server:OpenServer', function()
         QBCore.Config.Server.closed = false
         TriggerClientEvent("qbadmin:client:SetServerStatus", -1, false)
     else
-        QBCore.Functions.Kick(src, "You don't have permissions for this..", nil, nil)
+        QBCore.Functions.Kick(src, "Why even try?", nil, nil)
     end
 end)
 
@@ -179,7 +179,7 @@ AddEventHandler('chatMessage', function(source, n, message)
 				table.remove(args, 1)
 				if (QBCore.Functions.HasPermission(source, "god") or QBCore.Functions.HasPermission(source, QBCore.Commands.List[command].permission)) then
 					if (QBCore.Commands.List[command].argsrequired and #QBCore.Commands.List[command].arguments ~= 0 and args[#QBCore.Commands.List[command].arguments] == nil) then
-					    TriggerClientEvent('QBCore:Notify', source, "All arguments must be filled out!", "error")
+					    TriggerClientEvent('QBCore:Notify', source, "All arguments have to be filled out!", "error")
 					    local agus = ""
 					    for name, help in pairs(QBCore.Commands.List[command].arguments) do
 					    	agus = agus .. " ["..help.name.."]"
@@ -189,7 +189,7 @@ AddEventHandler('chatMessage', function(source, n, message)
 						QBCore.Commands.List[command].callback(source, args)
 					end
 				else
-					TriggerClientEvent('QBCore:Notify', source, "No Access To This Command", "error")
+					TriggerClientEvent('QBCore:Notify', source, "Access denied for this command.", "error")
 				end
 			end
 		end
@@ -203,7 +203,7 @@ AddEventHandler('QBCore:CallCommand', function(command, args)
 		if Player ~= nil then
 			if (QBCore.Functions.HasPermission(source, "god")) or (QBCore.Functions.HasPermission(source, QBCore.Commands.List[command].permission)) or (QBCore.Commands.List[command].permission == Player.PlayerData.job.name) then
 				if (QBCore.Commands.List[command].argsrequired and #QBCore.Commands.List[command].arguments ~= 0 and args[#QBCore.Commands.List[command].arguments] == nil) then
-					TriggerClientEvent('QBCore:Notify', source, "All arguments must be filled out!", "error")
+					TriggerClientEvent('QBCore:Notify', source, "All arguments have to be filled out!", "error")
 					local agus = ""
 					for name, help in pairs(QBCore.Commands.List[command].arguments) do
 						agus = agus .. " ["..help.name.."]"
@@ -213,7 +213,7 @@ AddEventHandler('QBCore:CallCommand', function(command, args)
 					QBCore.Commands.List[command].callback(source, args)
 				end
 			else
-				TriggerClientEvent('QBCore:Notify', source, "No Access To This Command", "error")
+				TriggerClientEvent('QBCore:Notify', source, "Access denied for this command.", "error")
 			end
 		end
 	end
