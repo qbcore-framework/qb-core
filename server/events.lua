@@ -87,33 +87,25 @@ AddEventHandler('QBCore:server:OpenServer', function()
 end)
 
 RegisterServerEvent("QBCore:UpdatePlayer")
-AddEventHandler('QBCore:UpdatePlayer', function()
+AddEventHandler('QBCore:UpdatePlayer', function(data)
 	local src = source
-	local entity = GetPlayerPed(src)
-	local position = QBCore.Functions.GetEntityCoords(entity)
 	local Player = QBCore.Functions.GetPlayer(src)
-	
 	if Player ~= nil then
-		Player.PlayerData.position = position
-
+		Player.PlayerData.position = data.position
 		local newHunger = Player.PlayerData.metadata["hunger"] - 4.2
 		local newThirst = Player.PlayerData.metadata["thirst"] - 3.8
 		if newHunger <= 0 then newHunger = 0 end
 		if newThirst <= 0 then newThirst = 0 end
 		Player.Functions.SetMetaData("thirst", newThirst)
 		Player.Functions.SetMetaData("hunger", newHunger)
-
 		TriggerClientEvent("hud:client:UpdateNeeds", src, newHunger, newThirst)
-
 		Player.Functions.Save()
 	end
 end)
 
 RegisterServerEvent("QBCore:UpdatePlayerPosition")
-AddEventHandler("QBCore:UpdatePlayerPosition", function()
+AddEventHandler("QBCore:UpdatePlayerPosition", function(position)
 	local src = source
-	local entity = GetPlayerPed(src)
-	local position = QBCore.Functions.GetEntityCoords(entity)
 	local Player = QBCore.Functions.GetPlayer(src)
 	if Player ~= nil then
 		Player.PlayerData.position = position

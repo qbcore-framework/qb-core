@@ -13,7 +13,7 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(7)
 		if isLoggedIn then
-			Citizen.Wait((1000 * 60) * 10)
+			Citizen.Wait((1000 * 60) * 5)
 			TriggerEvent("QBCore:Player:UpdatePlayerData")
 		else
 			Citizen.Wait(5000)
