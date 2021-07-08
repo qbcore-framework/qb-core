@@ -475,13 +475,10 @@ local playertables = {
     {table = "playerskins"},
     {table = "player_boats"},
     {table = "player_contacts"},
-    {table = "player_convictions"},
     {table = "player_houses"},
     {table = "player_mails"},
     {table = "player_outfits"},
-	{table = "player_reports"},
-    {table = "player_vehicles"},
-    {table = "player_warrants"}
+    {table = "player_vehicles"}
 }
 
 QBCore.Player.DeleteCharacter = function(source, citizenid)
