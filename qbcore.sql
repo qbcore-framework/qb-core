@@ -3,7 +3,6 @@ CREATE TABLE IF NOT EXISTS `players` (
   `citizenid` varchar(255) NOT NULL,
   `cid` int(11) DEFAULT NULL,
   `license` varchar(255) NOT NULL,
-  `license` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `money` text NOT NULL,
   `charinfo` text DEFAULT NULL,
@@ -23,7 +22,6 @@ CREATE TABLE IF NOT EXISTS `permissions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `license` varchar(255) NOT NULL,
-  `license` varchar(255) NOT NULL,
   `permission` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `license` (`license`)
@@ -32,7 +30,6 @@ CREATE TABLE IF NOT EXISTS `permissions` (
 CREATE TABLE IF NOT EXISTS `bans` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) DEFAULT NULL,
-  `license` varchar(50) DEFAULT NULL,
   `license` varchar(50) DEFAULT NULL,
   `discord` varchar(50) DEFAULT NULL,
   `ip` varchar(50) DEFAULT NULL,
@@ -47,7 +44,6 @@ CREATE TABLE IF NOT EXISTS `bans` (
 ) ENGINE=InnoDB AUTO_INCREMENT=518 DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS `whitelist` (
-  `license` varchar(255) NOT NULL,
   `license` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`license`),
