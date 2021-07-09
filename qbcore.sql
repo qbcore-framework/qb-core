@@ -1,8 +1,8 @@
 CREATE TABLE IF NOT EXISTS `players` (
-  `#` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `citizenid` varchar(255) NOT NULL,
   `cid` int(11) DEFAULT NULL,
-  `steam` varchar(255) NOT NULL,
+  `license` varchar(255) NOT NULL,
   `license` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `money` text NOT NULL,
@@ -13,26 +13,26 @@ CREATE TABLE IF NOT EXISTS `players` (
   `metadata` text NOT NULL,
   `inventory` longtext DEFAULT NULL,
   `last_updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  PRIMARY KEY (`#`),
+  PRIMARY KEY (`id`),
   KEY `citizenid` (`citizenid`),
   KEY `last_updated` (`last_updated`),
-  KEY `steam` (`steam`)
+  KEY `license` (`license`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4189 DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS `permissions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `steam` varchar(255) NOT NULL,
+  `license` varchar(255) NOT NULL,
   `license` varchar(255) NOT NULL,
   `permission` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `steam` (`steam`)
+  KEY `license` (`license`)
 ) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=latin1;
 
 CREATE TABLE IF NOT EXISTS `bans` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(50) DEFAULT NULL,
-  `steam` varchar(50) DEFAULT NULL,
+  `license` varchar(50) DEFAULT NULL,
   `license` varchar(50) DEFAULT NULL,
   `discord` varchar(50) DEFAULT NULL,
   `ip` varchar(50) DEFAULT NULL,
@@ -40,17 +40,17 @@ CREATE TABLE IF NOT EXISTS `bans` (
   `expire` int(11) DEFAULT NULL,
   `bannedby` varchar(255) NOT NULL DEFAULT 'LeBanhammer',
   PRIMARY KEY (`id`),
-  KEY `steam` (`steam`),
+  KEY `license` (`license`),
   KEY `license` (`license`),
   KEY `discord` (`discord`),
   KEY `ip` (`ip`)
 ) ENGINE=InnoDB AUTO_INCREMENT=518 DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS `whitelist` (
-  `steam` varchar(255) NOT NULL,
+  `license` varchar(255) NOT NULL,
   `license` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
-  PRIMARY KEY (`steam`),
+  PRIMARY KEY (`license`),
   UNIQUE KEY `identifier` (`license`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

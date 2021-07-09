@@ -149,11 +149,11 @@ QBCore.Functions.IsWhitelisted = function(source)
 	local identifiers = GetPlayerIdentifiers(source)
 	local rtn = false
 	if (QBCore.Config.Server.whitelist) then
-		QBCore.Functions.ExecuteSql(true, "SELECT * FROM `whitelist` WHERE `"..QBCore.Config.IdentifierType.."` = '".. QBCore.Functions.GetIdentifier(source).."'", function(result)
+		exports['ghmattimysql']:execute('SELECT * FROM whitelist WHERE license=@license', {['@license'] = QBCore.Functions.GetIdentifier(source, 'license')}, function(result)
 			local data = result[1]
 			if data ~= nil then
 				for _, id in pairs(identifiers) do
-					if data.steam == id or data.license == id then
+					if data.license == id then
 						rtn = true
 					end
 				end
@@ -168,13 +168,18 @@ end
 QBCore.Functions.AddPermission = function(source, permission)
 	local Player = QBCore.Functions.GetPlayer(source)
 	if Player ~= nil then 
-		QBCore.Config.Server.PermissionList[GetPlayerIdentifiers(source)[1]] = {
-			steam = GetPlayerIdentifiers(source)[1],
-			license = GetPlayerIdentifiers(source)[2],
+		QBCore.Config.Server.PermissionList[QBCore.Functions.GetIdentifier(source, 'license')] = {
+			license = QBCore.Functions.GetIdentifier(source, 'license'),
 			permission = permission:lower(),
 		}
-		QBCore.Functions.ExecuteSql(true, "DELETE FROM `permissions` WHERE `steam` = '"..GetPlayerIdentifiers(source)[1].."'")
-		QBCore.Functions.ExecuteSql(true, "INSERT INTO `permissions` (`name`, `steam`, `license`, `permission`) VALUES ('"..GetPlayerName(source).."', '"..GetPlayerIdentifiers(source)[1].."', '"..GetPlayerIdentifiers(source)[2].."', '"..permission:lower().."')")
+		exports['ghmattimysql']:execute('DELETE FROM permissions WHERE license=@license', {['@license'] = QBCore.Functions.GetIdentifier(source, 'license')})
+
+		exports['ghmattimysql']:execute('INSERT INTO permissions (name, license, permission) VALUES (@name, @license, @permission)', {
+			['@name'] = GetPlayerName(source),
+			['@license'] = QBCore.Functions.GetIdentifier(source, 'license'),
+			['@permission'] = permission:lower()
+		})
+
 		Player.Functions.UpdatePlayerData()
 		TriggerClientEvent('QBCore:Client:OnPermissionUpdate', source, permission)
 	end
@@ -183,23 +188,22 @@ end
 QBCore.Functions.RemovePermission = function(source)
 	local Player = QBCore.Functions.GetPlayer(source)
 	if Player ~= nil then 
-		QBCore.Config.Server.PermissionList[GetPlayerIdentifiers(source)[1]] = nil	
-		QBCore.Functions.ExecuteSql(true, "DELETE FROM `permissions` WHERE `steam` = '"..GetPlayerIdentifiers(source)[1].."'")
+		QBCore.Config.Server.PermissionList[QBCore.Functions.GetIdentifier(source, 'license')] = nil	
+		exports['ghmattimysql']:execute('DELETE FROM permissions WHERE license=@license', {['@license'] = QBCore.Functions.GetIdentifier(source, 'license')})
 		Player.Functions.UpdatePlayerData()
 	end
 end
 
 QBCore.Functions.HasPermission = function(source, permission)
 	local retval = false
-	local steamid = GetPlayerIdentifiers(source)[1]
-	local licenseid = GetPlayerIdentifiers(source)[2]
+	local license = QBCore.Functions.GetIdentifier(source, 'license')
 	local permission = tostring(permission:lower())
 	if permission == "user" then
 		retval = true
 	else
-		if QBCore.Config.Server.PermissionList[steamid] ~= nil then 
-			if QBCore.Config.Server.PermissionList[steamid].steam == steamid and QBCore.Config.Server.PermissionList[steamid].license == licenseid then
-				if QBCore.Config.Server.PermissionList[steamid].permission == permission or QBCore.Config.Server.PermissionList[steamid].permission == "god" then
+		if QBCore.Config.Server.PermissionList[license] ~= nil then 
+			if QBCore.Config.Server.PermissionList[license].license == license then
+				if QBCore.Config.Server.PermissionList[license].permission == permission or QBCore.Config.Server.PermissionList[license].permission == "god" then
 					retval = true
 				end
 			end
@@ -211,12 +215,11 @@ end
 QBCore.Functions.GetPermission = function(source)
 	local retval = "user"
 	Player = QBCore.Functions.GetPlayer(source)
-	local steamid = GetPlayerIdentifiers(source)[1]
-	local licenseid = GetPlayerIdentifiers(source)[2]
+	local license = QBCore.Functions.GetIdentifier(source, 'license')
 	if Player ~= nil then
-		if QBCore.Config.Server.PermissionList[Player.PlayerData.steam] ~= nil then 
-			if QBCore.Config.Server.PermissionList[Player.PlayerData.steam].steam == steamid and QBCore.Config.Server.PermissionList[Player.PlayerData.steam].license == licenseid then
-				retval = QBCore.Config.Server.PermissionList[Player.PlayerData.steam].permission
+		if QBCore.Config.Server.PermissionList[Player.PlayerData.license] ~= nil then 
+			if QBCore.Config.Server.PermissionList[Player.PlayerData.license].license == license then
+				retval = QBCore.Config.Server.PermissionList[Player.PlayerData.license].permission
 			end
 		end
 	end
@@ -225,34 +228,33 @@ end
 
 QBCore.Functions.IsOptin = function(source)
 	local retval = false
-	local steamid = GetPlayerIdentifiers(source)[1]
+	local license = QBCore.Functions.GetIdentifier(source, 'license')
 	if QBCore.Functions.HasPermission(source, "admin") then
-		retval = QBCore.Config.Server.PermissionList[steamid].optin
+		retval = QBCore.Config.Server.PermissionList[license].optin
 	end
 	return retval
 end
 
 QBCore.Functions.ToggleOptin = function(source)
-	local steamid = GetPlayerIdentifiers(source)[1]
+	local license = QBCore.Functions.GetIdentifier(source, 'license')
 	if QBCore.Functions.HasPermission(source, "admin") then
-		QBCore.Config.Server.PermissionList[steamid].optin = not QBCore.Config.Server.PermissionList[steamid].optin
+		QBCore.Config.Server.PermissionList[license].optin = not QBCore.Config.Server.PermissionList[license].optin
 	end
 end
 
 QBCore.Functions.IsPlayerBanned = function (source)
 	local retval = false
 	local message = ""
-	QBCore.Functions.ExecuteSql(true, "SELECT * FROM `bans` WHERE `steam` = '"..GetPlayerIdentifiers(source)[1].."' OR `license` = '"..GetPlayerIdentifiers(source)[2].."' OR `ip` = '"..GetPlayerIdentifiers(source)[3].."'", function(result)
+	exports['ghmattimysql']:execute('SELECT * FROM bans WHERE license=@license', {['@license'] = QBCore.Functions.GetIdentifier(source, 'license')}, function(result)
 		if result[1] ~= nil then 
 			if os.time() < result[1].expire then
 				retval = true
 				local timeTable = os.date("*t", tonumber(result[1].expire))
 				message = "You have been banned from the server:\n"..result[1].reason.."\nYour ban expires "..timeTable.day.. "/" .. timeTable.month .. "/" .. timeTable.year .. " " .. timeTable.hour.. ":" .. timeTable.min .. "\n"
 			else
-				QBCore.Functions.ExecuteSql(true, "DELETE FROM `bans` WHERE `id` = "..result[1].id)
+				exports['ghmattimysql']:execute('DELETE FROM bans WHERE id=@id', {['@id'] = result[1].id})
 			end
 		end
 	end)
 	return retval, message
 end
-

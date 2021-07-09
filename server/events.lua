@@ -16,18 +16,18 @@ end)
 
 local function OnPlayerConnecting(name, setKickReason, deferrals)
     local player = source
-    local steamIdentifier
+    local license
     local identifiers = GetPlayerIdentifiers(player)
     deferrals.defer()
 
     -- mandatory wait!
     Wait(0)
 
-    deferrals.update(string.format("Hello %s. Your Steam ID is being checked.", name))
+    deferrals.update(string.format("Hello %s. Validating Your Rockstar License", name))
 
     for _, v in pairs(identifiers) do
-        if string.find(v, "steam") then
-            steamIdentifier = v
+        if string.find(v, 'license') then
+            license = v
             break
         end
     end
@@ -43,8 +43,8 @@ local function OnPlayerConnecting(name, setKickReason, deferrals)
 	
     deferrals.update(string.format("Welcome %s to {Server Name}.", name))
 
-    if not steamIdentifier then
-        deferrals.done("You are not connected to Steam.")
+    if not license then
+        deferrals.done('No Valid Rockstar License Found')
     elseif isBanned then
 	deferrals.done(Reason)
     else
@@ -231,11 +231,10 @@ AddEventHandler('QBCore:ToggleDuty', function()
 end)
 
 Citizen.CreateThread(function()
-	QBCore.Functions.ExecuteSql(true, "SELECT * FROM `permissions`", function(result)
+	exports.ghmattimysql:execute('SELECT * FROM permissions', function(result)
 		if result[1] ~= nil then
 			for k, v in pairs(result) do
-				QBCore.Config.Server.PermissionList[v.steam] = {
-					steam = v.steam,
+				QBCore.Config.Server.PermissionList[v.license] = {
 					license = v.license,
 					permission = v.permission,
 					optin = true,
