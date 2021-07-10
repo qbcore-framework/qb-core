@@ -1,7 +1,7 @@
 QBCore.Functions = {}
 QBCore.RequestId = 0
 
-QBCore.Functions.GetPlayerData = function(cb)
+QBCore.Functions.GetPlayerData = function(cb) -- QBCore.Functions.GetPlayerData() falls under GPL License here: [esxlicense]/LICENSE
     if cb ~= nil then
         cb(QBCore.PlayerData)
     else
@@ -49,7 +49,7 @@ QBCore.Functions.GetCoords = function(entity)
     }
 end
 
-QBCore.Functions.SpawnVehicle = function(model, cb, coords, isnetworked)
+QBCore.Functions.SpawnVehicle = function(model, cb, coords, isnetworked) -- QBCore.Functions.SpawnVehicle() falls under GPL License here: [esxlicense]/LICENSE
     local model = (type(model)=="number" and model or GetHashKey(model))
     local coords = coords ~= nil and coords or QBCore.Functions.GetCoords(PlayerPedId())
     local isnetworked = isnetworked ~= nil and isnetworked or true
@@ -80,7 +80,7 @@ QBCore.Functions.DeleteVehicle = function(vehicle)
     DeleteVehicle(vehicle)
 end
 
-QBCore.Functions.Notify = function(text, textype, length) -- [text] = message, [type] = primary | error | success, [length] = time till fadeout.
+QBCore.Functions.Notify = function(text, textype, length)
     local ttype = textype ~= nil and textype or "primary"
     local length = length ~= nil and length or 5000
     SendNUIMessage({
@@ -91,7 +91,7 @@ QBCore.Functions.Notify = function(text, textype, length) -- [text] = message, [
     })
 end
 
-QBCore.Functions.TriggerCallback = function(name, cb, ...)
+QBCore.Functions.TriggerCallback = function(name, cb, ...) -- QBCore.Functions.TriggerCallback() falls under GPL License here: [esxlicense]/LICENSE
 	QBCore.ServerCallbacks[name] = cb
     TriggerServerEvent("QBCore:Server:TriggerCallback", name, ...)
 end
@@ -129,7 +129,7 @@ QBCore.Functions.GetPeds = function(ignoreList)
 	return peds
 end
 
-QBCore.Functions.GetPlayers = function()
+QBCore.Functions.GetPlayers = function() -- QBCore.Functions.GetPlayers() falls under GPL License here: [esxlicense]/LICENSE
     local players = {}
     for _, player in ipairs(GetActivePlayers()) do
         local ped = GetPlayerPed(player)
@@ -284,7 +284,7 @@ function Trim(value)
 	end
 end
 
-QBCore.Functions.GetVehicleProperties = function(vehicle)
+QBCore.Functions.GetVehicleProperties = function(vehicle) -- QBCore.Functions.GetVehicleProperties() falls under GPL License here: [esxlicense]/LICENSE
 	if DoesEntityExist(vehicle) then		
 		local colorPrimary, colorSecondary = GetVehicleColours(vehicle)
 		local pearlescentColor, wheelColor = GetVehicleExtraColours(vehicle)
@@ -386,7 +386,7 @@ QBCore.Functions.GetVehicleProperties = function(vehicle)
 	end
 end
 
-QBCore.Functions.SetVehicleProperties = function(vehicle, props)
+QBCore.Functions.SetVehicleProperties = function(vehicle, props) -- QBCore.Functions.SetVehicleProperties() falls under GPL License here: [esxlicense]/LICENSE
 	if DoesEntityExist(vehicle) then
 		local colorPrimary, colorSecondary = GetVehicleColours(vehicle)
 		local pearlescentColor, wheelColor = GetVehicleExtraColours(vehicle)

@@ -35,8 +35,7 @@ QBCore.Player.CheckPlayerData = function(source, PlayerData)
 
 	PlayerData.source = source
 	PlayerData.citizenid = PlayerData.citizenid ~= nil and PlayerData.citizenid or QBCore.Player.CreateCitizenId()
-	PlayerData.steam = PlayerData.steam ~= nil and PlayerData.steam or QBCore.Functions.GetIdentifier(source, "steam")
-	PlayerData.license = PlayerData.license ~= nil and PlayerData.license or QBCore.Functions.GetIdentifier(source, "license")
+	PlayerData.license = PlayerData.license ~= nil and PlayerData.license or QBCore.Functions.GetIdentifier(source, 'license')
 	PlayerData.name = GetPlayerName(source)
 	PlayerData.cid = PlayerData.cid ~= nil and PlayerData.cid or 1
 
@@ -420,10 +419,9 @@ QBCore.Player.Save = function(source)
 	if PlayerData ~= nil then
 		QBCore.Functions.ExecuteSql(true, "SELECT * FROM `players` WHERE `citizenid` = '"..PlayerData.citizenid.."'", function(result)
 			if result[1] == nil then
-				exports.ghmattimysql:execute('INSERT INTO players (citizenid, cid, steam, license, name, money, charinfo, job, gang, position, metadata) VALUES (@citizenid, @cid, @steam, @license, @name, @money, @charinfo, @job, @gang, @position, @metadata)', {
+				exports.ghmattimysql:execute('INSERT INTO players (citizenid, cid, license, name, money, charinfo, job, gang, position, metadata) VALUES (@citizenid, @cid, @license, @name, @money, @charinfo, @job, @gang, @position, @metadata)', {
 					['@citizenid'] = PlayerData.citizenid,
 					['@cid'] = tonumber(PlayerData.cid),
-					['@steam'] = PlayerData.steam,
 					['@license'] = PlayerData.license,
 					['@name'] = PlayerData.name,
 					['@money'] = json.encode(PlayerData.money),
@@ -434,9 +432,8 @@ QBCore.Player.Save = function(source)
 					['@metadata'] = json.encode(PlayerData.metadata)
 				})
 			else
-				exports.ghmattimysql:execute('UPDATE players SET steam=@steam, license=@license, name=@name, money=@money, charinfo=@charinfo, job=@job, gang=@gang, position=@position, metadata=@metadata WHERE citizenid=@citizenid', {
+				exports.ghmattimysql:execute('UPDATE players SET license=@license, name=@name, money=@money, charinfo=@charinfo, job=@job, gang=@gang, position=@position, metadata=@metadata WHERE citizenid=@citizenid', {
 					['@citizenid'] = PlayerData.citizenid,
-					['@steam'] = PlayerData.steam,
 					['@license'] = PlayerData.license,
 					['@name'] = PlayerData.name,
 					['@money'] = json.encode(PlayerData.money),
@@ -475,20 +472,17 @@ local playertables = {
     {table = "playerskins"},
     {table = "player_boats"},
     {table = "player_contacts"},
-    {table = "player_convictions"},
     {table = "player_houses"},
     {table = "player_mails"},
     {table = "player_outfits"},
-	{table = "player_reports"},
-    {table = "player_vehicles"},
-    {table = "player_warrants"}
+    {table = "player_vehicles"}
 }
 
 QBCore.Player.DeleteCharacter = function(source, citizenid)
 	for k,v in pairs(playertables) do
 		QBCore.Functions.ExecuteSql(true, "DELETE FROM `"..v.table.."` WHERE `citizenid` = '"..citizenid.."'")
 	end
-	TriggerEvent("qb-log:server:CreateLog", "joinleave", "Character Deleted", "red", "**".. GetPlayerName(source) .. "** ("..GetPlayerIdentifiers(source)[1]..") deleted **"..citizenid.."**..")
+	TriggerEvent("qb-log:server:CreateLog", "joinleave", "Character Deleted", "red", "**".. GetPlayerName(source) .. "** ("..QBCore.Functions.GetIdentifier(source, 'license')..") deleted **"..citizenid.."**..")
 end
 
 QBCore.Player.LoadInventory = function(PlayerData)

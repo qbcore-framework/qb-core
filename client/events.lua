@@ -105,12 +105,15 @@ end)
 
 RegisterNetEvent('QBCore:Player:UpdatePlayerData')
 AddEventHandler('QBCore:Player:UpdatePlayerData', function()
-	TriggerServerEvent('QBCore:UpdatePlayer')
+	local data = {}
+	data.position = QBCore.Functions.GetCoords(PlayerPedId())
+	TriggerServerEvent('QBCore:UpdatePlayer', data)
 end)
 
 RegisterNetEvent('QBCore:Player:UpdatePlayerPosition')
 AddEventHandler('QBCore:Player:UpdatePlayerPosition', function()
-	TriggerServerEvent('QBCore:UpdatePlayerPosition')
+	local position = QBCore.Functions.GetCoords(PlayerPedId())
+	TriggerServerEvent('QBCore:UpdatePlayerPosition', position)
 end)
 
 RegisterNetEvent('QBCore:Client:LocalOutOfCharacter')
@@ -128,7 +131,7 @@ AddEventHandler('QBCore:Notify', function(text, type, length)
 	QBCore.Functions.Notify(text, type, length)
 end)
 
-RegisterNetEvent('QBCore:Client:TriggerCallback')
+RegisterNetEvent('QBCore:Client:TriggerCallback') -- QBCore:Client:TriggerCallback falls under GPL License here: [esxlicense]/LICENSE
 AddEventHandler('QBCore:Client:TriggerCallback', function(name, ...)
 	if QBCore.ServerCallbacks[name] ~= nil then
 		QBCore.ServerCallbacks[name](...)
@@ -136,7 +139,7 @@ AddEventHandler('QBCore:Client:TriggerCallback', function(name, ...)
 	end
 end)
 
-RegisterNetEvent("QBCore:Client:UseItem")
+RegisterNetEvent("QBCore:Client:UseItem") -- QBCore:Client:UseItem falls under GPL License here: [esxlicense]/LICENSE
 AddEventHandler('QBCore:Client:UseItem', function(item)
 	TriggerServerEvent("QBCore:Server:UseItem", item)
 end)

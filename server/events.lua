@@ -7,7 +7,7 @@ end)
 AddEventHandler('playerDropped', function(reason) 
 	local src = source
 	print("Dropped: "..GetPlayerName(src))
-	TriggerEvent("qb-log:server:CreateLog", "joinleave", "Dropped", "red", "**".. GetPlayerName(src) .. "** ("..GetPlayerIdentifiers(src)[1]..") left..")
+	TriggerEvent("qb-log:server:CreateLog", "joinleave", "Dropped", "red", "**".. GetPlayerName(src) .. "** ("..QBCore.Functions.GetIdentifier(src, 'license')..") left..")
 	if reason ~= "Reconnecting" and src > 60000 then return false end
 	if(src==nil or (QBCore.Players[src] == nil)) then return false end
 	QBCore.Players[src].Functions.Save()
@@ -16,18 +16,18 @@ end)
 
 local function OnPlayerConnecting(name, setKickReason, deferrals)
     local player = source
-    local steamIdentifier
+    local license
     local identifiers = GetPlayerIdentifiers(player)
     deferrals.defer()
 
     -- mandatory wait!
     Wait(0)
 
-    deferrals.update(string.format("Hello %s. Your Steam ID is being checked.", name))
+    deferrals.update(string.format("Hello %s. Validating Your Rockstar License", name))
 
     for _, v in pairs(identifiers) do
-        if string.find(v, "steam") then
-            steamIdentifier = v
+        if string.find(v, 'license') then
+            license = v
             break
         end
     end
@@ -43,8 +43,8 @@ local function OnPlayerConnecting(name, setKickReason, deferrals)
 	
     deferrals.update(string.format("Welcome %s to {Server Name}.", name))
 
-    if not steamIdentifier then
-        deferrals.done("You are not connected to Steam.")
+    if not license then
+        deferrals.done('No Valid Rockstar License Found')
     elseif isBanned then
 	deferrals.done(Reason)
     else
@@ -87,33 +87,25 @@ AddEventHandler('QBCore:server:OpenServer', function()
 end)
 
 RegisterServerEvent("QBCore:UpdatePlayer")
-AddEventHandler('QBCore:UpdatePlayer', function()
+AddEventHandler('QBCore:UpdatePlayer', function(data)
 	local src = source
-	local entity = GetPlayerPed(src)
-	local position = QBCore.Functions.GetEntityCoords(entity)
 	local Player = QBCore.Functions.GetPlayer(src)
-	
 	if Player ~= nil then
-		Player.PlayerData.position = position
-
+		Player.PlayerData.position = data.position
 		local newHunger = Player.PlayerData.metadata["hunger"] - 4.2
 		local newThirst = Player.PlayerData.metadata["thirst"] - 3.8
 		if newHunger <= 0 then newHunger = 0 end
 		if newThirst <= 0 then newThirst = 0 end
 		Player.Functions.SetMetaData("thirst", newThirst)
 		Player.Functions.SetMetaData("hunger", newHunger)
-
 		TriggerClientEvent("hud:client:UpdateNeeds", src, newHunger, newThirst)
-
 		Player.Functions.Save()
 	end
 end)
 
 RegisterServerEvent("QBCore:UpdatePlayerPosition")
-AddEventHandler("QBCore:UpdatePlayerPosition", function()
+AddEventHandler("QBCore:UpdatePlayerPosition", function(position)
 	local src = source
-	local entity = GetPlayerPed(src)
-	local position = QBCore.Functions.GetEntityCoords(entity)
 	local Player = QBCore.Functions.GetPlayer(src)
 	if Player ~= nil then
 		Player.PlayerData.position = position
@@ -239,11 +231,10 @@ AddEventHandler('QBCore:ToggleDuty', function()
 end)
 
 Citizen.CreateThread(function()
-	QBCore.Functions.ExecuteSql(true, "SELECT * FROM `permissions`", function(result)
+	exports.ghmattimysql:execute('SELECT * FROM permissions', function(result)
 		if result[1] ~= nil then
 			for k, v in pairs(result) do
-				QBCore.Config.Server.PermissionList[v.steam] = {
-					steam = v.steam,
+				QBCore.Config.Server.PermissionList[v.license] = {
 					license = v.license,
 					permission = v.permission,
 					optin = true,
