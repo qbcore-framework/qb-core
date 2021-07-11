@@ -105,12 +105,15 @@ end)
 
 RegisterNetEvent('QBCore:Player:UpdatePlayerData')
 AddEventHandler('QBCore:Player:UpdatePlayerData', function()
-	TriggerServerEvent('QBCore:UpdatePlayer')
+	local data = {}
+	data.position = QBCore.Functions.GetCoords(PlayerPedId())
+	TriggerServerEvent('QBCore:UpdatePlayer', data)
 end)
 
 RegisterNetEvent('QBCore:Player:UpdatePlayerPosition')
 AddEventHandler('QBCore:Player:UpdatePlayerPosition', function()
-	TriggerServerEvent('QBCore:UpdatePlayerPosition')
+	local position = QBCore.Functions.GetCoords(PlayerPedId())
+	TriggerServerEvent('QBCore:UpdatePlayerPosition', position)
 end)
 
 RegisterNetEvent('QBCore:Client:LocalOutOfCharacter')
