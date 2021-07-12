@@ -43,3 +43,7 @@ dependencies {
 	'connectqueue',
 	'ghmattimysql'
 }
+
+exports {
+    'getStress'
+}

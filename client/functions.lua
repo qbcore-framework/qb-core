@@ -9,6 +9,11 @@ QBCore.Functions.GetPlayerData = function(cb) -- QBCore.Functions.GetPlayerData(
     end
 end
 
+-- Exports
+function getStress()
+	return QBCore.PlayerData.metadata["stress"]
+end
+
 QBCore.Functions.DrawText = function(x, y, width, height, scale, r, g, b, a, text)
 	SetTextFont(4)
     SetTextProportional(0)
