@@ -467,8 +467,6 @@ local playertables = {
     {table = "crypto_transactions"},
     {table = "phone_invoices"},
     {table = "phone_messages"},
-    {table = "playerammo"},
-	{table = "playeritems"},
     {table = "playerskins"},
     {table = "player_boats"},
     {table = "player_contacts"},
@@ -487,46 +485,33 @@ end
 
 QBCore.Player.LoadInventory = function(PlayerData)
 	PlayerData.items = {}
-	QBCore.Functions.ExecuteSql(true, "SELECT * FROM `playeritems` WHERE `citizenid` = '"..PlayerData.citizenid.."'", function(oldInventory)
-		if oldInventory[1] ~= nil then
-			for _, item in pairs(oldInventory) do
-				if item ~= nil then
-					local itemInfo = QBCore.Shared.Items[item.name:lower()]
-					PlayerData.items[item.slot] = {name = itemInfo["name"], amount = item.amount, info = json.decode(item.info) ~= nil and json.decode(item.info) or "", label = itemInfo["label"], description = itemInfo["description"] ~= nil and itemInfo["description"] or "", weight = itemInfo["weight"], type = itemInfo["type"], unique = itemInfo["unique"], useable = itemInfo["useable"], image = itemInfo["image"], shouldClose = itemInfo["shouldClose"], slot = item.slot, combinable = itemInfo["combinable"]}
-				end
-				Citizen.Wait(1)
-			end
-			QBCore.Functions.ExecuteSql(true, "DELETE FROM `playeritems` WHERE `citizenid` = '"..PlayerData.citizenid.."'")
-		else
-			QBCore.Functions.ExecuteSql(true, "SELECT * FROM `players` WHERE `citizenid` = '"..PlayerData.citizenid.."'", function(result)
-				if result[1] ~= nil then 
-					if result[1].inventory ~= nil then
-						plyInventory = json.decode(result[1].inventory)
-						if next(plyInventory) ~= nil then 
-							for _, item in pairs(plyInventory) do
-								if item ~= nil then
-									local itemInfo = QBCore.Shared.Items[item.name:lower()]
-									PlayerData.items[item.slot] = {
-										name = itemInfo["name"], 
-										amount = item.amount, 
-										info = item.info ~= nil and item.info or "", 
-										label = itemInfo["label"], 
-										description = itemInfo["description"] ~= nil and itemInfo["description"] or "", 
-										weight = itemInfo["weight"], 
-										type = itemInfo["type"], 
-										unique = itemInfo["unique"], 
-										useable = itemInfo["useable"], 
-										image = itemInfo["image"], 
-										shouldClose = itemInfo["shouldClose"], 
-										slot = item.slot, 
-										combinable = itemInfo["combinable"]
-									}
-								end
-							end
+	QBCore.Functions.ExecuteSql(true, "SELECT * FROM `players` WHERE `citizenid` = '"..PlayerData.citizenid.."'", function(result)
+		if result[1] ~= nil then 
+			if result[1].inventory ~= nil then
+				plyInventory = json.decode(result[1].inventory)
+				if next(plyInventory) ~= nil then 
+					for _, item in pairs(plyInventory) do
+						if item ~= nil then
+							local itemInfo = QBCore.Shared.Items[item.name:lower()]
+							PlayerData.items[item.slot] = {
+								name = itemInfo["name"], 
+								amount = item.amount, 
+								info = item.info ~= nil and item.info or "", 
+								label = itemInfo["label"], 
+								description = itemInfo["description"] ~= nil and itemInfo["description"] or "", 
+								weight = itemInfo["weight"], 
+								type = itemInfo["type"], 
+								unique = itemInfo["unique"], 
+								useable = itemInfo["useable"], 
+								image = itemInfo["image"], 
+								shouldClose = itemInfo["shouldClose"], 
+								slot = item.slot, 
+								combinable = itemInfo["combinable"]
+							}
 						end
 					end
 				end
-			end)
+			end
 		end
 	end)
 	return PlayerData

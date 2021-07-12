@@ -38,7 +38,6 @@ CREATE TABLE IF NOT EXISTS `bans` (
   `bannedby` varchar(255) NOT NULL DEFAULT 'LeBanhammer',
   PRIMARY KEY (`id`),
   KEY `license` (`license`),
-  KEY `license` (`license`),
   KEY `discord` (`discord`),
   KEY `ip` (`ip`)
 ) ENGINE=InnoDB AUTO_INCREMENT=518 DEFAULT CHARSET=utf8mb4;
