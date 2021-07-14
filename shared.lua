@@ -2792,22 +2792,22 @@ QBShared.Vehicles = {
 		["hash"] = `deviant`,
 		["shop"] = "pdm",
 	},
-	["diabolus"] = {
-		["name"] = "Diabolus",
+	["diablous"] = {
+		["name"] = "Diablous",
 		["brand"] = "Principe",
-		["model"] = "diabolus",
+		["model"] = "diablous",
 		["price"] = 10000,
 		["category"] = "motorcycles",
-		["hash"] = `diabolus`,
+		["hash"] = `diablous`,
 		["shop"] = "pdm",
 	},
-	["diabolus2"] = {
-		["name"] = "Diabolus Custom",
+	["diablous2"] = {
+		["name"] = "Diablous Custom",
 		["brand"] = "Principe",
-		["model"] = "diabolus2",
+		["model"] = "diablous2",
 		["price"] = 12000,
 		["category"] = "motorcycles",
-		["hash"] = `diabolus2`,
+		["hash"] = `diablous2`,
 		["shop"] = "pdm",
 	},
 	["dilettante2"] = {
@@ -3637,7 +3637,7 @@ QBShared.Vehicles = {
 		["hash"] = `sanchez`,
 		["shop"] = "pdm",
 	},
-	["sanche2"] = {
+	["sanchez2"] = {
 		["name"] = "Sanchez",
 		["brand"] = "Maibatsu",
 		["model"] = "sanchez2",
