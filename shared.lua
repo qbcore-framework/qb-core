@@ -2,6 +2,7 @@ QBShared = {}
 
 local StringCharset = {}
 local NumberCharset = {}
+local peds = {}
 
 for i = 48,  57 do table.insert(NumberCharset, string.char(i)) end
 for i = 65,  90 do table.insert(StringCharset, string.char(i)) end
@@ -62,6 +63,67 @@ QBShared._U = function (str, ...) -- Translate string first char uppercase
 	return tostring(QBShared._(str, ...):gsub("^%l", string.upper))
 end
 
+QBShared.SpawnPed = function (id, model, coords, heading, gender, animName, scenario)
+
+	local playerCoords = GetEntityCoords(PlayerPedId())
+	 
+			local dist = #(playerCoords) - #(coords)
+			
+			if dist < 100 and not peds[id] then
+				
+				local ped = nearPed(model, coords, heading, gender, animDict, animName, scenario)
+				
+				peds[id] = {ped = ped}
+				
+			end
+			
+			if dist >= 100 and peds[id] then
+				if Config.Fade then
+					for i = 255, 0, -51 do
+						Citizen.Wait(50)
+						SetEntityAlpha(peds[id].ped, i, false)
+					end
+				end
+				DeletePed(peds[id].ped)
+				peds[id] = nil
+			end
+	 
+end
+
+function nearPed(model, coords, heading, gender, animDict, animName, scenario)
+
+	-- Request the models of the peds from the server, so they can be ready to spawn.
+	RequestModel(GetHashKey(model))
+	while not HasModelLoaded(GetHashKey(model)) do
+		Citizen.Wait(1)
+	end
+
+	-- Convert plain language genders into what fivem uses for ped types.
+	if gender == 'male' then
+		genderNum = 4
+	elseif gender == 'female' then 
+		genderNum = 5
+	else
+		print("No gender provided! Check your configuration!")
+	end	
+
+	--Check if someones coordinate grabber thingy needs to subract 1 from Z or not.
+	if Config.MinusOne then 
+		local x, y, z = table.unpack(coords)
+		ped = CreatePed(genderNum, GetHashKey(model), x, y, z - 1, heading, false, true)
+
+	else
+		ped = CreatePed(genderNum, GetHashKey(model), coords, heading, false, true)
+	end
+
+	SetEntityAlpha(ped, 0, false)
+	FreezeEntityPosition(ped, true) --Don't let the ped move.
+	SetEntityInvincible(ped, true) --Don't let the ped die.
+	SetBlockingOfNonTemporaryEvents(ped, true) --Don't let the ped react to his surroundings.
+	SetEntityAlpha(ped, 255, false)
+
+	return ped
+end
 
 QBShared.StarterItems = {
     ["phone"] = {amount = 1, item = "phone"},
