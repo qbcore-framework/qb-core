@@ -23,6 +23,21 @@ QBCore.Functions.DrawText = function(x, y, width, height, scale, r, g, b, a, tex
     DrawText(x - width/2, y - height/2 + 0.005)
 end
 
+QBCore.Functions.Draw2DText = function(x, y, text, scale)
+    SetTextFont(4)
+    SetTextProportional(7)
+    SetTextScale(scale, scale)
+    SetTextColour(255, 255, 255, 255)
+    SetTextDropShadow(0, 0, 0, 0,255)
+    SetTextDropShadow()
+    SetTextEdge(4, 0, 0, 0, 255)
+    SetTextOutline()
+    SetTextCentre(true)
+    SetTextEntry("STRING")
+    AddTextComponentString(text)
+    DrawText(x, y)
+end
+
 QBCore.Functions.DrawText3D = function(x, y, z, text)
 	SetTextScale(0.35, 0.35)
     SetTextFont(4)
