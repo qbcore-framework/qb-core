@@ -80,6 +80,25 @@ QBCore.Functions.DeleteVehicle = function(vehicle)
     DeleteVehicle(vehicle)
 end
 
+QBCore.Functions.SpawnLocalObject = function(model, coords, cb)
+    local model = (type(model) == 'number' and model or GetHashKey(model))
+
+    Citizen.CreateThread(function()
+        RequestModel(model)
+        local obj = CreateObject(model, coords.x, coords.y, coords.z, false, false, true)
+        SetModelAsNoLongerNeeded(model)
+
+        if cb then
+            cb(obj)
+        end
+    end)
+end
+
+QBCore.Functions.DeleteObject = function(object)
+    SetEntityAsMissionEntity(object, false, true)
+    DeleteObject(object)
+end
+
 QBCore.Functions.Notify = function(text, textype, length)
     local ttype = textype ~= nil and textype or "primary"
     local length = length ~= nil and length or 5000
