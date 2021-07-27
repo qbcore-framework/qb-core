@@ -32,6 +32,8 @@ ui_page {
 	'html/ui.html'
 }
 
+lua54 'yes'
+
 files {
 	'html/ui.html',
 	'html/css/main.css',
