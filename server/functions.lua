@@ -258,3 +258,19 @@ QBCore.Functions.IsPlayerBanned = function (source)
 	end)
 	return retval, message
 end
+
+QBCore.Functions.IsLicenseInUse = function(license)
+    local players = GetPlayers()
+    for _, player in pairs(players) do
+        local identifiers = GetPlayerIdentifiers(player)
+        for _, id in pairs(identifiers) do
+            if string.find(id, 'license') then
+                local playerLicense = id
+                if playerLicense == license then
+                    return true
+                end
+            end
+        end
+    end
+    return false
+end
