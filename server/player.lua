@@ -2,11 +2,13 @@ QBCore.Players = {}
 QBCore.Player = {}
 
 QBCore.Player.Login = function(source, citizenid, newData)
-	if source ~= nil then
+	if source then
 		if citizenid then
-			QBCore.Functions.ExecuteSql(true, "SELECT * FROM `players` WHERE `citizenid` = '"..citizenid.."'", function(result)
-				local PlayerData = result[1]
-				if PlayerData ~= nil then
+			exports.ghmattimysql:execute('SELECT * FROM `players` WHERE `citizenid` = ?', {
+				citizenid
+			}, function (result)
+				if result then
+					local PlayerData = result[1]
 					PlayerData.money = json.decode(PlayerData.money)
 					PlayerData.job = json.decode(PlayerData.job)
 					PlayerData.position = json.decode(PlayerData.position)
@@ -17,13 +19,26 @@ QBCore.Player.Login = function(source, citizenid, newData)
 					else
 						PlayerData.gang = {}
 					end
+					local license = QBCore.Functions.GetIdentifier(source, 'license')
+					PlayerData.license ~= license then
+						DropPlayer(source, 'License mismatch\nThe given citizen id is registered to another Rockstar License')
+						-- add logging for suspicious behaviour
+						return false
+					else
+						QBCore.Player.CheckPlayerData(source, PlayerData)
+						return true
+					end
+				else
+					local error = "ERROR QBCORE.PLAYER.LOGIN - NO RESULT FOUND FOR GIVEN CITIZEN ID!"
+					QBCore.ShowError(GetCurrentResourceName(), error)
+					DropPlayer(source, error)
+					return false
 				end
-				QBCore.Player.CheckPlayerData(source, PlayerData)
 			end)
 		else
 			QBCore.Player.CheckPlayerData(source, newData)
+			return true
 		end
-		return true
 	else
 		QBCore.ShowError(GetCurrentResourceName(), "ERROR QBCORE.PLAYER.LOGIN - NO SOURCE GIVEN!")
 		return false
@@ -477,10 +492,16 @@ local playertables = {
 }
 
 QBCore.Player.DeleteCharacter = function(source, citizenid)
-	for k,v in pairs(playertables) do
-		QBCore.Functions.ExecuteSql(true, "DELETE FROM `"..v.table.."` WHERE `citizenid` = '"..citizenid.."'")
+	local license = QBCore.Functions.GetIdentifier(source, 'license')
+	local result = exports.ghmattimysql:scalarSync('SELECT `license` FROM `players` where `citizenid` = ?', {citizenid})
+	if license == result then
+		for k,v in pairs(playertables) do
+			exports.ghmattimysql:executeSync('DELETE FROM `"..v.table.."` WHERE `citizenid` = ?', {citizenid})
+		end
+		TriggerEvent("qb-log:server:CreateLog", "joinleave", "Character Deleted", "red", "**".. GetPlayerName(source) .. "** ("..QBCore.Functions.GetIdentifier(source, 'license')..") deleted **"..citizenid.."**..")
+	else
+		-- trigger a ban event
 	end
-	TriggerEvent("qb-log:server:CreateLog", "joinleave", "Character Deleted", "red", "**".. GetPlayerName(source) .. "** ("..QBCore.Functions.GetIdentifier(source, 'license')..") deleted **"..citizenid.."**..")
 end
 
 QBCore.Player.LoadInventory = function(PlayerData)
