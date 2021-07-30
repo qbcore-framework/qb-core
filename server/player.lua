@@ -20,7 +20,7 @@ QBCore.Player.Login = function(source, citizenid, newData)
 						PlayerData.gang = {}
 					end
 					local license = QBCore.Functions.GetIdentifier(source, 'license')
-					PlayerData.license ~= license then
+					if PlayerData.license ~= license then
 						DropPlayer(source, 'License mismatch\nThe given citizen id is registered to another Rockstar License')
 						-- add logging for suspicious behaviour
 						return false
@@ -498,7 +498,7 @@ QBCore.Player.DeleteCharacter = function(source, citizenid)
 		for k,v in pairs(playertables) do
 			exports.ghmattimysql:executeSync('DELETE FROM `"..v.table.."` WHERE `citizenid` = ?', {citizenid})
 		end
-		TriggerEvent("qb-log:server:CreateLog", "joinleave", "Character Deleted", "red", "**".. GetPlayerName(source) .. "** ("..QBCore.Functions.GetIdentifier(source, 'license')..") deleted **"..citizenid.."**..")
+		TriggerEvent("qb-log:server:CreateLog", "joinleave", "Character Deleted", "red", "**".. GetPlayerName(source) .. "** ("..license..") deleted **"..citizenid.."**..")
 	else
 		-- trigger a ban event
 	end
