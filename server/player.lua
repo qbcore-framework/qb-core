@@ -635,4 +635,4 @@ QBCore.EscapeSqli = function(str)
     return str:gsub( "['\"]", replacements ) -- or string.gsub( source, "['\"]", replacements )
 end
 
-QBCore.Functions.StartPayCheck()
+PaycheckLoop()
