@@ -52,7 +52,7 @@ QBShared.Items = {
 	["weapon_golfclub"] 			 = {["name"] = "weapon_golfclub", 		 	  	["label"] = "Golfclub", 				["weight"] = 1000, 		["type"] = "weapon", 	["ammotype"] = nil,						["image"] = "weapon_golfclub.png", 		["unique"] = true, 		["useable"] = false, 	["description"] = "A club used to hit the ball in golf"},
 	["weapon_crowbar"] 				 = {["name"] = "weapon_crowbar", 		 	  	["label"] = "Crowbar", 				    ["weight"] = 1000, 		["type"] = "weapon", 	["ammotype"] = nil,						["image"] = "weapon_crowbar.png", 		["unique"] = true, 		["useable"] = false, 	["description"] = "An iron bar with a flattened end, used as a lever"},
 	["weapon_pistol"] 				 = {["name"] = "weapon_pistol", 			 	["label"] = "Walther P99", 				["weight"] = 1000, 		["type"] = "weapon", 	["ammotype"] = "AMMO_PISTOL",			["image"] = "weapon_pistol.png", 		["unique"] = true, 		["useable"] = false, 	["description"] = "A small firearm designed to be held in one hand"},
-	["weapon_pistol_mk2"] 			 = {["name"] = "weapon_pistol_mk2", 			["label"] = "Pistol Mk II", 			["weight"] = 1000, 		["type"] = "weapon", 	["ammotype"] = "AMMO_PISTOL",			["image"] = "weapon_pistol_mk2.png", 	["unique"] = true, 		["useable"] = false, 	["description"] = "An upgraded small firearm designed to be held in one hand"},
+	["weapon_pistol_mk2"] 			 = {["name"] = "weapon_pistol_mk2", 			["label"] = "Pistol Mk II", 			["weight"] = 1000, 		["type"] = "weapon", 	["ammotype"] = "AMMO_PISTOL",			["image"] = "weapon_pistolmk2.png", 	["unique"] = true, 		["useable"] = false, 	["description"] = "An upgraded small firearm designed to be held in one hand"},
 	["weapon_combatpistol"] 		 = {["name"] = "weapon_combatpistol", 	 	  	["label"] = "Combat Pistol", 			["weight"] = 1000, 		["type"] = "weapon", 	["ammotype"] = "AMMO_PISTOL",			["image"] = "weapon_combatpistol.png", 	["unique"] = true, 		["useable"] = false, 	["description"] = "A combat version small firearm designed to be held in one hand"},
 	["weapon_appistol"] 			 = {["name"] = "weapon_appistol", 		 	  	["label"] = "AP Pistol", 				["weight"] = 1000, 		["type"] = "weapon", 	["ammotype"] = "AMMO_PISTOL",			["image"] = "weapon_appistol.png", 		["unique"] = true, 		["useable"] = false, 	["description"] = "A small firearm designed to be held in one hand that is automatic"},
 	["weapon_pistol50"] 			 = {["name"] = "weapon_pistol50", 		 	  	["label"] = "Pistol .50 Cal", 			["weight"] = 1000, 		["type"] = "weapon", 	["ammotype"] = "AMMO_PISTOL",			["image"] = "weapon_pistol50.png", 		["unique"] = true, 		["useable"] = false, 	["description"] = "A .50 caliber firearm designed to be held with both hands"},
@@ -357,29 +357,7 @@ QBShared.Weapons = {
 }
 
 -- Gangs
-QBShared.Gangs = {
-	["none"] = {
-		label = "No Gang"
-	},
-	["lostmc"] = {
-		label = "The Lost MC"
-	},
-	["ballas"] = {
-		label = "Ballas"
-	},
-	["vagos"] = {
-		label = "Vagos"
-	},
-	["cartel"] = {
-		label = "Cartel"
-	},
-	["familes"] = {
-		label = "Families"
-	},
-	["triads"] = {
-		label = "Triads"
-	}
-}
+QBShared.Gangs = json.decode(LoadResourceFile("qb-gangs", "gangs.json"))
 
 -- Jobs
 QBShared.Jobs = {
@@ -2792,22 +2770,22 @@ QBShared.Vehicles = {
 		["hash"] = `deviant`,
 		["shop"] = "pdm",
 	},
-	["diablous"] = {
-		["name"] = "Diablous",
+	["diabolus"] = {
+		["name"] = "Diabolus",
 		["brand"] = "Principe",
-		["model"] = "diablous",
+		["model"] = "diabolus",
 		["price"] = 10000,
 		["category"] = "motorcycles",
-		["hash"] = `diablous`,
+		["hash"] = `diabolus`,
 		["shop"] = "pdm",
 	},
-	["diablous2"] = {
-		["name"] = "Diablous Custom",
+	["diabolus2"] = {
+		["name"] = "Diabolus Custom",
 		["brand"] = "Principe",
-		["model"] = "diablous2",
+		["model"] = "diabolus2",
 		["price"] = 12000,
 		["category"] = "motorcycles",
-		["hash"] = `diablous2`,
+		["hash"] = `diabolus2`,
 		["shop"] = "pdm",
 	},
 	["dilettante2"] = {
@@ -3637,7 +3615,7 @@ QBShared.Vehicles = {
 		["hash"] = `sanchez`,
 		["shop"] = "pdm",
 	},
-	["sanchez2"] = {
+	["sanche2"] = {
 		["name"] = "Sanchez",
 		["brand"] = "Maibatsu",
 		["model"] = "sanchez2",
@@ -3862,7 +3840,7 @@ QBShared.Vehicles = {
 		["shop"] = "pdm",
 	},
 	["sultan2"] = {
-		["name"] = "Sultan Custom",
+		["name"] = "Sultan Classic",
 		["brand"] = "Karin",
 		["model"] = "sultan2",
 		["price"] = 20000,
@@ -4207,6 +4185,124 @@ QBShared.Vehicles = {
 		["price"] = 480000,
 		["category"] = "super",
 		["hash"] = `zorrusso`,
+		["shop"] = "pdm",
+	},
+
+	----------MUST BE ENABLED FOR THE BELOW VEHICLES-------------+set sv_enforceGameBuild 2372-------------------------------
+	----------MUST BE ENABLED FOR THE BELOW VEHICLES-------------+set sv_enforceGameBuild 2372-------------------------------
+	----------MUST BE ENABLED FOR THE BELOW VEHICLES-------------+set sv_enforceGameBuild 2372-------------------------------
+	----------MUST BE ENABLED FOR THE BELOW VEHICLES-------------+set sv_enforceGameBuild 2372-------------------------------
+	----------MUST BE ENABLED FOR THE BELOW VEHICLES-------------+set sv_enforceGameBuild 2372-------------------------------
+	----------MUST BE ENABLED FOR THE BELOW VEHICLES-------------+set sv_enforceGameBuild 2372-------------------------------
+	----------MUST BE ENABLED FOR THE BELOW VEHICLES-------------+set sv_enforceGameBuild 2372-------------------------------
+	----------MUST BE ENABLED FOR THE BELOW VEHICLES-------------+set sv_enforceGameBuild 2372-------------------------------
+
+	["comet6"] = {
+		["name"] = "Comet S2",
+		["brand"] = "Pfister",
+		["model"] = "comet6",
+		["price"] = 187800,
+		["category"] = "sports",
+		["hash"] = `comet6`,
+		["shop"] = "pdm",
+	},
+	["remus"] = {
+		["name"] = "Remus",
+		["brand"] = "Annis",
+		["model"] = "remus",
+		["price"] = 137000,
+		["category"] = "sports",
+		["hash"] = `remus`,
+		["shop"] = "pdm",
+	},
+	["jester4"] = {
+		["name"] = "Jester RR",
+		["brand"] = "Dinka",
+		["model"] = "jester4",
+		["price"] = 197000,
+		["category"] = "sports",
+		["hash"] = `jester4`,
+		["shop"] = "pdm",
+	},
+	["tailgater2"] = {
+		["name"] = "Tailgater S",
+		["brand"] = "Obey",
+		["model"] = "tailgater2",
+		["price"] = 149500,
+		["category"] = "sedans",
+		["hash"] = `tailgater2`,
+		["shop"] = "pdm",
+	},
+	["warrener2"] = {
+		["name"] = "Warrener HKR",
+		["brand"] = "Vulcar",
+		["model"] = "warrener2",
+		["price"] = 126000,
+		["category"] = "sedans",
+		["hash"] = `warrener2`,
+		["shop"] = "pdm",
+	},
+	["rt3000"] = {
+		["name"] = "RT3000",
+		["brand"] = "Dinka",
+		["model"] = "rt3000",
+		["price"] = 171500,
+		["category"] = "sports",
+		["hash"] = `rt3000`,
+		["shop"] = "pdm",
+	},
+	["zr350"] = {
+		["name"] = "ZR350",
+		["brand"] = "Annis",
+		["model"] = "zr350",
+		["price"] = 161500,
+		["category"] = "sports",
+		["hash"] = `zr350`,
+		["shop"] = "pdm",
+	},
+	["dominator8"] = {
+		["name"] = "Dominator GTT",
+		["brand"] = "Vapid",
+		["model"] = "dominator8",
+		["price"] = 122000,
+		["category"] = "muscle",
+		["hash"] = `dominator8`,
+		["shop"] = "pdm",
+	},
+	["euros"] = {
+		["name"] = "Euros",
+		["brand"] = "Annis",
+		["model"] = "euros",
+		["price"] = 180000,
+		["category"] = "sports",
+		["hash"] = `euros`,
+		["shop"] = "pdm",
+	},
+	["futo2"] = {
+		["name"] = "Futo GTX",
+		["brand"] = "Karin",
+		["model"] = "futo2",
+		["price"] = 159000,
+		["category"] = "sports",
+		["hash"] = `futo2`,
+		["shop"] = "pdm",
+	},
+	["calico"] = {
+		["name"] = "Calico GTF",
+		["brand"] = "Karin",
+		["model"] = "calico",
+		["price"] = 199500,
+		["category"] = "sports",
+		["hash"] = `calico`,
+		["shop"] = "pdm",
+	},
+	["sultan3"] = {
+		["name"] = "Classic Custom",
+		["brand"] = "Sultan",
+		["model"] = "sultan3",
+		["price"] = 171800,
+		["category"] = "sports",
+		["hash"] = `sultan3`,
 		["shop"] = "pdm",
 	},
 }
