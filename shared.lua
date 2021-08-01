@@ -4319,8 +4319,8 @@ QBShared.Vehicles = {
 		["shop"] = "pdm",
 	},
 	["sultan3"] = {
-		["name"] = "Classic Custom",
-		["brand"] = "Sultan",
+		["name"] = "Sultan Classic Custom",
+		["brand"] = "Karin",
 		["model"] = "sultan3",
 		["price"] = 171800,
 		["category"] = "sports",
