@@ -289,6 +289,12 @@ QBCore.Functions.GetVehicleProperties = function(vehicle) -- QBCore.Functions.Ge
 		local colorPrimary, colorSecondary = GetVehicleColours(vehicle)
 		local pearlescentColor, wheelColor = GetVehicleExtraColours(vehicle)
 		local extras = {}
+		
+		local color1Custom = {}
+		color1Custom[1], color1Custom[2], color1Custom[3] = GetVehicleCustomPrimaryColour(vehicle)
+
+		local color2Custom = {}
+		color2Custom[1], color2Custom[2], color2Custom[3] = GetVehicleCustomSecondaryColour(vehicle)
 
 		for extraId=0, 12 do
 			if DoesExtraExist(vehicle, extraId) then
@@ -311,9 +317,16 @@ QBCore.Functions.GetVehicleProperties = function(vehicle) -- QBCore.Functions.Ge
 			dirtLevel         = Round(GetVehicleDirtLevel(vehicle), 1),
 			
 			color1            = colorPrimary,
+			color1Custom      = color1Custom,
+			
 			color2            = colorSecondary,
+			color2Custom      = color2Custom,
 
 			pearlescentColor  = pearlescentColor,
+			
+			color1Type 		  = GetVehicleModColor_1(vehicle),
+			color2Type 		  = GetVehicleModColor_2(vehicle),
+			
 			wheelColor        = wheelColor,
 
 			wheels            = GetVehicleWheelType(vehicle),
@@ -417,15 +430,31 @@ QBCore.Functions.SetVehicleProperties = function(vehicle, props) -- QBCore.Funct
 		end
 
 		if props.color1 ~= nil then
-            SetVehicleColours(vehicle, props.color1, colorSecondary)
+            		SetVehicleColours(vehicle, props.color1, colorSecondary)
+		end
+		
+		if props.color1Custom ~= nil then 
+			SetVehicleCustomPrimaryColour(vehicle, props.color1Custom[1], props.color1Custom[2], props.color1Custom[3]) 
 		end
 
 		if props.color2 ~= nil then
-            SetVehicleColours(vehicle, props.color1 or colorPrimary, props.color2)
+            		SetVehicleColours(vehicle, props.color1 or colorPrimary, props.color2)
+		end
+		
+		if props.color2Custom ~= nil then 
+			SetVehicleCustomSecondaryColour(vehicle, props.color2Custom[1], props.color2Custom[2], props.color2Custom[3]) 
 		end
 
 		if props.pearlescentColor ~= nil then
             SetVehicleExtraColours(vehicle, props.pearlescentColor, wheelColor)
+		end
+		
+		if props.color1Type ~= nil then 
+			SetVehicleModColor_1(vehicle, props.color1Type) 
+		end
+
+		if props.color2Type ~= nil then 
+			SetVehicleModColor_2(vehicle, props.color2Type) 
 		end
 
 		if props.wheelColor ~= nil then
