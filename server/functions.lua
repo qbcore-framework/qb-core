@@ -243,20 +243,21 @@ QBCore.Functions.ToggleOptin = function(source)
 end
 
 QBCore.Functions.IsPlayerBanned = function (source)
-	local retval = false
-	local message = ""
-	exports['ghmattimysql']:execute('SELECT * FROM bans WHERE license=@license', {['@license'] = QBCore.Functions.GetIdentifier(source, 'license')}, function(result)
-		if result[1] ~= nil then 
-			if os.time() < result[1].expire then
-				retval = true
-				local timeTable = os.date("*t", tonumber(result[1].expire))
-				message = "You have been banned from the server:\n"..result[1].reason.."\nYour ban expires "..timeTable.day.. "/" .. timeTable.month .. "/" .. timeTable.year .. " " .. timeTable.hour.. ":" .. timeTable.min .. "\n"
-			else
-				exports['ghmattimysql']:execute('DELETE FROM bans WHERE id=@id', {['@id'] = result[1].id})
-			end
-		end
-	end)
-	return retval, message
+    local retval = false
+    local message = ""
+    exports['ghmattimysql']:execute('SELECT * FROM bans WHERE license=@license', {['@license'] = QBCore.Functions.GetIdentifier(source, 'license')}, function(result)
+        if result[1] ~= nil then 
+            if os.time() < result[1].expire then
+                local timeTable = os.date("*t", tonumber(result[1].expire))
+                message = "You have been banned from the server:\n"..result[1].reason.."\nYour ban expires "..timeTable.day.. "/" .. timeTable.month .. "/" .. timeTable.year .. " " .. timeTable.hour.. ":" .. timeTable.min .. "\n"
+                retval = true
+            else
+                exports['ghmattimysql']:execute('DELETE FROM bans WHERE id=@id', {['@id'] = result[1].id})
+            end
+        end
+    end)
+    Wait(2000)
+    return retval, message
 end
 
 QBCore.Functions.IsLicenseInUse = function(license)
