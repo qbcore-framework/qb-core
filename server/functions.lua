@@ -274,3 +274,25 @@ QBCore.Functions.IsLicenseInUse = function(license)
     end
     return false
 end
+
+QBCore.Functions.GetVehiclesInArea = function(coords, maxDistance)
+	return EnumerateEntitiesWithinDistance(VehiclesInArea(), false, coords, maxDistance)
+end
+
+function EnumerateEntitiesWithinDistance(entities, isPlayerEntities, coords, maxDistance)
+	local nearbyEntities = {}
+	if coords then
+		coords = vector3(coords.x, coords.y, coords.z)
+	else
+		local playerPed = PlayerPedId()
+		coords = GetEntityCoords(playerPed)
+	end
+	for k,entity in pairs(entities) do
+		local distance = #(coords - GetEntityCoords(entity))
+		if distance <= maxDistance then
+			table.insert(nearbyEntities, isPlayerEntities and k or entity)
+		end
+	end
+
+	return nearbyEntities
+end
