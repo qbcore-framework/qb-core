@@ -570,11 +570,11 @@ QBCore.Functions.SetVehicleProperties = function(vehicle, props)
 		end
 
         	if props.modCustomTiresF ~= nil then
-			SetVehicleMod(vehicle, 23, props.modCustomTiresF, true)
+			SetVehicleMod(vehicle, 23, props.modFrontWheels, props.modCustomTiresF)
 		end
 
 		if props.modCustomTiresR ~= nil then
-			SetVehicleMod(vehicle, 24, props.modCustomTiresR, true)
+			SetVehicleMod(vehicle, 24, props.modBackWheels, props.modCustomTiresR)
 		end
         
 		if props.modPlateHolder ~= nil then
