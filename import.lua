@@ -1,7 +1,9 @@
-function GetSharedObject()
-    return QBCore
-end
+if GetCurrentResourceName() == 'qb-core' then 
+    function GetSharedObject()
+        return QBCore
+    end
 
-exports('GetSharedObject', GetSharedObject)
+    exports('GetSharedObject', GetSharedObject)
+end
 
 QBCore = exports['qb-core']:GetSharedObject()
