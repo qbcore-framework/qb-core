@@ -232,17 +232,16 @@ AddEventHandler('QBCore:ToggleDuty', function()
 end)
 
 Citizen.CreateThread(function()
-	exports.ghmattimysql:execute('SELECT * FROM permissions', function(result)
-		if result[1] ~= nil then
-			for k, v in pairs(result) do
-				QBCore.Config.Server.PermissionList[v.license] = {
-					license = v.license,
-					permission = v.permission,
-					optin = true,
-				}
-			end
+	local result = exports['ghmattimysql']:executeSync('SELECT * FROM permissions')
+	if result[1] ~= nil then
+		for k, v in pairs(result) do
+			QBCore.Config.Server.PermissionList[v.license] = {
+				license = v.license,
+				permission = v.permission,
+				optin = true,
+			}
 		end
-	end)
+	end
 end)
 
 QBCore.Functions.CreateCallback('QBCore:HasItem', function(source, cb, items)
@@ -274,11 +273,10 @@ end)
 RegisterServerEvent('QBCore:Command:CheckOwnedVehicle')
 AddEventHandler('QBCore:Command:CheckOwnedVehicle', function(VehiclePlate)
 	if VehiclePlate ~= nil then
-		exports.ghmattimysql:execute('SELECT * FROM player_vehicles WHERE plate=@plate', {['@plate'] = VehiclePlate}, function(result)
-			if result[1] ~= nil then
-				exports.ghmattimysql:execute('UPDATE player_vehicles SET state=@state WHERE citizenid=@citizenid', {['@state'] = 1, ['@citizenid'] = result[1].citizenid})
-				TriggerEvent('qb-garages:server:RemoveVehicle', result[1].citizenid, VehiclePlate)
-			end
-		end)
+		local result = exports['ghmattimysql']:executeSync('SELECT * FROM player_vehicles WHERE plate=@plate', {['@plate'] = VehiclePlate})
+		if result[1] ~= nil then
+			exports.ghmattimysql:execute('UPDATE player_vehicles SET state=@state WHERE citizenid=@citizenid', {['@state'] = 1, ['@citizenid'] = result[1].citizenid})
+			TriggerEvent('qb-garages:server:RemoveVehicle', result[1].citizenid, VehiclePlate)
+		end
 	end
 end)

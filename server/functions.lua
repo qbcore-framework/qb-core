@@ -1,26 +1,5 @@
 QBCore.Functions = {}
 
-QBCore.Functions.ExecuteSql = function(wait, query, cb)
-	local rtndata = {}
-	local waiting = true
-	exports['ghmattimysql']:execute(query, {}, function(data)
-		if cb ~= nil and wait == false then
-			cb(data)
-		end
-		rtndata = data
-		waiting = false
-	end)
-	if wait then
-		while waiting do
-			Citizen.Wait(5)
-		end
-		if cb ~= nil and wait == true then
-			cb(rtndata)
-		end
-	end
-	return rtndata
-end
-
 QBCore.Functions.GetEntityCoords = function(entity)
     local coords = GetEntityCoords(entity, false)
     local heading = GetEntityHeading(entity)
@@ -149,16 +128,15 @@ QBCore.Functions.IsWhitelisted = function(source)
 	local identifiers = GetPlayerIdentifiers(source)
 	local rtn = false
 	if (QBCore.Config.Server.whitelist) then
-		exports['ghmattimysql']:execute('SELECT * FROM whitelist WHERE license=@license', {['@license'] = QBCore.Functions.GetIdentifier(source, 'license')}, function(result)
-			local data = result[1]
-			if data ~= nil then
-				for _, id in pairs(identifiers) do
-					if data.license == id then
-						rtn = true
-					end
+		local result = exports['ghmattimysql']:executeSync('SELECT * FROM whitelist WHERE license=@license', {['@license'] = QBCore.Functions.GetIdentifier(source, 'license')})
+		local data = result[1]
+		if data ~= nil then
+			for _, id in pairs(identifiers) do
+				if data.license == id then
+					rtn = true
 				end
 			end
-		end)
+		end
 	else
 		rtn = true
 	end
@@ -245,9 +223,8 @@ end
 QBCore.Functions.IsPlayerBanned = function (source)
 	local retval = false
 	local message = ""
-    local result = exports.ghmattimysql:executeSync('SELECT * FROM bans WHERE license=@license', {['@license'] = QBCore.Functions.GetIdentifier(source, 'license')})[1]
-
-    if result ~= nil then 
+    local result = exports.ghmattimysql:executeSync('SELECT * FROM bans WHERE license=@license', {['@license'] = QBCore.Functions.GetIdentifier(source, 'license')})
+    if result[1] ~= nil then
         if os.time() < result.expire then
             retval = true
             local timeTable = os.date("*t", tonumber(result.expire))
