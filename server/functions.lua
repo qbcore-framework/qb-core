@@ -225,12 +225,12 @@ QBCore.Functions.IsPlayerBanned = function (source)
 	local message = ""
     local result = exports.ghmattimysql:executeSync('SELECT * FROM bans WHERE license=@license', {['@license'] = QBCore.Functions.GetIdentifier(source, 'license')})
     if result[1] ~= nil then
-        if os.time() < result.expire then
+        if os.time() < result[1].expire then
             retval = true
             local timeTable = os.date("*t", tonumber(result.expire))
-            message = "You have been banned from the server:\n"..result.reason.."\nYour ban expires "..timeTable.day.. "/" .. timeTable.month .. "/" .. timeTable.year .. " " .. timeTable.hour.. ":" .. timeTable.min .. "\n"
+            message = "You have been banned from the server:\n"..result[1].reason.."\nYour ban expires "..timeTable.day.. "/" .. timeTable.month .. "/" .. timeTable.year .. " " .. timeTable.hour.. ":" .. timeTable.min .. "\n"
         else
-            exports['ghmattimysql']:execute('DELETE FROM bans WHERE id=@id', {['@id'] = result.id})
+            exports['ghmattimysql']:execute('DELETE FROM bans WHERE id=@id', {['@id'] = result[1].id})
         end
     end
 	return retval, message
