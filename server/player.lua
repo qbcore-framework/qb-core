@@ -416,7 +416,7 @@ end
 QBCore.Player.Save = function(source)
 	local PlayerData = QBCore.Players[source].PlayerData
 	if PlayerData ~= nil then
-		local result = exports.ghmattimysql:executeSync('SELECT * FROM players WHERE citizenid=@citizenid', {['@citizenid'] = citizenid})
+		local result = exports.ghmattimysql:executeSync('SELECT * FROM players WHERE citizenid=@citizenid', {['@citizenid'] = PlayerData.citizenid})
 		if result[1] == nil then
 			exports.ghmattimysql:execute('INSERT INTO players (citizenid, cid, license, name, money, charinfo, job, gang, position, metadata) VALUES (@citizenid, @cid, @license, @name, @money, @charinfo, @job, @gang, @position, @metadata)', {
 				['@citizenid'] = PlayerData.citizenid,
