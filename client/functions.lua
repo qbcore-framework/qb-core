@@ -314,6 +314,8 @@ QBCore.Functions.GetVehicleProperties = function(vehicle)
 			color2            = colorSecondary,
 
 			pearlescentColor  = pearlescentColor,
+            interiorColor     = GetVehicleInteriorColor(vehicle),
+            dashboardColor    = GetVehicleDashboardColour(vehicle),
 			wheelColor        = wheelColor,
 
 			wheels            = GetVehicleWheelType(vehicle),
@@ -356,6 +358,8 @@ QBCore.Functions.GetVehicleProperties = function(vehicle)
 
 			modFrontWheels    = GetVehicleMod(vehicle, 23),
 			modBackWheels     = GetVehicleMod(vehicle, 24),
+            modCustomTiresF   = GetVehicleModVariation(vehicle, 23),
+            modCustomTiresR   = GetVehicleModVariation(vehicle, 24),
 
 			modPlateHolder    = GetVehicleMod(vehicle, 25),
 			modVanityPlate    = GetVehicleMod(vehicle, 26),
@@ -426,6 +430,14 @@ QBCore.Functions.SetVehicleProperties = function(vehicle, props)
 
 		if props.pearlescentColor ~= nil then
             SetVehicleExtraColours(vehicle, props.pearlescentColor, wheelColor)
+		end
+
+        if props.interiorColor ~= nil then
+            SetVehicleInteriorColor(vehicle, props.interiorColor)
+		end
+
+		if props.dashboardColor ~= nil then
+            SetVehicleDashboardColour(vehicle, props.dashboardColor)
 		end
 
 		if props.wheelColor ~= nil then
@@ -557,6 +569,14 @@ QBCore.Functions.SetVehicleProperties = function(vehicle, props)
 			SetVehicleMod(vehicle, 24, props.modBackWheels, false)
 		end
 
+        if props.modCustomTiresF ~= nil then
+			SetVehicleMod(vehicle, 23, props.modCustomTiresF, true)
+		end
+
+		if props.modCustomTiresR ~= nil then
+			SetVehicleMod(vehicle, 24, props.modCustomTiresR, true)
+		end
+        
 		if props.modPlateHolder ~= nil then
 			SetVehicleMod(vehicle, 25, props.modPlateHolder, false)
 		end
