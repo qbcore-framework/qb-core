@@ -117,6 +117,11 @@ QBCore.Player.CheckPlayerData = function(source, PlayerData)
 	PlayerData.gang = PlayerData.gang ~= nil and PlayerData.gang or {}
 	PlayerData.gang.name = PlayerData.gang.name ~= nil and PlayerData.gang.name or "none"
 	PlayerData.gang.label = PlayerData.gang.label ~= nil and PlayerData.gang.label or "No Gang Affiliaton"
+	-- Added for grade system
+	PlayerData.gang.isboss = PlayerData.gang.isboss ~= nil and PlayerData.gang.isboss or false
+	PlayerData.gang.grade = PlayerData.gang.grade ~= nil and PlayerData.gang.grade or {}
+	PlayerData.gang.grade.name = PlayerData.gang.grade.name ~= nil and PlayerData.gang.grade.name or "none"
+	PlayerData.gang.grade.level = PlayerData.gang.grade.level ~= nil and PlayerData.gang.grade.level or 0
 
 	PlayerData.position = PlayerData.position ~= nil and PlayerData.position or QBConfig.DefaultSpawn
 	PlayerData.LoggedIn = true
@@ -169,11 +174,26 @@ QBCore.Player.CreatePlayer = function(PlayerData)
 		return false
 	end
 
-	self.Functions.SetGang = function(gang)
+	self.Functions.SetGang = function(gang, grade)
 		local gang = gang:lower()
+		local grade = tostring(grade) ~= nil and tostring(grade) or '0'
+
 		if QBCore.Shared.Gangs[gang] ~= nil then
 			self.PlayerData.gang.name = gang
 			self.PlayerData.gang.label = QBCore.Shared.Gangs[gang].label
+			if QBCore.Shared.Gangs[gang].grades[grade] then
+				local ganggrade = QBCore.Shared.Gangs[gang].grades[grade]
+				self.PlayerData.gang.grade = {}
+				self.PlayerData.gang.grade.name = ganggrade.name
+				self.PlayerData.gang.grade.level = tonumber(grade)
+				self.PlayerData.gang.isboss = ganggrade.isboss ~= nil and ganggrade.isboss or false
+			else
+				self.PlayerData.gang.grade = {}
+				self.PlayerData.gang.grade.name = 'No Grades'
+				self.PlayerData.gang.grade.level = 0
+				self.PlayerData.gang.isboss = false
+			end
+
 			self.Functions.UpdatePlayerData()
 			TriggerClientEvent("QBCore:Client:OnGangUpdate", self.PlayerData.source, self.PlayerData.gang)
 		end

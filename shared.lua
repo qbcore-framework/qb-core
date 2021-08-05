@@ -359,25 +359,126 @@ QBShared.Weapons = {
 -- Gangs
 QBShared.Gangs = {
 	["none"] = {
-		label = "No Gang"
+		label = "No Gang",
+		grades = {
+            ['0'] = {
+                name = "Unaffiliated"
+            },
+        },
 	},
 	["lostmc"] = {
-		label = "The Lost MC"
+		label = "The Lost MC",
+		bossmenu = vector3(0, 0, 0),
+		grades = {
+            ['0'] = {
+                name = "Recruit"
+            },
+			['1'] = {
+                name = "Enforcer"
+            },
+			['2'] = {
+                name = "Shot Caller"
+            },
+			['3'] = {
+                name = "Boss",
+				isboss = true
+            },
+        },
 	},
 	["ballas"] = {
-		label = "Ballas"
+		label = "Ballas",
+		bossmenu = vector3(0, 0, 0),
+		grades = {
+            ['0'] = {
+                name = "Recruit"
+            },
+			['1'] = {
+                name = "Enforcer"
+            },
+			['2'] = {
+                name = "Shot Caller"
+            },
+			['3'] = {
+                name = "Boss",
+				isboss = true
+            },
+        },
 	},
 	["vagos"] = {
-		label = "Vagos"
+		label = "Vagos",
+		bossmenu = vector3(0, 0, 0),
+		grades = {
+            ['0'] = {
+                name = "Recruit"
+            },
+			['1'] = {
+                name = "Enforcer"
+            },
+			['2'] = {
+                name = "Shot Caller"
+            },
+			['3'] = {
+                name = "Boss",
+				isboss = true
+            },
+        },
 	},
 	["cartel"] = {
-		label = "Cartel"
+		label = "Cartel",
+		bossmenu = vector3(0, 0, 0),
+		grades = {
+            ['0'] = {
+                name = "Recruit"
+            },
+			['1'] = {
+                name = "Enforcer"
+            },
+			['2'] = {
+                name = "Shot Caller"
+            },
+			['3'] = {
+                name = "Boss",
+				isboss = true
+            },
+        },
 	},
-	["familes"] = {
-		label = "Families"
+	["families"] = {
+		label = "Families",
+		bossmenu = vector3(0, 0, 0),
+		grades = {
+            ['0'] = {
+                name = "Recruit"
+            },
+			['1'] = {
+                name = "Enforcer"
+            },
+			['2'] = {
+                name = "Shot Caller"
+            },
+			['3'] = {
+                name = "Boss",
+				isboss = true
+            },
+        },
 	},
 	["triads"] = {
-		label = "Triads"
+		label = "Triads",
+		bossmenu = vector3(0, 0, 0),
+		grades = {
+            ['0'] = {
+                name = "Recruit"
+            },
+			['1'] = {
+                name = "Enforcer"
+            },
+			['2'] = {
+                name = "Shot Caller"
+            },
+			['3'] = {
+                name = "Boss",
+				isboss = true
+            },
+        },
 	}
 }
 
