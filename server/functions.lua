@@ -250,4 +250,4 @@ QBCore.Functions.IsLicenseInUse = function(license)
         end
     end
     return false
-end
+end-
