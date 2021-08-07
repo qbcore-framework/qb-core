@@ -51,26 +51,40 @@ QBCore.Commands.Add("tp", "TP To Player or Coords (Admin Only)", {{name="id/x", 
 end, "admin")
 
 QBCore.Commands.Add("addpermission", "Give Player Permissions (God Only)", {{name="id", help="ID of player"}, {name="permission", help="Permission level"}}, true, function(source, args)
-	local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
-	local permission = tostring(args[2]):lower()
-	if Player ~= nil then
-		QBCore.Functions.AddPermission(Player.PlayerData.source, permission)
+	if (args[1] == nil) or (args[2] == nil) then
+		TriggerClientEvent('QBCore:Notify', source, "All Arguments Must Be Filled", "error")
 	else
-		TriggerClientEvent('QBCore:Notify', source, "Player Not Online", "error")	
+		local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
+		local permission = tostring(args[2]):lower()
+		if Player ~= nil then
+			QBCore.Functions.AddPermission(Player.PlayerData.source, permission)
+		else
+			TriggerClientEvent('QBCore:Notify', source, "Player Not Online", "error")	
+		end
 	end
+			
 end, "god")
 
 QBCore.Commands.Add("removepermission", "Remove Players Permissions (God Only)", {{name="id", help="ID of player"}}, true, function(source, args)
-	local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
-	if Player ~= nil then
-		QBCore.Functions.RemovePermission(Player.PlayerData.source)
+	if args[1] == nil then
+		TriggerClientEvent('QBCore:Notify', source, "All Arguments Must Be Filled", "error")
 	else
-		TriggerClientEvent('QBCore:Notify', source, "Player Not Online", "error")	
+		local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
+		if Player ~= nil then
+			QBCore.Functions.RemovePermission(Player.PlayerData.source)
+		else
+			TriggerClientEvent('QBCore:Notify', source, "Player Not Online", "error")	
+		end
 	end
 end, "god")
 
 QBCore.Commands.Add("car", "Spawn Vehicle (Admin Only)", {{name="model", help="Model name of the vehicle"}}, true, function(source, args)
-	TriggerClientEvent('QBCore:Command:SpawnVehicle', source, args[1])
+	if args[1] ~= nil then
+		TriggerClientEvent('QBCore:Command:SpawnVehicle', source, args[1])
+	else
+		TriggerClientEvent('QBCore:Notify', source, "All Arguments Must Be Filled", "error")
+	end
+			
 end, "admin")
 
 QBCore.Commands.Add("debug", "Toggle Debug Mode (Admin Only)", {}, false, function(source, args)
@@ -86,20 +100,28 @@ QBCore.Commands.Add("tpm", "TP To Marker (Admin Only)", {}, false, function(sour
 end, "admin")
 
 QBCore.Commands.Add("givemoney", "Give A Player Money (Admin Only)", {{name="id", help="Player ID"},{name="moneytype", help="Type of money (cash, bank, crypto)"}, {name="amount", help="Amount of money"}}, true, function(source, args)
-	local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
-	if Player ~= nil then
-		Player.Functions.AddMoney(tostring(args[2]), tonumber(args[3]))
+	if (args[1] == nil) or (args[2] == nil) or (args[3] == nil) then
+		TriggerClientEvent('QBCore:Notify', source, "All Arguments Must Be Filled", "error")
 	else
-		TriggerClientEvent('QBCore:Notify', source, "Player Not Online", "error")
+		local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
+		if Player ~= nil then
+			Player.Functions.AddMoney(tostring(args[2]), tonumber(args[3]))
+		else
+			TriggerClientEvent('QBCore:Notify', source, "Player Not Online", "error")
+		end	
 	end
 end, "admin")
 
 QBCore.Commands.Add("setmoney", "Set Players Money Amount (Admin Only)", {{name="id", help="Player ID"},{name="moneytype", help="Type of money (cash, bank, crypto)"}, {name="amount", help="Amount of money"}}, true, function(source, args)
-	local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
-	if Player ~= nil then
-		Player.Functions.SetMoney(tostring(args[2]), tonumber(args[3]))
+	if (args[1] == nil) or (args[2] == nil) or (args[3] == nil) then
+		TriggerClientEvent('QBCore:Notify', source, "All Arguments Must Be Filled", "error")
 	else
-		TriggerClientEvent('QBCore:Notify', source, "Player Not Online", "error")
+		local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
+		if Player ~= nil then
+			Player.Functions.SetMoney(tostring(args[2]), tonumber(args[3]))
+		else
+			TriggerClientEvent('QBCore:Notify', source, "Player Not Online", "error")
+		end
 	end
 end, "admin")
 
