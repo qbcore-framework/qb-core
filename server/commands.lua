@@ -73,10 +73,6 @@ QBCore.Commands.Add("car", "Spawn Vehicle (Admin Only)", {{name="model", help="M
 	TriggerClientEvent('QBCore:Command:SpawnVehicle', source, args[1])
 end, "admin")
 
-QBCore.Commands.Add("debug", "Toggle Debug Mode (Admin Only)", {}, false, function(source, args)
-	TriggerClientEvent('koil-debug:toggle', source)
-end, "admin")
-
 QBCore.Commands.Add("dv", "Delete Vehicle (Admin Only)", {}, false, function(source, args)
 	TriggerClientEvent('QBCore:Command:DeleteVehicle', source)
 end, "admin")
