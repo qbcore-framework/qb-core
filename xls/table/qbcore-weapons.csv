@@ -1,0 +1,81 @@
+#TableSlot,name,label,weight,type,ammotype,image,unique,useable,description
+1627465347,weapon_gusenberg,Thompson SMG,1000,weapon,AMMO_MG,weapon_gusenberg.png,true,false,An automatic rifle commonly referred to as a tommy gun
+1119849093,weapon_minigun,Minigun,1000,weapon,AMMO_MINIGUN,weapon_minigun.png,true,false,"A portable machine gun consisting of a rotating cluster of six barrels and capable of variable rates of fire of up to 6,000 rounds per minute"
+101631238,weapon_fireextinguisher,Fire Extinguisher,1000,weapon,null,weapon_fireextinguisher.png,true,false,"A portable device that discharges a jet of water, foam, gas, or other material to extinguish a fire"
+-1834847097,weapon_dagger,Dagger,1000,weapon,null,weapon_dagger.png,true,false,"A short knife with a pointed and edged blade, used as a weapon"
+1141786504,weapon_golfclub,Golfclub,1000,weapon,null,weapon_golfclub.png,true,false,A club used to hit the ball in golf
+487013001,weapon_pumpshotgun,Pump Shotgun,1000,weapon,AMMO_SHOTGUN,weapon_pumpshotgun.png,true,false,A pump-action smoothbore gun for firing small shot at short range
+-1568386805,weapon_grenadelauncher,Grenade Launcher,1000,weapon,AMMO_GRENADELAUNCHER,weapon_grenadelauncher.png,true,false,"A weapon that fires a specially-designed large-caliber projectile, often with an explosive, smoke or gas warhead"
+-499989876,weapon_garbagebag,Garbage Bag,1000,weapon,null,weapon_garbagebag.png,true,false,A garbage bag
+-1063057011,weapon_specialcarbine,Special Carbine,1000,weapon,AMMO_RIFLE,weapon_specialcarbine.png,true,false,An extremely versatile assault rifle for any combat situation
+-771403250,weapon_heavypistol,Heavy Pistol,1000,weapon,AMMO_PISTOL,weapon_heavypistol.png,true,false,A hefty firearm designed to be held in one hand (or attempted)
+-1786099057,weapon_bat,Bat,1000,weapon,null,weapon_bat.png,true,false,Used for hitting a ball in sports (or other things)
+100416529,weapon_sniperrifle,Sniper Rifle,1000,weapon,AMMO_SNIPER,weapon_sniperrifle.png,true,false,"A high-precision, long-range rifle"
+-1420407917,weapon_proxmine,Proxmine Grenade,1000,weapon,null,weapon_proximitymine.png,true,false,A bomb placed on the ground that detonates when going within its proximity
+2132975508,weapon_bullpuprifle,Bullpup Rifle,1000,weapon,AMMO_RIFLE,weapon_bullpuprifle.png,true,false,A compact automatic assault rifle
+-598887786,weapon_marksmanpistol,Marksman Pistol,1000,weapon,AMMO_PISTOL,weapon_marksmanpistol.png,true,false,A very accurate small firearm designed to be held in one hand
+883325847,weapon_petrolcan,Petrol Can,1000,weapon,AMMO_PETROLCAN,weapon_petrolcan.png,true,false,A robust liquid container made from pressed steel
+2017895192,weapon_sawnoffshotgun,Sawn-off Shotgun,1000,weapon,AMMO_SHOTGUN,weapon_sawnoffshotgun.png,true,false,A sawn-off smoothbore gun for firing small shot at short range
+-1357824103,weapon_advancedrifle,Advanced Rifle,1000,weapon,AMMO_RIFLE,weapon_advancedrifle.png,true,false,"An assault version of a rapid-fire, magazine-fed automatic rifle designed for infantry use"
+-1466123874,weapon_musket,Musket,1000,weapon,AMMO_SHOTGUN,weapon_musket.png,true,false,"An infantryman's light gun with a long barrel, typically smooth-bored, muzzleloading, and fired from the shoulder"
+856002082,weapon_remotesniper,Remote Sniper,1000,weapon,AMMO_SNIPER_REMOTE,weapon_remotesniper.png,true,false,"A portable high-precision, long-range rifle"
+1198879012,weapon_flaregun,Flare Gun,1000,weapon,AMMO_FLARE,weapon_flaregun.png,true,false,A handgun for firing signal rockets
+-494615257,weapon_assaultshotgun,Assault Shotgun,1000,weapon,AMMO_SHOTGUN,weapon_assaultshotgun.png,true,false,An assault version of asmoothbore gun for firing small shot at short range
+984333226,weapon_heavyshotgun,Heavy Shotgun,1000,weapon,AMMO_SHOTGUN,weapon_heavyshotgun.png,true,false,A large smoothbore gun for firing small shot at short range
+-102973651,weapon_hatchet,Hatchet,1000,weapon,AMMO_PISTOL,weapon_hatchet.png,true,false,A small axe with a short handle for use in one hand
+1649403952,weapon_compactrifle,Compact Rifle,1000,weapon,AMMO_RIFLE,weapon_compactrifle.png,true,false,A compact version of an assault rifle
+1737195953,weapon_nightstick,Nightstick,1000,weapon,null,weapon_nightstick.png,true,false,A police officer's club or billy
+-1076751822,weapon_snspistol,SNS Pistol,1000,weapon,AMMO_PISTOL,weapon_snspistol.png,true,false,A very small firearm designed to be easily concealed
+171789620,weapon_combatpdw,Combat PDW,1000,weapon,AMMO_SMG,weapon_combatpdw.png,true,false,A combat version of a handheld lightweight machine gun
+-2000187721,weapon_briefcase,Briefcase,1000,weapon,null,weapon_briefcase.png,true,false,A briefcase
+-1169823560,weapon_pipebomb,Pipe bom,1000,weapon,null,weapon_pipebomb.png,true,false,"A homemade bomb, the components of which are contained in a pipe"
+584646201,weapon_appistol,AP Pistol,1000,weapon,AMMO_PISTOL,weapon_appistol.png,true,false,A small firearm designed to be held in one hand that is automatic
+-1716589765,weapon_pistol50,Pistol .50 Cal,1000,weapon,AMMO_PISTOL,weapon_pistol50.png,true,false,A .50 caliber firearm designed to be held with both hands
+-656458692,weapon_knuckle,Knuckle,1000,weapon,null,weapon_knuckle.png,true,false,"A metal guard worn over the knuckles in fighting, especially to increase the effect of the blows"
+-1813897027,weapon_grenade,Grenade,1000,weapon,null,weapon_grenade.png,true,false,A handheld throwable bomb
+-538741184,weapon_switchblade,Switchblade,1000,weapon,null,weapon_switchblade.png,true,false,A knife with a blade that springs out from the handle when a button is pressed
+911657153,weapon_stungun,Taser,1000,weapon,null,weapon_taser.png,true,false,"A weapon firing barbs attached by wires to batteries, causing temporary paralysis"
+1672152130,weapon_hominglauncher,Homing Launcher,1000,weapon,AMMO_STINGER,weapon_hominglauncher.png,true,false,A weapon fitted with an electronic device that enables it to find and hit a target
+1233104067,weapon_flare,Flare pistol,1000,weapon,AMMO_FLARE,weapon_flare.png,true,false,A small pyrotechnic devices used for illumination and signalling
+1593441988,weapon_combatpistol,Combat Pistol,1000,weapon,AMMO_PISTOL,weapon_combatpistol.png,true,false,A combat version small firearm designed to be held in one hand
+-853065399,weapon_battleaxe,Battle Axe,1000,weapon,null,weapon_battleaxe.png,true,false,A large broad-bladed axe used in ancient warfare
+125959754,weapon_compactlauncher,Compact Launcher,1000,weapon,null,weapon_compactlauncher.png,true,false,A compact grenade launcher
+-102323637,weapon_bottle,Broken Bottle,1000,weapon,null,weapon_bottle.png,true,false,A broken bottle
+-800287667,weapon_handcuffs,Handcuffs,1000,weapon,null,weapon_handcuffs.png,true,false,A pair of lockable linked metal rings for securing a prisoner's wrists
+-37975472,weapon_smokegrenade,Smoke Grenade,1000,weapon,null,weapon_c4.png,true,false,An explosive charge that can be remotely detonated
+-1045183535,weapon_revolver,Revolver,1000,weapon,AMMO_PISTOL,weapon_revolver.png,true,false,A pistol with revolving chambers enabling several shots to be fired without reloading
+-1075685676,weapon_pistol_mk2,Pistol Mk II,1000,weapon,AMMO_PISTOL,weapon_pistolmk2.png,true,false,An upgraded small firearm designed to be held in one hand
+-1121678507,weapon_minismg,Mini SMG,1000,weapon,AMMO_SMG,weapon_minismg.png,true,false,A mini handheld lightweight machine gun
+1305664598,weapon_grenadelauncher_smoke,Smoke Grenade Launcher,1000,weapon,AMMO_GRENADELAUNCHER,weapon_smokegrenade.png,true,false,A bomb that produces a lot of smoke when it explodes
+741814745,weapon_stickybomb,C4,1000,weapon,null,weapon_stickybomb.png,true,false,An explosive charge covered with an adhesive that when thrown against an object sticks until it explodes
+-952879014,weapon_marksmanrifle,Marksman Rifle,1000,weapon,AMMO_SNIPER,weapon_marksmanrifle.png,true,false,A very accurate single-fire rifle
+600439132,weapon_ball,Ball,1000,weapon,AMMO_BALL,weapon_ball.png,true,false,"A solid or hollow spherical or egg-shaped object that is kicked, thrown, or hit in a game"
+-1600701090,weapon_bzgas,BZ Gas,1000,weapon,null,weapon_bzgas.png,true,false,A cannister of gas that causes extreme pain
+-270015777,weapon_assaultsmg,Assault SMG,1000,weapon,AMMO_SMG,weapon_assaultsmg.png,true,false,An assault version of a handheld lightweight machine gun
+419712736,weapon_wrench,Wrench,1000,weapon,null,weapon_wrench.png,true,false,"A tool used for gripping and turning nuts, bolts, pipes, etc"
+2144741730,weapon_combatmg,Combat MG,1000,weapon,AMMO_MG,weapon_combatmg.png,true,false,A combat version of an automatic gun that fires bullets in rapid succession for as long as the trigger is pressed
+-1569615261,weapon_unarmed,Fists,1000,weapon,null,placeholder.png,true,false,Fisticuffs
+-1660422300,weapon_mg,Machinegun,1000,weapon,AMMO_MG,weapon_mg.png,true,false,An automatic gun that fires bullets in rapid succession for as long as the trigger is pressed
+2138347493,weapon_firework,Firework Launcher,1000,weapon,null,weapon_firework.png,true,false,A device containing gunpowder and other combustible chemicals that causes a spectacular explosion when ignited
+1309015656,weapon_bread,Baquette,1000,weapon,null,baquette.png,true,false,Bread..?
+-1716189206,weapon_knife,Knife,1000,weapon,null,weapon_knife.png,true,false,"An instrument composed of a blade fixed into a handle, used for cutting or as a weapon"
+736523883,weapon_smg,SMG,1000,weapon,AMMO_SMG,weapon_smg.png,true,false,A handheld lightweight machine gun
+-1074790547,weapon_assaultrifle,Assault Rifle,1000,weapon,AMMO_RIFLE,weapon_assaultrifle.png,true,false,"A rapid-fire, magazine-fed automatic rifle designed for infantry use"
+-1810795771,weapon_poolcue,Poolcue,1000,weapon,null,weapon_poolcue.png,true,false,"A stick used to strike a ball, usually the cue ball (sometimes)"
+317205821,weapon_autoshotgun,Auto Shotgun,1000,weapon,AMMO_SHOTGUN,weapon_autoshotgun.png,true,false,A shotgun capable of rapid continous fire
+615608432,weapon_molotov,Molotov,1000,weapon,null,weapon_molotov.png,true,false,A crude bomb made of a bottle filled with a flammable liquid and fitted with a wick for lighting
+453432689,weapon_pistol,Walther P99,1000,weapon,AMMO_PISTOL,weapon_pistol.png,true,false,A small firearm designed to be held in one hand
+-275439685,weapon_dbshotgun,Double-barrel Shotgun,1000,weapon,AMMO_SHOTGUN,weapon_dbshotgun.png,true,false,"A shotgun with two parallel barrels, allowing two single shots to be fired in quick succession"
+1317494643,weapon_hammer,Hammer,1000,weapon,null,weapon_hammer.png,true,false,Used for jobs such as breaking things (legs) and driving in nails
+-619010992,weapon_machinepistol,Tec-9,1000,weapon,AMMO_PISTOL,weapon_machinepistol.png,true,false,A self-loading pistol capable of burst or fully automatic fire
+-581044007,weapon_machete,Machete,1000,weapon,null,weapon_machete.png,true,false,"A broad, heavy knife used as a weapon"
+1834241177,weapon_railgun,Railgun,1000,weapon,null,weapon_railgun.png,true,false,A weapon that uses electromagnetic force to launch high velocity projectiles
+126349499,weapon_snowball,Snowball,1000,weapon,null,weapon_snowball.png,true,false,"A ball of packed snow, especially one made for throwing at other people for fun"
+-2084633992,weapon_carbinerifle,Carbine Rifle,1000,weapon,AMMO_RIFLE,weapon_carbinerifle.png,true,false,A lightweight automatic rifle
+137902532,weapon_vintagepistol,Vintage Pistol,1000,weapon,AMMO_PISTOL,weapon_vintagepistol.png,true,false,An antique firearm designed to be held in one hand
+28811031,weapon_briefcase_02,Briefcase,1000,weapon,null,weapon_briefcase2.png,true,false,A briefcase
+-1312131151,weapon_rpg,RPG,1000,weapon,AMMO_RPG,weapon_rpg.png,true,false,A rocket-propelled grenade launcher
+205991906,weapon_heavysniper,Heavy Sniper,1000,weapon,AMMO_SNIPER,weapon_heavysniper.png,true,false,"An upgraded high-precision, long-range rifle"
+-2067956739,weapon_crowbar,Crowbar,1000,weapon,null,weapon_crowbar.png,true,false,"An iron bar with a flattened end, used as a lever"
+-1654528753,weapon_bullpupshotgun,Bullpup Shotgun,1000,weapon,AMMO_SHOTGUN,weapon_bullpupshotgun.png,true,false,A compact smoothbore gun for firing small shot at short range
+324215364,weapon_microsmg,Micro SMG,1000,weapon,AMMO_SMG,weapon_microsmg.png,true,false,A handheld lightweight machine gun

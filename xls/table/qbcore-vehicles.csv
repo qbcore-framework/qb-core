@@ -1,0 +1,409 @@
+#TableSlot,name,brand,model,price,category,hash,shop
+vigero,Vigero,Declasse,vigero,16500,muscle,-825837129,pdm
+buffalo,Buffalo,Bravado,buffalo,32000,sports,-304802106,pdm
+taipan,Taipan,Cheval,taipan,1650000,super,-1134706562,pdm
+turismor,Turismo R,Grotti,turismor,750000,super,408192225,pdm
+infernus,Infernus,Pegassi,infernus,285000,super,418536135,pdm
+bifta,Bifta,Annis,bifta,12000,offroad,-349601129,pdm
+washington,Washington,Albany,washington,19000,sedans,1777363799,pdm
+massacro,Massacro,Dewbauchee,massacro,165000,sports,-142942670,pdm
+dubsta,Dubsta,Benefactor,dubsta,45000,suvs,1177543287,pdm
+habanero,Habanero,Emperor,habanero,50000,suvs,884422927,pdm
+infernus2,Infernus Classic,Pegassi,infernus2,200000,sportsclassics,-1405937764,pdm
+reaper,Reaper,Pegassi,reaper,365000,super,234062309,pdm
+slamvan3,Slam Van Custom,Vapid,slamvan3,35000,muscle,1119641113,pdm
+bjxl,BeeJay XL,Karin,bjxl,40000,suvs,850565707,pdm
+ruston,Ruston,Hijak,ruston,165000,sports,719660200,pdm
+zion2,Zion Cabrio,Übermacht,zion2,27000,coupes,-1193103848,pdm
+fq2,FQ2,Fathom,fq2,38000,suvs,-1137532101,pdm
+issi3,Issi Classic,Weeny,issi3,10000,compacts,931280609,pdm
+neo,Neo,Vysser,neo,500000,sports,-1620126302,pdm
+hexer,Hexer,LCC,hexer,7500,motorcycles,301427732,pdm
+gt500,GT500,Grotti,gt500,255000,sportsclassics,-2079788230,pdm
+lynx,Lynx,Ocelot,lynx,68500,sports,482197771,pdm
+weevil,Weevil,BF,weevil,10000,compacts,1644055914,pdm
+pcj,PCJ-600,Shitzu,pcj,13500,motorcycles,-909201658,pdm
+blazer,Blazer,null,blazer,6500,offroad,-2128233223,pdm
+paragon,Paragon,Enus,paragon,400000,sports,-447711397,pdm
+vagner,Vagner,Dewbauchee,vagner,1460000,super,1939284556,pdm
+sandking,Sandking,Annis,sandking,55000,offroad,-1189015600,pdm
+casco,Casco,Lampadati,casco,102000,sportsclassics,941800958,pdm
+sentinel,Sentinel,Übermacht,sentinel,30000,coupes,1349725314,pdm
+manana2,Manana Custom,Albany,manana2,50000,muscle,1717532765,pdm
+surge,Surge,Cheval,surge,28500,sedans,-1894894188,pdm
+sultanrs,Sultan RS,Karin,sultanrs,76500,sports,-295689028,pdm
+innovation,Innovation,LLC,innovation,23500,motorcycles,-159126838,pdm
+stratum,Stratum,Zirconium,stratum,70000,sedans,1723137093,pdm
+neon,Neon,Pfister,neon,185000,sports,-1848994066,pdm
+ruiner2,Ruiner 2000,Imponte,ruiner2,5745600,muscle,941494461,pdm
+dukes,Dukes,Imponte,dukes,15000,muscle,723973206,pdm
+seven70,Seven-70,Dewbauchee,seven70,85000,sports,-1757836725,pdm
+clique,Clique,Vapid,clique,20000,muscle,-1566607184,pdm
+revolter,Revolter,Ubermacht,revolter,195000,sports,-410205223,pdm
+dubsta2,Dubsta Luxuary,Benefactor,dubsta2,165000,suvs,-394074634,pdm
+sheava,ETR1,Emperor,sheava,220000,super,819197656,pdm
+faction3,Faction Custom Donk,Willard,faction3,40000,muscle,-2039755226,pdm
+visione,Visione,Grotti,visione,1750000,sports,-998177792,pdm
+sanchez2,Sanchez,Maibatsu,sanchez2,5300,motorcycles,-1453280962,pdm
+prairie,Prairie,Bollokan,prairie,15000,compacts,-1450650718,pdm
+manchez2,Manchez,Maibatsu,manchez2,7000,motorcycles,1086534307,pdm
+slamvan,Slam Van,Vapid,slamvan,20000,muscle,729783779,pdm
+autarch,Autarch,Överflöd,autarch,1955000,super,-313185164,pdm
+omnis,Omnis,Wow,omnis,120000,sports,-777172681,pdm
+daemon2,Daemon Custom,Western,daemon2,13500,motorcycles,-1404136503,pdm
+journey,Journey,Zirconium,journey,6500,vans,-120287622,pdm
+komoda,Komoda,Lampadati,komoda,40000,sports,-834353991,pdm
+jester,Jester,Dinka,jester,265000,sports,-1297672541,pdm
+stanier,Stanier,Vapid,stanier,39999,sedans,-1477580979,pdm
+tornado,Tornado,Declasse,tornado,500000,sportsclassic,464687292,pdm
+dilettante,Dilettante,Karin,dilettante,13000,compacts,-1130810103,pdm
+ninef2,9F Cabrio,Obey,ninef2,142000,sports,-1461482751,pdm
+streiter,Streiter,Benefactor,streiter,98000,sports,1741861769,pdm
+sabregt,Sabre Turbo,Declasse,sabregt,25000,muscle,-1685021548,pdm
+faggio,Faggio Sport,Pegassi,faggio,750,motorcycles,55628203,pdm
+mesa,Mesa,Canis,mesa,16000,offroad,914654722,pdm
+kuruma,Kuruma,Karin,kuruma,59500,sports,-1372848492,pdm
+carbonrs,Carbon RS,Nagasaki,carbonrs,14500,motorcycles,11251904,pdm
+baller6,Baller LE LWB (Armored),Gallivanter,baller6,1200000,suvs,666166960,pdm
+deluxo,Deluxo,Imponte,deluxo,4721500,sportsclassic,1483171323,pdm
+vstr,V-STR,Albany,vstr,80000,sports,1456336509,pdm
+rebel2,Rebel,Annis,rebel2,35000,offroad,-2045594037,pdm
+cogcabrio,Cognoscenti Cabrio,Enus,cogcabrio,45500,coupes,330661258,pdm
+exemplar,Exemplar,Dewbauchee,exemplar,65000,coupes,-5153954,pdm
+hustler,Hustler,Vapid,hustler,75500,muscle,600450546,pdm
+rhapsody,Rhapsody,Declasse,rhapsody,10000,compacts,841808271,pdm
+windsor2,Windsor Drop,Enus,windsor2,355000,coupes,-1930048799,pdm
+manana,Manana,Albany,manana,12800,muscle,-2124201592,pdm
+sandking2,Sandking SWB,Annis,sandking2,60000,offroad,989381445,pdm
+s80,S80RR,Annis,s80,500000,super,-324618589,pdm
+schlagen,Schlagen GT,Benefactor,schlagen,60000,sports,-507495760,pdm
+hakuchou2,Hakuchou Drag,Shitzu,hakuchou2,55000,motorcycles,-255678177,pdm
+contender,Contender,Vapid,contender,70000,suvs,683047626,pdm
+pigalle,Pigalle,Lampadati,pigalle,135000,sportsclassics,1078682497,pdm
+baller2,Baller,Gallivanter,baller2,40000,suvs,142944341,pdm
+torero,Torero,Pegassi,torero,285500,sportsclassics,1504306544,pdm
+baller,Baller,Gallivanter,baller,30000,suvs,-808831384,pdm
+peyote,Peyote,Vapid,peyote,30000,sportsclassic,1830407356,pdm
+dynasty,Dynasty,Weeny,dynasty,50000,sportsclassic,310284501,pdm
+bfinjection,Bf Injection,Annis,bfinjection,16000,offroad,1126868326,pdm
+fugitive,Fugitive,Cheval,fugitive,22500,sedans,1909141499,pdm
+dubsta3,Bubsta 6x6,Annis,dubsta3,120000,offroad,-1237253773,pdm
+tyrant,Tyrant, Överflöd,tyrant,2100000,super,-376434238,pdm
+bagger,Bagger,WMC,bagger,13500,motorcycles,-2140431165,pdm
+monroe,Monroe,Pegassi,monroe,98500,sportsclassics,-433375717,pdm
+patriot,Patriot,Mammoth,patriot,32000,suvs,-808457413,pdm
+coquette3,Coquette BlackFin,Invetero,coquette3,45000,muscle,784565758,pdm
+elegy2,Elegy RH8,Annis,elegy2,68500,sports,-566387422,pdm
+primo,Primo,Albany,primo,4000,sedans,-1150599089,pdm
+fagaloa,Fagaloa,Vulcar,fagaloa,35000,sportsclassics,1617472902,pdm
+surfer,Surfer,BF,surfer,12000,vans,699456151,pdm
+youga,Youga,Bravado,youga,10800,vans,65402552,pdm
+yosemite,Yosemite,Declasse,yosemite,19500,muscle,1871995513,pdm
+bullet,Bullet,Vapid,bullet,190000,super,-1696146015,pdm
+nero2,Nero Custom,Truffade,nero2,50000,super,1093792632,pdm
+burrito3,Burrito,Declasse,burrito3,38500,vans,-1743316013,pdm
+moonbeam,Moonbeam,Declasse,moonbeam,29500,vans,525509695,pdm
+sanctus,Sanctus,LCC,sanctus,25000,motorcycles,1491277511,pdm
+jackal,Jackal,Ocelot,jackal,29000,coupes,-624529134,pdm
+cognoscenti,Cognoscenti,Enus,cognoscenti,40000,sedans,-2030171296,pdm
+cliffhanger,Cliffhanger,Western,cliffhanger,9500,motorcycles,390201602,pdm
+cog55,Cognoscenti 55,Enus,cog55,60000,sedans,906642318,pdm
+gp1,GP1,Progen,gp1,462000,super,1234311532,pdm
+windsor,Windsor,Enus,windsor,325000,coupes,1581459400,pdm
+oracle2,Oracle XS,Übermacht,oracle2,28000,coupes,-511601230,pdm
+banshee,Banshee,Bravado,banshee,70000,sports,-1041692462,pdm
+stryder,Stryder,Nagasaki,stryder,15000,motorcycles,301304410,pdm
+granger,Granger,Declasse,granger,43500,suvs,-1775728740,pdm
+italigto,Itali GTO,Progen,italigto,60000,sports,-331467772,pdm
+deveste,Deveste,Principe,deveste,50000,super,1591739866,pdm
+gauntlet3,Classic Gauntlet,Bravado,gauntlet3,40000,muscle,-1800170043,pdm
+blazer3,Blazer Hot Rod,Nagasaki,blazer3,7000,offroad,-1269889662,pdm
+rebla,Rebla GTS,Übermacht,rebla,30000,suvs,83136452,pdm
+diablous2,Diablous Custom,Principe,diablous2,12000,motorcycles,1790834270,pdm
+comet5,Comet SR,Pfister,comet5,252000,sports,661493923,pdm
+f620,F620,Ocelot,f620,37500,coupes,-591610296,pdm
+rumpo,Rumpo,Bravado,rumpo,30000,vans,1162065741,pdm
+blade,Blade,Vapid,blade,15000,muscle,-1205801634,pdm
+feltzer3,Stirling GT,Benefactor,feltzer3,195000,sportsclassics,-1566741232,pdm
+speedo,Speedo,Vapid,speedo,20000,vans,-810318068,pdm
+pfister811,811,Pfister,pfister811,583000,super,-1829802492,pdm
+trophytruck2,Trophy Truck Limited,Annis,trophytruck2,80000,offroad,-663299102,pdm
+sultan3,Sultan Classic Custom,Karin,sultan3,171800,sports,-291021213,pdm
+gburrito2,Burrito Custom,Declasse,gburrito2,65000,vans,296357396,pdm
+khamelion,Khamelion,Hijak,khamelion,102000,sports,544021352,pdm
+trophytruck,Trophy Truck,Annis,trophytruck,60000,offroad,101905590,pdm
+bati,Bati 801,Pegassi,bati,12000,motorcycles,-114291515,pdm
+cyclone,Cyclone,Coil,cyclone,1200000,super,1392481335,pdm
+futo2,Futo GTX,Karin,futo2,159000,sports,-1507230520,pdm
+euros,Euros,Annis,euros,180000,sports,2038480341,pdm
+sentinel3,Sentinel Classic,Übermacht,sentinel3,40000,coupes,1104234922,pdm
+coquette4,Coquette D10,Invetero,coquette4,70000,sports,-1728685474,pdm
+glendale,Glendale,Benefactor,glendale,11500,sedans,75131841,pdm
+dominator8,Dominator GTT,Vapid,dominator8,122000,muscle,736672010,pdm
+kamacho,Kamacho,Canis,kamacho,345000,offroad,-121446169,pdm
+ztype,Z-Type,Truffade,ztype,2500000,sportsclassics,758895617,pdm
+voltic2,Rocket Voltic,Coil,voltic2,3830400,super,989294410,pdm
+sabregt2,Sabre GT,Declasse,sabregt2,29500,muscle,223258115,pdm
+chino,Chino,Vapid,chino,20000,muscle,349605904,pdm
+baller4,Baller LE LWB,Gallivanter,baller4,700000,suvs,634118882,pdm
+warrener2,Warrener HKR,Vulcar,warrener2,126000,sedans,579912970,pdm
+stretch,Stretch,Dundreary,stretch,90000,sedans,-1961627517,pdm
+jester4,Jester RR,Dinka,jester4,197000,sports,-1582061455,pdm
+zion,Zion,Übermacht,zion,25500,coupes,-1122289213,pdm
+remus,Remus,Annis,remus,137000,sports,1377217886,pdm
+enduro,Enduro,Dinka,enduro,5500,motorcycles,1753414259,pdm
+chimera,Chimera,Nagasaki,chimera,15000,motorcycles,6774487,pdm
+btype3,Roosevelt Valor,Albany,btype3,375000,sportsclassics,-602287871,pdm
+bobcatxl,Bobcat XL Open,Vapid,bobcatxl,23000,vans,1069929536,pdm
+zorrusso,Zorrusso,Pegassi,zorrusso,480000,super,-682108547,pdm
+zombiea,Zombie Bobber,Western,zombiea,9500,motorcycles,-1009268949,pdm
+zion3,Zion Classic,Übermacht,zion3,500000,sportsclassic,1862507111,pdm
+tribike3,Tri Bike 3,null,tribike3,520,cycles,-400295096,pdm
+fcr2,FCR 1000 Custom,Pegassi,fcr2,6000,motorcycles,-757735410,pdm
+youga3,Youga Classic 4x4,Bravado,youga3,15000,vans,1802742206,pdm
+youga2,Youga Classic,Bravado,youga2,14500,vans,1026149675,pdm
+yosemite3,Yosemite Rancher,Declasse,yosemite3,425000,offroad,67753863,pdm
+faggio3,Faggio Mod,Pegassi,faggio3,900,motorcycles,-1289178744,pdm
+asea,Asea,Declasse,asea,5500,sedans,-1809822327,pdm
+italigtb2,Itali GTB,Progen,italigtb2,600000,super,-482719877,pdm
+yosemite2,Yosemite Drift,Declasse,yosemite2,400000,muscle,1693751655,pdm
+wolfsbane,Wolfsbane,Western,wolfsbane,9000,motorcycles,-618617997,pdm
+adder,Adder,Truffade,adder,900000,super,-1216765807,pdm
+virgo2,Virgo Custom Classic,Dundreary,virgo2,16000,muscle,-899509638,pdm
+lectro,Lectro,Principe,lectro,10000,motorcycles,640818791,pdm
+retinue,Retinue,Vapid,retinue,615000,sportsclassic,1841130506,pdm
+schafter3,Schafter V12,Benefactor,schafter3,69000,sports,-1485523546,pdm
+comet4,Comet Safari,Pfister,comet4,80000,sports,1561920505,pdm
+dukes3,Beater Dukes,Imponte,dukes3,40000,muscle,2134119907,pdm
+dominator4,Dominator Arena,Vapid,dominator4,350000,muscle,-688189648,pdm
+baller5,Baller LE (Armored),Gallivanter,baller5,1000000,suvs,470404958,pdm
+defiler,Defiler,Shitzu,defiler,13500,motorcycles,822018448,pdm
+gb200,GB 200,Vapid,gb200,50000,sports,1909189272,pdm
+ardent,Ardent,Ocelot,ardent,11500000,sportsclassics,159274291,pdm
+asterope,Asterope,Karin,asterope,10000,sedans,-1903012613,pdm
+viseris,Viseris,Lampadati,viseris,875000,sportsclassic,-391595372,pdm
+winky,Winky,Vapid,winky,10000,offroad,-210308634,pdm
+thrust,Thrust,Dinka,thrust,16000,motorcycles,1836027715,pdm
+schwarzer,Schwartzer,Benefactor,schwarzer,60000,sports,-746882698,pdm
+specter,Specter,Dewbauchee,specter,155000,sports,1886268224,pdm
+jester3,Jester Classic,Dinka,jester3,70000,sports,-214906006,pdm
+vindicator,Vindicator,Dinka,vindicator,10000,motorcycles,-1353081087,pdm
+carbonizzare,Carbonizzare,Grotti,carbonizzare,219000,sports,2072687711,pdm
+verus,Verus,Dinka,verus,100000,offroad,298565713,pdm
+issi2,Issi,Weeny,issi2,12000,compacts,-1177863319,pdm
+stalion,Stallion,Declasse,stalion,23500,muscle,1923400478,pdm
+vagrant,Vagrant,Maxwell,vagrant,200000,offroad,740289177,pdm
+brioso2,Brioso 300,Grotti,brioso2,15000,compacts,1429622905,pdm
+feltzer2,Feltzer,Benefactor,feltzer2,83500,sports,-1995326987,pdm
+italigtb,Itali GTB,Progen,italigtb,1200000,super,-482719877,pdm
+vader,Vader,Shitzu,vader,7200,motorcycles,-140902153,pdm
+rapidgt3,Rapid GT,Dewbauchee,rapidgt3,445000,sportsclassics,2049897956,pdm
+stinger,Stinger,Grotti,stinger,80000,sportsclassic,1545842587,pdm
+dune,Dune Buggy,Annis,dune,8000,offroad,-1661854193,pdm
+felon,Felon,Lampadati,felon,31000,coupes,-391594584,pdm
+vacca,Vacca,Pegassi,vacca,255000,super,338562499,pdm
+tyrus,Tyrus,Progen,tyrus,600000,super,2067820283,pdm
+faggio2,Faggio,Pegassi,faggio2,1900,motorcycles,55628203,pdm
+dominator,Dominator,Vapid,dominator,53000,muscle,80636076,pdm
+fcr,FCR 1000,Pegassi,fcr,5000,motorcycles,627535535,pdm
+tulip,Tulip,Declasse,tulip,20000,muscle,1456744817,pdm
+nemesis,Nemesis,Principe,nemesis,12000,motorcycles,-634879114,pdm
+comet2,Comet,Pfister,comet2,142000,sports,-1045541610,pdm
+huntley,Huntley S,Enus,huntley,85000,suvs,486987393,pdm
+prototipo,X80 Proto,Grotti,prototipo,1430000,super,2123327359,pdm
+tribike,Tri Bike,null,tribike,500,cycles,1127861609,pdm
+toros,Toros,Pegassi,toros,50000,suvs,-1168952148,pdm
+sultan,Sultan,Karin,sultan,56500,sports,970598228,pdm
+emerus,Emerus,Progen,emerus,400000,super,1323778901,pdm
+cavalcade2,Cavalcade,Albany,cavalcade2,45000,suvs,-789894171,pdm
+tornado5,Tornado Custom,Declasse,tornado5,50000,sportsclassic,-1797613329,pdm
+tornado2,Tornado Gang,Declasse,tornado2,50000,sportsclassic,1531094468,pdm
+toreador,Toreador,Pegassi,toreador,50000,sportsclassic,1455990255,pdm
+coquette2,Coquette Classic,Invetero,coquette2,125000,sportsclassics,1011753235,pdm
+tigon,Tigon,Lampadati,tigon,400000,super,-1358197432,pdm
+entityxf,Entity XF,Överflöd,entityxf,825000,super,-1291952903,pdm
+premier,Premier,Declasse,premier,16500,sedans,-1883869285,pdm
+thrax,Thrax,Truffade,thrax,500000,super,1044193113,pdm
+bestiagts,Bestia GTS,Grotti,bestiagts,55000,sports,1274868363,pdm
+comet3,Comet Retro Custom,Pfister,comet3,125000,sports,-2022483795,pdm
+swinger,Swinger,Ocelot,swinger,500000,sportsclassic,500482303,pdm
+sultan2,Sultan Custom,Karin,sultan2,20000,sports,872704284,pdm
+sugoi,Sugoi,Dinka,sugoi,49900,sports,987469656,pdm
+alpha,Alpha,Albany,alpha,60000,sports,767087018,pdm
+zombieb,Zombie Chopper,Western,zombieb,17000,motorcycles,-570033273,pdm
+stromberg,Stromberg,Ocelot,stromberg,3185350,sportsclassic,886810209,pdm
+tailgater2,Tailgater S,Obey,tailgater2,149500,sedans,-1244461404,pdm
+blista3,Blista Go Go Monkey,Dinka,blista3,15000,compacts,-591651781,pdm
+stalion2,Stallion Burgershot,Declasse,stalion2,25000,muscle,-401643538,pdm
+ninef,9F,Obey,ninef,135000,sports,1032823388,pdm
+speedo4,Speedo Custom,Vapid,speedo4,25000,vans,219613597,pdm
+guardian,Guardian,Annis,guardian,45000,offroad,-2107990196,pdm
+faction2,Faction Rider,Willard,faction2,22500,muscle,-1790546981,pdm
+penetrator,Penetrator,Ocelot,penetrator,567000,super,-1758137366,pdm
+slamtruck,Slam Truck,Vapid,slamtruck,15000,muscle,-1045911276,pdm
+zentorno,Zentorno,Pegassi,zentorno,1250000,super,-1403128555,pdm
+dilettante2,Dilettante Patrol,Karin,dilettante2,15000,compacts,1682114128,pdm
+shotaro,Shotaro Concept,Nagasaki,shotaro,320000,motorcycles,-405626514,pdm
+double,Double-T,Dinka,double,28000,motorcycles,-1670998136,pdm
+everon,Everon,Karin,everon,500000,offroad,-1756021720,pdm
+serrano,Serrano,Benefactor,serrano,40000,suvs,1337041428,pdm
+tempesta,Tempesta,Pegassi,tempesta,400000,super,272929391,pdm
+seminole,Seminole,Canis,seminole,29500,suvs,1221512915,pdm
+regina,Regina,Dundreary,regina,10000,sedans,-14495224,pdm
+hellion,Hellion,Annis,hellion,20000,offroad,-362150785,pdm
+vamos,Vamos,Declasse,vamos,20000,muscle,-49115651,pdm
+savestra,Savestra,Annis,savestra,990000,sportsclassic,903794909,pdm
+cruiser,Cruiser,null,cruiser,510,cycles,448402357,pdm
+dominator3,Dominator GTX,Vapid,dominator3,100000,muscle,-986944621,pdm
+btype,Roosevelt,Albany,btype,325000,sportsclassics,117401876,pdm
+jb700,JB 700,Dewbauchee,jb700,400000,sportsclassic,1051415893,pdm
+sadler,Sadler,Vapid,sadler,50000,offroad,-599568815,pdm
+cheburek,Cheburek,Rune,cheburek,50000,sportsclassic,-988501280,pdm
+rumpo3,Rumpo Custom,Bravado,rumpo3,19500,vans,1475773103,pdm
+ruiner,Ruiner,Imponte,ruiner,5000000,muscle,-227741703,pdm
+riata,Riata,Vapid,riata,380000,offroad,-1532697517,pdm
+bison,Bison,Bravado,bison,45000,vans,-16948145,pdm
+retinue2,Retinue MKII,Vapid,retinue2,500000,sportsclassic,2031587082,pdm
+blazer4,Blazer Sport,Annis,blazer4,8500,offroad,-440768424,pdm
+dukes2,Dukes Nightrider,Imponte,dukes2,30000,muscle,-326143852,pdm
+ratbike,Rat Bike,Western,ratbike,15000,motorcycles,1873600305,pdm
+raptor,Raptor,BF,raptor,50000,sports,-674927303,pdm
+rancherxl,Rancher XL,Declasse,rancherxl,50000,offroad,1645267888,pdm
+peyote3,Peyote Custom,Vapid,peyote3,40000,sportsclassic,1107404867,pdm
+primo2,Primo Custom,Albany,primo2,14500,sedans,-2040426790,pdm
+peyote2,Peyote Gasser,Vapid,peyote2,50000,sportsclassic,-1804415708,pdm
+minivan,Minivan,Vapid,minivan,13000,vans,-310465116,pdm
+penumbra2,Penumbra FF,Maibatsu,penumbra2,30000,sports,-631322662,pdm
+penumbra,Penumbra,Maibatsu,penumbra,28000,sports,-377465520,pdm
+paradise,Paradise,Bravado,paradise,19000,vans,1488164764,pdm
+outlaw,Outlaw,Nagasaki,outlaw,15000,offroad,408825843,pdm
+landstalker2,Landstalker XL,Dundreary,landstalker2,40000,suvs,-838099166,pdm
+btype2,Franken Stange,Albany,btype2,350000,sportsclassics,-831834716,pdm
+oppressor,Oppressor,Pegassi,oppressor,3524500,super,884483972,pdm
+novak,Novak,Lampadati,novak,50000,suvs,-1829436850,pdm
+nebula,Nebula,Vulcar,nebula,500000,sportsclassic,-882629065,pdm
+z190,190Z,Karin,z190,330000,sportsclassics,838982985,pdm
+minivan2,Minivan Custom,Vapid,minivan2,14000,vans,-1126264336,pdm
+michelli,Michelli GT,Lampadati,michelli,60000,sportsclassic,1046206681,pdm
+mesa3,Mesa Merryweather,Canis,mesa3,40000,offroad,-2064372143,pdm
+nightblade,Nightblade,WMC,nightblade,14500,motorcycles,-1606187161,pdm
+massacro2,Massacro Racecar,Dewbauchee,massacro2,235000,sports,-631760477,pdm
+kalahari,Kalahari,Canis,kalahari,20000,offroad,92612664,pdm
+tezeract,Tezeract,Pegassi,tezeract,2350000,super,1031562256,pdm
+lurcher,Gauntlet Classic Custom,Bravado,lurcher,75000,muscle,2068293287,pdm
+locust,Locust,Ocelot,locust,50000,sports,-941272559,pdm
+le7b,RE-7B,Annis,le7b,325000,super,-1232836011,pdm
+voltic,Voltic,Coil,voltic,120000,super,-1622444098,pdm
+brawler,Brawler,Annis,brawler,45000,offroad,-1479664699,pdm
+kanjo,Blista Kanjo,Dinka,kanjo,15000,compacts,409049982,pdm
+nero,Nero,Truffade,nero,2352000,super,1034187331,pdm
+manchez,Manchez,Maibatsu,manchez,5300,motorcycles,-1523428744,pdm
+cheetah,Cheetah,Grotti,cheetah,395000,super,-1311154784,pdm
+surano,Surano, Benefactor,surano,89000,sports,384071873,pdm
+jugular,Jugular,Ocelot,jugular,40000,sports,-208911803,pdm
+jb7002,JB 700W,Dewbauchee,jb7002,500000,sportsclassic,394110044,pdm
+jester2,Jester Racecar,Dinka,jester2,135000,sports,-1106353882,pdm
+sanchez,Sanchez Livery,Maibatsu,sanchez,5300,motorcycles,788045382,pdm
+esskey,Esskey,Pegassi,esskey,6000,motorcycles,2035069708,pdm
+italirsx,Itali RSX,Progen,italirsx,50000,sports,-1149725334,pdm
+issi7,Issi Sport,Weeny,issi7,60000,compacts,1854776567,pdm
+osiris,Osiris,Pegassi,osiris,1400000,super,1987142870,pdm
+issi4,Issi Arena,Weeny,issi4,50000,compacts,628003514,pdm
+voodoo,Voodoo,Declasse,voodoo,21000,muscle,523724515,pdm
+flashgt,Flash GT,Vapid,flashgt,111000,sports,-1259134696,pdm
+ingot,Ingot,Vulcar,ingot,4999,sedans,-1289722222,pdm
+imorgon,Imorgon,Overflod,imorgon,60000,sports,-1132721664,pdm
+hermes,Hermes,Albany,hermes,535000,muscle,15219735,pdm
+radi,Radius,Vapid,radi,24000,suvs,-1651067813,pdm
+gauntlet5,Gauntlet Classic Custom,Bravado,gauntlet5,75000,muscle,-2122646867,pdm
+xa21,XA-21,Ocelot,xa21,2150000,super,917809321,pdm
+gauntlet4,Gauntlet Hellfire,Bravado,gauntlet4,50000,muscle,-1800170043,pdm
+warrener,Warrener,Vulcar,warrener,4000,sedans,1373123368,pdm
+bmx,BMX,null,bmx,160,cycles,1131912276,pdm
+gargoyle,Gargoyle,Western,gargoyle,16500,motorcycles,741090084,pdm
+entity2,Entity XXR,Överflöd,entity2,1532000,super,-2120700196,pdm
+gresley,Gresley,Bravado,gresley,47000,suvs,-1543762099,pdm
+blista,Blista,Dinka,blista,8000,compacts,-344943009,pdm
+hakuchou,Hakuchou,Shitzu,hakuchou,16000,motorcycles,1265391242,pdm
+phoenix,Phoenix,Imponte,phoenix,25000,muscle,-2095439403,pdm
+furia,Furia,Grotti,furia,300000,super,960812448,pdm
+picador,Picador,Cheval,picador,18000,muscle,1507916787,pdm
+freecrawler,Freecrawler,Canis,freecrawler,25000,offroad,-54332285,pdm
+fixter,Fixter,null,fixter,225,cycles,-836512833,pdm
+turismo2,Turismo Classic,Grotti,turismo2,600000,sportsclassic,-982130927,pdm
+comet6,Comet S2,Pfister,comet6,187800,sports,-1726022652,pdm
+cavalcade,Cavalcade,Albany,cavalcade,50000,suvs,2006918058,pdm
+virgo,Virgo,Albany,virgo,19700,muscle,-498054846,pdm
+dominator2,Pißwasser Dominator,Vapid,dominator2,40000,muscle,-915704871,pdm
+oracle,Oracle,Ubermacht,oracle,25000,sedans,1348744438,pdm
+diablous,Diablous,Principe,diablous,10000,motorcycles,-239841468,pdm
+deviant,Deviant,Schyster,deviant,60000,muscle,1279262537,pdm
+xls,XLS,Benefactor,xls,75000,suvs,1203490606,pdm
+futo,Futo,Karin,futo,20000,coupes,2016857647,pdm
+daemon,Daemon,WMC,daemon,12500,motorcycles,2006142190,pdm
+intruder,Intruder,Karin,intruder,15000,sedans,886934177,pdm
+baller3,Baller LE,Gallivanter,baller3,60000,suvs,1878062887,pdm
+caracara,Caracara,Vapid,caracara,400000,offroad,1254014755,pdm
+blazer5,Blazer Aqua,Nagasaki,blazer5,1755600,offroad,-1590337689,pdm
+blazer2,Blazer Lifeguard,Nagasaki,blazer2,7000,offroad,-48031959,pdm
+bf400,BF400,Nagasaki,bf400,6500,motorcycles,86520421,pdm
+bati2,Bati 801RR,Pegassi,bati2,19000,motorcycles,-891462355,pdm
+buffalo2,Buffalo S,Bravado,buffalo2,39500,sports,736902334,pdm
+blista2,Blista Compact,Dinka,blista2,10000,compacts,1039032026,pdm
+gauntlet2,Redwood Gauntlet,Bravado,gauntlet2,35000,muscle,-1800170043,pdm
+buccaneer,Buccaneer,Albany,buccaneer,19500,muscle,-682211828,pdm
+fmj,FMJ,Vapid,fmj,335000,super,1426219628,pdm
+rt3000,RT3000,Dinka,rt3000,171500,sports,-452604007,pdm
+vortex,Vortex,Pegassi,vortex,9800,motorcycles,-609625092,pdm
+glendale2,Glendale,Benefactor,glendale2,7000,sedans,-913589546,pdm
+tailgater,Tailgater,Obey,tailgater,45000,sedans,-1008861746,pdm
+t20,T20,Progen,t20,1680000,super,1663218586,pdm
+zr350,ZR350,Annis,zr350,161500,sports,-1858654120,pdm
+elegy,Elegy Retro Custom,Annis,elegy,60000,sports,196747873 ,pdm
+moonbeam2,Moonbeam Custom,Declasse,moonbeam2,35000,vans,1896491931,pdm
+krieger,Krieger,Benefactor,krieger,40000,super,-664141241,pdm
+stafford,Stafford,Enus,stafford,45000,sedans,321186144,pdm
+drafter,8F Drafter,Obey,drafter,80000,sports,686471183,pdm
+verlierer2,Verlierer,Bravado,verlierer2,90500,sports,1102544804,pdm
+seminole2,Seminole Frontier,Canis,seminole2,30000,suvs,-1810806490,pdm
+tampa2,Drift Tampa,Declasse,tampa2,50500,muscle,-1071380347,pdm
+tampa,Tampa,Declasse,tampa,27500,muscle,972671128,pdm
+akuma,Akuma,Dinka,akuma,7500,motorcycles,1672195559,pdm
+superd,Super Diamond,Enus,superd,108000,sedans,1123216662,pdm
+asbo,Asbo,Maxwell,asbo,10000,compacts,1118611807,pdm
+avarus,Avarus,LCC,avarus,6500,motorcycles,-2115793025,pdm
+cheetah2,Cheetah Classic,Grotti,cheetah2,220000,sports,223240013,pdm
+schafter4,Schafter LWB,Benefactor,schafter4,60000,sports,1489967196,pdm
+buccaneer2,Buccaneer Rider,Albany,buccaneer2,22500,muscle,-1013450936,pdm
+schafter2,Schafter,Benefactor,schafter2,32000,sedans,-1255452397,pdm
+sentinel2,Sentinel XS, Übermacht,sentinel2,36500,coupes,873639469,pdm
+sc1,SC1,Übermacht,sc1,750000,super,1352136073,pdm
+ruffian,Ruffian,Pegassi,ruffian,14000,motorcycles,-893578776,pdm
+rocoto,Rocoto,Obey,rocoto,48500,suvs,2136773105,pdm
+scorcher,Scorcher,null,scorcher,280,cycles,-186537451,pdm
+rapidgt2,Rapid GT Convertible,Dewbauchee,rapidgt2,65000,sports,1737773231,pdm
+brioso,Brioso R/A,Grotti,brioso,14500,compacts,1549126457,pdm
+rapidgt,Rapid GT,Dewbauchee,rapidgt,60000,sports,-1934452204,pdm
+stingergt,Stinger GT,Grotti,stingergt,184000,sportsclassics,-2098947590,pdm
+landstalker,Landstalker,Dundreary,landstalker,27000,suvs,1269098716,pdm
+tribike2,Tri Bike 2,null,tribike2,700,cycles,-1233807380,pdm
+slamvan2,Lost Slam Van,Vapid,slamvan2,25000,muscle,833469436,pdm
+coquette,Coquette,Invetero,coquette,97000,sports,108773431,pdm
+club,Club,BF,club,10000,compacts,-2098954619,pdm
+panto,Panto,Benefactor,panto,8500,compacts,-431692672,pdm
+nightshade,Nightshade,Imponte,nightshade,84000,muscle,-1943285540,pdm
+tropos,Tropos Rallye,Lampadati,tropos,40000,sports,1887331236,pdm
+chino2,Chino Luxe,Vapid,chino2,35000,muscle,-1361687965,pdm
+mamba,Mamba,Declasse,mamba,86000,sportsclassics,-1660945322,pdm
+hotknife,Hotknife,Vapid,hotknife,95000,muscle,37348240,pdm
+gauntlet,Gauntlet,Bravado,gauntlet,39500,muscle,-1800170043,pdm
+pariah,Pariah,Ocelot,pariah,395000,sports,867799010,pdm
+furoregt,Furore GT,Lampadati,furoregt,115000,sports,-1089039904,pdm
+felon2,Felon GT,Lampadati,felon2,37000,coupes,-89291282,pdm
+faction,Faction,Willard,faction,20000,muscle,-2119578145,pdm
+emperor,Emperor,Albany,emperor,14500,sedans,-685276541,pdm
+banshee2,Banshee 900R,Bravado,banshee2,255000,super,633712403,pdm
+ellie,Ellie,Vapid,ellie,50000,muscle,-1267543371,pdm
+caracara2,Caracara 4x4,Vapid,caracara2,500000,offroad,-1349095620,pdm
+calico,Calico GTF,Karin,calico,199500,sports,-1193912403,pdm
+sovereign,Sovereign,WMC,sovereign,27000,motorcycles,743478836,pdm

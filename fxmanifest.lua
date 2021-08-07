@@ -37,7 +37,8 @@ lua54 'yes'
 files {
 	'html/ui.html',
 	'html/css/main.css',
-	'html/js/app.js'
+	'html/js/app.js',
+	'xls/table/*.csv'
 }
 
 dependencies {

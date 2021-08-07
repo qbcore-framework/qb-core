@@ -1,0 +1,8 @@
+#TableSlot,bossmenu,label,grades
+none,null,No Gang,{""0"":{""name"":""Unaffiliated""}}
+vagos,"vector3(0, 0, 0)",Vagos,"{""1"":{""name"":""Enforcer""},""2"":{""name"":""Shot Caller""},""3"":{""isboss"":true,""name"":""Boss""},""0"":{""name"":""Recruit""}}"
+families,"vector3(0, 0, 0)",Families,"{""1"":{""name"":""Enforcer""},""2"":{""name"":""Shot Caller""},""3"":{""isboss"":true,""name"":""Boss""},""0"":{""name"":""Recruit""}}"
+triads,"vector3(0, 0, 0)",Triads,"{""1"":{""name"":""Enforcer""},""2"":{""name"":""Shot Caller""},""3"":{""isboss"":true,""name"":""Boss""},""0"":{""name"":""Recruit""}}"
+cartel,"vector3(0, 0, 0)",Cartel,"{""1"":{""name"":""Enforcer""},""2"":{""name"":""Shot Caller""},""3"":{""isboss"":true,""name"":""Boss""},""0"":{""name"":""Recruit""}}"
+ballas,"vector3(0, 0, 0)",Ballas,"{""1"":{""name"":""Enforcer""},""2"":{""name"":""Shot Caller""},""3"":{""isboss"":true,""name"":""Boss""},""0"":{""name"":""Recruit""}}"
+lostmc,"vector3(0, 0, 0)",The Lost MC,"{""1"":{""name"":""Enforcer""},""2"":{""name"":""Shot Caller""},""3"":{""isboss"":true,""name"":""Boss""},""0"":{""name"":""Recruit""}}"
