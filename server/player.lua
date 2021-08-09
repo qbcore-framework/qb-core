@@ -517,21 +517,23 @@ QBCore.Player.LoadInventory = function(PlayerData)
 				for _, item in pairs(plyInventory) do
 					if item ~= nil then
 						local itemInfo = QBCore.Shared.Items[item.name:lower()]
-						PlayerData.items[item.slot] = {
-							name = itemInfo["name"], 
-							amount = item.amount, 
-							info = item.info ~= nil and item.info or "", 
-							label = itemInfo["label"], 
-							description = itemInfo["description"] ~= nil and itemInfo["description"] or "", 
-							weight = itemInfo["weight"], 
-							type = itemInfo["type"], 
-							unique = itemInfo["unique"], 
-							useable = itemInfo["useable"], 
-							image = itemInfo["image"], 
-							shouldClose = itemInfo["shouldClose"], 
-							slot = item.slot, 
-							combinable = itemInfo["combinable"]
-						}
+						if itemInfo ~= nil then
+							PlayerData.items[item.slot] = {
+								name = itemInfo["name"], 
+								amount = item.amount, 
+								info = item.info ~= nil and item.info or "", 
+								label = itemInfo["label"], 
+								description = itemInfo["description"] ~= nil and itemInfo["description"] or "", 
+								weight = itemInfo["weight"], 
+								type = itemInfo["type"], 
+								unique = itemInfo["unique"], 
+								useable = itemInfo["useable"], 
+								image = itemInfo["image"], 
+								shouldClose = itemInfo["shouldClose"], 
+								slot = item.slot, 
+								combinable = itemInfo["combinable"]
+							}
+						end
 					end
 				end
 			end
