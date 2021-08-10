@@ -4496,6 +4496,15 @@ QBShared.Vehicles = {
 		["hash"] = `zr350`,
 		["shop"] = "pdm",
 	},
+	["dominator7"] = {
+		["name"] = "Dominator ASP",
+		["brand"] = "Vapid",
+		["model"] = "dominator7",
+		["price"] = 103500,
+		["category"] = "muscle",
+		["hash"] = `dominator7`,
+		["shop"] = "pdm",
+	},
 	["dominator8"] = {
 		["name"] = "Dominator GTT",
 		["brand"] = "Vapid",
