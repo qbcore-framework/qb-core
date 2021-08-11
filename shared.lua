@@ -1381,7 +1381,7 @@ QBShared.Vehicles = {
 		["shop"] = "pdm",
 	},
 	["dubsta3"] = {
-		["name"] = "Bubsta 6x6", 
+		["name"] = "Dubsta 6x6", 
 		["brand"] = "Annis",
 		["price"] = 120000,
 		["category"] = "offroad",
