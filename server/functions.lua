@@ -150,13 +150,21 @@ QBCore.Functions.AddPermission = function(source, permission)
 			license = QBCore.Functions.GetIdentifier(source, 'license'),
 			permission = permission:lower(),
 		}
-		exports['ghmattimysql']:execute('DELETE FROM permissions WHERE license=@license', {['@license'] = QBCore.Functions.GetIdentifier(source, 'license')})
+		local result = exports.ghmattimysql:executeSync("SELECT * FROM permissions WHERE license = @license", {['@license'] = QBCore.Functions.GetIdentifier(source, 'license')})
 
+	 if result[1] == nil then 
 		exports['ghmattimysql']:execute('INSERT INTO permissions (name, license, permission) VALUES (@name, @license, @permission)', {
 			['@name'] = GetPlayerName(source),
 			['@license'] = QBCore.Functions.GetIdentifier(source, 'license'),
 			['@permission'] = permission:lower()
 		})
+	else
+		exports.ghmattimysql:execute("UPDATE permissions SET permission = @permission  WHERE license = @license", {
+			['@permission'] = permission:lower(),
+			['@license'] = QBCore.Functions.GetIdentifier(source, 'license')
+		})
+	end
+
 
 		Player.Functions.UpdatePlayerData()
 		TriggerClientEvent('QBCore:Client:OnPermissionUpdate', source, permission)
