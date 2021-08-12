@@ -51,40 +51,26 @@ QBCore.Commands.Add("tp", "TP To Player or Coords (Admin Only)", {{name="id/x", 
 end, "admin")
 
 QBCore.Commands.Add("addpermission", "Give Player Permissions (God Only)", {{name="id", help="ID of player"}, {name="permission", help="Permission level"}}, true, function(source, args)
-	if (args[1] == nil) or (args[2] == nil) then
-		TriggerClientEvent('QBCore:Notify', source, "All Arguments Must Be Filled", "error")
+	local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
+	local permission = tostring(args[2]):lower()
+	if Player ~= nil then
+		QBCore.Functions.AddPermission(Player.PlayerData.source, permission)
 	else
-		local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
-		local permission = tostring(args[2]):lower()
-		if Player ~= nil then
-			QBCore.Functions.AddPermission(Player.PlayerData.source, permission)
-		else
-			TriggerClientEvent('QBCore:Notify', source, "Player Not Online", "error")	
-		end
-	end
-			
+		TriggerClientEvent('QBCore:Notify', source, "Player Not Online", "error")	
+	end		
 end, "god")
 
 QBCore.Commands.Add("removepermission", "Remove Players Permissions (God Only)", {{name="id", help="ID of player"}}, true, function(source, args)
-	if args[1] == nil then
-		TriggerClientEvent('QBCore:Notify', source, "All Arguments Must Be Filled", "error")
+	local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
+	if Player ~= nil then
+		QBCore.Functions.RemovePermission(Player.PlayerData.source)
 	else
-		local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
-		if Player ~= nil then
-			QBCore.Functions.RemovePermission(Player.PlayerData.source)
-		else
-			TriggerClientEvent('QBCore:Notify', source, "Player Not Online", "error")	
-		end
+		TriggerClientEvent('QBCore:Notify', source, "Player Not Online", "error")	
 	end
 end, "god")
 
 QBCore.Commands.Add("car", "Spawn Vehicle (Admin Only)", {{name="model", help="Model name of the vehicle"}}, true, function(source, args)
-	if args[1] ~= nil then
-		TriggerClientEvent('QBCore:Command:SpawnVehicle', source, args[1])
-	else
-		TriggerClientEvent('QBCore:Notify', source, "All Arguments Must Be Filled", "error")
-	end
-			
+	TriggerClientEvent('QBCore:Command:SpawnVehicle', source, args[1])	
 end, "admin")
 
 QBCore.Commands.Add("dv", "Delete Vehicle (Admin Only)", {}, false, function(source, args)
@@ -96,36 +82,26 @@ QBCore.Commands.Add("tpm", "TP To Marker (Admin Only)", {}, false, function(sour
 end, "admin")
 
 QBCore.Commands.Add("givemoney", "Give A Player Money (Admin Only)", {{name="id", help="Player ID"},{name="moneytype", help="Type of money (cash, bank, crypto)"}, {name="amount", help="Amount of money"}}, true, function(source, args)
-	if (args[1] == nil) or (args[2] == nil) or (args[3] == nil) then
-		TriggerClientEvent('QBCore:Notify', source, "All Arguments Must Be Filled", "error")
+	local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
+	if Player ~= nil then
+		Player.Functions.AddMoney(tostring(args[2]), tonumber(args[3]))
 	else
-		local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
-		if Player ~= nil then
-			Player.Functions.AddMoney(tostring(args[2]), tonumber(args[3]))
-		else
-			TriggerClientEvent('QBCore:Notify', source, "Player Not Online", "error")
-		end	
+		TriggerClientEvent('QBCore:Notify', source, "Player Not Online", "error")
 	end
 end, "admin")
 
 QBCore.Commands.Add("setmoney", "Set Players Money Amount (Admin Only)", {{name="id", help="Player ID"},{name="moneytype", help="Type of money (cash, bank, crypto)"}, {name="amount", help="Amount of money"}}, true, function(source, args)
-	if (args[1] == nil) or (args[2] == nil) or (args[3] == nil) then
-		TriggerClientEvent('QBCore:Notify', source, "All Arguments Must Be Filled", "error")
+	local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
+	if Player ~= nil then
+		Player.Functions.SetMoney(tostring(args[2]), tonumber(args[3]))
 	else
-		local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
-		if Player ~= nil then
-			Player.Functions.SetMoney(tostring(args[2]), tonumber(args[3]))
-		else
-			TriggerClientEvent('QBCore:Notify', source, "Player Not Online", "error")
-		end
+		TriggerClientEvent('QBCore:Notify', source, "Player Not Online", "error")
 	end
 end, "admin")
 
 QBCore.Commands.Add("setjob", "Set A Players Job (Admin Only)", {{name="id", help="Player ID"}, {name="job", help="Job name"}, {name="grade", help="Grade"}}, true, function(source, args)
 	local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
-	if (args[1] == nil) or (args[2] == nil) or (args[3] == nil) then
-		TriggerClientEvent('QBCore:Notify', source, "All Arguments Must Be Filled", "error")
-	elseif Player == nil then
+	if Player == nil then
 		TriggerClientEvent('QBCore:Notify', source, "Player Not Online", "error")
 	else
 		Player.Functions.SetJob(tostring(args[2]), tonumber(args[3]))
@@ -140,9 +116,7 @@ end)
 
 QBCore.Commands.Add("setgang", "Set A Players Gang (Admin Only)", {{name="id", help="Player ID"}, {name="job", help="Name of a gang"}, {name="grade", help="Grade"}}, true, function(source, args)
 	local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
-	if (args[1] == nil) or (args[2] == nil) or (args[3] == nil) then
-		TriggerClientEvent('QBCore:Notify', source, "All Arguments Must Be Filled", "error")
-	elseif Player == nil then
+	if Player == nil then
 		TriggerClientEvent('QBCore:Notify', source, "Player Not Online", "error")
 	else
 		Player.Functions.SetGang(tostring(args[2]), tonumber(args[3]))
@@ -160,7 +134,7 @@ QBCore.Commands.Add("gang", "Check Your Gang", {}, false, function(source, args)
 end)
 
 QBCore.Commands.Add("clearinv", "Clear Players Inventory (Admin Only)", {{name="id", help="Player ID"}}, false, function(source, args)
-	local playerId = args[1] ~= nil and args[1] or source 
+	local playerId = args[1] ~= nil and args[1] or source
 	local Player = QBCore.Functions.GetPlayer(tonumber(playerId))
 	if Player ~= nil then
 		Player.Functions.ClearInventory()
