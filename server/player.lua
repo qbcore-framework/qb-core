@@ -256,7 +256,7 @@ QBCore.Player.CreatePlayer = function(PlayerData)
 				TriggerEvent("qb-log:server:CreateLog", "playermoney", "RemoveMoney", "red", "**"..GetPlayerName(self.PlayerData.source) .. " (citizenid: "..self.PlayerData.citizenid.." | id: "..self.PlayerData.source..")** $"..amount .. " ("..moneytype..") removed, new "..moneytype.." balance: "..self.PlayerData.money[moneytype])
 			end
 			TriggerClientEvent("hud:client:OnMoneyChange", self.PlayerData.source, moneytype, amount, true)
-			if self.PlayerData.money[moneytype] == "bank" then
+			if moneytype == "bank" then
 				TriggerClientEvent('qb-phone:client:RemoveBankMoney', self.PlayerData.source, amount)
 			end
 			return true
