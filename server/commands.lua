@@ -145,7 +145,6 @@ end, "admin")
 
 QBCore.Commands.Add("ooc", "OOC Chat Message", {}, false, function(source, args)
 	local message = table.concat(args, " ")
-	TriggerClientEvent("QBCore:Client:LocalOutOfCharacter", -1, source, GetPlayerName(source), message)
 	local Players = QBCore.Functions.GetPlayers()
 	local Player = QBCore.Functions.GetPlayer(source)
 
@@ -155,6 +154,8 @@ QBCore.Commands.Add("ooc", "OOC Chat Message", {}, false, function(source, args)
 				TriggerClientEvent('chatMessage', v, "OOC " .. GetPlayerName(source), "normal", message)
 				TriggerEvent("qb-log:server:CreateLog", "ooc", "OOC", "white", "**"..GetPlayerName(source).."** (CitizenID: "..Player.PlayerData.citizenid.." | ID: "..source..") **Message:** " ..message, false)
 			end
+		elseif #(GetEntityCoords(source) - GetEntityCoords(v)) < 20.0 then
+			TriggerClientEvent('chatMessage', v, "OOC " .. GetPlayerName(source), "normal", message)
 		end
 	end
 end)
