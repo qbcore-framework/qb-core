@@ -149,7 +149,9 @@ QBCore.Commands.Add("ooc", "OOC Chat Message", {}, false, function(source, args)
 	local Player = QBCore.Functions.GetPlayer(source)
 
 	for k, v in pairs(QBCore.Functions.GetPlayers()) do
-		if QBCore.Functions.HasPermission(v, "admin") then
+		if v == source then
+			TriggerClientEvent('chatMessage', v, "OOC " .. GetPlayerName(source), "normal", message)
+		elseif QBCore.Functions.HasPermission(v, "admin") then
 			if QBCore.Functions.IsOptin(v) then
 				TriggerClientEvent('chatMessage', v, "Proximity OOC " .. GetPlayerName(source), "normal", message)
 				TriggerEvent("qb-log:server:CreateLog", "ooc", "OOC", "white", "**"..GetPlayerName(source).."** (CitizenID: "..Player.PlayerData.citizenid.." | ID: "..source..") **Message:** " ..message, false)
