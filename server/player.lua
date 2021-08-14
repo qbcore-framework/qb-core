@@ -562,6 +562,8 @@ QBCore.Player.SaveInventory = function(source)
 				end
 			end
 			exports.ghmattimysql:execute('UPDATE players SET inventory=@inventory WHERE citizenid=@citizenid', {['@inventory'] = json.encode(ItemsJson), ['@citizenid'] = PlayerData.citizenid})
+		else
+			exports.ghmattimysql:execute('UPDATE players SET inventory=@inventory WHERE citizenid=@citizenid', {['@inventory'] = '[]', ['@citizenid'] = PlayerData.citizenid})
 		end
 	end
 end
