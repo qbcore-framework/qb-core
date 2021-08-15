@@ -38,6 +38,15 @@ QBCore.Functions.DrawText3D = function(x, y, z, text)
     ClearDrawOrigin()
 end
 
+QBCore.Functions.ShowFloatingHelpNotification = function(msg, coords)
+	AddTextEntry('qbcoreFloatingHelpNotification', msg)
+	SetFloatingHelpTextWorldPosition(1, coords)
+	SetFloatingHelpTextStyle(1, 1, 2, -1, 3, 0)
+	BeginTextCommandDisplayHelp('qbcoreFloatingHelpNotification')
+	EndTextCommandDisplayHelp(2, false, false, -1)
+end
+
+
 QBCore.Functions.GetCoords = function(entity)
     local coords = GetEntityCoords(entity, false)
     local heading = GetEntityHeading(entity)
