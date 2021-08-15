@@ -4550,4 +4550,13 @@ QBShared.Vehicles = {
 		["hash"] = `sultan3`,
 		["shop"] = "pdm",
 	},
+	["vectre"] = {
+		["name"] = "Emperor Vectre",
+		["brand"] = "Emperor",
+		["model"] = "vectre",
+		["price"] = 178500,
+		["category"] = "sports",
+		["hash"] = `vectre`,
+		["shop"] = "pdm",
+	},
 }
