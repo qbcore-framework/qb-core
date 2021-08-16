@@ -62,9 +62,8 @@ QBCore.Functions.SpawnVehicle = function(model, cb, coords, isnetworked) -- QBCo
     local veh = CreateVehicle(model, coords.x, coords.y, coords.z, coords.w, isnetworked, false)
     local netid = NetworkGetNetworkIdFromEntity(veh)
 
-	SetVehicleHasBeenOwnedByPlayer(vehicle,  true)
-	SetNetworkIdCanMigrate(netid, true)
-    --SetEntityAsMissionEntity(veh, true, true)
+    SetVehicleHasBeenOwnedByPlayer(veh,  true)
+    SetNetworkIdCanMigrate(netid, true)
     SetVehicleNeedsToBeHotwired(veh, false)
     SetVehRadioStation(veh, "OFF")
 
