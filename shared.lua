@@ -2340,13 +2340,13 @@ QBShared.Vehicles = {
 		["hash"] = `stafford`,
 		["shop"] = "pdm",
 	},
-	["stingergt"] = {
+	["stalion"] = {
 		["name"] = "Stallion",
 		["brand"] = "Declasse",
 		["model"] = "stalion",
 		["price"] = 23500,
 		["category"] = "muscle",
-		["hash"] = `stingergt`,
+		["hash"] = `stalion`,
 		["shop"] = "pdm",
 	},
 	["stingergt"] = {
