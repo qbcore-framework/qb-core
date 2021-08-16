@@ -502,7 +502,7 @@ QBCore.Player.DeleteCharacter = function(source, citizenid)
 		for k,v in pairs(playertables) do
 			exports.ghmattimysql:execute('DELETE FROM '..v.table..' WHERE citizenid = ?', {citizenid})
 		end
-		TriggerEvent("qb-log:server:CreateLog", "joinleave", "Character Deleted", "red", "**".. GetPlayerName(source) .. "** ("..QBCore.Functions.GetIdentifier(source, 'license')..") deleted **"..citizenid.."**..")
+		TriggerEvent("qb-log:server:CreateLog", "createdelete", "Character Deleted", "red", "**".. GetPlayerName(source) .. "** ("..QBCore.Functions.GetIdentifier(source, 'license')..") deleted **"..citizenid.."**..")
 	else
 		DropPlayer(source, 'You Have Been Kicked For Exploitation')
 		TriggerEvent("qb-log:server:CreateLog", "anticheat", "Anti-Cheat", "white", GetPlayerName(source).." Has Been Dropped For Character Deletion Exploit", false)
