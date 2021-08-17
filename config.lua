@@ -1,4 +1,4 @@
-QBConfig = {}
+==QBConfig = {}
 
 QBConfig.MaxPlayers = GetConvarInt('sv_maxclients', 64) -- Gets max players from config file, default 32
 QBConfig.DefaultSpawn = vector4(-1035.71, -2731.87, 12.86, 0.0)
