@@ -114,7 +114,7 @@ QBCore.Commands.Add("job", "Check Your Job", {}, false, function(source, args)
 	TriggerClientEvent('QBCore:Notify', source, "Job: "..Player.PlayerData.job.label.. " Grade: "..Player.PlayerData.job.grade.name)
 end)
 
-QBCore.Commands.Add("setgang", "Set A Players Gang (Admin Only)", {{name="id", help="Player ID"}, {name="job", help="Name of a gang"}, {name="grade", help="Grade"}}, true, function(source, args)
+QBCore.Commands.Add("setgang", "Set A Players Gang (Admin Only)", {{name="id", help="Player ID"}, {name="gang", help="Name of a gang"}, {name="grade", help="Grade"}}, true, function(source, args)
 	local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
 	if Player == nil then
 		TriggerClientEvent('QBCore:Notify', source, "Player Not Online", "error")
