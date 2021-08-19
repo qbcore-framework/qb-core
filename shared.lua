@@ -4547,4 +4547,13 @@ QBShared.Vehicles = {
 		["hash"] = `vectre`,
 		["shop"] = "pdm",
 	},
+	["growler"] = {
+		["name"] = "Growler",
+		["brand"] = "Pfister",
+		["model"] = "growler",
+		["price"] = 162700,
+		["category"] = "sports",
+		["hash"] = `growler`,
+		["shop"] = "pdm",
+	},
 }
