@@ -423,9 +423,12 @@ QBCore.Player.CreatePlayer = function(PlayerData)
 	self.Functions.Save = function()
 		QBCore.Player.Save(self.PlayerData.source)
 	end
-	
+
 	QBCore.Players[self.PlayerData.source] = self
 	QBCore.Player.Save(self.PlayerData.source)
+
+	-- At this point we are safe to emit new instance to third party resource for load handling
+	TriggerEvent('QBCore:Server:PlayerLoaded', self)
 	self.Functions.UpdatePlayerData()
 end
 
