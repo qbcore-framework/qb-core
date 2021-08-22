@@ -24,7 +24,7 @@ QBCore.Player.Login = function(source, citizenid, newData)
 		end
 		return true
 	else
-		QBCore.Logging.Error("QBCORE.PLAYER.LOGIN - NO SOURCE GIVEN!")
+		LogError("QBCORE.PLAYER.LOGIN - NO SOURCE GIVEN!")
 		return false
 	end
 end
@@ -460,9 +460,9 @@ QBCore.Player.Save = function(source)
 			})
 		end
 		QBCore.Player.SaveInventory(source)
-		QBCore.Logging.Info(PlayerData.name .." PLAYER SAVED!")
+		LogInfo(PlayerData.name .." PLAYER SAVED!")
 	else
-		QBCore.Logging.Error("QBCORE.PLAYER.SAVE - PLAYERDATA IS EMPTY!")
+		LogError("QBCORE.PLAYER.SAVE - PLAYERDATA IS EMPTY!")
 	end
 end
 

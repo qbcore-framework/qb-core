@@ -7,8 +7,7 @@ version '1.0.0'
 shared_scripts { 
 	'import.lua',
 	'config.lua',
-	'shared.lua',
-	'logging.lua'
+	'shared.lua'
 }
 
 client_scripts {
