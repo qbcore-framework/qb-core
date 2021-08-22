@@ -1,6 +1,7 @@
 QBCore = {}
 QBCore.PlayerData = {}
 QBCore.Config = QBConfig
+QBCore.Logging = QBLogging
 QBCore.Shared = QBShared
 QBCore.ServerCallbacks = {}
 

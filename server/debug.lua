@@ -26,11 +26,3 @@ end)
 QBCore.Debug = function(resource, obj, depth)
     TriggerEvent('QBCore:DebugSomething', resource, obj, depth)
 end
-
-QBCore.ShowError = function(resource, msg)
-    print("\x1b[31m["..resource..":ERROR]\x1b[0m "..msg)
-end
-
-QBCore.ShowSuccess = function(resource, msg)
-    print("\x1b[32m["..resource..":LOG]\x1b[0m "..msg)
-end
