@@ -99,12 +99,14 @@ QBCore.Commands.Add("setmoney", "Set Players Money Amount (Admin Only)", {{name=
 	end
 end, "admin")
 
-QBCore.Commands.Add("setjob", "Set A Players Job (Admin Only)", {{name="id", help="Player ID"}, {name="job", help="Job name"}, {name="grade", help="Grade"}}, true, function(source, args)
+QBCore.Commands.Add("setjob", "Set A Players Job (Admin Only)", {{name="id", help="Player ID"}, {name="job", help="Job name"}, {name="grade", help="Job grade [Number]"}}, true, function(source, args)
 	local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
-	if Player == nil then
-		TriggerClientEvent('QBCore:Notify', source, "Player Not Online", "error")
+	if Player ~= nil then
+		if not Player.Functions.SetJob(tostring(args[2]), args[3]) then
+			TriggerClientEvent('QBCore:Notify', source, "Invalid job or job grade", "error")
+		end
 	else
-		Player.Functions.SetJob(tostring(args[2]), tonumber(args[3]))
+		TriggerClientEvent('QBCore:Notify', source, "Player is not online", "error")
 	end
 end, "admin")
 
