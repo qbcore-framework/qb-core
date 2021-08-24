@@ -118,7 +118,7 @@ QBCore.Commands.Add("job", "Check Your Job", {}, false, function(source, args)
 		duty = "Off Duty"
 	end
 	
-	TriggerClientEvent('QBCore:Notify', source, "Job: "..Player.PlayerData.job.label.. " Grade: "..Player.PlayerData.job.grade.name " Duty: "..duty)
+	TriggerClientEvent('QBCore:Notify', source, "Job: "..Player.PlayerData.job.label.. " Grade: "..Player.PlayerData.job.grade.name.. " Duty: "..duty)
 end)
 
 QBCore.Commands.Add("setgang", "Set A Players Gang (Admin Only)", {{name="id", help="Player ID"}, {name="gang", help="Name of a gang"}, {name="grade", help="Grade"}}, true, function(source, args)
