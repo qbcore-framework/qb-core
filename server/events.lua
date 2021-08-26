@@ -244,31 +244,64 @@ Citizen.CreateThread(function()
 	end
 end)
 
-QBCore.Functions.CreateCallback('QBCore:HasItem', function(source, cb, items)
+QBCore.Functions.CreateCallback('QBCore:HasItem', function(source, cb, items, amount)
 	local retval = false
 	local Player = QBCore.Functions.GetPlayer(source)
-	if type(items) == "table" then
-		local count = 0
-		for k, v in pairs(items) do
-			if Player ~= nil then 
-				if Player.Functions.GetItemByName(v) ~= nil then
-					count = count + 1
-					if count == #items then
-						retval = true
+	if Player ~= nil then
+		if type(items) == 'table' then
+			local count = 0
+            local finalcount = 0
+			for k, v in pairs(items) do
+				if type(k) == 'string' then
+                    finalcount = 0
+                    for i, _ in pairs(items) do
+                        if i then finalcount = finalcount + 1 end
+                    end
+					local item = Player.Functions.GetItemByName(k)
+					if item ~= nil then
+						if item.amount >= v then
+							count = count + 1
+							if count == finalcount then
+								retval = true
+							end
+						end
+					end
+				else
+                    finalcount = #items
+					local item = Player.Functions.GetItemByName(v)
+					if item ~= nil then
+						if amount ~= nil then
+							if item.amount >= amount then
+								count = count + 1
+								if count == finalcount then
+									retval = true
+								end
+							end
+						else
+							count = count + 1
+							if count == finalcount then
+								retval = true
+							end
+						end
 					end
 				end
 			end
-		end
-	else
-		if Player ~= nil then 
-			if Player.Functions.GetItemByName(items) ~= nil then
-				retval = true
+		else
+			local item = Player.Functions.GetItemByName(items)
+			if item ~= nil then
+				if amount ~= nil then
+					if item.amount >= amount then
+						retval = true
+					end
+				else
+					retval = true
+				end
 			end
 		end
 	end
-	
+
 	cb(retval)
-end)	
+end)
 
 RegisterServerEvent('QBCore:Command:CheckOwnedVehicle')
 AddEventHandler('QBCore:Command:CheckOwnedVehicle', function(VehiclePlate)
