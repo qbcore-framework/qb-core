@@ -123,13 +123,8 @@ QBCore.Commands.Add("setgang", "Set A Players Gang (Admin Only)", {{name="id", h
 end, "admin")
 
 QBCore.Commands.Add("gang", "Check Your Gang", {}, false, function(source, args)
-	local Player = QBCore.Functions.GetPlayer(source)
-
-	if Player.PlayerData.gang.name ~= "none" then
-		TriggerClientEvent('QBCore:Notify', source, "Gang: "..Player.PlayerData.gang.label.. " Grade: "..Player.PlayerData.gang.grade.name)
-	else
-		TriggerClientEvent('QBCore:Notify', source, "No Gang Affiliation", "error")
-	end
+	local PlayerGang = QBCore.Functions.GetPlayer(source).PlayerData.gang
+	TriggerClientEvent('QBCore:Notify', source, string.format("[Gang]: %s [Grade]: %s", PlayerGang.label, PlayerGang.grade.name))
 end)
 
 QBCore.Commands.Add("clearinv", "Clear Players Inventory (Admin Only)", {{name="id", help="Player ID"}}, false, function(source, args)
