@@ -257,7 +257,7 @@ QBCore.Functions.CreateCallback('QBCore:HasItem', function(source, cb, items, am
                     			for i, _ in pairs(items) do
                         			if i then finalcount = finalcount + 1 end
                     			end
-					local item = Player.Functions.GetItemByName(k)
+					local item = Player.Functions.GetItemsByName(k)
 					if item ~= nil then
 						if item.amount >= v then
 							count = count + 1
@@ -268,7 +268,7 @@ QBCore.Functions.CreateCallback('QBCore:HasItem', function(source, cb, items, am
 					end
 				else
                     			finalcount = #items
-					local item = Player.Functions.GetItemByName(v)
+					local item = Player.Functions.GetItemsByName(v)
 					if item ~= nil then
 						if amount ~= nil then
 							if item.amount >= amount then
@@ -287,7 +287,7 @@ QBCore.Functions.CreateCallback('QBCore:HasItem', function(source, cb, items, am
 				end
 			end
 		else
-			local item = Player.Functions.GetItemByName(items)
+			local item = Player.Functions.GetItemsByName(items)
 			if item ~= nil then
 				if amount ~= nil then
 					if item.amount >= amount then
