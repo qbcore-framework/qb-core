@@ -158,7 +158,7 @@ QBCore.Functions.GetClosestVehicle = function(coords)
 			closestDistance = distance
 		end
 	end
-	return closestVehicle
+	return closestVehicle,closestDistance
 end
 
 QBCore.Functions.GetClosestPed = function(coords, ignoreList) 
