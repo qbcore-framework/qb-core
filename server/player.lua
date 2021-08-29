@@ -78,6 +78,13 @@ QBCore.Player.CheckPlayerData = function(source, PlayerData)
 		["trucker"] = 0,
 		["taxi"] = 0,
 		["hotdog"] = 0,
+		["ambulance"] = 0,
+		["police"] = 0,
+		["lawyer"] = 0,
+		["news"] = 0,
+		["garbage"] = 0,
+		["mechanic"] = 0,
+		["recycle"] = 0,
 	}
 	PlayerData.metadata["callsign"] = PlayerData.metadata["callsign"] ~= nil and PlayerData.metadata["callsign"] or "NO CALLSIGN"
 	PlayerData.metadata["fingerprint"] = PlayerData.metadata["fingerprint"] ~= nil and PlayerData.metadata["fingerprint"] or QBCore.Player.CreateFingerId()
