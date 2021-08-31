@@ -196,7 +196,9 @@ QBCore.Player.CreatePlayer = function(PlayerData)
 
 			self.Functions.UpdatePlayerData()
 			TriggerClientEvent("QBCore:Client:OnGangUpdate", self.PlayerData.source, self.PlayerData.gang)
+			return true
 		end
+		return false
 	end
 
 	self.Functions.SetJobDuty = function(onDuty)
