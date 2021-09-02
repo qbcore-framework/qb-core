@@ -114,6 +114,19 @@ QBCore.Player.CheckPlayerData = function(source, PlayerData)
 	PlayerData.job.grade.name = PlayerData.job.grade.name ~= nil and PlayerData.job.grade.name or "Freelancer"
 	PlayerData.job.grade.level = PlayerData.job.grade.level ~= nil and PlayerData.job.grade.level or 0
 
+	-- Added for job whitelist system --
+	PlayerData.job.whitelist = PlayerData.job.whitelist ~= nil and PlayerData.job.whitelist or {}
+	PlayerData.job.whitelist.name = PlayerData.job.whitelist.name ~= nil and PlayerData.job.whitelist.name or ""
+	PlayerData.job.whitelist.label = PlayerData.job.whitelist.label ~= nil and PlayerData.job.whitelist.label or ""
+	PlayerData.job.whitelist.payment = PlayerData.job.whitelist.payment ~= nil and PlayerData.job.whitelist.payment or 0
+	PlayerData.job.whitelist.onduty = PlayerData.job.whitelist.onduty ~= nil and PlayerData.job.whitelist.onduty or false 
+	PlayerData.job.whitelist.isboss = PlayerData.job.whitelist.isboss ~= nil and PlayerData.job.whitelist.isboss or false
+	PlayerData.job.whitelist.grade = PlayerData.job.whitelist.grade ~= nil and PlayerData.job.whitelist.grade or {}
+	PlayerData.job.whitelist.grade.name = PlayerData.job.whitelist.grade.name ~= nil and PlayerData.job.whitelist.grade.name or ""
+	PlayerData.job.whitelist.grade.level = PlayerData.job.whitelist.grade.level ~= nil and PlayerData.job.whitelist.grade.level or 0
+	
+
+
 	PlayerData.gang = PlayerData.gang ~= nil and PlayerData.gang or {}
 	PlayerData.gang.name = PlayerData.gang.name ~= nil and PlayerData.gang.name or "none"
 	PlayerData.gang.label = PlayerData.gang.label ~= nil and PlayerData.gang.label or "No Gang Affiliaton"
@@ -145,12 +158,20 @@ QBCore.Player.CreatePlayer = function(PlayerData)
 	self.Functions.SetJob = function(job, grade)
 		local job = job:lower()
 		local grade = tostring(grade) ~= nil and tostring(grade) or '0'
+		--local wl = exports.ghmattimysql:executeSync("SELECT whitelist FROM jobs WHERE name='".. job .."' LIMIT 1")
 
 		if QBCore.Shared.Jobs[job] ~= nil then
 			self.PlayerData.job.name = job
 			self.PlayerData.job.label = QBCore.Shared.Jobs[job].label
 			self.PlayerData.job.onduty = QBCore.Shared.Jobs[job].defaultDuty
-			
+			if QBCore.Shared.Jobs[job].whitelist then
+				self.PlayerData.job.whitelist = {}
+				self.PlayerData.job.whitelist.name = job
+				self.PlayerData.job.whitelist.label = QBCore.Shared.Jobs[job].label
+				self.PlayerData.job.whitelist.onduty = QBCore.Shared.Jobs[job].defaultDuty
+			end
+
+
 			if QBCore.Shared.Jobs[job].grades[grade] then
 				local jobgrade = QBCore.Shared.Jobs[job].grades[grade]
 				self.PlayerData.job.grade = {}
@@ -158,12 +179,26 @@ QBCore.Player.CreatePlayer = function(PlayerData)
 				self.PlayerData.job.grade.level = tonumber(grade)
 				self.PlayerData.job.payment = jobgrade.payment ~= nil and jobgrade.payment or 30
 				self.PlayerData.job.isboss = jobgrade.isboss ~= nil and jobgrade.isboss or false
+				if QBCore.Shared.Jobs[job].whitelist then
+					self.PlayerData.job.whitelist.grade = {}
+					self.PlayerData.job.whitelist.grade.name = jobgrade.name
+					self.PlayerData.job.whitelist.grade.level = tonumber(grade)
+					self.PlayerData.job.whitelist.payment = jobgrade.payment ~= nil and jobgrade.payment or 30
+					self.PlayerData.job.whitelist.isboss = jobgrade.isboss ~= nil and jobgrade.isboss or false
+				end
 			else
 				self.PlayerData.job.grade = {}
 				self.PlayerData.job.grade.name = 'No Grades'
 				self.PlayerData.job.grade.level = 0
 				self.PlayerData.job.payment = 30
 				self.PlayerData.job.isboss = false
+				if QBCore.Shared.Jobs[job].whitelist then
+					self.PlayerData.job.whitelist.grade = {}
+					self.PlayerData.job.whitelist.grade.name = 'No Grades'
+					self.PlayerData.job.whitelist.grade.level = 0
+					self.PlayerData.job.whitelist.payment = 30
+					self.PlayerData.job.whitelist.isboss = false
+				end
 			end
 
 			self.Functions.UpdatePlayerData()
@@ -196,9 +231,7 @@ QBCore.Player.CreatePlayer = function(PlayerData)
 
 			self.Functions.UpdatePlayerData()
 			TriggerClientEvent("QBCore:Client:OnGangUpdate", self.PlayerData.source, self.PlayerData.gang)
-			return true
 		end
-		return false
 	end
 
 	self.Functions.SetJobDuty = function(onDuty)
