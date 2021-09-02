@@ -321,6 +321,8 @@ QBCore.Player.CreatePlayer = function(PlayerData)
 					end
 				end
 			end
+		else
+			TriggerClientEvent('QBCore:Notify', self.PlayerData.source, "Inventory is full!", "error")
 		end
 		return false
 	end
