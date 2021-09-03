@@ -1,10 +1,11 @@
 fx_version 'cerulean'
 game 'gta5'
+lua54 'yes'
 
 description 'QB-Core'
 version '1.0.0'
 
-shared_scripts { 
+shared_scripts {
 	'import.lua',
 	'config.lua',
 	'shared.lua'
@@ -28,9 +29,7 @@ server_scripts {
 	'server/debug.lua'
 }
 
-ui_page {
-	'html/ui.html'
-}
+ui_page 'html/ui.html'
 
 lua54 'yes'
 

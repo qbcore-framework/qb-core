@@ -2,119 +2,121 @@ QBCore.Functions = {}
 QBCore.RequestId = 0
 
 QBCore.Functions.GetPlayerData = function(cb) -- QBCore.Functions.GetPlayerData() falls under GPL License here: [esxlicense]/LICENSE
-    if cb ~= nil then
-        cb(QBCore.PlayerData)
-    else
-        return QBCore.PlayerData
-    end
+	if cb ~= nil then
+		cb(QBCore.PlayerData)
+	else
+		return QBCore.PlayerData
+	end
 end
 
 QBCore.Functions.DrawText = function(x, y, width, height, scale, r, g, b, a, text)
 	SetTextFont(4)
-    SetTextProportional(0)
-    SetTextScale(scale, scale)
-    SetTextColour(r, g, b, a)
-    SetTextDropShadow(0, 0, 0, 0,255)
-    SetTextEdge(2, 0, 0, 0, 255)
-    SetTextDropShadow()
-    SetTextOutline()
-    SetTextEntry("STRING")
-    AddTextComponentString(text)
-    DrawText(x - width/2, y - height/2 + 0.005)
+	SetTextProportional(0)
+	SetTextScale(scale, scale)
+	SetTextColour(r, g, b, a)
+	SetTextDropShadow(0, 0, 0, 0,255)
+	SetTextEdge(2, 0, 0, 0, 255)
+	SetTextDropShadow()
+	SetTextOutline()
+	SetTextEntry("STRING")
+	AddTextComponentString(text)
+	DrawText(x - width / 2, y - height / 2 + 0.005)
 end
 
 QBCore.Functions.DrawText3D = function(x, y, z, text)
 	SetTextScale(0.35, 0.35)
-    SetTextFont(4)
-    SetTextProportional(1)
-    SetTextColour(255, 255, 255, 215)
-    SetTextEntry("STRING")
-    SetTextCentre(true)
-    AddTextComponentString(text)
-    SetDrawOrigin(x,y,z, 0)
-    DrawText(0.0, 0.0)
-    local factor = (string.len(text)) / 370
-    DrawRect(0.0, 0.0+0.0125, 0.017+ factor, 0.03, 0, 0, 0, 75)
-    ClearDrawOrigin()
+	SetTextFont(4)
+	SetTextProportional(1)
+	SetTextColour(255, 255, 255, 215)
+	SetTextEntry("STRING")
+	SetTextCentre(true)
+	AddTextComponentString(text)
+	SetDrawOrigin(x,y,z, 0)
+	DrawText(0.0, 0.0)
+	local factor = (string.len(text)) / 370
+	DrawRect(0.0, 0.0+0.0125, 0.017+ factor, 0.03, 0, 0, 0, 75)
+	ClearDrawOrigin()
 end
 
 QBCore.Functions.GetCoords = function(entity)
-    local coords = GetEntityCoords(entity, false)
-    local heading = GetEntityHeading(entity)
-    return {
-        x = coords.x,
-        y = coords.y,
-        z = coords.z,
-        w = heading
-    }
+	local coords = GetEntityCoords(entity, false)
+	local heading = GetEntityHeading(entity)
+
+	return {
+		x = coords.x,
+		y = coords.y,
+		z = coords.z,
+		w = heading
+	}
 end
 
 QBCore.Functions.SpawnVehicle = function(model, cb, coords, isnetworked) -- QBCore.Functions.SpawnVehicle() falls under GPL License here: [esxlicense]/LICENSE
-    local model = (type(model)=="number" and model or GetHashKey(model))
-    local coords = coords ~= nil and coords or QBCore.Functions.GetCoords(PlayerPedId())
-    local isnetworked = isnetworked ~= nil and isnetworked or true
+	local model = (type(model)=="number" and model or GetHashKey(model))
+	local coords = coords ~= nil and coords or QBCore.Functions.GetCoords(PlayerPedId())
+	local isnetworked = isnetworked ~= nil and isnetworked or true
 
-    RequestModel(model)
-    while not HasModelLoaded(model) do
-        Citizen.Wait(10)
-    end
+	RequestModel(model)
+	while not HasModelLoaded(model) do
+		Citizen.Wait(10)
+	end
 
-    local veh = CreateVehicle(model, coords.x, coords.y, coords.z, coords.w, isnetworked, false)
-    local netid = NetworkGetNetworkIdFromEntity(veh)
+	local veh = CreateVehicle(model, coords.x, coords.y, coords.z, coords.w, isnetworked, false)
+	local netid = NetworkGetNetworkIdFromEntity(veh)
 
-    SetVehicleHasBeenOwnedByPlayer(veh,  true)
-    SetNetworkIdCanMigrate(netid, true)
-    SetVehicleNeedsToBeHotwired(veh, false)
-    SetVehRadioStation(veh, "OFF")
+	SetVehicleHasBeenOwnedByPlayer(veh,  true)
+	SetNetworkIdCanMigrate(netid, true)
+	SetVehicleNeedsToBeHotwired(veh, false)
+	SetVehRadioStation(veh, "OFF")
+	SetModelAsNoLongerNeeded(model)
 
-    SetModelAsNoLongerNeeded(model)
-
-    if cb ~= nil then
-        cb(veh)
-    end
+	if cb ~= nil then
+		cb(veh)
+	end
 end
 
 QBCore.Functions.DeleteVehicle = function(vehicle)
-    SetEntityAsMissionEntity(vehicle, true, true)
-    DeleteVehicle(vehicle)
+	SetEntityAsMissionEntity(vehicle, true, true)
+	DeleteVehicle(vehicle)
 end
 
 QBCore.Functions.Notify = function(text, textype, length)
-    local ttype = textype ~= nil and textype or "primary"
-    local length = length ~= nil and length or 5000
-    SendNUIMessage({
-        action = "show",
-        type = ttype,
-        length = length,
-        text = text,
-    })
+	local ttype = textype ~= nil and textype or "primary"
+	local length = length ~= nil and length or 5000
+
+	SendNUIMessage({
+		action = "show",
+		type = ttype,
+		length = length,
+		text = text
+	})
 end
 
 QBCore.Functions.TriggerCallback = function(name, cb, ...) -- QBCore.Functions.TriggerCallback() falls under GPL License here: [esxlicense]/LICENSE
 	QBCore.ServerCallbacks[name] = cb
-    TriggerServerEvent("QBCore:Server:TriggerCallback", name, ...)
+
+	TriggerServerEvent("QBCore:Server:TriggerCallback", name, ...)
 end
 
 QBCore.Functions.GetVehicles = function()
-    local vehiclePool = GetGamePool('CVehicle') 
-    local vehicles = {}
+	local vehiclePool = GetGamePool('CVehicle')
+	local vehicles = {}
 
-    for i = 1, #vehiclePool, 1 do
-        table.insert(vehicles, vehiclePool[i])
-    end
+	for i = 1, #vehiclePool, 1 do
+		table.insert(vehicles, vehiclePool[i])
+	end
 
 	return vehicles
 end
 
 QBCore.Functions.GetPeds = function(ignoreList)
-    local pedPool = GetGamePool('CPed')
+	local pedPool = GetGamePool('CPed')
 	local ignoreList = ignoreList or {}
-    local peds = {}
+	local peds = {}
 
-    for i = 1, #pedPool, 1 do
+	for i = 1, #pedPool, 1 do
 		local found = false
 
-		for j=1, #ignoreList, 1 do
+		for j = 1, #ignoreList, 1 do
 			if ignoreList[j] == pedPool[i] then
 				found = true
 			end
@@ -123,20 +125,23 @@ QBCore.Functions.GetPeds = function(ignoreList)
 		if not found then
 			table.insert(peds, pedPool[i])
 		end
-    end
+	end
 
 	return peds
 end
 
 QBCore.Functions.GetPlayers = function() -- QBCore.Functions.GetPlayers() falls under GPL License here: [esxlicense]/LICENSE
-    local players = {}
-    for _, player in ipairs(GetActivePlayers()) do
-        local ped = GetPlayerPed(player)
-        if DoesEntityExist(ped) then
-            table.insert(players, player)
-        end
-    end
-    return players
+	local players = {}
+
+	for _, player in ipairs(GetActivePlayers()) do
+		local ped = GetPlayerPed(player)
+
+		if DoesEntityExist(ped) then
+			table.insert(players, player)
+		end
+	end
+
+	return players
 end
 
 QBCore.Functions.GetClosestVehicle = function(coords)
@@ -147,9 +152,11 @@ QBCore.Functions.GetClosestVehicle = function(coords)
 
 	if coords == nil then
 		local playerPed = PlayerPedId()
+
 		coords = GetEntityCoords(playerPed)
 	end
-	for i=1, #vehicles, 1 do
+
+	for i = 1, #vehicles, 1 do
 		local vehicleCoords = GetEntityCoords(vehicles[i])
 		local distance = #(vehicleCoords - coords)
 
@@ -158,20 +165,21 @@ QBCore.Functions.GetClosestVehicle = function(coords)
 			closestDistance = distance
 		end
 	end
+
 	return closestVehicle
 end
 
-QBCore.Functions.GetClosestPed = function(coords, ignoreList) 
+QBCore.Functions.GetClosestPed = function(coords, ignoreList)
 	local ignoreList      = ignoreList or {}
 	local peds            = QBCore.Functions.GetPeds(ignoreList)
 	local closestDistance = -1
-    local closestPed      = -1
-    
-    if coords == nil then
-        coords = GetEntityCoords(PlayerPedId())
-    end
+	local closestPed      = -1
 
-	for i=1, #peds, 1 do
+	if coords == nil then
+		coords = GetEntityCoords(PlayerPedId())
+	end
+
+	for i = 1, #peds, 1 do
 		local pedCoords = GetEntityCoords(peds[i])
 		local distance = #(pedCoords - coords)
 
@@ -184,98 +192,104 @@ QBCore.Functions.GetClosestPed = function(coords, ignoreList)
 	return closestPed, closestDistance
 end
 
-
 QBCore.Functions.GetClosestPlayer = function(coords)
 	if coords == nil then
-        coords = GetEntityCoords(PlayerPedId())
+		coords = GetEntityCoords(PlayerPedId())
 	end
-	
-	local closestPlayers = QBCore.Functions.GetPlayersFromCoords(coords)
-    local closestDistance = -1
-    local closestPlayer = -1
 
-    for i=1, #closestPlayers, 1 do
-        if closestPlayers[i] ~= PlayerId() and closestPlayers[i] ~= -1 then
-            local pos = GetEntityCoords(GetPlayerPed(closestPlayers[i]))
+	local closestPlayers = QBCore.Functions.GetPlayersFromCoords(coords)
+	local closestDistance = -1
+	local closestPlayer = -1
+
+	for i = 1, #closestPlayers, 1 do
+		if closestPlayers[i] ~= PlayerId() and closestPlayers[i] ~= -1 then
+			local pos = GetEntityCoords(GetPlayerPed(closestPlayers[i]))
 			local distance = #(pos - coords)
 
-            if closestDistance == -1 or closestDistance > distance then
-                closestPlayer = closestPlayers[i]
-                closestDistance = distance
-            end
-        end
+			if closestDistance == -1 or closestDistance > distance then
+				closestPlayer = closestPlayers[i]
+				closestDistance = distance
+			end
+		end
 	end
 
 	return closestPlayer, closestDistance
 end
 
 QBCore.Functions.GetPlayersFromCoords = function(coords, distance)
-    local players = QBCore.Functions.GetPlayers()
-    local closePlayers = {}
+	local players = QBCore.Functions.GetPlayers()
+	local closePlayers = {}
 
-    if coords == nil then
+	if coords == nil then
 		coords = GetEntityCoords(PlayerPedId())
-    end
-    if distance == nil then
-        distance = 5.0
-    end
-    for _, player in pairs(players) do
+	end
+
+	if distance == nil then
+		distance = 5.0
+	end
+
+	for _, player in pairs(players) do
 		local target = GetPlayerPed(player)
 		local targetCoords = GetEntityCoords(target)
 		local targetdistance = #(targetCoords - coords)
+
 		if targetdistance <= distance then
 			table.insert(closePlayers, player)
 		end
-    end
-    
-    return closePlayers
+	end
+
+	return closePlayers
 end
 
 QBCore.Functions.HasItem = function(source, cb, item)
 	local retval = false
+
 	QBCore.Functions.TriggerCallback('QBCore:HasItem', function(result)
 		if result then
 			retval = true
 		end
+
 		return retval
 	end, item)
+
 	return retval
 end
 
 QBCore.Functions.Progressbar = function(name, label, duration, useWhileDead, canCancel, disableControls, animation, prop, propTwo, onFinish, onCancel)
-    exports['progressbar']:Progress({
-        name = name:lower(),
-        duration = duration,
-        label = label,
-        useWhileDead = useWhileDead,
-        canCancel = canCancel,
-        controlDisables = disableControls,
-        animation = animation,
-        prop = prop,
-        propTwo = propTwo,
-    }, function(cancelled)
-        if not cancelled then
-            if onFinish ~= nil then
-                onFinish()
-            end
-        else
-            if onCancel ~= nil then
-                onCancel()
-            end
-        end
-    end)
+	exports['progressbar']:Progress({
+		name = name:lower(),
+		duration = duration,
+		label = label,
+		useWhileDead = useWhileDead,
+		canCancel = canCancel,
+		controlDisables = disableControls,
+		animation = animation,
+		prop = prop,
+		propTwo = propTwo
+	}, function(cancelled)
+		if not cancelled then
+			if onFinish ~= nil then
+				onFinish()
+			end
+		else
+			if onCancel ~= nil then
+				onCancel()
+			end
+		end
+	end)
 end
 
-function Round(value, numDecimalPlaces)
+QBCore.Functions.Round(value, numDecimalPlaces)
 	if numDecimalPlaces then
-		local power = 10^numDecimalPlaces
+		local power = 10 ^ numDecimalPlaces
+
 		return math.floor((value * power) + 0.5) / (power)
 	else
 		return math.floor(value + 0.5)
 	end
 end
 
-function Trim(value)
+QBCore.Functions.Trim(value)
 	if value then
 		return (string.gsub(value, "^%s*(.-)%s*$", "%1"))
 	else
@@ -284,14 +298,15 @@ function Trim(value)
 end
 
 QBCore.Functions.GetVehicleProperties = function(vehicle)
-	if DoesEntityExist(vehicle) then		
+	if DoesEntityExist(vehicle) then
 		local colorPrimary, colorSecondary = GetVehicleColours(vehicle)
 		local pearlescentColor, wheelColor = GetVehicleExtraColours(vehicle)
 		local extras = {}
 
-		for extraId=0, 12 do
+		for extraId = 0, 12 do
 			if DoesExtraExist(vehicle, extraId) then
 				local state = IsVehicleExtraTurnedOn(vehicle, extraId) == 1
+
 				extras[tostring(extraId)] = state
 			end
 		end
@@ -299,22 +314,22 @@ QBCore.Functions.GetVehicleProperties = function(vehicle)
 		return {
 			model             = GetEntityModel(vehicle),
 
-			plate             = Trim(GetVehicleNumberPlateText(vehicle)),
+			plate             = QBCore.Functions.Trim(GetVehicleNumberPlateText(vehicle)),
 			plateIndex        = GetVehicleNumberPlateTextIndex(vehicle),
-			
-			bodyHealth        = Round(GetVehicleBodyHealth(vehicle), 1),
-			engineHealth      = Round(GetVehicleEngineHealth(vehicle), 1),
-			tankHealth        = Round(GetVehiclePetrolTankHealth(vehicle), 1),
 
-			fuelLevel         = Round(GetVehicleFuelLevel(vehicle), 1),
-			dirtLevel         = Round(GetVehicleDirtLevel(vehicle), 1),
-			
+			bodyHealth        = QBCore.Functions.Round(GetVehicleBodyHealth(vehicle), 1),
+			engineHealth      = QBCore.Functions.Round(GetVehicleEngineHealth(vehicle), 1),
+			tankHealth        = QBCore.Functions.Round(GetVehiclePetrolTankHealth(vehicle), 1),
+
+			fuelLevel         = QBCore.Functions.Round(GetVehicleFuelLevel(vehicle), 1),
+			dirtLevel         = QBCore.Functions.Round(GetVehicleDirtLevel(vehicle), 1),
+
 			color1            = colorPrimary,
 			color2            = colorSecondary,
 
 			pearlescentColor  = pearlescentColor,
-            		interiorColor     = GetVehicleInteriorColor(vehicle),
-            		dashboardColor    = GetVehicleDashboardColour(vehicle),
+			interiorColor     = GetVehicleInteriorColor(vehicle),
+			dashboardColor    = GetVehicleDashboardColour(vehicle),
 			wheelColor        = wheelColor,
 
 			wheels            = GetVehicleWheelType(vehicle),
@@ -357,8 +372,8 @@ QBCore.Functions.GetVehicleProperties = function(vehicle)
 
 			modFrontWheels    = GetVehicleMod(vehicle, 23),
 			modBackWheels     = GetVehicleMod(vehicle, 24),
-            		modCustomTiresF   = GetVehicleModVariation(vehicle, 23),
-            		modCustomTiresR   = GetVehicleModVariation(vehicle, 24),
+			modCustomTiresF   = GetVehicleModVariation(vehicle, 23),
+			modCustomTiresR   = GetVehicleModVariation(vehicle, 24),
 
 			modPlateHolder    = GetVehicleMod(vehicle, 25),
 			modVanityPlate    = GetVehicleMod(vehicle, 26),
@@ -382,7 +397,7 @@ QBCore.Functions.GetVehicleProperties = function(vehicle)
 			modTrimB          = GetVehicleMod(vehicle, 44),
 			modTank           = GetVehicleMod(vehicle, 45),
 			modWindows        = GetVehicleMod(vehicle, 46),
-			modLivery         = GetVehicleMod(vehicle, 48),
+			modLivery         = GetVehicleMod(vehicle, 48)
 		}
 	else
 		return
@@ -393,6 +408,7 @@ QBCore.Functions.SetVehicleProperties = function(vehicle, props)
 	if DoesEntityExist(vehicle) then
 		local colorPrimary, colorSecondary = GetVehicleColours(vehicle)
 		local pearlescentColor, wheelColor = GetVehicleExtraColours(vehicle)
+
 		SetVehicleModKit(vehicle, 0)
 
 		if props.plate ~= nil then
@@ -420,27 +436,27 @@ QBCore.Functions.SetVehicleProperties = function(vehicle, props)
 		end
 
 		if props.color1 ~= nil then
-            		SetVehicleColours(vehicle, props.color1, colorSecondary)
+			SetVehicleColours(vehicle, props.color1, colorSecondary)
 		end
 
 		if props.color2 ~= nil then
-            		SetVehicleColours(vehicle, props.color1 or colorPrimary, props.color2)
+			SetVehicleColours(vehicle, props.color1 or colorPrimary, props.color2)
 		end
 
 		if props.pearlescentColor ~= nil then
-            		SetVehicleExtraColours(vehicle, props.pearlescentColor, wheelColor)
+			SetVehicleExtraColours(vehicle, props.pearlescentColor, wheelColor)
 		end
 
-        	if props.interiorColor ~= nil then
-            		SetVehicleInteriorColor(vehicle, props.interiorColor)
+		if props.interiorColor ~= nil then
+			SetVehicleInteriorColor(vehicle, props.interiorColor)
 		end
 
 		if props.dashboardColor ~= nil then
-            		SetVehicleDashboardColour(vehicle, props.dashboardColor)
+			SetVehicleDashboardColour(vehicle, props.dashboardColor)
 		end
 
 		if props.wheelColor ~= nil then
-            		SetVehicleExtraColours(vehicle, props.pearlescentColor or pearlescentColor, props.wheelColor)
+			SetVehicleExtraColours(vehicle, props.pearlescentColor or pearlescentColor, props.wheelColor)
 		end
 
 		if props.wheels ~= nil then
@@ -459,7 +475,7 @@ QBCore.Functions.SetVehicleProperties = function(vehicle, props)
 		end
 
 		if props.extras ~= nil then
-			for id,enabled in pairs(props.extras) do
+			for id, enabled in pairs(props.extras) do
 				if enabled then
 					SetVehicleExtra(vehicle, tonumber(id), 0)
 				else
@@ -568,14 +584,14 @@ QBCore.Functions.SetVehicleProperties = function(vehicle, props)
 			SetVehicleMod(vehicle, 24, props.modBackWheels, false)
 		end
 
-        	if props.modCustomTiresF ~= nil then
+		if props.modCustomTiresF ~= nil then
 			SetVehicleMod(vehicle, 23, props.modFrontWheels, props.modCustomTiresF)
 		end
 
 		if props.modCustomTiresR ~= nil then
 			SetVehicleMod(vehicle, 24, props.modBackWheels, props.modCustomTiresR)
 		end
-        
+
 		if props.modPlateHolder ~= nil then
 			SetVehicleMod(vehicle, 25, props.modPlateHolder, false)
 		end

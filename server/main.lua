@@ -8,7 +8,6 @@ function GetCoreObject()
 	return QBCore
 end
 
-RegisterServerEvent('QBCore:GetObject')
-AddEventHandler('QBCore:GetObject', function(cb)
+RegisterNetEvent('QBCore:GetObject', function(cb)
 	cb(GetCoreObject())
 end)

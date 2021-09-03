@@ -4,20 +4,23 @@ QBCore.Player = {}
 QBCore.Player.Login = function(source, citizenid, newData)
 	if source ~= nil then
 		if citizenid then
-			local result = exports['ghmattimysql']:executeSync('SELECT * FROM players WHERE citizenid=@citizenid', {['@citizenid'] = citizenid})
+			local result = exports['ghmattimysql']:executeSync('SELECT * FROM players WHERE citizenid = @citizenid', {['@citizenid'] = citizenid})
 			local PlayerData = result[1]
+
 			if PlayerData ~= nil then
 				PlayerData.money = json.decode(PlayerData.money)
 				PlayerData.job = json.decode(PlayerData.job)
 				PlayerData.position = json.decode(PlayerData.position)
 				PlayerData.metadata = json.decode(PlayerData.metadata)
 				PlayerData.charinfo = json.decode(PlayerData.charinfo)
+
 				if PlayerData.gang ~= nil then
 					PlayerData.gang = json.decode(PlayerData.gang)
 				else
 					PlayerData.gang = {}
 				end
 			end
+
 			QBCore.Player.CheckPlayerData(source, PlayerData)
 		else
 			QBCore.Player.CheckPlayerData(source, newData)
@@ -50,9 +53,9 @@ QBCore.Player.CheckPlayerData = function(source, PlayerData)
 	PlayerData.charinfo.gender = PlayerData.charinfo.gender ~= nil and PlayerData.charinfo.gender or 0
 	PlayerData.charinfo.backstory = PlayerData.charinfo.backstory ~= nil and PlayerData.charinfo.backstory or "placeholder backstory"
 	PlayerData.charinfo.nationality = PlayerData.charinfo.nationality ~= nil and PlayerData.charinfo.nationality or "USA"
-	PlayerData.charinfo.phone = PlayerData.charinfo.phone ~= nil and PlayerData.charinfo.phone or "1"..math.random(111111111, 999999999)
-	PlayerData.charinfo.account = PlayerData.charinfo.account ~= nil and PlayerData.charinfo.account or "US0"..math.random(1,9).."QBCore"..math.random(1111,9999)..math.random(1111,9999)..math.random(11,99)
-	
+	PlayerData.charinfo.phone = PlayerData.charinfo.phone ~= nil and PlayerData.charinfo.phone or "1" .. math.random(111111111, 999999999)
+	PlayerData.charinfo.account = PlayerData.charinfo.account ~= nil and PlayerData.charinfo.account or "US0" .. math.random(1, 9) .. "QBCore" .. math.random(1111, 9999) .. math.random(1111, 9999) .. math.random(11, 99)
+
 	PlayerData.metadata = PlayerData.metadata ~= nil and PlayerData.metadata or {}
 	PlayerData.metadata["hunger"] = PlayerData.metadata["hunger"] ~= nil and PlayerData.metadata["hunger"] or 100
 	PlayerData.metadata["thirst"] = PlayerData.metadata["thirst"] ~= nil and PlayerData.metadata["thirst"] or 100
@@ -60,7 +63,7 @@ QBCore.Player.CheckPlayerData = function(source, PlayerData)
 	PlayerData.metadata["isdead"] = PlayerData.metadata["isdead"] ~= nil and PlayerData.metadata["isdead"] or false
 	PlayerData.metadata["inlaststand"] = PlayerData.metadata["inlaststand"] ~= nil and PlayerData.metadata["inlaststand"] or false
 	PlayerData.metadata["armor"]  = PlayerData.metadata["armor"]  ~= nil and PlayerData.metadata["armor"] or 0
-	PlayerData.metadata["ishandcuffed"] = PlayerData.metadata["ishandcuffed"] ~= nil and PlayerData.metadata["ishandcuffed"] or false	
+	PlayerData.metadata["ishandcuffed"] = PlayerData.metadata["ishandcuffed"] ~= nil and PlayerData.metadata["ishandcuffed"] or false
 	PlayerData.metadata["tracker"] = PlayerData.metadata["tracker"] ~= nil and PlayerData.metadata["tracker"] or false
 	PlayerData.metadata["injail"] = PlayerData.metadata["injail"] ~= nil and PlayerData.metadata["injail"] or 0
 	PlayerData.metadata["jailitems"] = PlayerData.metadata["jailitems"] ~= nil and PlayerData.metadata["jailitems"] or {}
@@ -77,7 +80,7 @@ QBCore.Player.CheckPlayerData = function(source, PlayerData)
 		["tow"] = 0,
 		["trucker"] = 0,
 		["taxi"] = 0,
-		["hotdog"] = 0,
+		["hotdog"] = 0
 	}
 	PlayerData.metadata["callsign"] = PlayerData.metadata["callsign"] ~= nil and PlayerData.metadata["callsign"] or "NO CALLSIGN"
 	PlayerData.metadata["fingerprint"] = PlayerData.metadata["fingerprint"] ~= nil and PlayerData.metadata["fingerprint"] or QBCore.Player.CreateFingerId()
@@ -85,29 +88,30 @@ QBCore.Player.CheckPlayerData = function(source, PlayerData)
 	PlayerData.metadata["criminalrecord"] = PlayerData.metadata["criminalrecord"] ~= nil and PlayerData.metadata["criminalrecord"] or {
 		["hasRecord"] = false,
 		["date"] = nil
-	}	
+	}
 	PlayerData.metadata["licences"] = PlayerData.metadata["licences"] ~= nil and PlayerData.metadata["licences"] or {
 		["driver"] = true,
 		["business"] = false,
 		["weapon"] = false
-	}	
+	}
 	PlayerData.metadata["inside"] = PlayerData.metadata["inside"] ~= nil and PlayerData.metadata["inside"] or {
 		house = nil,
 		apartment = {
 			apartmentType = nil,
-			apartmentId = nil,
+			apartmentId = nil
 		}
 	}
 	PlayerData.metadata["phonedata"] = PlayerData.metadata["phonedata"] ~= nil and PlayerData.metadata["phonedata"] or {
-        SerialNumber = QBCore.Player.CreateSerialNumber(),
-        InstalledApps = {},
-    }
+		SerialNumber = QBCore.Player.CreateSerialNumber(),
+		InstalledApps = {}
+	}
 
 	PlayerData.job = PlayerData.job ~= nil and PlayerData.job or {}
 	PlayerData.job.name = PlayerData.job.name ~= nil and PlayerData.job.name or "unemployed"
 	PlayerData.job.label = PlayerData.job.label ~= nil and PlayerData.job.label or "Civilian"
 	PlayerData.job.payment = PlayerData.job.payment ~= nil and PlayerData.job.payment or 10
-	PlayerData.job.onduty = PlayerData.job.onduty ~= nil and PlayerData.job.onduty or true 
+	PlayerData.job.onduty = PlayerData.job.onduty ~= nil and PlayerData.job.onduty or true
+
 	-- Added for grade system
 	PlayerData.job.isboss = PlayerData.job.isboss ~= nil and PlayerData.job.isboss or false
 	PlayerData.job.grade = PlayerData.job.grade ~= nil and PlayerData.job.grade or {}
@@ -117,6 +121,7 @@ QBCore.Player.CheckPlayerData = function(source, PlayerData)
 	PlayerData.gang = PlayerData.gang ~= nil and PlayerData.gang or {}
 	PlayerData.gang.name = PlayerData.gang.name ~= nil and PlayerData.gang.name or "none"
 	PlayerData.gang.label = PlayerData.gang.label ~= nil and PlayerData.gang.label or "No Gang Affiliaton"
+
 	-- Added for grade system
 	PlayerData.gang.isboss = PlayerData.gang.isboss ~= nil and PlayerData.gang.isboss or false
 	PlayerData.gang.grade = PlayerData.gang.grade ~= nil and PlayerData.gang.grade or {}
@@ -127,6 +132,7 @@ QBCore.Player.CheckPlayerData = function(source, PlayerData)
 	PlayerData.LoggedIn = true
 
 	PlayerData = QBCore.Player.LoadInventory(PlayerData)
+
 	QBCore.Player.CreatePlayer(PlayerData)
 end
 
@@ -137,6 +143,7 @@ QBCore.Player.CreatePlayer = function(PlayerData)
 
 	self.Functions.UpdatePlayerData = function(dontUpdateChat)
 		TriggerClientEvent("QBCore:Player:SetPlayerData", self.PlayerData.source, self.PlayerData)
+
 		if dontUpdateChat == nil then
 			QBCore.Commands.Refresh(self.PlayerData.source)
 		end
@@ -150,9 +157,10 @@ QBCore.Player.CreatePlayer = function(PlayerData)
 			self.PlayerData.job.name = job
 			self.PlayerData.job.label = QBCore.Shared.Jobs[job].label
 			self.PlayerData.job.onduty = QBCore.Shared.Jobs[job].defaultDuty
-			
+
 			if QBCore.Shared.Jobs[job].grades[grade] then
 				local jobgrade = QBCore.Shared.Jobs[job].grades[grade]
+
 				self.PlayerData.job.grade = {}
 				self.PlayerData.job.grade.name = jobgrade.name
 				self.PlayerData.job.grade.level = tonumber(grade)
@@ -167,6 +175,7 @@ QBCore.Player.CreatePlayer = function(PlayerData)
 			end
 
 			self.Functions.UpdatePlayerData()
+
 			TriggerClientEvent("QBCore:Client:OnJobUpdate", self.PlayerData.source, self.PlayerData.job)
 			return true
 		end
@@ -181,8 +190,10 @@ QBCore.Player.CreatePlayer = function(PlayerData)
 		if QBCore.Shared.Gangs[gang] ~= nil then
 			self.PlayerData.gang.name = gang
 			self.PlayerData.gang.label = QBCore.Shared.Gangs[gang].label
+
 			if QBCore.Shared.Gangs[gang].grades[grade] then
 				local ganggrade = QBCore.Shared.Gangs[gang].grades[grade]
+
 				self.PlayerData.gang.grade = {}
 				self.PlayerData.gang.grade.name = ganggrade.name
 				self.PlayerData.gang.grade.level = tonumber(grade)
@@ -195,9 +206,11 @@ QBCore.Player.CreatePlayer = function(PlayerData)
 			end
 
 			self.Functions.UpdatePlayerData()
+
 			TriggerClientEvent("QBCore:Client:OnGangUpdate", self.PlayerData.source, self.PlayerData.gang)
 			return true
 		end
+
 		return false
 	end
 
@@ -208,6 +221,7 @@ QBCore.Player.CreatePlayer = function(PlayerData)
 
 	self.Functions.SetMetaData = function(meta, val)
 		local meta = meta:lower()
+
 		if val ~= nil then
 			self.PlayerData.metadata[meta] = val
 			self.Functions.UpdatePlayerData()
@@ -216,112 +230,147 @@ QBCore.Player.CreatePlayer = function(PlayerData)
 
 	self.Functions.AddJobReputation = function(amount)
 		local amount = tonumber(amount)
+
 		self.PlayerData.metadata["jobrep"][self.PlayerData.job.name] = self.PlayerData.metadata["jobrep"][self.PlayerData.job.name] + amount
 		self.Functions.UpdatePlayerData()
 	end
 
 	self.Functions.AddMoney = function(moneytype, amount, reason)
-		reason = reason ~= nil and reason or "unkown"
+		reason = reason ~= nil and reason or "unknown"
 		local moneytype = moneytype:lower()
 		local amount = tonumber(amount)
-		if amount < 0 then return end
+
+		if amount < 0 then
+			return
+		end
+
 		if self.PlayerData.money[moneytype] ~= nil then
 			self.PlayerData.money[moneytype] = self.PlayerData.money[moneytype]+amount
 			self.Functions.UpdatePlayerData()
+
 			if amount > 100000 then
-				TriggerEvent("qb-log:server:CreateLog", "playermoney", "AddMoney", "lightgreen", "**"..GetPlayerName(self.PlayerData.source) .. " (citizenid: "..self.PlayerData.citizenid.." | id: "..self.PlayerData.source..")** $"..amount .. " ("..moneytype..") added, new "..moneytype.." balance: "..self.PlayerData.money[moneytype], true)
+				TriggerEvent("qb-log:server:CreateLog", "playermoney", "AddMoney", "lightgreen", "**" .. GetPlayerName(self.PlayerData.source) .. " (citizenid: " .. self.PlayerData.citizenid .. " | id: " .. self.PlayerData.source .. ")** $" .. amount .. " (" .. moneytype .. ") added, new " .. moneytype .. " balance: " .. self.PlayerData.money[moneytype], true)
 			else
-				TriggerEvent("qb-log:server:CreateLog", "playermoney", "AddMoney", "lightgreen", "**"..GetPlayerName(self.PlayerData.source) .. " (citizenid: "..self.PlayerData.citizenid.." | id: "..self.PlayerData.source..")** $"..amount .. " ("..moneytype..") added, new "..moneytype.." balance: "..self.PlayerData.money[moneytype])
+				TriggerEvent("qb-log:server:CreateLog", "playermoney", "AddMoney", "lightgreen", "**" .. GetPlayerName(self.PlayerData.source) .. " (citizenid: " .. self.PlayerData.citizenid .. " | id: " .. self.PlayerData.source .. ")** $" .. amount .. " (" .. moneytype .. ") added, new " .. moneytype .. " balance: " .. self.PlayerData.money[moneytype])
 			end
+
 			TriggerClientEvent("hud:client:OnMoneyChange", self.PlayerData.source, moneytype, amount, false)
 			return true
 		end
+
 		return false
 	end
 
 	self.Functions.RemoveMoney = function(moneytype, amount, reason)
-		reason = reason ~= nil and reason or "unkown"
+		reason = reason ~= nil and reason or "unknown"
 		local moneytype = moneytype:lower()
 		local amount = tonumber(amount)
-		if amount < 0 then return end
+
+		if amount < 0 then
+			return
+		end
+
 		if self.PlayerData.money[moneytype] ~= nil then
 			for _, mtype in pairs(QBCore.Config.Money.DontAllowMinus) do
 				if mtype == moneytype then
 					if self.PlayerData.money[moneytype] - amount < 0 then return false end
 				end
 			end
+
 			self.PlayerData.money[moneytype] = self.PlayerData.money[moneytype] - amount
 			self.Functions.UpdatePlayerData()
+
 			if amount > 100000 then
-				TriggerEvent("qb-log:server:CreateLog", "playermoney", "RemoveMoney", "red", "**"..GetPlayerName(self.PlayerData.source) .. " (citizenid: "..self.PlayerData.citizenid.." | id: "..self.PlayerData.source..")** $"..amount .. " ("..moneytype..") removed, new "..moneytype.." balance: "..self.PlayerData.money[moneytype], true)
+				TriggerEvent("qb-log:server:CreateLog", "playermoney", "RemoveMoney", "red", "**" .. GetPlayerName(self.PlayerData.source) .. " (citizenid: " .. self.PlayerData.citizenid .. " | id: " .. self.PlayerData.source .. ")** $" .. amount .. " (" .. moneytype .. ") removed, new " .. moneytype .. " balance: " .. self.PlayerData.money[moneytype], true)
 			else
-				TriggerEvent("qb-log:server:CreateLog", "playermoney", "RemoveMoney", "red", "**"..GetPlayerName(self.PlayerData.source) .. " (citizenid: "..self.PlayerData.citizenid.." | id: "..self.PlayerData.source..")** $"..amount .. " ("..moneytype..") removed, new "..moneytype.." balance: "..self.PlayerData.money[moneytype])
+				TriggerEvent("qb-log:server:CreateLog", "playermoney", "RemoveMoney", "red", "**" .. GetPlayerName(self.PlayerData.source) .. " (citizenid: " .. self.PlayerData.citizenid .. " | id: " .. self.PlayerData.source .. ")** $" .. amount .. " (" .. moneytype .. ") removed, new " .. moneytype .. " balance: " .. self.PlayerData.money[moneytype])
 			end
+
 			TriggerClientEvent("hud:client:OnMoneyChange", self.PlayerData.source, moneytype, amount, true)
+
 			if moneytype == "bank" then
 				TriggerClientEvent('qb-phone:client:RemoveBankMoney', self.PlayerData.source, amount)
 			end
 			return true
 		end
+
 		return false
 	end
 
 	self.Functions.SetMoney = function(moneytype, amount, reason)
-		reason = reason ~= nil and reason or "unkown"
+		reason = reason ~= nil and reason or "unknown"
 		local moneytype = moneytype:lower()
 		local amount = tonumber(amount)
-		if amount < 0 then return end
+
+		if amount < 0 then
+			return
+		end
+
 		if self.PlayerData.money[moneytype] ~= nil then
 			self.PlayerData.money[moneytype] = amount
 			self.Functions.UpdatePlayerData()
-			TriggerEvent("qb-log:server:CreateLog", "playermoney", "SetMoney", "green", "**"..GetPlayerName(self.PlayerData.source) .. " (citizenid: "..self.PlayerData.citizenid.." | id: "..self.PlayerData.source..")** $"..amount .. " ("..moneytype..") set, new "..moneytype.." balance: "..self.PlayerData.money[moneytype])
+
+			TriggerEvent("qb-log:server:CreateLog", "playermoney", "SetMoney", "green", "**" .. GetPlayerName(self.PlayerData.source) .. " (citizenid: " .. self.PlayerData.citizenid .. " | id: " .. self.PlayerData.source .. ")** $" .. amount .. " (" .. moneytype .. ") set, new " .. moneytype .. " balance: " .. self.PlayerData.money[moneytype])
 			return true
 		end
+
 		return false
 	end
 
 	self.Functions.GetMoney = function(moneytype)
 		if moneytype ~= nil then
 			local moneytype = moneytype:lower()
+
 			return self.PlayerData.money[moneytype]
 		end
+
 		return false
 	end
 
 	self.Functions.AddItem = function(item, amount, slot, info)
 		local totalWeight = QBCore.Player.GetTotalWeight(self.PlayerData.items)
 		local itemInfo = QBCore.Shared.Items[item:lower()]
-		if itemInfo == nil then TriggerClientEvent('QBCore:Notify', source, "Item Does Not Exist", "error") return end
+
+		if itemInfo == nil then
+			TriggerClientEvent('QBCore:Notify', source, "Item Does Not Exist", "error")
+			return
+		end
+
 		local amount = tonumber(amount)
 		local slot = tonumber(slot) ~= nil and tonumber(slot) or QBCore.Player.GetFirstSlotByItem(self.PlayerData.items, item)
+
 		if itemInfo["type"] == "weapon" and info == nil then
 			info = {
 				serie = tostring(QBCore.Shared.RandomInt(2) .. QBCore.Shared.RandomStr(3) .. QBCore.Shared.RandomInt(1) .. QBCore.Shared.RandomStr(2) .. QBCore.Shared.RandomInt(3) .. QBCore.Shared.RandomStr(4)),
 			}
 		end
+
 		if (totalWeight + (itemInfo["weight"] * amount)) <= QBCore.Config.Player.MaxWeight then
 			if (slot ~= nil and self.PlayerData.items[slot] ~= nil) and (self.PlayerData.items[slot].name:lower() == item:lower()) and (itemInfo["type"] == "item" and not itemInfo["unique"]) then
 				self.PlayerData.items[slot].amount = self.PlayerData.items[slot].amount + amount
 				self.Functions.UpdatePlayerData()
-				TriggerEvent("qb-log:server:CreateLog", "playerinventory", "AddItem", "green", "**"..GetPlayerName(self.PlayerData.source) .. " (citizenid: "..self.PlayerData.citizenid.." | id: "..self.PlayerData.source..")** got item: [slot:" ..slot.."], itemname: " .. self.PlayerData.items[slot].name .. ", added amount: " .. amount ..", new total amount: ".. self.PlayerData.items[slot].amount)
+
+				TriggerEvent("qb-log:server:CreateLog", "playerinventory", "AddItem", "green", "**" .. GetPlayerName(self.PlayerData.source) .. " (citizenid: " .. self.PlayerData.citizenid .. " | id: " .. self.PlayerData.source .. ")** got item: [slot:" .. slot .. "], itemname: " .. self.PlayerData.items[slot].name .. ", added amount: " .. amount .. ", new total amount: " .. self.PlayerData.items[slot].amount)
 				return true
 			elseif (not itemInfo["unique"] and slot or slot ~= nil and self.PlayerData.items[slot] == nil) then
 				self.PlayerData.items[slot] = {name = itemInfo["name"], amount = amount, info = info ~= nil and info or "", label = itemInfo["label"], description = itemInfo["description"] ~= nil and itemInfo["description"] or "", weight = itemInfo["weight"], type = itemInfo["type"], unique = itemInfo["unique"], useable = itemInfo["useable"], image = itemInfo["image"], shouldClose = itemInfo["shouldClose"], slot = slot, combinable = itemInfo["combinable"]}
 				self.Functions.UpdatePlayerData()
-				TriggerEvent("qb-log:server:CreateLog", "playerinventory", "AddItem", "green", "**"..GetPlayerName(self.PlayerData.source) .. " (citizenid: "..self.PlayerData.citizenid.." | id: "..self.PlayerData.source..")** got item: [slot:" ..slot.."], itemname: " .. self.PlayerData.items[slot].name .. ", added amount: " .. amount ..", new total amount: ".. self.PlayerData.items[slot].amount)
+
+				TriggerEvent("qb-log:server:CreateLog", "playerinventory", "AddItem", "green", "**" .. GetPlayerName(self.PlayerData.source) .. " (citizenid: " .. self.PlayerData.citizenid .. " | id: " .. self.PlayerData.source .. ")** got item: [slot:" .. slot .. "], itemname: " .. self.PlayerData.items[slot].name .. ", added amount: " .. amount .. ", new total amount: " .. self.PlayerData.items[slot].amount)
 				return true
 			elseif (itemInfo["unique"]) or (not slot or slot == nil) or (itemInfo["type"] == "weapon") then
 				for i = 1, QBConfig.Player.MaxInvSlots, 1 do
 					if self.PlayerData.items[i] == nil then
 						self.PlayerData.items[i] = {name = itemInfo["name"], amount = amount, info = info ~= nil and info or "", label = itemInfo["label"], description = itemInfo["description"] ~= nil and itemInfo["description"] or "", weight = itemInfo["weight"], type = itemInfo["type"], unique = itemInfo["unique"], useable = itemInfo["useable"], image = itemInfo["image"], shouldClose = itemInfo["shouldClose"], slot = i, combinable = itemInfo["combinable"]}
 						self.Functions.UpdatePlayerData()
-						TriggerEvent("qb-log:server:CreateLog", "playerinventory", "AddItem", "green", "**"..GetPlayerName(self.PlayerData.source) .. " (citizenid: "..self.PlayerData.citizenid.." | id: "..self.PlayerData.source..")** got item: [slot:" ..i.."], itemname: " .. self.PlayerData.items[i].name .. ", added amount: " .. amount ..", new total amount: ".. self.PlayerData.items[i].amount)
-						--TriggerClientEvent('QBCore:Notify', self.PlayerData.source, itemInfo["label"].. " toegevoegd!", "success")
+
+						TriggerEvent("qb-log:server:CreateLog", "playerinventory", "AddItem", "green", "**" .. GetPlayerName(self.PlayerData.source) .. " (citizenid: " .. self.PlayerData.citizenid .. " | id: " .. self.PlayerData.source .. ")** got item: [slot:" .. i .. "], itemname: " .. self.PlayerData.items[i].name .. ", added amount: " .. amount .. ", new total amount: " .. self.PlayerData.items[i].amount)
 						return true
 					end
 				end
 			end
 		end
+
 		return false
 	end
 
@@ -329,58 +378,69 @@ QBCore.Player.CreatePlayer = function(PlayerData)
 		local itemInfo = QBCore.Shared.Items[item:lower()]
 		local amount = tonumber(amount)
 		local slot = tonumber(slot)
+
 		if slot ~= nil then
 			if self.PlayerData.items[slot].amount > amount then
 				self.PlayerData.items[slot].amount = self.PlayerData.items[slot].amount - amount
 				self.Functions.UpdatePlayerData()
-				TriggerEvent("qb-log:server:CreateLog", "playerinventory", "RemoveItem", "red", "**"..GetPlayerName(self.PlayerData.source) .. " (citizenid: "..self.PlayerData.citizenid.." | id: "..self.PlayerData.source..")** lost item: [slot:" ..slot.."], itemname: " .. self.PlayerData.items[slot].name .. ", removed amount: " .. amount ..", new total amount: ".. self.PlayerData.items[slot].amount)
+
+				TriggerEvent("qb-log:server:CreateLog", "playerinventory", "RemoveItem", "red", "**" .. GetPlayerName(self.PlayerData.source) .. " (citizenid: " .. self.PlayerData.citizenid .. " | id: " .. self.PlayerData.source .. ")** lost item: [slot:" .. slot .. "], itemname: " .. self.PlayerData.items[slot].name .. ", removed amount: " .. amount .. ", new total amount: " .. self.PlayerData.items[slot].amount)
 				return true
 			else
 				self.PlayerData.items[slot] = nil
 				self.Functions.UpdatePlayerData()
-				TriggerEvent("qb-log:server:CreateLog", "playerinventory", "RemoveItem", "red", "**"..GetPlayerName(self.PlayerData.source) .. " (citizenid: "..self.PlayerData.citizenid.." | id: "..self.PlayerData.source..")** lost item: [slot:" ..slot.."], itemname: " .. item .. ", removed amount: " .. amount ..", item removed")
+
+				TriggerEvent("qb-log:server:CreateLog", "playerinventory", "RemoveItem", "red", "**" .. GetPlayerName(self.PlayerData.source) .. " (citizenid: " .. self.PlayerData.citizenid .. " | id: " .. self.PlayerData.source .. ")** lost item: [slot:" .. slot .. "], itemname: " .. item .. ", removed amount: " .. amount .. ", item removed")
 				return true
 			end
 		else
 			local slots = QBCore.Player.GetSlotsByItem(self.PlayerData.items, item)
 			local amountToRemove = amount
+
 			if slots ~= nil then
 				for _, slot in pairs(slots) do
 					if self.PlayerData.items[slot].amount > amountToRemove then
 						self.PlayerData.items[slot].amount = self.PlayerData.items[slot].amount - amountToRemove
 						self.Functions.UpdatePlayerData()
-						TriggerEvent("qb-log:server:CreateLog", "playerinventory", "RemoveItem", "red", "**"..GetPlayerName(self.PlayerData.source) .. " (citizenid: "..self.PlayerData.citizenid.." | id: "..self.PlayerData.source..")** lost item: [slot:" ..slot.."], itemname: " .. self.PlayerData.items[slot].name .. ", removed amount: " .. amount ..", new total amount: ".. self.PlayerData.items[slot].amount)
+
+						TriggerEvent("qb-log:server:CreateLog", "playerinventory", "RemoveItem", "red", "**" .. GetPlayerName(self.PlayerData.source) .. " (citizenid: " .. self.PlayerData.citizenid .. " | id: " .. self.PlayerData.source .. ")** lost item: [slot:" .. slot .. "], itemname: " .. self.PlayerData.items[slot].name .. ", removed amount: " .. amount .. ", new total amount: " .. self.PlayerData.items[slot].amount)
 						return true
 					elseif self.PlayerData.items[slot].amount == amountToRemove then
 						self.PlayerData.items[slot] = nil
 						self.Functions.UpdatePlayerData()
-						TriggerEvent("qb-log:server:CreateLog", "playerinventory", "RemoveItem", "red", "**"..GetPlayerName(self.PlayerData.source) .. " (citizenid: "..self.PlayerData.citizenid.." | id: "..self.PlayerData.source..")** lost item: [slot:" ..slot.."], itemname: " .. item .. ", removed amount: " .. amount ..", item removed")
+
+						TriggerEvent("qb-log:server:CreateLog", "playerinventory", "RemoveItem", "red", "**" .. GetPlayerName(self.PlayerData.source) .. " (citizenid: " .. self.PlayerData.citizenid .. " | id: " .. self.PlayerData.source .. ")** lost item: [slot:" .. slot .. "], itemname: " .. item .. ", removed amount: " .. amount .. ", item removed")
 						return true
 					end
 				end
 			end
 		end
+
 		return false
 	end
 
 	self.Functions.SetInventory = function(items, dontUpdateChat)
 		self.PlayerData.items = items
 		self.Functions.UpdatePlayerData(dontUpdateChat)
-		TriggerEvent("qb-log:server:CreateLog", "playerinventory", "SetInventory", "blue", "**"..GetPlayerName(self.PlayerData.source) .. " (citizenid: "..self.PlayerData.citizenid.." | id: "..self.PlayerData.source..")** items set: " .. json.encode(items))
+
+		TriggerEvent("qb-log:server:CreateLog", "playerinventory", "SetInventory", "blue", "**" .. GetPlayerName(self.PlayerData.source) .. " (citizenid: " .. self.PlayerData.citizenid .. " | id: " .. self.PlayerData.source .. ")** items set: " .. json.encode(items))
 	end
 
 	self.Functions.ClearInventory = function()
 		self.PlayerData.items = {}
 		self.Functions.UpdatePlayerData()
-		TriggerEvent("qb-log:server:CreateLog", "playerinventory", "ClearInventory", "red", "**"..GetPlayerName(self.PlayerData.source) .. " (citizenid: "..self.PlayerData.citizenid.." | id: "..self.PlayerData.source..")** inventory cleared")
+
+		TriggerEvent("qb-log:server:CreateLog", "playerinventory", "ClearInventory", "red", "**" .. GetPlayerName(self.PlayerData.source) .. " (citizenid: " .. self.PlayerData.citizenid .. " | id: " .. self.PlayerData.source .. ")** inventory cleared")
 	end
 
 	self.Functions.GetItemByName = function(item)
 		local item = tostring(item):lower()
 		local slot = QBCore.Player.GetFirstSlotByItem(self.PlayerData.items, item)
+
 		if slot ~= nil then
 			return self.PlayerData.items[slot]
 		end
+
 		return nil
 	end
 
@@ -388,11 +448,13 @@ QBCore.Player.CreatePlayer = function(PlayerData)
 		local item = tostring(item):lower()
 		local items = {}
 		local slots = QBCore.Player.GetSlotsByItem(self.PlayerData.items, item)
+
 		for _, slot in pairs(slots) do
 			if slot ~= nil then
 				table.insert(items, self.PlayerData.items[slot])
 			end
 		end
+
 		return items
 	end
 
@@ -402,23 +464,27 @@ QBCore.Player.CreatePlayer = function(PlayerData)
 	end
 
 	self.Functions.GetCardSlot = function(cardNumber, cardType)
-        local item = tostring(cardType):lower()
-        local slots = QBCore.Player.GetSlotsByItem(self.PlayerData.items, item)
-        for _, slot in pairs(slots) do
-            if slot ~= nil then
-                if self.PlayerData.items[slot].info.cardNumber == cardNumber then 
-                    return slot
-                end
-            end
-        end
-        return nil
-    end
+		local item = tostring(cardType):lower()
+		local slots = QBCore.Player.GetSlotsByItem(self.PlayerData.items, item)
+
+		for _, slot in pairs(slots) do
+			if slot ~= nil then
+				if self.PlayerData.items[slot].info.cardNumber == cardNumber then
+					return slot
+				end
+			end
+		end
+
+		return nil
+	end
 
 	self.Functions.GetItemBySlot = function(slot)
 		local slot = tonumber(slot)
+
 		if self.PlayerData.items[slot] ~= nil then
 			return self.PlayerData.items[slot]
 		end
+
 		return nil
 	end
 
@@ -431,13 +497,16 @@ QBCore.Player.CreatePlayer = function(PlayerData)
 
 	-- At this point we are safe to emit new instance to third party resource for load handling
 	TriggerEvent('QBCore:Server:PlayerLoaded', self)
+
 	self.Functions.UpdatePlayerData()
 end
 
 QBCore.Player.Save = function(source)
 	local PlayerData = QBCore.Players[source].PlayerData
+
 	if PlayerData ~= nil then
-		local result = exports.ghmattimysql:executeSync('SELECT * FROM players WHERE citizenid=@citizenid', {['@citizenid'] = PlayerData.citizenid})
+		local result = exports.ghmattimysql:executeSync('SELECT * FROM players WHERE citizenid = @citizenid', {['@citizenid'] = PlayerData.citizenid})
+
 		if result[1] == nil then
 			exports.ghmattimysql:execute('INSERT INTO players (citizenid, cid, license, name, money, charinfo, job, gang, position, metadata) VALUES (@citizenid, @cid, @license, @name, @money, @charinfo, @job, @gang, @position, @metadata)', {
 				['@citizenid'] = PlayerData.citizenid,
@@ -452,7 +521,7 @@ QBCore.Player.Save = function(source)
 				['@metadata'] = json.encode(PlayerData.metadata)
 			})
 		else
-			exports.ghmattimysql:execute('UPDATE players SET license=@license, name=@name, money=@money, charinfo=@charinfo, job=@job, gang=@gang, position=@position, metadata=@metadata WHERE citizenid=@citizenid', {
+			exports.ghmattimysql:execute('UPDATE players SET license = @license, name = @name, money = @money, charinfo = @charinfo, job = @job, gang = @gang, position = @position, metadata = @metadata WHERE citizenid = @citizenid', {
 				['@citizenid'] = PlayerData.citizenid,
 				['@license'] = PlayerData.license,
 				['@name'] = PlayerData.name,
@@ -464,8 +533,9 @@ QBCore.Player.Save = function(source)
 				['@metadata'] = json.encode(PlayerData.metadata)
 			})
 		end
+
 		QBCore.Player.SaveInventory(source)
-		QBCore.ShowSuccess(GetCurrentResourceName(), PlayerData.name .." PLAYER SAVED!")
+		QBCore.ShowSuccess(GetCurrentResourceName(), PlayerData.name .. " PLAYER SAVED!")
 	else
 		QBCore.ShowError(GetCurrentResourceName(), "ERROR QBCORE.PLAYER.SAVE - PLAYERDATA IS EMPTY!")
 	end
@@ -474,64 +544,57 @@ end
 QBCore.Player.Logout = function(source)
 	TriggerClientEvent('QBCore:Client:OnPlayerUnload', source)
 	TriggerClientEvent("QBCore:Player:UpdatePlayerData", source)
+
 	Citizen.Wait(200)
+
 	QBCore.Players[source] = nil
 end
-
-local playertables = {
-    {table = "players"},
-    {table = "apartments"},
-    {table = "bank_accounts"},
-    {table = "crypto_transactions"},
-    {table = "phone_invoices"},
-    {table = "phone_messages"},
-    {table = "playerskins"},
-    {table = "player_boats"},
-    {table = "player_contacts"},
-    {table = "player_houses"},
-    {table = "player_mails"},
-    {table = "player_outfits"},
-    {table = "player_vehicles"}
-}
 
 QBCore.Player.DeleteCharacter = function(source, citizenid)
 	local license = QBCore.Functions.GetIdentifier(source, 'license')
 	local result = exports.ghmattimysql:scalarSync('SELECT license FROM players where citizenid = ?', {citizenid})
+
 	if license == result then
-		for k,v in pairs(playertables) do
-			exports.ghmattimysql:execute('DELETE FROM '..v.table..' WHERE citizenid = ?', {citizenid})
+		for k, v in pairs(QBConfig.Player.Tables) do
+			exports.ghmattimysql:execute('DELETE FROM ' .. v.table .. ' WHERE citizenid = ?', {citizenid})
 		end
-		TriggerEvent("qb-log:server:CreateLog", "joinleave", "Character Deleted", "red", "**".. GetPlayerName(source) .. "** ("..QBCore.Functions.GetIdentifier(source, 'license')..") deleted **"..citizenid.."**..")
+
+		TriggerEvent("qb-log:server:CreateLog", "joinleave", "Character Deleted", "red", "**" .. GetPlayerName(source) .. "** (" .. QBCore.Functions.GetIdentifier(source, 'license') .. ") deleted **" .. citizenid .. "**..")
 	else
 		DropPlayer(source, 'You Have Been Kicked For Exploitation')
-		TriggerEvent("qb-log:server:CreateLog", "anticheat", "Anti-Cheat", "white", GetPlayerName(source).." Has Been Dropped For Character Deletion Exploit", false)
+
+		TriggerEvent("qb-log:server:CreateLog", "anticheat", "Anti-Cheat", "white", GetPlayerName(source) .. " Has Been Dropped For Character Deletion Exploit", false)
 	end
 end
 
 QBCore.Player.LoadInventory = function(PlayerData)
 	PlayerData.items = {}
-	local result = exports['ghmattimysql']:executeSync('SELECT * FROM players WHERE citizenid=@citizenid', {['@citizenid'] = PlayerData.citizenid})
-	if result[1] ~= nil then 
+
+	local result = exports['ghmattimysql']:executeSync('SELECT * FROM players WHERE citizenid = @citizenid', {['@citizenid'] = PlayerData.citizenid})
+
+	if result[1] ~= nil then
 		if result[1].inventory ~= nil then
 			plyInventory = json.decode(result[1].inventory)
-			if next(plyInventory) ~= nil then 
+
+			if next(plyInventory) ~= nil then
 				for _, item in pairs(plyInventory) do
 					if item ~= nil then
 						local itemInfo = QBCore.Shared.Items[item.name:lower()]
+
 						if itemInfo ~= nil then
 							PlayerData.items[item.slot] = {
-								name = itemInfo["name"], 
-								amount = item.amount, 
-								info = item.info ~= nil and item.info or "", 
-								label = itemInfo["label"], 
-								description = itemInfo["description"] ~= nil and itemInfo["description"] or "", 
-								weight = itemInfo["weight"], 
-								type = itemInfo["type"], 
-								unique = itemInfo["unique"], 
-								useable = itemInfo["useable"], 
-								image = itemInfo["image"], 
-								shouldClose = itemInfo["shouldClose"], 
-								slot = item.slot, 
+								name = itemInfo["name"],
+								amount = item.amount,
+								info = item.info ~= nil and item.info or "",
+								label = itemInfo["label"],
+								description = itemInfo["description"] ~= nil and itemInfo["description"] or "",
+								weight = itemInfo["weight"],
+								type = itemInfo["type"],
+								unique = itemInfo["unique"],
+								useable = itemInfo["useable"],
+								image = itemInfo["image"],
+								shouldClose = itemInfo["shouldClose"],
+								slot = item.slot,
 								combinable = itemInfo["combinable"]
 							}
 						end
@@ -540,14 +603,16 @@ QBCore.Player.LoadInventory = function(PlayerData)
 			end
 		end
 	end
+
 	return PlayerData
 end
 
 QBCore.Player.SaveInventory = function(source)
-	if QBCore.Players[source] ~= nil then 
+	if QBCore.Players[source] ~= nil then
 		local PlayerData = QBCore.Players[source].PlayerData
 		local items = PlayerData.items
 		local ItemsJson = {}
+
 		if items ~= nil and next(items) ~= nil then
 			for slot, item in pairs(items) do
 				if items[slot] ~= nil then
@@ -556,29 +621,33 @@ QBCore.Player.SaveInventory = function(source)
 						amount = item.amount,
 						info = item.info,
 						type = item.type,
-						slot = slot,
+						slot = slot
 					})
 				end
 			end
-			exports.ghmattimysql:execute('UPDATE players SET inventory=@inventory WHERE citizenid=@citizenid', {['@inventory'] = json.encode(ItemsJson), ['@citizenid'] = PlayerData.citizenid})
+
+			exports.ghmattimysql:execute('UPDATE players SET inventory = @inventory WHERE citizenid = @citizenid', {['@inventory'] = json.encode(ItemsJson), ['@citizenid'] = PlayerData.citizenid})
 		else
-			exports.ghmattimysql:execute('UPDATE players SET inventory=@inventory WHERE citizenid=@citizenid', {['@inventory'] = '[]', ['@citizenid'] = PlayerData.citizenid})
+			exports.ghmattimysql:execute('UPDATE players SET inventory = @inventory WHERE citizenid = @citizenid', {['@inventory'] = '[]', ['@citizenid'] = PlayerData.citizenid})
 		end
 	end
 end
 
 QBCore.Player.GetTotalWeight = function(items)
 	local weight = 0
+
 	if items ~= nil then
 		for slot, item in pairs(items) do
 			weight = weight + (item.weight * item.amount)
 		end
 	end
+
 	return tonumber(weight)
 end
 
 QBCore.Player.GetSlotsByItem = function(items, itemName)
 	local slotsFound = {}
+
 	if items ~= nil then
 		for slot, item in pairs(items) do
 			if item.name:lower() == itemName:lower() then
@@ -586,6 +655,7 @@ QBCore.Player.GetSlotsByItem = function(items, itemName)
 			end
 		end
 	end
+
 	return slotsFound
 end
 
@@ -597,6 +667,7 @@ QBCore.Player.GetFirstSlotByItem = function(items, itemName)
 			end
 		end
 	end
+
 	return nil
 end
 
@@ -606,60 +677,75 @@ QBCore.Player.CreateCitizenId = function()
 
 	while not UniqueFound do
 		CitizenId = tostring(QBCore.Shared.RandomStr(3) .. QBCore.Shared.RandomInt(5)):upper()
-		local result = exports.ghmattimysql:executeSync('SELECT COUNT(*) as count FROM players WHERE citizenid=@citizenid', {['@citizenid'] = CitizenId})
+
+		local result = exports.ghmattimysql:executeSync('SELECT COUNT(*) as count FROM players WHERE citizenid = @citizenid', {['@citizenid'] = CitizenId})
+
 		if result[1].count == 0 then
 			UniqueFound = true
 		end
 	end
+
 	return CitizenId
 end
 
 QBCore.Player.CreateFingerId = function()
 	local UniqueFound = false
 	local FingerId = nil
+
 	while not UniqueFound do
 		FingerId = tostring(QBCore.Shared.RandomStr(2) .. QBCore.Shared.RandomInt(3) .. QBCore.Shared.RandomStr(1) .. QBCore.Shared.RandomInt(2) .. QBCore.Shared.RandomStr(3) .. QBCore.Shared.RandomInt(4))
-		local query = '%'..FingerId..'%'
+
+		local query = '%' .. FingerId .. '%'
 		local result = exports.ghmattimysql:executeSync('SELECT COUNT(*) as count FROM `players` WHERE `metadata` LIKE @query', {['@query'] = query})
+
 		if result[1].count == 0 then
 			UniqueFound = true
 		end
 	end
+
 	return FingerId
 end
 
 QBCore.Player.CreateWalletId = function()
 	local UniqueFound = false
 	local WalletId = nil
+
 	while not UniqueFound do
-		WalletId = "QB-"..math.random(11111111, 99999999)
-		local query = '%'..WalletId..'%'
+		WalletId = "QB-" .. math.random(11111111, 99999999)
+
+		local query = '%' .. WalletId .. '%'
 		local result = exports.ghmattimysql:executeSync('SELECT COUNT(*) as count FROM players WHERE metadata LIKE @query', {['@query'] = query})
+
 		if result[1].count == 0 then
 			UniqueFound = true
 		end
 	end
+
 	return WalletId
 end
 
 QBCore.Player.CreateSerialNumber = function()
-    local UniqueFound = false
-    local SerialNumber = nil
+	local UniqueFound = false
+	local SerialNumber = nil
 
-    while not UniqueFound do
-        SerialNumber = math.random(11111111, 99999999)
-		local query = '%'..SerialNumber..'%'
+	while not UniqueFound do
+		SerialNumber = math.random(11111111, 99999999)
+
+		local query = '%' .. SerialNumber .. '%'
 		local result = exports.ghmattimysql:executeSync('SELECT COUNT(*) as count FROM players WHERE metadata LIKE @query', {['@query'] = query})
+
 		if result[1].count == 0 then
 			UniqueFound = true
 		end
-    end
-    return SerialNumber
+	end
+
+	return SerialNumber
 end
 
 QBCore.EscapeSqli = function(str)
-    local replacements = { ['"'] = '\\"', ["'"] = "\\'" }
-    return str:gsub( "['\"]", replacements ) -- or string.gsub( source, "['\"]", replacements )
+	local replacements = {['"'] = '\\"', ["'"] = "\\'"}
+
+	return str:gsub("['\"]", replacements) -- or string.gsub(source, "['\"]", replacements)
 end
 
 PaycheckLoop()
