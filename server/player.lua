@@ -552,11 +552,11 @@ end
 
 QBCore.Player.DeleteCharacter = function(source, citizenid)
 	local license = QBCore.Functions.GetIdentifier(source, 'license')
-	local result = exports.ghmattimysql:scalarSync('SELECT license FROM players where citizenid = ?', {citizenid})
+	local result = exports.ghmattimysql:scalarSync('SELECT license FROM players where citizenid = @citizenid', {['@citizenid'] = citizenid})
 
 	if license == result then
 		for k, v in pairs(QBConfig.Player.Tables) do
-			exports.ghmattimysql:execute('DELETE FROM ' .. v.table .. ' WHERE citizenid = ?', {citizenid})
+			exports.ghmattimysql:execute('DELETE FROM ' .. v.table .. ' WHERE ' .. v.column .. ' = @citizenid', {['@citizenid'] = citizenid})
 		end
 
 		TriggerEvent("qb-log:server:CreateLog", "joinleave", "Character Deleted", "red", "**" .. GetPlayerName(source) .. "** (" .. QBCore.Functions.GetIdentifier(source, 'license') .. ") deleted **" .. citizenid .. "**..")
@@ -745,7 +745,7 @@ end
 QBCore.EscapeSqli = function(str)
 	local replacements = {['"'] = '\\"', ["'"] = "\\'"}
 
-	return str:gsub("['\"]", replacements) -- or string.gsub(source, "['\"]", replacements)
+	return str:gsub("['\"]", replacements)
 end
 
 PaycheckLoop()

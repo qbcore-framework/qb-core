@@ -22,19 +22,22 @@ QBConfig.Player.Bloodtypes = {
 	"O-"
 }
 QBConfig.Player.Tables = {
-	{table = "players"},
-	{table = "apartments"},
-	{table = "bank_accounts"},
-	{table = "crypto_transactions"},
-	{table = "phone_invoices"},
-	{table = "phone_messages"},
-	{table = "playerskins"},
-	{table = "player_boats"},
-	{table = "player_contacts"},
-	{table = "player_houses"},
-	{table = "player_mails"},
-	{table = "player_outfits"},
-	{table = "player_vehicles"}
+	{table = "players", column = "citizenid"},
+	{table = "apartments", column = "citizenid"},
+	{table = "bank_accounts", column = "citizenid"},
+	{table = "crypto_transactions", column = "citizenid"},
+	{table = "phone_invoices", column = "citizenid"},
+	{table = "phone_messages", column = "citizenid"},
+	{table = "playerskins", column = "citizenid"},
+	{table = "player_boats", column = "citizenid"},
+	{table = "player_contacts", column = "citizenid"},
+	{table = "player_houses", column = "citizenid"},
+	{table = "player_mails", column = "citizenid"},
+	{table = "player_outfits", column = "citizenid"},
+	{table = "player_vehicles", column = "citizenid"},
+	{table = "companies", column = "owner"},
+	{table = "lapraces", column = "creator"},
+	{table = "occasion_vehicles", column = "seller"}
 }
 
 QBConfig.Server = {} -- General server config
