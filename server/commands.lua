@@ -14,12 +14,20 @@ end
 
 QBCore.Commands.Refresh = function(source)
 	local Player = QBCore.Functions.GetPlayer(tonumber(source))
+	local suggestions = {}
 	if Player ~= nil then
 		for command, info in pairs(QBCore.Commands.List) do
 			if QBCore.Functions.HasPermission(source, "god") or QBCore.Functions.HasPermission(source, QBCore.Commands.List[command].permission) then
-				TriggerClientEvent('chat:addSuggestion', source, "/"..command, info.help, info.arguments)
+				--TriggerClientEvent('chat:addSuggestion', source, "/"..command, info.help, info.arguments)
+				table.insert(suggestions, {
+					name = '/' .. command,
+					help = info.help,
+					params = info.arguments
+				})
 			end
 		end
+		
+		TriggerClientEvent('chat:addSuggestions', tonumber(source), suggestions)
 	end
 end
 
