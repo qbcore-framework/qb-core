@@ -4540,7 +4540,7 @@ QBShared.Vehicles = {
 		["shop"] = "pdm",
 	},
 	["vectre"] = {
-		["name"] = "Emperor Vectre",
+		["name"] = "Vectre",
 		["brand"] = "Emperor",
 		["model"] = "vectre",
 		["price"] = 178500,
@@ -4555,6 +4555,15 @@ QBShared.Vehicles = {
 		["price"] = 162700,
 		["category"] = "sports",
 		["hash"] = `growler`,
+		["shop"] = "pdm",
+	},
+	["cypher"] = {
+		["name"] = "Cypher",
+		["brand"] = "Ubermacht",
+		["model"] = "cypher",
+		["price"] = 155000,
+		["category"] = "sports",
+		["hash"] = `cypher`,
 		["shop"] = "pdm",
 	},
 }
