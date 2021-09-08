@@ -322,7 +322,7 @@ QBCore.Player.CreatePlayer = function(PlayerData)
 				end
 			end
 		else
-			TriggerClientEvent('QBCore:Notify', self.PlayerData.source, "Inventory is full!", "error")
+			TriggerClientEvent('QBCore:Notify', self.PlayerData.source, "Your inventory is too heavy!", "error")
 		end
 		return false
 	end
