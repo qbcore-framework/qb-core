@@ -4566,4 +4566,13 @@ QBShared.Vehicles = {
 		["hash"] = `cypher`,
 		["shop"] = "pdm",
 	},
+	["previon"] = {
+		["name"] = "Previon",
+		["brand"] = "Karin",
+		["model"] = "previon",
+		["price"] = 149000,
+		["category"] = "coupes",
+		["hash"] = `previon`,
+		["shop"] = "pdm",
+	},
 }
