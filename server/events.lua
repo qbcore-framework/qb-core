@@ -93,8 +93,8 @@ AddEventHandler('QBCore:UpdatePlayer', function(data)
 	local Player = QBCore.Functions.GetPlayer(src)
 	if Player ~= nil then
 		Player.PlayerData.position = data.position
-		local newHunger = Player.PlayerData.metadata["hunger"] - 4.2
-		local newThirst = Player.PlayerData.metadata["thirst"] - 3.8
+		local newHunger = Player.PlayerData.metadata["hunger"] - QBCore.Config.Player.HungerRate
+		local newThirst = Player.PlayerData.metadata["thirst"] - QBCore.Config.Player.ThirstRate
 		if newHunger <= 0 then newHunger = 0 end
 		if newThirst <= 0 then newThirst = 0 end
 		Player.Functions.SetMetaData("thirst", newThirst)
