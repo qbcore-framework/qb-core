@@ -4557,4 +4557,13 @@ QBShared.Vehicles = {
 		["hash"] = `growler`,
 		["shop"] = "pdm",
 	},
+	["cypher"] = {
+		["name"] = "Cypher",
+		["brand"] = "Ubermacht",
+		["model"] = "cypher",
+		["price"] = 155000,
+		["category"] = "sports",
+		["hash"] = `cypher`,
+		["shop"] = "pdm",
+	},
 }
