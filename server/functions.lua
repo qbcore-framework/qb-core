@@ -128,7 +128,7 @@ QBCore.Functions.IsWhitelisted = function(source)
 	local identifiers = GetPlayerIdentifiers(source)
 	local rtn = false
 	if (QBCore.Config.Server.whitelist) then
-		local result = exports['ghmattimysql']:executeSync('SELECT * FROM whitelist WHERE license=@license', {['@license'] = QBCore.Functions.GetIdentifier(source, 'license')})
+		local result = exports.oxmysql:fetchSync('SELECT * FROM whitelist WHERE license=@license', {['@license'] = QBCore.Functions.GetIdentifier(source, 'license')})
 		local data = result[1]
 		if data ~= nil then
 			for _, id in pairs(identifiers) do
@@ -150,9 +150,9 @@ QBCore.Functions.AddPermission = function(source, permission)
 			license = QBCore.Functions.GetIdentifier(source, 'license'),
 			permission = permission:lower(),
 		}
-		exports['ghmattimysql']:execute('DELETE FROM permissions WHERE license=@license', {['@license'] = QBCore.Functions.GetIdentifier(source, 'license')})
+		exports.oxmysql:execute('DELETE FROM permissions WHERE license=@license', {['@license'] = QBCore.Functions.GetIdentifier(source, 'license')})
 
-		exports['ghmattimysql']:execute('INSERT INTO permissions (name, license, permission) VALUES (@name, @license, @permission)', {
+		exports.oxmysql:insert('INSERT INTO permissions (name, license, permission) VALUES (@name, @license, @permission)', {
 			['@name'] = GetPlayerName(source),
 			['@license'] = QBCore.Functions.GetIdentifier(source, 'license'),
 			['@permission'] = permission:lower()
@@ -167,7 +167,7 @@ QBCore.Functions.RemovePermission = function(source)
 	local Player = QBCore.Functions.GetPlayer(source)
 	if Player ~= nil then 
 		QBCore.Config.Server.PermissionList[QBCore.Functions.GetIdentifier(source, 'license')] = nil	
-		exports['ghmattimysql']:execute('DELETE FROM permissions WHERE license=@license', {['@license'] = QBCore.Functions.GetIdentifier(source, 'license')})
+		exports.oxmysql:execute('DELETE FROM permissions WHERE license=@license', {['@license'] = QBCore.Functions.GetIdentifier(source, 'license')})
 		Player.Functions.UpdatePlayerData()
 	end
 end
@@ -223,14 +223,14 @@ end
 QBCore.Functions.IsPlayerBanned = function (source)
 	local retval = false
 	local message = ""
-    local result = exports.ghmattimysql:executeSync('SELECT * FROM bans WHERE license=@license', {['@license'] = QBCore.Functions.GetIdentifier(source, 'license')})
+    local result = exports.oxmysql:fetchSync('SELECT * FROM bans WHERE license=@license', {['@license'] = QBCore.Functions.GetIdentifier(source, 'license')})
     if result[1] ~= nil then
         if os.time() < result[1].expire then
             retval = true
             local timeTable = os.date("*t", tonumber(result.expire))
             message = "You have been banned from the server:\n"..result[1].reason.."\nYour ban expires "..timeTable.day.. "/" .. timeTable.month .. "/" .. timeTable.year .. " " .. timeTable.hour.. ":" .. timeTable.min .. "\n"
         else
-            exports['ghmattimysql']:execute('DELETE FROM bans WHERE id=@id', {['@id'] = result[1].id})
+            exports.oxmysql:execute('DELETE FROM bans WHERE id=@id', {['@id'] = result[1].id})
         end
     end
 	return retval, message
