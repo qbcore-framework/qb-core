@@ -306,9 +306,9 @@ end)
 RegisterServerEvent('QBCore:Command:CheckOwnedVehicle')
 AddEventHandler('QBCore:Command:CheckOwnedVehicle', function(VehiclePlate)
 	if VehiclePlate ~= nil then
-		local result = exports.oxmysql:fetchSync('SELECT * FROM player_vehicles WHERE plate=@plate', {['@plate'] = VehiclePlate})
+		local result = exports.oxmysql:fetchSync('SELECT * FROM player_vehicles WHERE plate = ?', { VehiclePlate })
 		if result[1] ~= nil then
-			exports.oxmysql:execute('UPDATE player_vehicles SET state=@state WHERE citizenid=@citizenid', {['@state'] = 1, ['@citizenid'] = result[1].citizenid})
+			exports.oxmysql:execute('UPDATE player_vehicles SET state = ? WHERE citizenid = ?', { 1, result[1].citizenid })
 			TriggerEvent('qb-garages:server:RemoveVehicle', result[1].citizenid, VehiclePlate)
 		end
 	end
