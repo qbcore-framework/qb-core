@@ -4,7 +4,7 @@ QBCore.Player = {}
 QBCore.Player.Login = function(source, citizenid, newData)
 	if source ~= nil then
 		if citizenid then
-			local result = exports.oxmysql:fetchSync('SELECT * FROM players WHERE citizenid=@citizenid', {['@citizenid'] = citizenid})
+			local result = exports.oxmysql:fetchSync('SELECT * FROM players WHERE citizenid = ?', { citizenid })
 			local PlayerData = result[1]
 			if PlayerData ~= nil then
 				PlayerData.money = json.decode(PlayerData.money)
@@ -439,31 +439,32 @@ end
 QBCore.Player.Save = function(source)
 	local PlayerData = QBCore.Players[source].PlayerData
 	if PlayerData ~= nil then
-		local result = exports.oxmysql:fetchSync('SELECT * FROM players WHERE citizenid=@citizenid', {['@citizenid'] = PlayerData.citizenid})
+		-- TODO: Merge these 3 queries into 1 with an on duplicate (citizenid isn't primary so https://stackoverflow.com/a/33495408/3200040 might need to be used)
+		local result = exports.oxmysql:fetchSync('SELECT * FROM players WHERE citizenid = ?', { PlayerData.citizenid })
 		if result[1] == nil then
-			exports.oxmysql:insert('INSERT INTO players (citizenid, cid, license, name, money, charinfo, job, gang, position, metadata) VALUES (@citizenid, @cid, @license, @name, @money, @charinfo, @job, @gang, @position, @metadata)', {
-				['@citizenid'] = PlayerData.citizenid,
-				['@cid'] = tonumber(PlayerData.cid),
-				['@license'] = PlayerData.license,
-				['@name'] = PlayerData.name,
-				['@money'] = json.encode(PlayerData.money),
-				['@charinfo'] = json.encode(PlayerData.charinfo),
-				['@job'] = json.encode(PlayerData.job),
-				['@gang'] = json.encode(PlayerData.gang),
-				['@position'] = json.encode(PlayerData.position),
-				['@metadata'] = json.encode(PlayerData.metadata)
+			exports.oxmysql:insert('INSERT INTO players (citizenid, cid, license, name, money, charinfo, job, gang, position, metadata) VALUES (?)', {
+				PlayerData.citizenid,
+				tonumber(PlayerData.cid),
+				PlayerData.license,
+				PlayerData.name,
+				json.encode(PlayerData.money),
+				json.encode(PlayerData.charinfo),
+				json.encode(PlayerData.job),
+				json.encode(PlayerData.gang),
+				json.encode(PlayerData.position),
+				json.encode(PlayerData.metadata)
 			})
 		else
-			exports.oxmysql:execute('UPDATE players SET license=@license, name=@name, money=@money, charinfo=@charinfo, job=@job, gang=@gang, position=@position, metadata=@metadata WHERE citizenid=@citizenid', {
-				['@citizenid'] = PlayerData.citizenid,
-				['@license'] = PlayerData.license,
-				['@name'] = PlayerData.name,
-				['@money'] = json.encode(PlayerData.money),
-				['@charinfo'] = json.encode(PlayerData.charinfo),
-				['@job'] = json.encode(PlayerData.job),
-				['@gang'] = json.encode(PlayerData.gang),
-				['@position'] = json.encode(PlayerData.position),
-				['@metadata'] = json.encode(PlayerData.metadata)
+			exports.oxmysql:execute('UPDATE players SET license = ?, name = ?, money = ?, charinfo = ?, job = ?, gang = ?, position = ?, metadata = ? WHERE citizenid = ?', {
+				PlayerData.license,
+				PlayerData.name,
+				json.encode(PlayerData.money),
+				json.encode(PlayerData.charinfo),
+				json.encode(PlayerData.job),
+				json.encode(PlayerData.gang),
+				json.encode(PlayerData.position),
+				json.encode(PlayerData.metadata),
+				PlayerData.citizenid
 			})
 		end
 		QBCore.Player.SaveInventory(source)
@@ -498,10 +499,10 @@ local playertables = {
 
 QBCore.Player.DeleteCharacter = function(source, citizenid)
 	local license = QBCore.Functions.GetIdentifier(source, 'license')
-	local result = exports.oxmysql:scalarSync('SELECT license FROM players where citizenid = ?', {citizenid})
+	local result = exports.oxmysql:scalarSync('SELECT license FROM players where citizenid = ?', { citizenid })
 	if license == result then
 		for k,v in pairs(playertables) do
-			exports.oxmysql:execute('DELETE FROM '..v.table..' WHERE citizenid = ?', {citizenid})
+			exports.oxmysql:execute('DELETE FROM '..v.table..' WHERE citizenid = ?', { citizenid })
 		end
 		TriggerEvent("qb-log:server:CreateLog", "joinleave", "Character Deleted", "red", "**".. GetPlayerName(source) .. "** ("..QBCore.Functions.GetIdentifier(source, 'license')..") deleted **"..citizenid.."**..")
 	else
@@ -512,7 +513,7 @@ end
 
 QBCore.Player.LoadInventory = function(PlayerData)
 	PlayerData.items = {}
-	local result = exports.oxmysql:fetchSync('SELECT * FROM players WHERE citizenid=@citizenid', {['@citizenid'] = PlayerData.citizenid})
+	local result = exports.oxmysql:fetchSync('SELECT * FROM players WHERE citizenid = ?', { PlayerData.citizenid })
 	if result[1] ~= nil then 
 		if result[1].inventory ~= nil then
 			plyInventory = json.decode(result[1].inventory)
@@ -562,9 +563,9 @@ QBCore.Player.SaveInventory = function(source)
 					})
 				end
 			end
-			exports.oxmysql:execute('UPDATE players SET inventory=@inventory WHERE citizenid=@citizenid', {['@inventory'] = json.encode(ItemsJson), ['@citizenid'] = PlayerData.citizenid})
+			exports.oxmysql:execute('UPDATE players SET inventory = ? WHERE citizenid = ?', { json.encode(ItemsJson), PlayerData.citizenid })
 		else
-			exports.oxmysql:execute('UPDATE players SET inventory=@inventory WHERE citizenid=@citizenid', {['@inventory'] = '[]', ['@citizenid'] = PlayerData.citizenid})
+			exports.oxmysql:execute('UPDATE players SET inventory = ? WHERE citizenid = ?', { '[]', PlayerData.citizenid })
 		end
 	end
 end
@@ -608,7 +609,7 @@ QBCore.Player.CreateCitizenId = function()
 
 	while not UniqueFound do
 		CitizenId = tostring(QBCore.Shared.RandomStr(3) .. QBCore.Shared.RandomInt(5)):upper()
-		local result = exports.oxmysql:fetchSync('SELECT COUNT(*) as count FROM players WHERE citizenid=@citizenid', {['@citizenid'] = CitizenId})
+		local result = exports.oxmysql:fetchSync('SELECT COUNT(*) as count FROM players WHERE citizenid = ?', { CitizenId })
 		if result[1].count == 0 then
 			UniqueFound = true
 		end
@@ -622,7 +623,7 @@ QBCore.Player.CreateFingerId = function()
 	while not UniqueFound do
 		FingerId = tostring(QBCore.Shared.RandomStr(2) .. QBCore.Shared.RandomInt(3) .. QBCore.Shared.RandomStr(1) .. QBCore.Shared.RandomInt(2) .. QBCore.Shared.RandomStr(3) .. QBCore.Shared.RandomInt(4))
 		local query = '%'..FingerId..'%'
-		local result = exports.oxmysql:fetchSync('SELECT COUNT(*) as count FROM `players` WHERE `metadata` LIKE @query', {['@query'] = query})
+		local result = exports.oxmysql:fetchSync('SELECT COUNT(*) as count FROM `players` WHERE `metadata` LIKE ?', { query })
 		if result[1].count == 0 then
 			UniqueFound = true
 		end
@@ -636,7 +637,7 @@ QBCore.Player.CreateWalletId = function()
 	while not UniqueFound do
 		WalletId = "QB-"..math.random(11111111, 99999999)
 		local query = '%'..WalletId..'%'
-		local result = exports.oxmysql:fetchSync('SELECT COUNT(*) as count FROM players WHERE metadata LIKE @query', {['@query'] = query})
+		local result = exports.oxmysql:fetchSync('SELECT COUNT(*) as count FROM players WHERE metadata LIKE ?', { query })
 		if result[1].count == 0 then
 			UniqueFound = true
 		end
@@ -651,17 +652,12 @@ QBCore.Player.CreateSerialNumber = function()
     while not UniqueFound do
         SerialNumber = math.random(11111111, 99999999)
 		local query = '%'..SerialNumber..'%'
-		local result = exports.oxmysql:fetchSync('SELECT COUNT(*) as count FROM players WHERE metadata LIKE @query', {['@query'] = query})
+		local result = exports.oxmysql:fetchSync('SELECT COUNT(*) as count FROM players WHERE metadata LIKE ?', { query })
 		if result[1].count == 0 then
 			UniqueFound = true
 		end
     end
     return SerialNumber
-end
-
-QBCore.EscapeSqli = function(str)
-    local replacements = { ['"'] = '\\"', ["'"] = "\\'" }
-    return str:gsub( "['\"]", replacements ) -- or string.gsub( source, "['\"]", replacements )
 end
 
 PaycheckLoop()
