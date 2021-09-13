@@ -442,7 +442,7 @@ QBCore.Player.Save = function(source)
 		-- TODO: Merge these 3 queries into 1 with an on duplicate (citizenid isn't primary so https://stackoverflow.com/a/33495408/3200040 might need to be used)
 		local result = exports.oxmysql:fetchSync('SELECT * FROM players WHERE citizenid = ?', { PlayerData.citizenid })
 		if result[1] == nil then
-			exports.oxmysql:insert('INSERT INTO players (citizenid, cid, license, name, money, charinfo, job, gang, position, metadata) VALUES (?)', {
+			exports.oxmysql:insert('INSERT INTO players (citizenid, cid, license, name, money, charinfo, job, gang, position, metadata) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)', {
 				PlayerData.citizenid,
 				tonumber(PlayerData.cid),
 				PlayerData.license,
