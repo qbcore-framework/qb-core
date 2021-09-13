@@ -152,7 +152,7 @@ QBCore.Functions.AddPermission = function(source, permission)
 		}
 		exports.oxmysql:execute('DELETE FROM permissions WHERE license = ?', { QBCore.Functions.GetIdentifier(source, 'license') })
 
-		exports.oxmysql:insert('INSERT INTO permissions (name, license, permission) VALUES (?)', {
+		exports.oxmysql:insert('INSERT INTO permissions (name, license, permission) VALUES (?, ?, ?)', {
 			GetPlayerName(source),
 			QBCore.Functions.GetIdentifier(source, 'license'),
 			permission:lower()
