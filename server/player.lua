@@ -52,7 +52,7 @@ QBCore.Player.CheckPlayerData = function(source, PlayerData)
 	PlayerData.charinfo.nationality = PlayerData.charinfo.nationality ~= nil and PlayerData.charinfo.nationality or "USA"
 	PlayerData.charinfo.phone = PlayerData.charinfo.phone ~= nil and PlayerData.charinfo.phone or "1"..math.random(111111111, 999999999)
 	PlayerData.charinfo.account = PlayerData.charinfo.account ~= nil and PlayerData.charinfo.account or "US0"..math.random(1,9).."QBCore"..math.random(1111,9999)..math.random(1111,9999)..math.random(11,99)
-	
+
 	PlayerData.metadata = PlayerData.metadata ~= nil and PlayerData.metadata or {}
 	PlayerData.metadata["hunger"] = PlayerData.metadata["hunger"] ~= nil and PlayerData.metadata["hunger"] or 100
 	PlayerData.metadata["thirst"] = PlayerData.metadata["thirst"] ~= nil and PlayerData.metadata["thirst"] or 100
@@ -60,7 +60,7 @@ QBCore.Player.CheckPlayerData = function(source, PlayerData)
 	PlayerData.metadata["isdead"] = PlayerData.metadata["isdead"] ~= nil and PlayerData.metadata["isdead"] or false
 	PlayerData.metadata["inlaststand"] = PlayerData.metadata["inlaststand"] ~= nil and PlayerData.metadata["inlaststand"] or false
 	PlayerData.metadata["armor"]  = PlayerData.metadata["armor"]  ~= nil and PlayerData.metadata["armor"] or 0
-	PlayerData.metadata["ishandcuffed"] = PlayerData.metadata["ishandcuffed"] ~= nil and PlayerData.metadata["ishandcuffed"] or false	
+	PlayerData.metadata["ishandcuffed"] = PlayerData.metadata["ishandcuffed"] ~= nil and PlayerData.metadata["ishandcuffed"] or false
 	PlayerData.metadata["tracker"] = PlayerData.metadata["tracker"] ~= nil and PlayerData.metadata["tracker"] or false
 	PlayerData.metadata["injail"] = PlayerData.metadata["injail"] ~= nil and PlayerData.metadata["injail"] or 0
 	PlayerData.metadata["jailitems"] = PlayerData.metadata["jailitems"] ~= nil and PlayerData.metadata["jailitems"] or {}
@@ -85,12 +85,12 @@ QBCore.Player.CheckPlayerData = function(source, PlayerData)
 	PlayerData.metadata["criminalrecord"] = PlayerData.metadata["criminalrecord"] ~= nil and PlayerData.metadata["criminalrecord"] or {
 		["hasRecord"] = false,
 		["date"] = nil
-	}	
+	}
 	PlayerData.metadata["licences"] = PlayerData.metadata["licences"] ~= nil and PlayerData.metadata["licences"] or {
 		["driver"] = true,
 		["business"] = false,
 		["weapon"] = false
-	}	
+	}
 	PlayerData.metadata["inside"] = PlayerData.metadata["inside"] ~= nil and PlayerData.metadata["inside"] or {
 		house = nil,
 		apartment = {
@@ -107,7 +107,7 @@ QBCore.Player.CheckPlayerData = function(source, PlayerData)
 	PlayerData.job.name = PlayerData.job.name ~= nil and PlayerData.job.name or "unemployed"
 	PlayerData.job.label = PlayerData.job.label ~= nil and PlayerData.job.label or "Civilian"
 	PlayerData.job.payment = PlayerData.job.payment ~= nil and PlayerData.job.payment or 10
-	PlayerData.job.onduty = PlayerData.job.onduty ~= nil and PlayerData.job.onduty or true 
+	PlayerData.job.onduty = PlayerData.job.onduty ~= nil and PlayerData.job.onduty or true
 	-- Added for grade system
 	PlayerData.job.isboss = PlayerData.job.isboss ~= nil and PlayerData.job.isboss or false
 	PlayerData.job.grade = PlayerData.job.grade ~= nil and PlayerData.job.grade or {}
@@ -150,7 +150,7 @@ QBCore.Player.CreatePlayer = function(PlayerData)
 			self.PlayerData.job.name = job
 			self.PlayerData.job.label = QBCore.Shared.Jobs[job].label
 			self.PlayerData.job.onduty = QBCore.Shared.Jobs[job].defaultDuty
-			
+
 			if QBCore.Shared.Jobs[job].grades[grade] then
 				local jobgrade = QBCore.Shared.Jobs[job].grades[grade]
 				self.PlayerData.job.grade = {}
@@ -408,7 +408,7 @@ QBCore.Player.CreatePlayer = function(PlayerData)
         local slots = QBCore.Player.GetSlotsByItem(self.PlayerData.items, item)
         for _, slot in pairs(slots) do
             if slot ~= nil then
-                if self.PlayerData.items[slot].info.cardNumber == cardNumber then 
+                if self.PlayerData.items[slot].info.cardNumber == cardNumber then
                     return slot
                 end
             end
@@ -497,6 +497,19 @@ local playertables = {
     {table = "player_vehicles"}
 }
 
+QBCore.Player.AddPlayerTable = function(tableName)
+    local exists = false
+    for k, v in pairs(playertables) do
+        if v.table == tableName then
+            exists = true
+            break
+        end
+    end
+    if not exists then
+        table.insert(playertables, {table = tableName})
+    end
+end
+
 QBCore.Player.DeleteCharacter = function(source, citizenid)
 	local license = QBCore.Functions.GetIdentifier(source, 'license')
 	local result = exports.oxmysql:scalarSync('SELECT license FROM players where citizenid = ?', { citizenid })
@@ -514,27 +527,27 @@ end
 QBCore.Player.LoadInventory = function(PlayerData)
 	PlayerData.items = {}
 	local result = exports.oxmysql:fetchSync('SELECT * FROM players WHERE citizenid = ?', { PlayerData.citizenid })
-	if result[1] ~= nil then 
+	if result[1] ~= nil then
 		if result[1].inventory ~= nil then
 			plyInventory = json.decode(result[1].inventory)
-			if next(plyInventory) ~= nil then 
+			if next(plyInventory) ~= nil then
 				for _, item in pairs(plyInventory) do
 					if item ~= nil then
 						local itemInfo = QBCore.Shared.Items[item.name:lower()]
 						if itemInfo ~= nil then
 							PlayerData.items[item.slot] = {
-								name = itemInfo["name"], 
-								amount = item.amount, 
-								info = item.info ~= nil and item.info or "", 
-								label = itemInfo["label"], 
-								description = itemInfo["description"] ~= nil and itemInfo["description"] or "", 
-								weight = itemInfo["weight"], 
-								type = itemInfo["type"], 
-								unique = itemInfo["unique"], 
-								useable = itemInfo["useable"], 
-								image = itemInfo["image"], 
-								shouldClose = itemInfo["shouldClose"], 
-								slot = item.slot, 
+								name = itemInfo["name"],
+								amount = item.amount,
+								info = item.info ~= nil and item.info or "",
+								label = itemInfo["label"],
+								description = itemInfo["description"] ~= nil and itemInfo["description"] or "",
+								weight = itemInfo["weight"],
+								type = itemInfo["type"],
+								unique = itemInfo["unique"],
+								useable = itemInfo["useable"],
+								image = itemInfo["image"],
+								shouldClose = itemInfo["shouldClose"],
+								slot = item.slot,
 								combinable = itemInfo["combinable"]
 							}
 						end
@@ -547,7 +560,7 @@ QBCore.Player.LoadInventory = function(PlayerData)
 end
 
 QBCore.Player.SaveInventory = function(source)
-	if QBCore.Players[source] ~= nil then 
+	if QBCore.Players[source] ~= nil then
 		local PlayerData = QBCore.Players[source].PlayerData
 		local items = PlayerData.items
 		local ItemsJson = {}
