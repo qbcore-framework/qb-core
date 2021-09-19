@@ -114,34 +114,25 @@ local function GamePoolWrapper(gamePool)
 				for _, e in ipairs(exclude) do
 					excludeMap[e] = true
 				end
-
-				goto skip
+      else
+			  -- exclude is not a table, so its a single value.
+        excludeMap[exclude] = true
 			end
-
-			-- exclude is not a table, so its a single value.
-			excludeMap[exclude] = true
 		end
-
-		::skip::
 
 		local out = { }
 		local outSize = 0
 
-		-- The excludeMap is still empty for some reason :/
-		if table.type(excludeMap) == 'empty' then
-			goto ret
-		end
+		if table.type(excludeMap) ~= 'empty' then
+      for i = 1, #pool do
+        local entity = pool[i]
 
-		for i = 1, #pool do
-			local entity = pool[i]
-
-			if not excludeMap[entity] then
-				outSize += 1
-				out[outSize] = entity
-			end
-		end
-
-		::ret::
+        if not excludeMap[entity] then
+          outSize += 1
+          out[outSize] = entity
+        end
+      end
+    end
 
 		return out
 	end
