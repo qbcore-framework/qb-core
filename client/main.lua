@@ -89,58 +89,99 @@ function QBCore.Functions.TriggerCallback(name, cb, ...)
   TriggerServerEvent('QBCore:Server:TriggerCallback', name, ...)
 end
 
-function QBCore.Functions.GetVehicles()
-  return GetGamePool('CVehicle')
-end
-
-function QBCore.Functions.GetPeds()
-  return GetGamePool('CPed')
-end
-
 function QBCore.Functions.GetPlayers()
   return GetActivePlayers()
 end
 
-function QBCore.Functions.GetClosestVehicle()
-  local ped = PlayerPedId()
-  local coords = GetEntityCoords(ped)
-  local vehicles = GetGamePool('CVehicle')
-  local closestDistance = -1
-  local closestVehicle = -1
+local function GamePoolWrapper(gamePool)
+	return function(exclude)
+		local pool = GetGamePool(gamePool)
 
-  for i = 1, #vehicles, 1 do
-    local vehicleCoords = GetEntityCoords(vehicles[i])
-    local distance = #(vehicleCoords - coords)
+		if not exclude then
+			return pool
+		end
 
-    if closestDistance == -1 or closestDistance > distance then
-      closestVehicle = vehicles[i]
-      closestDistance = distance
-    end
-  end
+		local excludeMap = type(exclude) == 'table' and (table.type(exclude) == 'hash' and exclude or { }) or { }
 
-  return closestVehicle
+		if table.type(excludeMap) == 'empty' then
+			local excludeType = table.type(exclude)
+
+			if excludeType == 'mixed' then
+				return error("{exclude} parameter doesn't support mixed tables.")
+			end
+
+			if excludeType == 'array' then
+				for _, e in ipairs(exclude) do
+					excludeMap[e] = true
+				end
+
+				goto skip
+			end
+
+			-- exclude is not a table, so its a single value.
+			excludeMap[exclude] = true
+		end
+
+		::skip::
+
+		local out = { }
+		local outSize = 0
+
+		-- The excludeMap is still empty for some reason :/
+		if table.type(excludeMap) == 'empty' then
+			goto ret
+		end
+
+		for i = 1, #pool do
+			local entity = pool[i]
+
+			if not excludeMap[entity] then
+				outSize += 1
+				out[outSize] = entity
+			end
+		end
+
+		::ret::
+
+		return out
+	end
 end
 
-function QBCore.Functions.GetClosestPed()
-  local ped = PlayerPedId()
-  local coords = GetEntityCoords(ped)
-  local peds = GetGamePool('CPed')
-  local closestDistance = -1
-  local closestPed = -1
+QBCore.Functions.GetVehicles = GamePoolWrapper('CVehicle')
+QBCore.Functions.GetPeds     = GamePoolWrapper('CPed')
+QBCore.Functions.GetObjects  = GamePoolWrapper('CObject')
+QBCore.Functions.GetPickups  = GamePoolWrapper('CPickup')
 
-  for i = 1, #peds, 1 do
-    local pedCoords = GetEntityCoords(peds[i])
-    local distance = #(pedCoords - coords)
+local function GamePoolFindClosestEntityWrapper(gamePool)
+	return function(overrideCenterPos, exclude)
+		local pool = GamePoolWrapper(gamePool)(exclude)
 
-    if closestDistance == -1 or closestDistance > distance then
-      closestPed = peds[i]
-      closestDistance = distance
-    end
-  end
+		local centerPos = overrideCenterPos or GetEntityCoords(PlayerPedId())
 
-  return closestPed
+		local outEntity = nil
+		local entityDistance = 9999
+
+		for i = 1, #pool do
+			local entity = pool[i]
+
+			local entityPos = GetEntityCoords(entity)
+
+			local distToCenter = #(entityPos - centerPos)
+
+			if distToCenter <= entityDistance then
+				outEntity = entity
+				entityDistance = distToCenter
+			end
+		end
+
+		return outEntity, (outEntity and entityDistance or -1)
+	end
 end
 
+QBCore.Functions.GetClosestVehicle = GamePoolFindClosestEntityWrapper('CVehicle')
+QBCore.Functions.GetClosestPed 	   = GamePoolFindClosestEntityWrapper('CPed')
+QBCore.Functions.GetClosestObject  = GamePoolFindClosestEntityWrapper('CObject')
+QBCore.Functions.GetClosestPickup  = GamePoolFindClosestEntityWrapper('CPickup')
 -- Events
 
 -- Teleport Commands
