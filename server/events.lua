@@ -2,6 +2,7 @@
 RegisterServerEvent("QBCore:PlayerJoined")
 AddEventHandler('QBCore:PlayerJoined', function()
 	local src = source
+	SetPlayerRoutingBucket(src, 0)
 end)
 
 AddEventHandler('playerDropped', function(reason) 
