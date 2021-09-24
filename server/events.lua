@@ -323,5 +323,5 @@ QBCore.Functions.CreateCallback('QBCore:SpawnVehicleSV', function(source, cb, mo
         print("Waiting for Model : ", model)
     end
     local netid =  NetworkGetNetworkIdFromEntity(vehicle)
-	cb(NetworkGetEntityFromNetworkId(netid))
+	cb(netid, NetworkGetEntityFromNetworkId(netid), GetVehicleNumberPlateText(vehicle))
 end)

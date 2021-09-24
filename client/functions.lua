@@ -60,13 +60,13 @@ QBCore.Functions.SpawnVehicle = function(model, cb, coords, isnetworked) -- QBCo
     end
 
     if IsAnyVehicleNearPoint(coords.x, coords.y, coords.z, 2.0) == false then
-        QBCore.Functions.TriggerCallback('QBCore:SpawnVehicleSV', function(result)
+        QBCore.Functions.TriggerCallback('QBCore:SpawnVehicleSV', function(veh, veh1)
             --local vehicle = NetworkGetEntityFromNetworkId(veh)
-            local vehicle = result
+            local vehicle = veh1
             
             while not DoesEntityExist(vehicle) do
                 Citizen.Wait(100)
-                vehicle = NetworkGetEntityFromNetworkId(vehicle)
+				vehicle = NetworkGetEntityFromNetworkId(veh)
             end
 
             SetVehicleHasBeenOwnedByPlayer(vehicle,  true)
