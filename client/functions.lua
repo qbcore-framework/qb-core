@@ -66,7 +66,7 @@ QBCore.Functions.SpawnVehicle = function(model, cb, coords, isnetworked) -- QBCo
             
             while not DoesEntityExist(vehicle) do
                 Citizen.Wait(100)
-                vehicle = NetworkGetEntityFromNetworkId(veh)
+                vehicle = NetworkGetEntityFromNetworkId(vehicle)
             end
 
             SetVehicleHasBeenOwnedByPlayer(vehicle,  true)
