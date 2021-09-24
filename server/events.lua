@@ -314,3 +314,14 @@ AddEventHandler('QBCore:Command:CheckOwnedVehicle', function(VehiclePlate)
 		end
 	end
 end)
+
+QBCore.Functions.CreateCallback('QBCore:SpawnVehicleSV', function(source, cb, model, coords, heading) 
+    --local vehicle = Citizen.InvokeNative(GetHashKey('CREATE_AUTOMOBILE'), model, coords, heading)
+    local vehicle = CreateVehicle(model, coords.x, coords.y, coords.z, heading, true, true, true)
+    while not vehicle or not DoesEntityExist(vehicle) do
+        Citizen.Wait(500)
+        print("Waiting for Model : ", model)
+    end
+    local netid =  NetworkGetNetworkIdFromEntity(vehicle)
+	cb(NetworkGetEntityFromNetworkId(netid))
+end)

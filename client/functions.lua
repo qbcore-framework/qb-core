@@ -59,18 +59,31 @@ QBCore.Functions.SpawnVehicle = function(model, cb, coords, isnetworked) -- QBCo
         Citizen.Wait(10)
     end
 
-    local veh = CreateVehicle(model, coords.x, coords.y, coords.z, coords.w, isnetworked, false)
-    local netid = NetworkGetNetworkIdFromEntity(veh)
+    if IsAnyVehicleNearPoint(coords.x, coords.y, coords.z, 2.0) == false then
+        QBCore.Functions.TriggerCallback('QBCore:SpawnVehicleSV', function(result)
+            --local vehicle = NetworkGetEntityFromNetworkId(veh)
+            local vehicle = result
+            
+            while not DoesEntityExist(vehicle) do
+                Citizen.Wait(100)
+                vehicle = NetworkGetEntityFromNetworkId(veh)
+            end
 
-    SetVehicleHasBeenOwnedByPlayer(veh,  true)
-    SetNetworkIdCanMigrate(netid, true)
-    SetVehicleNeedsToBeHotwired(veh, false)
-    SetVehRadioStation(veh, "OFF")
+            SetVehicleHasBeenOwnedByPlayer(vehicle,  true)
+            SetEntityAsMissionEntity(vehicle, true, true)
+            SetVehicleNeedsToBeHotwired(vehicle, false)
+            --SetEntityAlpha(vehicle, 0)
+            --NetworkFadeInEntity(vehicle, 1)
+            SetVehRadioStation(vehicle, "OFF")
+            SetModelAsNoLongerNeeded(model)
+            
+            if cb ~= nil then
+                cb(vehicle)
+            end
 
-    SetModelAsNoLongerNeeded(model)
-
-    if cb ~= nil then
-        cb(veh)
+        end, model, vector3(coords.x, coords.y, coords.z), coords.w)   
+    else
+        QBCore.Functions.Notify("There is a vehicle blocking way", "error", 5000)
     end
 end
 
