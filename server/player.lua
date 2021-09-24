@@ -377,6 +377,18 @@ QBCore.Player.CreatePlayer = function(PlayerData)
 		TriggerEvent("qb-log:server:CreateLog", "playerinventory", "ClearInventory", "red", "**"..GetPlayerName(self.PlayerData.source) .. " (citizenid: "..self.PlayerData.citizenid.." | id: "..self.PlayerData.source..")** inventory cleared")
 	end
 
+	--alternative for esx get item
+	self.Functions.GetItem = function(item)
+		local item = tostring(item):lower()
+		local slot = QBCore.Player.GetFirstSlotByItem(self.PlayerData.items, item)
+		if slot ~= nil and QBCore.Shared.Items[item] ~= nil then
+			return self.PlayerData.items[slot]
+		end
+		return {
+			count = 0 -- returns count = 0 if player don't have the item. (Makes it easier to convert ESX scripts.)
+		}
+	end
+
 	self.Functions.GetItemByName = function(item)
 		local item = tostring(item):lower()
 		local slot = QBCore.Player.GetFirstSlotByItem(self.PlayerData.items, item)
