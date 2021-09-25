@@ -1,135 +1,99 @@
--- QBCore Command Events
-RegisterNetEvent('QBCore:Command:TeleportToPlayer')
-AddEventHandler('QBCore:Command:TeleportToPlayer', function(coords)
-	local ped = PlayerPedId()
-	SetPedCoordsKeepVehicle(ped, coords.x, coords.y, coords.z)
+-- Player load and unload handling
+-- New method for checking if logged in across all scripts (optional)
+-- if LocalPlayer.state['isLoggedIn'] then
+RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
+    ShutdownLoadingScreenNui()
+    LocalPlayer.state:set('isLoggedIn', true, false)
+    SetCanAttackFriendly(PlayerPedId(), true, false)
+    NetworkSetFriendlyFireOption(true)
 end)
 
-RegisterNetEvent('QBCore:Command:TeleportToCoords')
-AddEventHandler('QBCore:Command:TeleportToCoords', function(x, y, z)
-	local ped = PlayerPedId()
-	SetPedCoordsKeepVehicle(ped, x, y, z)
+RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
+    LocalPlayer.state:set('isLoggedIn', false, false)
 end)
 
-RegisterNetEvent('QBCore:Command:SpawnVehicle')
-AddEventHandler('QBCore:Command:SpawnVehicle', function(model)
-	QBCore.Functions.SpawnVehicle(model, function(vehicle)
-		TaskWarpPedIntoVehicle(PlayerPedId(), vehicle, -1)
-		TriggerEvent("vehiclekeys:client:SetOwner", GetVehicleNumberPlateText(vehicle))
-	end)
+-- Teleport Commands
+
+RegisterNetEvent('QBCore:Command:TeleportToPlayer', function(coords)
+    local ped = PlayerPedId()
+    SetPedCoordsKeepVehicle(ped, coords.x, coords.y, coords.z)
 end)
 
-RegisterNetEvent('QBCore:Command:DeleteVehicle')
-AddEventHandler('QBCore:Command:DeleteVehicle', function()
-	local vehicle = QBCore.Functions.GetClosestVehicle()
-	if IsPedInAnyVehicle(PlayerPedId()) then vehicle = GetVehiclePedIsIn(PlayerPedId(), false) else vehicle = QBCore.Functions.GetClosestVehicle() end
-	-- TriggerServerEvent('QBCore:Command:CheckOwnedVehicle', GetVehicleNumberPlateText(vehicle))
-	QBCore.Functions.DeleteVehicle(vehicle)
+RegisterNetEvent('QBCore:Command:TeleportToCoords', function(x, y, z)
+    local ped = PlayerPedId()
+    SetPedCoordsKeepVehicle(ped, x, y, z)
 end)
 
-RegisterNetEvent('QBCore:Command:Revive')
-AddEventHandler('QBCore:Command:Revive', function()
-	local coords = QBCore.Functions.GetCoords(PlayerPedId())
-	NetworkResurrectLocalPlayer(coords.x, coords.y, coords.z+0.2, coords.a, true, false)
-	SetPlayerInvincible(PlayerPedId(), false)
-	ClearPedBloodDamage(PlayerPedId())
+RegisterNetEvent('QBCore:Command:GoToMarker', function()
+    local ped = PlayerPedId()
+    local blip = GetFirstBlipInfoId(8)
+    if DoesBlipExist(blip) then
+        local blipCoords = GetBlipCoords(blip)
+        for height = 1, 1000 do
+            SetPedCoordsKeepVehicle(ped, blipCoords.x, blipCoords.y, height + 0.0)
+            local foundGround, zPos = GetGroundZFor_3dCoord(blipCoords.x, blipCoords.y, height + 0.0)
+            if foundGround then
+                SetPedCoordsKeepVehicle(ped, blipCoords.x, blipCoords.y, height + 0.0)
+                break
+            end
+            Wait(0)
+        end
+    end
 end)
 
-RegisterNetEvent('QBCore:Command:GoToMarker')
-AddEventHandler('QBCore:Command:GoToMarker', function()
-	Citizen.CreateThread(function()
-		local entity = PlayerPedId()
-		if IsPedInAnyVehicle(entity, false) then
-			entity = GetVehiclePedIsUsing(entity)
-		end
-		local success = false
-		local blipFound = false
-		local blipIterator = GetBlipInfoIdIterator()
-		local blip = GetFirstBlipInfoId(8)
+-- Vehicle Commands
 
-		while DoesBlipExist(blip) do
-			if GetBlipInfoIdType(blip) == 4 then
-				cx, cy, cz = table.unpack(Citizen.InvokeNative(0xFA7C7F0AADF25D09, blip, Citizen.ReturnResultAnyway(), Citizen.ResultAsVector())) --GetBlipInfoIdCoord(blip)
-				blipFound = true
-				break
-			end
-			blip = GetNextBlipInfoId(blipIterator)
-		end
+RegisterNetEvent('QBCore:Command:SpawnVehicle', function(vehName)
+    local ped = PlayerPedId()
+    local hash = GetHashKey(vehName)
+    if not IsModelInCdimage(hash) then return end
+    RequestModel(hash)
+    while not HasModelLoaded(hash) do Wait(10) end
+    local vehicle = CreateVehicle(hash, GetEntityCoords(ped), GetEntityHeading(ped), true, false)
+    TaskWarpPedIntoVehicle(ped, vehicle, -1)
+    SetModelAsNoLongerNeeded(vehicle)
+	TriggerEvent("vehiclekeys:client:SetOwner", GetVehicleNumberPlateText(vehicle))
+end)
 
-		if blipFound then
-			DoScreenFadeOut(250)
-			while IsScreenFadedOut() do
-				Citizen.Wait(250)
-			end
-			local groundFound = false
-			local yaw = GetEntityHeading(entity)
-			
-			for i = 0, 1000, 1 do
-				SetEntityCoordsNoOffset(entity, cx, cy, ToFloat(i), false, false, false)
-				SetEntityRotation(entity, 0, 0, 0, 0 ,0)
-				SetEntityHeading(entity, yaw)
-				SetGameplayCamRelativeHeading(0)
-				Citizen.Wait(0)
-				--groundFound = true
-				if GetGroundZFor_3dCoord(cx, cy, ToFloat(i), cz, false) then --GetGroundZFor3dCoord(cx, cy, i, 0, 0) GetGroundZFor_3dCoord(cx, cy, i)
-					cz = ToFloat(i)
-					groundFound = true
-					break
-				end
-			end
-			if not groundFound then
-				cz = -300.0
-			end
-			success = true
-		end
-
-		if success then
-			SetEntityCoordsNoOffset(entity, cx, cy, cz, false, false, true)
-			SetGameplayCamRelativeHeading(0)
-			if IsPedSittingInAnyVehicle(PlayerPedId()) then
-				if GetPedInVehicleSeat(GetVehiclePedIsUsing(PlayerPedId()), -1) == PlayerPedId() then
-					SetVehicleOnGroundProperly(GetVehiclePedIsUsing(PlayerPedId()))
-				end
-			end
-			--HideLoadingPromt()
-			DoScreenFadeIn(250)
-		end
-	end)
+RegisterNetEvent('QBCore:Command:DeleteVehicle', function()
+    local ped = PlayerPedId()
+    local veh = GetVehiclePedIsUsing(ped)
+    if veh ~= 0 then
+        SetEntityAsMissionEntity(veh, true, true)
+        DeleteVehicle(veh)
+    else
+        local pcoords = GetEntityCoords(ped)
+        local vehicles = GetGamePool('CVehicle')
+        for k, v in pairs(vehicles) do
+            if #(pcoords - GetEntityCoords(v)) <= 5.0 then
+                SetEntityAsMissionEntity(v, true, true)
+                DeleteVehicle(v)
+            end
+        end
+    end
 end)
 
 -- Other stuff
-RegisterNetEvent('QBCore:Player:SetPlayerData')
-AddEventHandler('QBCore:Player:SetPlayerData', function(val)
-	QBCore.PlayerData = val
+
+RegisterNetEvent('QBCore:Player:SetPlayerData', function(val)
+    QBCore.PlayerData = val
 end)
 
-RegisterNetEvent('QBCore:Player:UpdatePlayerData')
-AddEventHandler('QBCore:Player:UpdatePlayerData', function()
-	local data = {}
-	data.position = QBCore.Functions.GetCoords(PlayerPedId())
-	TriggerServerEvent('QBCore:UpdatePlayer', data)
+RegisterNetEvent('QBCore:Player:UpdatePlayerData', function()
+    TriggerServerEvent('QBCore:UpdatePlayer')
 end)
 
-RegisterNetEvent('QBCore:Player:UpdatePlayerPosition')
-AddEventHandler('QBCore:Player:UpdatePlayerPosition', function()
-	local position = QBCore.Functions.GetCoords(PlayerPedId())
-	TriggerServerEvent('QBCore:UpdatePlayerPosition', position)
+RegisterNetEvent('QBCore:Notify', function(text, type, length)
+    QBCore.Functions.Notify(text, type, length)
 end)
 
-RegisterNetEvent('QBCore:Notify')
-AddEventHandler('QBCore:Notify', function(text, type, length)
-	QBCore.Functions.Notify(text, type, length)
+RegisterNetEvent('QBCore:Client:TriggerCallback', function(name, ...)
+    if QBCore.ServerCallbacks[name] then
+        QBCore.ServerCallbacks[name](...)
+        QBCore.ServerCallbacks[name] = nil
+    end
 end)
 
-RegisterNetEvent('QBCore:Client:TriggerCallback') -- QBCore:Client:TriggerCallback falls under GPL License here: [esxlicense]/LICENSE
-AddEventHandler('QBCore:Client:TriggerCallback', function(name, ...)
-	if QBCore.ServerCallbacks[name] ~= nil then
-		QBCore.ServerCallbacks[name](...)
-		QBCore.ServerCallbacks[name] = nil
-	end
-end)
-
-RegisterNetEvent("QBCore:Client:UseItem") -- QBCore:Client:UseItem falls under GPL License here: [esxlicense]/LICENSE
-AddEventHandler('QBCore:Client:UseItem', function(item)
-	TriggerServerEvent("QBCore:Server:UseItem", item)
+RegisterNetEvent('QBCore:Client:UseItem', function(item)
+    TriggerServerEvent('QBCore:Server:UseItem', item)
 end)
