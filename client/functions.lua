@@ -155,7 +155,7 @@ function QBCore.Functions.GetClosestVehicle()
             closestDistance = distance
         end
     end
-    return closestVehicle
+    return closestVehicle,closestDistance
 end
 
 function QBCore.Functions.GetClosestObject()
