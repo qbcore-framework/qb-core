@@ -12,11 +12,11 @@ CREATE TABLE IF NOT EXISTS `players` (
   `metadata` text NOT NULL,
   `inventory` longtext DEFAULT NULL,
   `last_updated` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  PRIMARY KEY (`id`),
-  KEY `citizenid` (`citizenid`),
+  PRIMARY KEY (`citizenid`),
+  KEY `id` (`id`),
   KEY `last_updated` (`last_updated`),
   KEY `license` (`license`)
-) ENGINE=InnoDB AUTO_INCREMENT=4189 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1;
 
 CREATE TABLE IF NOT EXISTS `permissions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `permissions` (
   `permission` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `license` (`license`)
-) ENGINE=InnoDB AUTO_INCREMENT=54 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1;
 
 CREATE TABLE IF NOT EXISTS `bans` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -40,14 +40,7 @@ CREATE TABLE IF NOT EXISTS `bans` (
   KEY `license` (`license`),
   KEY `discord` (`discord`),
   KEY `ip` (`ip`)
-) ENGINE=InnoDB AUTO_INCREMENT=518 DEFAULT CHARSET=utf8mb4;
-
-CREATE TABLE IF NOT EXISTS `whitelist` (
-  `license` varchar(255) NOT NULL,
-  `name` varchar(255) NOT NULL,
-  PRIMARY KEY (`license`),
-  UNIQUE KEY `identifier` (`license`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=1;
 
 CREATE TABLE IF NOT EXISTS `player_contacts` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -57,4 +50,4 @@ CREATE TABLE IF NOT EXISTS `player_contacts` (
   `iban` varchar(50) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `citizenid` (`citizenid`)
-) ENGINE=InnoDB AUTO_INCREMENT=12433 DEFAULT CHARSET=utf8mb4;
+) ENGINE=InnoDB AUTO_INCREMENT=1;
