@@ -106,6 +106,9 @@ QBCore.Functions.GetVehicles = function()
 	return vehicles
 end
 
+QBCore.Functions.GetVehiclesInArea = function(coords, maxDistance) return EnumerateEntitiesWithinDistance(QBCore.Functions.GetVehicles(), false, coords, maxDistance) end
+QBCore.Functions.IsSpawnPointClear = function(coords, maxDistance) return #QBCore.Functions.GetVehiclesInArea(coords, maxDistance) == 0 end
+
 QBCore.Functions.GetPeds = function(ignoreList)
     local pedPool = GetGamePool('CPed')
 	local ignoreList = ignoreList or {}
@@ -669,4 +672,25 @@ QBCore.Functions.SetVehicleProperties = function(vehicle, props)
 			SetVehicleLivery(vehicle, props.modLivery)
 		end
 	end
+end
+
+function EnumerateEntitiesWithinDistance(entities, isPlayerEntities, coords, maxDistance)
+	local nearbyEntities = {}
+
+	if coords then
+		coords = vector3(coords.x, coords.y, coords.z)
+	else
+		local playerPed = PlayerPedId()
+		coords = GetEntityCoords(playerPed)
+	end
+
+	for k,entity in pairs(entities) do
+		local distance = #(coords - GetEntityCoords(entity))
+
+		if distance <= maxDistance then
+			table.insert(nearbyEntities, isPlayerEntities and k or entity)
+		end
+	end
+
+	return nearbyEntities
 end
