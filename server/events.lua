@@ -21,7 +21,7 @@ AddEventHandler('chatMessage', function(source, n, message)
 			if Player then
 				local isGod = QBCore.Functions.HasPermission(src, 'god')
 				local hasPerm = QBCore.Functions.HasPermission(src, QBCore.Commands.List[command].permission)
-				local isPrincipal = IsPrincipalAceAllowed('group.admin', 'command')
+				local isPrincipal = IsPlayerAceAllowed(src, 'command')
 				table.remove(args, 1)
 				if isGod or hasPerm or isPrincipal then
 					if (QBCore.Commands.List[command].argsrequired and #QBCore.Commands.List[command].arguments ~= 0 and args[#QBCore.Commands.List[command].arguments] == nil) then
@@ -196,7 +196,7 @@ RegisterNetEvent('QBCore:CallCommand', function(command, args)
 		if Player then
 			local isGod = QBCore.Functions.HasPermission(src, 'god')
             local hasPerm = QBCore.Functions.HasPermission(src, QBCore.Commands.List[command].permission)
-            local isPrincipal = IsPrincipalAceAllowed('group.admin', 'command')
+            local isPrincipal = IsPlayerAceAllowed(src, 'command')
 			if (QBCore.Commands.List[command].permission == Player.PlayerData.job.name) or isGod or hasPerm or isPrincipal then
 				if (QBCore.Commands.List[command].argsrequired and #QBCore.Commands.List[command].arguments ~= 0 and args[#QBCore.Commands.List[command].arguments] == nil) then
 					TriggerClientEvent('QBCore:Notify', src, 'All arguments must be filled out!', 'error')
