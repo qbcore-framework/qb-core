@@ -22,15 +22,21 @@ end
 function QBCore.Commands.Refresh(source)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
+    local suggestions = {}
     if Player then
         for command, info in pairs(QBCore.Commands.List) do
             local isGod = QBCore.Functions.HasPermission(src, 'god')
             local hasPerm = QBCore.Functions.HasPermission(src, QBCore.Commands.List[command].permission)
             local isPrincipal = IsPrincipalAceAllowed('group.admin', 'command')
             if isGod or hasPerm or isPrincipal then
-                TriggerClientEvent('chat:addSuggestion', src, '/' .. command, info.help, info.arguments)
+                suggestions[#suggestions+1] = {
+                    name = '/' .. command,
+                    help = info.help,
+                    params = info.arguments
+                }
             end
         end
+        TriggerClientEvent('chat:addSuggestions', tonumber(source), suggestions)
     end
 end
 
