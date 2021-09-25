@@ -454,6 +454,8 @@ end
 
 function QBCore.Player.Save(source)
 	local src = source
+	local ped = GetPlayerPed(src)
+	local pcoords = GetEntityCoords(ped)
 	local PlayerData = QBCore.Players[src].PlayerData
 	if PlayerData then
 		exports.oxmysql:insert('INSERT INTO players (citizenid, cid, license, name, money, charinfo, job, gang, position, metadata) VALUES (:citizenid, :cid, :license, :name, :money, :charinfo, :job, :gang, :position, :metadata) ON DUPLICATE KEY UPDATE cid = :cid, name = :name, money = :money, charinfo = :charinfo, job = :job, gang = :gang, position = :position, metadata = :metadata', {
@@ -465,7 +467,7 @@ function QBCore.Player.Save(source)
 			charinfo = json.encode(PlayerData.charinfo),
 			job = json.encode(PlayerData.job),
 			gang = json.encode(PlayerData.gang),
-			position = json.encode(PlayerData.position),
+			position = json.encode(pcoords),
 			metadata = json.encode(PlayerData.metadata)
 		})
 		QBCore.Player.SaveInventory(src)

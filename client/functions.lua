@@ -135,7 +135,7 @@ function QBCore.Functions.GetPlayersFromCoords(coords, distance)
 		local targetCoords = GetEntityCoords(target)
 		local targetdistance = #(targetCoords - coords)
 		if targetdistance <= distance then
-                    closePlayers[#closePlayers+1] = player
+            closePlayers[#closePlayers+1] = player
 		end
     end
     return closePlayers
