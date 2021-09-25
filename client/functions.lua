@@ -155,7 +155,7 @@ function QBCore.Functions.GetClosestVehicle()
             closestDistance = distance
         end
     end
-    return closestVehicle
+    return closestVehicle, closestDistance
 end
 
 function QBCore.Functions.GetClosestObject()
@@ -172,7 +172,7 @@ function QBCore.Functions.GetClosestObject()
             closestDistance = distance
         end
     end
-    return closestObject
+    return closestObject, closestDistance
 end
 
 function QBCore.Functions.GetClosestPed()
@@ -190,7 +190,7 @@ function QBCore.Functions.GetClosestPed()
             closestDistance = distance
         end
     end
-    return closestPed
+    return closestPed, closestDistance
 end
 
 -- Vehicle
