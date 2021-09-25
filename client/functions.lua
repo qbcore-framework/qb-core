@@ -190,7 +190,7 @@ function QBCore.Functions.GetClosestPed()
             closestDistance = distance
         end
     end
-    return closestPed
+    return closestPed, closestDistance
 end
 
 -- Vehicle
