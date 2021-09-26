@@ -100,9 +100,45 @@ end
 -- Getters
 
 function QBCore.Functions.GetVehicles() return GetGamePool('CVehicle') end
-function QBCore.Functions.GetPeds() return GetGamePool('CPed') end
 function QBCore.Functions.GetObjects() return GetGamePool('CObject') end
 function QBCore.Functions.GetPlayers() return GetActivePlayers() end
+
+function QBCore.Functions.GetPeds(ignoreList)
+    local pedPool = GetGamePool('CPed')
+	local ignoreList = ignoreList or {}
+    local peds = {}
+    for i = 1, #pedPool, 1 do
+		local found = false
+		for j=1, #ignoreList, 1 do
+			if ignoreList[j] == pedPool[i] then
+				found = true
+			end
+		end
+		if not found then
+			peds[#peds+1] = pedPool[i]
+		end
+    end
+	return peds
+end
+
+function QBCore.Functions.GetClosestPed(coords, ignoreList)
+    local ped = PlayerPedId()
+    if not coords then coords = GetEntityCoords(ped) end
+	local ignoreList = ignoreList or {}
+    local peds = QBCore.Functions.GetPeds(ignoreList)
+    local closestDistance = -1
+    local closestPed = -1
+    for i = 1, #peds, 1 do
+        local pedCoords = GetEntityCoords(peds[i])
+        local distance = #(pedCoords - coords)
+
+        if closestDistance == -1 or closestDistance > distance then
+            closestPed = peds[i]
+            closestDistance = distance
+        end
+    end
+    return closestPed, closestDistance
+end
 
 function QBCore.Functions.GetClosestPlayer(coords)
     if coords == nil then
@@ -173,24 +209,6 @@ function QBCore.Functions.GetClosestObject()
         end
     end
     return closestObject, closestDistance
-end
-
-function QBCore.Functions.GetClosestPed()
-    local ped = PlayerPedId()
-    local coords = GetEntityCoords(ped)
-    local peds = GetGamePool('CPed')
-    local closestDistance = -1
-    local closestPed = -1
-    for i = 1, #peds, 1 do
-        local pedCoords = GetEntityCoords(peds[i])
-        local distance = #(pedCoords - coords)
-
-        if closestDistance == -1 or closestDistance > distance then
-            closestPed = peds[i]
-            closestDistance = distance
-        end
-    end
-    return closestPed, closestDistance
 end
 
 -- Vehicle
