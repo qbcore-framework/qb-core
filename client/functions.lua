@@ -141,10 +141,11 @@ function QBCore.Functions.GetClosestPed(coords, ignoreList)
 end
 
 function QBCore.Functions.GetClosestPlayer(coords)
+    local ped = PlayerPedId()
     if coords == nil then
-        coords = GetEntityCoords(PlayerPedId())
+        coords = GetEntityCoords(ped)
 	end
-	local closestPlayers = QBCore.Functions.GetPlayersFromCoords(coords)
+    local closestPlayers = QBCore.Functions.GetPlayersFromCoords(coords)
     local closestDistance = -1
     local closestPlayer = -1
     for i=1, #closestPlayers, 1 do
@@ -178,14 +179,13 @@ function QBCore.Functions.GetPlayersFromCoords(coords, distance)
 end
 
 function QBCore.Functions.GetClosestVehicle(coords)
+	local ped = PlayerPedId()
 	local vehicles        = GetGamePool('CVehicle')
 	local closestDistance = -1
 	local closestVehicle  = -1
 	local coords          = coords
-
 	if coords == nil then
-		local playerPed = PlayerPedId()
-		coords = GetEntityCoords(playerPed)
+		coords = GetEntityCoords(ped)
 	end
 	for i=1, #vehicles, 1 do
 		local vehicleCoords = GetEntityCoords(vehicles[i])
@@ -204,7 +204,7 @@ function QBCore.Functions.GetClosestObject(coords)
     local objects = GetGamePool('CObject')
     local closestDistance = -1
     local closestObject = -1
-	local coords          = coords
+    local coords          = coords
 	if coords == nil then
 		coords = GetEntityCoords(ped)
 	end
