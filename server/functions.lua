@@ -71,6 +71,11 @@ function QBCore.Functions.GetPlayers()
 	return sources
 end
 
+-- Will return an array of QB Player class instances
+-- unlike the GetPlayers() wrapper which only returns IDs
+function QBCore.Functions.GetQBPlayers()
+	return QBCore.Players
+end
 -- Paychecks (standalone - don't touch)
 
 function PaycheckLoop()
