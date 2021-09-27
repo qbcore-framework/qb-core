@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100&display=swap');
+
 body {
     background-color: transparent !important;
 }
@@ -22,6 +24,7 @@ body {
     width: fit-content;
     border-radius: .4vh;
     margin: 5px;
+    font-family: 'Poppins', sans-serif;    
     font: caption;
     font-size: 1.2vh;
     font-weight: bold;
