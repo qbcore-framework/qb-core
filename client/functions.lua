@@ -141,10 +141,9 @@ function QBCore.Functions.GetClosestPed(coords, ignoreList)
 end
 
 function QBCore.Functions.GetClosestPlayer(coords)
-    if coords == nil then
-        coords = GetEntityCoords(PlayerPedId())
-	end
-	local closestPlayers = QBCore.Functions.GetPlayersFromCoords(coords)
+    local ped = PlayerPedId()
+    local coords = coords or GetEntityCoords(ped)
+    local closestPlayers = QBCore.Functions.GetPlayersFromCoords(coords)
     local closestDistance = -1
     local closestPlayer = -1
     for i=1, #closestPlayers, 1 do
@@ -177,29 +176,30 @@ function QBCore.Functions.GetPlayersFromCoords(coords, distance)
     return closePlayers
 end
 
-function QBCore.Functions.GetClosestVehicle()
-    local ped = PlayerPedId()
-    local coords = GetEntityCoords(ped)
-    local vehicles = GetGamePool('CVehicle')
-    local closestDistance = -1
-    local closestVehicle = -1
-    for i = 1, #vehicles, 1 do
-        local vehicleCoords = GetEntityCoords(vehicles[i])
-        local distance = #(vehicleCoords - coords)
-        if closestDistance == -1 or closestDistance > distance then
-            closestVehicle = vehicles[i]
-            closestDistance = distance
-        end
-    end
-    return closestVehicle, closestDistance
+function QBCore.Functions.GetClosestVehicle(coords)
+	local ped = PlayerPedId()
+	local vehicles        = GetGamePool('CVehicle')
+	local closestDistance = -1
+	local closestVehicle  = -1
+	local coords = coords or GetEntityCoords(ped)
+	for i=1, #vehicles, 1 do
+		local vehicleCoords = GetEntityCoords(vehicles[i])
+		local distance = #(vehicleCoords - coords)
+
+		if closestDistance == -1 or closestDistance > distance then
+			closestVehicle  = vehicles[i]
+			closestDistance = distance
+		end
+	end
+	return closestVehicle, closestDistance
 end
 
-function QBCore.Functions.GetClosestObject()
+function QBCore.Functions.GetClosestObject(coords)
     local ped = PlayerPedId()
-    local coords = GetEntityCoords(ped)
     local objects = GetGamePool('CObject')
     local closestDistance = -1
     local closestObject = -1
+    local coords = coords or GetEntityCoords(ped)
     for i = 1, #objects, 1 do
         local objectCoords = GetEntityCoords(objects[i])
         local distance = #(objectCoords - coords)
