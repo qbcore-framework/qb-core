@@ -105,7 +105,7 @@ function QBCore.Functions.GetPlayers() return GetActivePlayers() end
 
 function QBCore.Functions.GetPeds(ignoreList)
     local pedPool = GetGamePool('CPed')
-	local ignoreList = ignoreList or {}
+    local ignoreList = ignoreList or {}
     local peds = {}
     for i = 1, #pedPool, 1 do
 		local found = false
@@ -123,8 +123,8 @@ end
 
 function QBCore.Functions.GetClosestPed(coords, ignoreList)
     local ped = PlayerPedId()
-    if not coords then coords = GetEntityCoords(ped) end
-	local ignoreList = ignoreList or {}
+    local coords = coords or GetEntityCoords(ped)
+    local ignoreList = ignoreList or {}
     local peds = QBCore.Functions.GetPeds(ignoreList)
     local closestDistance = -1
     local closestPed = -1
