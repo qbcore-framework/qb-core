@@ -141,8 +141,10 @@ end, 'user')
 QBCore.Commands.Add('setjob', 'Set A Players Job (Admin Only)', {{name = 'id', help = 'Player ID'}, {name = 'job', help = 'Job name'},{name = 'grade', help = 'Grade'}}, true, function(source, args)
     local src = source
     local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
+	local PlayerJob = QBCore.Functions.GetPlayer(source).PlayerData.job
     if Player then
         Player.Functions.SetJob(tostring(args[2]), tonumber(args[3]))
+		TriggerClientEvent('QBCore:Notify', source, string.format("[Job]: %s [Grade]: %s [On Duty]: %s", PlayerJob.label, PlayerJob.grade.name, PlayerJob.onduty))
     else
         TriggerClientEvent('QBCore:Notify', src, 'Player Not Online', 'error')
     end
