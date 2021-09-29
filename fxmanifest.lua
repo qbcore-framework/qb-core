@@ -26,12 +26,11 @@ server_scripts {
 	'server/debug.lua'
 }
 
-ui_page 'html/ui.html'
+ui_page 'html/index.html'
 
 files {
-	'html/ui.html',
-	'html/css/main.css',
-	'html/js/app.js'
+	'html/index.html',
+	'html/app.js'
 }
 
 dependencies {

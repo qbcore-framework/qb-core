@@ -59,9 +59,26 @@ function QBCore.Functions.DrawText3D(x, y, z, text) -- Use local function instea
 end
 
 function QBCore.Functions.Notify(text, textype, length)
-    local ttype = textype or 'primary'
-    local length = length or 5000
-    SendNUIMessage({action = 'show', type = ttype, length = length, text = text})
+	if type(text) == "table" then
+		local ttext = text.text or 'Placeholder'
+		local caption = text.caption or 'Placeholder'
+		local ttype = textype or 'primary'
+		local length = length or 5000
+		SendNUIMessage({
+			type = ttype,
+			length = length,
+			text = ttext,
+			caption = caption
+		})
+	else
+    	local ttype = textype or 'primary'
+    	local length = length or 5000
+    	SendNUIMessage({
+			type = ttype,
+			length = length,
+			text = text
+		})
+	end
 end
 
 function QBCore.Debug(resource, obj, depth)
