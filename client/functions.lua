@@ -451,3 +451,22 @@ function QBCore.Functions.SetVehicleProperties(vehicle, props)
 		end
 	end
 end
+
+-- Extra Math Functions
+
+-- Math Rounding Credits: http://lua-users.org/wiki/SimpleRound
+function QBCore.Functions.Math.Sign(v)
+	return (v >= 0 and 1) or -1
+end
+
+-- Math Rounding Credits: http://lua-users.org/wiki/SimpleRound
+-- Usage:
+-- QBCore.Functions.Math.Round(119.68, 0.01) = 119.68
+-- QBCore.Functions.Math.Round(119.68, 0.1) = 119.7
+-- QBCore.Functions.Math.Round(119.68) = 120
+-- QBCore.Functions.Math.Round(119.68, 100) = 100
+-- QBCore.Functions.Math.Round(119.68, 1000) = 0
+function QBCore.Functions.Math.Round(v, bracket)
+	bracket = bracket or 1
+	return QBCore.Functions.Math.Sign(v/bracket + QBCore.Functions.Math.Sign(v) * 0.5) * bracket
+end
