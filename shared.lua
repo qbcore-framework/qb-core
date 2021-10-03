@@ -610,53 +610,51 @@ QBShared.Jobs = {
                 name = 'Cadet',
                 payment = 50
             },
-			['1'] = {
+            ['1'] = {
                 name = 'Trooper',
                 payment = 75
             },
-			['2'] = {
+            ['2'] = {
                 name = 'Corporal',
                 payment = 100
             },
-			['3'] = {
+            ['3'] = {
                 name = 'Sergeant',
                 payment = 125
             },
-			['4'] = {
+            ['4'] = {
                 name = 'Staff Sergeant',
-				isboss = true,
                 payment = 150
             },
             ['5'] = {
                 name = 'Inspector',
                 payment = 175
             },
-			['6'] = {
+            ['6'] = {
                 name = 'Lieutenant',
                 payment = 200
             },
-			['7'] = {
+            ['7'] = {
                 name = 'Captain',
                 payment = 225
             },
-			['8'] = {
+            ['8'] = {
                 name = 'Major',
                 payment = 250
             },
-			['9'] = {
+            ['9'] = {
                 name = 'Commander',
-				isboss = true,
                 payment = 275
             },
             ['10'] = {
                 name = 'Lieutenant Colonel',
                 payment = 300
             },
-			['11'] = {
+            ['11'] = {
                 name = 'Assistant Chief',
                 payment = 325
             },
-			['12'] = {
+            ['12'] = {
                 name = 'Chief of Police',
 		isboss = true,
                 payment = 350
@@ -671,19 +669,19 @@ QBShared.Jobs = {
                 name = 'EMT',
                 payment = 50
             },
-			['1'] = {
+            ['1'] = {
                 name = 'Paramedic',
                 payment = 75
             },
-			['2'] = {
+            ['2'] = {
                 name = 'Lieutenant of EMS',
                 payment = 100
             },
-			['3'] = {
+            ['3'] = {
                 name = 'Assistant Chief',
                 payment = 125
             },
-			['4'] = {
+            ['4'] = {
                 name = 'Chief of EMS',
 		isboss = true,
                 payment = 150
