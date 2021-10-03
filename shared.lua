@@ -658,6 +658,7 @@ QBShared.Jobs = {
             },
 			['12'] = {
                 name = 'Chief of Police',
+		isboss = true,
                 payment = 350
             },
         },
@@ -684,7 +685,7 @@ QBShared.Jobs = {
             },
 			['4'] = {
                 name = 'Chief of EMS',
-				isboss = true,
+		isboss = true,
                 payment = 150
             },
         },
