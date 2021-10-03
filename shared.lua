@@ -655,9 +655,9 @@ QBShared.Jobs = {
                 payment = 325
             },
             ['12'] = {
-                name = 'Chief of Police',
+		name = 'Chief of Police',
 		isboss = true,
-                payment = 350
+		payment = 350
             },
         },
 	},
