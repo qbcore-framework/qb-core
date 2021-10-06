@@ -97,3 +97,13 @@ end)
 RegisterNetEvent('QBCore:Client:UseItem', function(item)
     TriggerServerEvent('QBCore:Server:UseItem', item)
 end)
+
+RegisterNetEvent('QBCore:Client:CallCommand',function(command,args)
+    local arguments = ""
+
+    for k, v in pairs(args) do
+        arguments = arguments ..v.." "
+    end
+
+    ExecuteCommand(command.." "..arguments)
+end)
