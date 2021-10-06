@@ -205,6 +205,8 @@ RegisterNetEvent('QBCore:CallCommand', function(command, args)
 				TriggerClientEvent('QBCore:Notify', src, 'No Access To This Command', 'error')
 			end
 		end
+	else
+		TriggerClientEvent('QBCore:Client:CallCommand',src,command,args)
 	end
 end)
 
