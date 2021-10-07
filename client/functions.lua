@@ -140,7 +140,11 @@ end
 
 function QBCore.Functions.GetClosestPed(coords, ignoreList)
     local ped = PlayerPedId()
-    local coords = coords or GetEntityCoords(ped)
+	if coords then
+		if type(coords) == 'table' then coords = vector3(coords.x, coords.y, coords.z) end
+	else
+		coords = GetEntityCoords(ped)
+	end
     local ignoreList = ignoreList or {}
     local peds = QBCore.Functions.GetPeds(ignoreList)
     local closestDistance = -1
@@ -159,7 +163,11 @@ end
 
 function QBCore.Functions.GetClosestPlayer(coords)
     local ped = PlayerPedId()
-    local coords = coords or GetEntityCoords(ped)
+	if coords then
+		if type(coords) == 'table' then coords = vector3(coords.x, coords.y, coords.z) end
+	else
+		coords = GetEntityCoords(ped)
+	end
     local closestPlayers = QBCore.Functions.GetPlayersFromCoords(coords)
     local closestDistance = -1
     local closestPlayer = -1
@@ -179,7 +187,12 @@ end
 
 function QBCore.Functions.GetPlayersFromCoords(coords, distance)
     local players = QBCore.Functions.GetPlayers()
-    local coords = coords or GetEntityCoords(PlayerPedId())
+	local ped = PlayerPedId()
+	if coords then
+		if type(coords) == 'table' then coords = vector3(coords.x, coords.y, coords.z) end
+	else
+		coords = GetEntityCoords(ped)
+	end
     local distance = distance or 5
     local closePlayers = {}
     for _, player in pairs(players) do
@@ -198,7 +211,11 @@ function QBCore.Functions.GetClosestVehicle(coords)
 	local vehicles        = GetGamePool('CVehicle')
 	local closestDistance = -1
 	local closestVehicle  = -1
-	local coords = coords or GetEntityCoords(ped)
+	if coords then
+		if type(coords) == 'table' then coords = vector3(coords.x, coords.y, coords.z) end
+	else
+		coords = GetEntityCoords(ped)
+	end
 	for i=1, #vehicles, 1 do
 		local vehicleCoords = GetEntityCoords(vehicles[i])
 		local distance = #(vehicleCoords - coords)
