@@ -33,3 +33,9 @@ QBConfig.Server.uptime = 0 -- Time the server has been up.
 QBConfig.Server.whitelist = false -- Enable or disable whitelist on the server
 QBConfig.Server.discord = "" -- Discord invite link
 QBConfig.Server.PermissionList = {} -- permission list
+
+QBConfig.Notify = {
+    stack = false,              -- Allow notifications to stack
+    position = "right",         -- top-left | top-right | bottom-left | bottom-right | top | bottom | left | right | center
+    progress = true             -- Display Progress Bar
+}
