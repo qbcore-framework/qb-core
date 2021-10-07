@@ -49,9 +49,9 @@ const app = Vue.createApp({
         caption: caption,
         multiLine: multiline,
         color: color,
-        group: NotificationConfig.stack,
-        progress: NotificationConfig.progress,
-        position: NotificationConfig.position,
+        group: this.NotificationConfig.stack,
+        progress: this.NotificationConfig.progress,
+        position: this.NotificationConfig.position,
         timeout: length,
         icon: icon,
       });
