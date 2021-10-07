@@ -233,7 +233,11 @@ function QBCore.Functions.GetClosestObject(coords)
     local objects = GetGamePool('CObject')
     local closestDistance = -1
     local closestObject = -1
-    local coords = coords or GetEntityCoords(ped)
+	if coords then
+		if type(coords) == 'table' then coords = vector3(coords.x, coords.y, coords.z) end
+	else
+		coords = GetEntityCoords(ped)
+	end
     for i = 1, #objects, 1 do
         local objectCoords = GetEntityCoords(objects[i])
         local distance = #(objectCoords - coords)
@@ -266,7 +270,12 @@ end
 
 function QBCore.Functions.SpawnVehicle(model, cb, coords, isnetworked)
     local model = GetHashKey(model)
-    local coords = coords or QBCore.Functions.GetCoords(PlayerPedId())
+	local ped = PlayerPedId()
+	if coords then
+		if type(coords) == 'table' then coords = vector3(coords.x, coords.y, coords.z) end
+	else
+		coords = GetEntityCoords(ped)
+	end
     local isnetworked = isnetworked or true
     if not IsModelInCdimage(model) then return end
     RequestModel(model)
