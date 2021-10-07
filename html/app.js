@@ -11,23 +11,23 @@ const app = Vue.createApp({
 
       switch (type) {
         case 'success':
-          color = 'green';
+          classes = 'success';
           icon = 'done';
           break;
         case 'primary':
-          color = 'blue';
+          classes = 'primary';
           icon = 'info';
           break;
         case 'error':
-          color = 'red';
+          classes = 'error';
           icon = 'dangerous';
           break;
         case 'police':
-          color = 'blue';
+          classes = 'police';
           icon = 'local_police';
           break;
         case 'ambulance':
-          color = 'red';
+          classes = 'ambulance';
           icon = 'fas fa-ambulance';
           break;
       }
@@ -48,6 +48,7 @@ const app = Vue.createApp({
         position: 'right',
         timeout: length,
         icon: icon,
+        classes: classes,
       });
     };
     onMounted(() => {
