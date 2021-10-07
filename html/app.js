@@ -42,7 +42,6 @@ const app = Vue.createApp({
         message: text,
         caption: caption,
         multiLine: multiline,
-        color: color,
         group: false,
         progress: true,
         position: 'right',
