@@ -1,6 +1,12 @@
 const { useQuasar } = Quasar;
 const { onMounted, onUnmounted } = Vue;
 const app = Vue.createApp({
+  NotificationConfig: {
+    stack: false,
+    position: 'top-right',
+    progress: true
+  },
+
   setup() {
     const $q = useQuasar();
     const showNotif = (e) => {
@@ -43,14 +49,18 @@ const app = Vue.createApp({
         caption: caption,
         multiLine: multiline,
         color: color,
-        group: false,
-        progress: true,
-        position: 'right',
+        group: NotificationConfig.stack,
+        progress: NotificationConfig.progress,
+        position: NotificationConfig.position,
         timeout: length,
         icon: icon,
       });
     };
     onMounted(() => {
+      fetch("https://${GetParentResourceName()}/GetNotifyConfig", {}, config => {
+        this.NotificationConfig = config
+      })
+
       window.addEventListener('message', showNotif);
     });
     onUnmounted(() => {
