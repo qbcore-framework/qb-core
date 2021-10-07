@@ -1,10 +1,15 @@
 const { useQuasar } = Quasar;
 const { onMounted, onUnmounted } = Vue;
 const app = Vue.createApp({
-  NotificationConfig: {
-    stack: false,
-    position: 'top-right',
-    progress: true
+
+  data() {
+    return {
+      NotificationConfig: {
+        stack: false,
+        position: 'top-right',
+        progress: true
+      },
+    };
   },
 
   setup() {
@@ -49,17 +54,23 @@ const app = Vue.createApp({
         caption: caption,
         multiLine: multiline,
         color: color,
-        group: this.NotificationConfig.stack,
-        progress: this.NotificationConfig.progress,
-        position: this.NotificationConfig.position,
+        group: NotificationConfig.stack,
+        progress: NotificationConfig.progress,
+        position: NotificationConfig.position,
         timeout: length,
         icon: icon,
       });
     };
     onMounted(() => {
-      fetch("https://${GetParentResourceName()}/GetNotifyConfig", {}, config => {
-        this.NotificationConfig = config
-      })
+      fetch(`https://${GetParentResourceName()}/GetNotifyConfig`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: JSON.stringify({})
+      }).then(resp => resp.json()).then(resp => {
+        NotificationConfig = JSON.parse(resp)
+      });
 
       window.addEventListener('message', showNotif);
     });

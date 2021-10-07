@@ -59,7 +59,7 @@ function QBCore.Functions.DrawText3D(x, y, z, text) -- Use local function instea
 end
 
 RegisterNUICallback("GetNotifyConfig", function(data, cb)
-	cb(QBCore.Config.NotifyConfig)
+	cb(json.encode(QBCore.Config.Notify))
 end)
 
 function QBCore.Functions.Notify(text, textype, length)
