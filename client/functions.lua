@@ -141,7 +141,7 @@ end
 function QBCore.Functions.GetClosestPed(coords, ignoreList)
     local ped = PlayerPedId()
 	if coords then
-	    if type(coords) == 'table' then coords = vector3(coords.x, coords.y, coords.z) end
+	    coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords
 	else
 	    coords = GetEntityCoords(ped)
 	end
@@ -164,7 +164,7 @@ end
 function QBCore.Functions.GetClosestPlayer(coords)
     local ped = PlayerPedId()
 	if coords then
-	    if type(coords) == 'table' then coords = vector3(coords.x, coords.y, coords.z) end
+	    coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords
 	else
 	    coords = GetEntityCoords(ped)
 	end
@@ -189,7 +189,7 @@ function QBCore.Functions.GetPlayersFromCoords(coords, distance)
     local players = QBCore.Functions.GetPlayers()
 	local ped = PlayerPedId()
 	if coords then
-	    if type(coords) == 'table' then coords = vector3(coords.x, coords.y, coords.z) end
+	    coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords
 	else
 	    coords = GetEntityCoords(ped)
 	end
@@ -212,7 +212,7 @@ function QBCore.Functions.GetClosestVehicle(coords)
 	local closestDistance = -1
 	local closestVehicle  = -1
 	if coords then
-	    if type(coords) == 'table' then coords = vector3(coords.x, coords.y, coords.z) end
+	    coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords
 	else
 	    coords = GetEntityCoords(ped)
 	end
@@ -234,7 +234,7 @@ function QBCore.Functions.GetClosestObject(coords)
     local closestDistance = -1
     local closestObject = -1
 	if coords then
-	    if type(coords) == 'table' then coords = vector3(coords.x, coords.y, coords.z) end
+	    coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords
 	else
 	    coords = GetEntityCoords(ped)
 	end
@@ -272,7 +272,7 @@ function QBCore.Functions.SpawnVehicle(model, cb, coords, isnetworked)
     local model = GetHashKey(model)
 	local ped = PlayerPedId()
 	if coords then
-	    if type(coords) == 'table' then coords = vector3(coords.x, coords.y, coords.z) end
+	    coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords
 	else
 	    coords = GetEntityCoords(ped)
 	end
