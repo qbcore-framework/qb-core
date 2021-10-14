@@ -6,8 +6,8 @@ QBConfig.UpdateInterval = 5 -- how often to update player data in minutes
 QBConfig.StatusInterval = 5000 -- how often to check hunger/thirst status in ms
 
 QBConfig.Money = {}
-QBConfig.Money.MoneyTypes = {['cash'] = 500, ['bank'] = 5000, ['crypto'] = 0 } -- ['type']=startamount - Add or remove money types for your server (for ex. ['blackmoney']=0), remember once added it will not be removed from the database!
-QBConfig.Money.DontAllowMinus = {'cash', 'crypto'} -- Money that is not allowed going in minus
+QBConfig.Money.MoneyTypes = { ['cash'] = 500, ['bank'] = 5000, ['crypto'] = 0 } -- ['type']=startamount - Add or remove money types for your server (for ex. ['blackmoney']=0), remember once added it will not be removed from the database!
+QBConfig.Money.DontAllowMinus = { 'cash', 'crypto' } -- Money that is not allowed going in minus
 QBConfig.Money.PayCheckTimeOut = 10 -- The time in minutes that it will give the paycheck
 
 QBConfig.Player = {}
@@ -33,3 +33,37 @@ QBConfig.Server.uptime = 0 -- Time the server has been up.
 QBConfig.Server.whitelist = false -- Enable or disable whitelist on the server
 QBConfig.Server.discord = "" -- Discord invite link
 QBConfig.Server.PermissionList = {} -- permission list
+
+QBConfig.Notify = {}
+
+QBConfig.Notify.NotificationStyling = {
+    group = false, -- Allow notifications to stack with a badge instead of repeating
+    position = "right", -- top-left | top-right | bottom-left | bottom-right | top | bottom | left | right | center
+    progress = true -- Display Progress Bar
+}
+
+-- These are how you define different notification variants
+-- The "color" key is background of the notification
+-- The "icon" key is the css-icon code, this project uses `Material Icons` & `Font Awesome`
+QBConfig.Notify.VariantDefinitions = {
+    success = {
+        color = 'green',
+        icon = 'done'
+    },
+    primary = {
+        color = 'blue',
+        icon = 'info'
+    },
+    error = {
+        color = 'red',
+        icon = 'dangerous'
+    },
+    police = {
+        color = 'blue',
+        icon = 'local_police'
+    },
+    ambulance = {
+        color = 'red',
+        icon = 'fas fa-ambulance'
+    }
+}

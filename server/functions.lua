@@ -8,83 +8,83 @@ QBCore.Functions = {}
 function QBCore.Functions.GetCoords(entity)
     local coords = GetEntityCoords(entity, false)
     local heading = GetEntityHeading(entity)
-	return vector4(coords.x, coords.y, coords.z, heading)
+    return vector4(coords.x, coords.y, coords.z, heading)
 end
 
 function QBCore.Functions.GetIdentifier(source, idtype)
-	local src = source
-	local idtype = idtype or QBConfig.IdentifierType
-	for _, identifier in pairs(GetPlayerIdentifiers(src)) do
-		if string.find(identifier, idtype) then
-			return identifier
-		end
-	end
-	return nil
+    local src = source
+    local idtype = idtype or QBConfig.IdentifierType
+    for _, identifier in pairs(GetPlayerIdentifiers(src)) do
+        if string.find(identifier, idtype) then
+            return identifier
+        end
+    end
+    return nil
 end
 
 function QBCore.Functions.GetSource(identifier)
-	for src, player in pairs(QBCore.Players) do
-		local idens = GetPlayerIdentifiers(src)
-		for _, id in pairs(idens) do
-			if identifier == id then
-				return src
-			end
-		end
-	end
-	return 0
+    for src, player in pairs(QBCore.Players) do
+        local idens = GetPlayerIdentifiers(src)
+        for _, id in pairs(idens) do
+            if identifier == id then
+                return src
+            end
+        end
+    end
+    return 0
 end
 
 function QBCore.Functions.GetPlayer(source)
     local src = source
-	if type(src) == 'number' then
-		return QBCore.Players[src]
-	else
-		return QBCore.Players[QBCore.Functions.GetSource(src)]
-	end
+    if type(src) == 'number' then
+        return QBCore.Players[src]
+    else
+        return QBCore.Players[QBCore.Functions.GetSource(src)]
+    end
 end
 
 function QBCore.Functions.GetPlayerByCitizenId(citizenid)
-	for src, player in pairs(QBCore.Players) do
-		local cid = citizenid
-		if QBCore.Players[src].PlayerData.citizenid == cid then
-			return QBCore.Players[src]
-		end
-	end
-	return nil
+    for src, player in pairs(QBCore.Players) do
+        local cid = citizenid
+        if QBCore.Players[src].PlayerData.citizenid == cid then
+            return QBCore.Players[src]
+        end
+    end
+    return nil
 end
 
 function QBCore.Functions.GetPlayerByPhone(number)
-	for src, player in pairs(QBCore.Players) do
-		local cid = citizenid
-		if QBCore.Players[src].PlayerData.charinfo.phone == number then
-			return QBCore.Players[src]
-		end
-	end
-	return nil
+    for src, player in pairs(QBCore.Players) do
+        local cid = citizenid
+        if QBCore.Players[src].PlayerData.charinfo.phone == number then
+            return QBCore.Players[src]
+        end
+    end
+    return nil
 end
 
 function QBCore.Functions.GetPlayers()
-	local sources = {}
-	for k, v in pairs(QBCore.Players) do
-		table.insert(sources, k)
-	end
-	return sources
+    local sources = {}
+    for k, v in pairs(QBCore.Players) do
+        table.insert(sources, k)
+    end
+    return sources
 end
 
 -- Will return an array of QB Player class instances
 -- unlike the GetPlayers() wrapper which only returns IDs
 function QBCore.Functions.GetQBPlayers()
-	return QBCore.Players
+    return QBCore.Players
 end
 -- Paychecks (standalone - don't touch)
 
 function PaycheckLoop()
     local Players = QBCore.Functions.GetPlayers()
-    for i=1, #Players, 1 do
+    for i = 1, #Players, 1 do
         local Player = QBCore.Functions.GetPlayer(Players[i])
         if Player.PlayerData.job and Player.PlayerData.job.payment > 0 then
             Player.Functions.AddMoney('bank', Player.PlayerData.job.payment)
-            TriggerClientEvent('QBCore:Notify', Players[i], 'You received your paycheck of $'..Player.PlayerData.job.payment)
+            TriggerClientEvent('QBCore:Notify', Players[i], 'You received your paycheck of $' .. Player.PlayerData.job.payment)
         end
     end
     SetTimeout(QBCore.Config.Money.PayCheckTimeOut * (60 * 1000), PaycheckLoop)
@@ -93,193 +93,193 @@ end
 -- Callbacks
 
 function QBCore.Functions.CreateCallback(name, cb)
-	QBCore.ServerCallbacks[name] = cb
+    QBCore.ServerCallbacks[name] = cb
 end
 
 function QBCore.Functions.TriggerCallback(name, source, cb, ...)
-	local src = source
-	if QBCore.ServerCallbacks[name] then
-		QBCore.ServerCallbacks[name](src, cb, ...)
-	end
+    local src = source
+    if QBCore.ServerCallbacks[name] then
+        QBCore.ServerCallbacks[name](src, cb, ...)
+    end
 end
 
 -- Items
 
 function QBCore.Functions.CreateUseableItem(item, cb)
-	QBCore.UseableItems[item] = cb
+    QBCore.UseableItems[item] = cb
 end
 
 function QBCore.Functions.CanUseItem(item)
-	return QBCore.UseableItems[item]
+    return QBCore.UseableItems[item]
 end
 
 function QBCore.Functions.UseItem(source, item)
-	local src = source
-	QBCore.UseableItems[item.name](src, item)
+    local src = source
+    QBCore.UseableItems[item.name](src, item)
 end
 
 -- Kick Player
 
 function QBCore.Functions.Kick(source, reason, setKickReason, deferrals)
-	local src = source
-	reason = '\n'..reason..'\n🔸 Check our Discord for further information: '..QBCore.Config.Server.discord
-	if setKickReason then
-		setKickReason(reason)
-	end
-	CreateThread(function()
-		if deferrals then
-			deferrals.update(reason)
-			Wait(2500)
-		end
-		if src then
-			DropPlayer(src, reason)
-		end
-		local i = 0
-		while (i <= 4) do
-			i = i + 1
-			while true do
-				if src then
-					if(GetPlayerPing(src) >= 0) then
-						break
-					end
-					Wait(100)
-					CreateThread(function() 
-						DropPlayer(src, reason)
-					end)
-				end
-			end
-			Wait(5000)
-		end
-	end)
+    local src = source
+    reason = '\n' .. reason .. '\n🔸 Check our Discord for further information: ' .. QBCore.Config.Server.discord
+    if setKickReason then
+        setKickReason(reason)
+    end
+    CreateThread(function()
+        if deferrals then
+            deferrals.update(reason)
+            Wait(2500)
+        end
+        if src then
+            DropPlayer(src, reason)
+        end
+        local i = 0
+        while (i <= 4) do
+            i = i + 1
+            while true do
+                if src then
+                    if (GetPlayerPing(src) >= 0) then
+                        break
+                    end
+                    Wait(100)
+                    CreateThread(function()
+                        DropPlayer(src, reason)
+                    end)
+                end
+            end
+            Wait(5000)
+        end
+    end)
 end
 
 -- Check if player is whitelisted (not used anywhere)
 
 function QBCore.Functions.IsWhitelisted(source)
-	local src = source
-	local plicense = QBCore.Functions.GetIdentifier(src, 'license')
-	local identifiers = GetPlayerIdentifiers(src)
-	if QBCore.Config.Server.whitelist then
-		local result = exports.oxmysql:fetchSync('SELECT * FROM whitelist WHERE license = ?', {plicense})
-		if result[1] then
-			for _, id in pairs(identifiers) do
-				if result[1].license == id then
-					return true
-				end
-			end
-		end
-	else
-		return true
-	end
-	return false
+    local src = source
+    local plicense = QBCore.Functions.GetIdentifier(src, 'license')
+    local identifiers = GetPlayerIdentifiers(src)
+    if QBCore.Config.Server.whitelist then
+        local result = exports.oxmysql:fetchSync('SELECT * FROM whitelist WHERE license = ?', { plicense })
+        if result[1] then
+            for _, id in pairs(identifiers) do
+                if result[1].license == id then
+                    return true
+                end
+            end
+        end
+    else
+        return true
+    end
+    return false
 end
 
 -- Setting & Removing Permissions
 
 function QBCore.Functions.AddPermission(source, permission)
-	local src = source
-	local Player = QBCore.Functions.GetPlayer(src)
-	local plicense = Player.PlayerData.license
-	if Player then
-		QBCore.Config.Server.PermissionList[plicense] = {
-			license = plicense,
-			permission = permission:lower(),
-		}
-		exports.oxmysql:execute('DELETE FROM permissions WHERE license = ?', {plicense})
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+    local plicense = Player.PlayerData.license
+    if Player then
+        QBCore.Config.Server.PermissionList[plicense] = {
+            license = plicense,
+            permission = permission:lower(),
+        }
+        exports.oxmysql:execute('DELETE FROM permissions WHERE license = ?', { plicense })
 
-		exports.oxmysql:insert('INSERT INTO permissions (name, license, permission) VALUES (?, ?, ?)', {
-			GetPlayerName(src),
-			plicense,
-			permission:lower()
-		})
+        exports.oxmysql:insert('INSERT INTO permissions (name, license, permission) VALUES (?, ?, ?)', {
+            GetPlayerName(src),
+            plicense,
+            permission:lower()
+        })
 
-		Player.Functions.UpdatePlayerData()
-		TriggerClientEvent('QBCore:Client:OnPermissionUpdate', src, permission)
-	end
+        Player.Functions.UpdatePlayerData()
+        TriggerClientEvent('QBCore:Client:OnPermissionUpdate', src, permission)
+    end
 end
 
 function QBCore.Functions.RemovePermission(source)
-	local src = source
-	local Player = QBCore.Functions.GetPlayer(src)
-	local license = Player.PlayerData.license
-	if Player then
-		QBCore.Config.Server.PermissionList[license] = nil
-		exports.oxmysql:execute('DELETE FROM permissions WHERE license = ?', {license})
-		Player.Functions.UpdatePlayerData()
-	end
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+    local license = Player.PlayerData.license
+    if Player then
+        QBCore.Config.Server.PermissionList[license] = nil
+        exports.oxmysql:execute('DELETE FROM permissions WHERE license = ?', { license })
+        Player.Functions.UpdatePlayerData()
+    end
 end
 
 -- Checking for Permission Level
 
 function QBCore.Functions.HasPermission(source, permission)
-	local src = source
-	local license = QBCore.Functions.GetIdentifier(src, 'license')
-	local permission = tostring(permission:lower())
-	if permission == 'user' then
-		return true
-	else
-		if QBCore.Config.Server.PermissionList[license] then
-			if QBCore.Config.Server.PermissionList[license].license == license then
-				if QBCore.Config.Server.PermissionList[license].permission == permission or QBCore.Config.Server.PermissionList[license].permission == 'god' then
-					return true
-				end
-			end
-		end
-	end
-	return false
+    local src = source
+    local license = QBCore.Functions.GetIdentifier(src, 'license')
+    local permission = tostring(permission:lower())
+    if permission == 'user' then
+        return true
+    else
+        if QBCore.Config.Server.PermissionList[license] then
+            if QBCore.Config.Server.PermissionList[license].license == license then
+                if QBCore.Config.Server.PermissionList[license].permission == permission or QBCore.Config.Server.PermissionList[license].permission == 'god' then
+                    return true
+                end
+            end
+        end
+    end
+    return false
 end
 
 function QBCore.Functions.GetPermission(source)
-	local src = source
-	local license = QBCore.Functions.GetIdentifier(src, 'license')
-	if license then
-		if QBCore.Config.Server.PermissionList[license] then
-			if QBCore.Config.Server.PermissionList[license].license == license then
-				return QBCore.Config.Server.PermissionList[license].permission
-			end
-		end
-	end
-	return 'user'
+    local src = source
+    local license = QBCore.Functions.GetIdentifier(src, 'license')
+    if license then
+        if QBCore.Config.Server.PermissionList[license] then
+            if QBCore.Config.Server.PermissionList[license].license == license then
+                return QBCore.Config.Server.PermissionList[license].permission
+            end
+        end
+    end
+    return 'user'
 end
 
 -- Opt in or out of admin reports
 
 function QBCore.Functions.IsOptin(source)
-	local src = source
-	local license = QBCore.Functions.GetIdentifier(src, 'license')
-	if QBCore.Functions.HasPermission(src, 'admin') then
-		retval = QBCore.Config.Server.PermissionList[license].optin
-		return true
-	end
-	return false
+    local src = source
+    local license = QBCore.Functions.GetIdentifier(src, 'license')
+    if QBCore.Functions.HasPermission(src, 'admin') then
+        retval = QBCore.Config.Server.PermissionList[license].optin
+        return true
+    end
+    return false
 end
 
 function QBCore.Functions.ToggleOptin(source)
-	local src = source
-	local license = QBCore.Functions.GetIdentifier(src, 'license')
-	if QBCore.Functions.HasPermission(src, 'admin') then
-		QBCore.Config.Server.PermissionList[license].optin = not QBCore.Config.Server.PermissionList[license].optin
-	end
+    local src = source
+    local license = QBCore.Functions.GetIdentifier(src, 'license')
+    if QBCore.Functions.HasPermission(src, 'admin') then
+        QBCore.Config.Server.PermissionList[license].optin = not QBCore.Config.Server.PermissionList[license].optin
+    end
 end
 
 -- Check if player is banned
 
 function QBCore.Functions.IsPlayerBanned(source)
-	local src = source
-	local retval = false
-	local message = ''
-	local plicense = QBCore.Functions.GetIdentifier(src, 'license')
-    local result = exports.oxmysql:fetchSync('SELECT * FROM bans WHERE license = ?', {plicense})
+    local src = source
+    local retval = false
+    local message = ''
+    local plicense = QBCore.Functions.GetIdentifier(src, 'license')
+    local result = exports.oxmysql:fetchSync('SELECT * FROM bans WHERE license = ?', { plicense })
     if result[1] then
         if os.time() < result[1].expire then
             retval = true
             local timeTable = os.date('*t', tonumber(result.expire))
-            message = 'You have been banned from the server:\n'..result[1].reason..'\nYour ban expires '..timeTable.day.. '/' .. timeTable.month .. '/' .. timeTable.year .. ' ' .. timeTable.hour.. ':' .. timeTable.min .. '\n'
+            message = 'You have been banned from the server:\n' .. result[1].reason .. '\nYour ban expires ' .. timeTable.day .. '/' .. timeTable.month .. '/' .. timeTable.year .. ' ' .. timeTable.hour .. ':' .. timeTable.min .. '\n'
         else
-            exports.oxmysql:execute('DELETE FROM bans WHERE id = ?', {result[1].id})
+            exports.oxmysql:execute('DELETE FROM bans WHERE id = ?', { result[1].id })
         end
     end
-	return retval, message
+    return retval, message
 end
 
 -- Check for duplicate license

@@ -3,43 +3,49 @@ QBShared = {}
 local StringCharset = {}
 local NumberCharset = {}
 
-for i = 48,  57 do table.insert(NumberCharset, string.char(i)) end
-for i = 65,  90 do table.insert(StringCharset, string.char(i)) end
-for i = 97, 122 do table.insert(StringCharset, string.char(i)) end
+for i = 48, 57 do
+    table.insert(NumberCharset, string.char(i))
+end
+for i = 65, 90 do
+    table.insert(StringCharset, string.char(i))
+end
+for i = 97, 122 do
+    table.insert(StringCharset, string.char(i))
+end
 
 QBShared.RandomStr = function(length)
-	if length > 0 then
-		return QBShared.RandomStr(length-1) .. StringCharset[math.random(1, #StringCharset)]
-	else
-		return ''
-	end
+    if length > 0 then
+        return QBShared.RandomStr(length - 1) .. StringCharset[math.random(1, #StringCharset)]
+    else
+        return ''
+    end
 end
 
 QBShared.RandomInt = function(length)
-	if length > 0 then
-		return QBShared.RandomInt(length-1) .. NumberCharset[math.random(1, #NumberCharset)]
-	else
-		return ''
-	end
+    if length > 0 then
+        return QBShared.RandomInt(length - 1) .. NumberCharset[math.random(1, #NumberCharset)]
+    else
+        return ''
+    end
 end
 
 QBShared.SplitStr = function(str, delimiter)
-	local result = { }
-	local from  = 1
-	local delim_from, delim_to = string.find( str, delimiter, from  )
-	while delim_from do
-		table.insert( result, string.sub( str, from , delim_from-1 ) )
-		from  = delim_to + 1
-		delim_from, delim_to = string.find( str, delimiter, from  )
-	end
-	table.insert( result, string.sub( str, from  ) )
-	return result
+    local result = { }
+    local from = 1
+    local delim_from, delim_to = string.find(str, delimiter, from)
+    while delim_from do
+        table.insert(result, string.sub(str, from, delim_from - 1))
+        from = delim_to + 1
+        delim_from, delim_to = string.find(str, delimiter, from)
+    end
+    table.insert(result, string.sub(str, from))
+    return result
 end
 
 QBShared.StarterItems = {
-    ['phone'] = {amount = 1, item = 'phone'},
-    ['id_card'] = {amount = 1, item = 'id_card'},
-    ['driver_license'] = {amount = 1, item = 'driver_license'},
+    ['phone'] = { amount = 1, item = 'phone' },
+    ['id_card'] = { amount = 1, item = 'id_card' },
+    ['driver_license'] = { amount = 1, item = 'driver_license' },
 }
 
 QBShared.Items = {
@@ -125,6 +131,11 @@ QBShared.Items = {
 	['weapon_wrench'] 				 = {['name'] = 'weapon_wrench', 			 	['label'] = 'Wrench', 					['weight'] = 1000, 		['type'] = 'weapon', 	['ammotype'] = nil,						['image'] = 'weapon_wrench.png', 		['unique'] = true, 		['useable'] = false, 	['description'] = 'A tool used for gripping and turning nuts, bolts, pipes, etc'},
 	['weapon_bread'] 				 = {['name'] = 'weapon_bread', 				 	['label'] = 'Baquette', 				['weight'] = 1000, 		['type'] = 'weapon', 	['ammotype'] = nil,						['image'] = 'baquette.png', 			['unique'] = true, 		['useable'] = false, 	['description'] = 'Bread...?'},
 	['weapon_flashlight']			 = {['name'] = 'weapon_flashlight',				['label'] = 'Flashlight',				['weight'] = 1000,		['type'] = 'weapon',	['ammotype'] = nil,						['image'] = 'weapon_flashlight.png',	['unique'] = true,		['useable'] = false,	['description'] = 'A battery-operated portable light'},
+	['weapon_smg_mk2'] 				 = {['name'] = 'weapon_smg_mk2', 			 	['label'] = 'PD MP5 2', 				['weight'] = 1000,		['type'] = 'weapon', 	['ammotype'] = 'AMMO_SMG',				['image'] = 'smg.png', 					['unique'] = true, 		['useable'] = true, 	['description'] = 'SMG MK2'},
+	['weapon_assaultrifle_mk2'] 	 = {['name'] = 'weapon_assaultrifle_mk2', 	 	['label'] = 'AK-47 MK2', 				['weight'] = 1000,		['type'] = 'weapon', 	['ammotype'] = 'AMMO_RIFLE',			['image'] = 'assaultriflemk2.png', 		['unique'] = true, 		['useable'] = true, 	['description'] = 'Assault Rifle MK2'},
+	['weapon_carbinerifle_mk2'] 	 = {['name'] = 'weapon_carbinerifle_mk2', 	 	['label'] = 'PD 762', 					['weight'] = 1000, 		['type'] = 'weapon', 	['ammotype'] = 'AMMO_RIFLE',			['image'] = 'carbineriflemk2.png', 		['unique'] = true, 		['useable'] = true, 	['description'] = 'Carbine Rifle MK2'},
+	['weapon_revolver_mk2'] 		 = {['name'] = 'weapon_revolver_mk2', 		 	['label'] = 'Violence', 				['weight'] = 1000, 		['type'] = 'weapon', 	['ammotype'] = 'AMMO_PISTOL',			['image'] = 'revolvermk2.png', 			['unique'] = true, 		['useable'] = true, 	['description'] = 'da Violence'},
+	['weapon_doubleaction'] 	     = {['name'] = 'weapon_doubleaction', 		 	['label'] = 'Double Action Revolver', 	['weight'] = 1000, 		['type'] = 'weapon', 	['ammotype'] = 'AMMO_PISTOL',			['image'] = 'doubleaction.png', 		['unique'] = true, 		['useable'] = true, 	['description'] = 'Double Action Revolver'},
 
 	-- PISTOL ATTACHMENTS
 	['pistol_defaultclip'] 			 = {['name'] = 'pistol_defaultclip', 			['label'] = 'Pistol Clip', 				['weight'] = 1000, 		['type'] = 'item', 		['image'] = 'pistol_extendedclip.png', 	['unique'] = false, 		['useable'] = true, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'Pistol Default Clip'},
@@ -379,7 +390,7 @@ QBShared.Items = {
 	['redfish'] 			         = {['name'] = 'redfish', 			        	['label'] = 'Redfish',                  ['weight'] = 1111,      ['type'] = 'item',      ['image'] = 'redfish.png',              ['unique'] = false,     ['useable'] = true,     ['shouldClose'] = true,    ['combinable'] = nil,   ['description'] = 'One fish two fish...'},
 	['bluefish'] 			         = {['name'] = 'bluefish', 			        	['label'] = 'Bluefish',                 ['weight'] = 1111,      ['type'] = 'item',      ['image'] = 'bluefish.png',             ['unique'] = false,     ['useable'] = true,     ['shouldClose'] = true,    ['combinable'] = nil,   ['description'] = 'One fish two fish redfish...'},
 	['stripedbass'] 			     = {['name'] = 'stripedbass', 			        ['label'] = 'Striped Bass',             ['weight'] = 1111,      ['type'] = 'item',      ['image'] = 'stripedbass.png',          ['unique'] = false,     ['useable'] = true,     ['shouldClose'] = true,    ['combinable'] = nil,   ['description'] = 'A Striped Bass'},
-	['fishingrod'] 			 		 = {['name'] = 'fishingrod', 					['label'] = 'Fishing Rod', 				['weight'] = 5000, 		['type'] = 'item', 		['image'] = 'fishingrod.png', 			['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'A fishing rod for adventures with friends!!'},	
+	['fishingrod'] 			 		 = {['name'] = 'fishingrod', 					['label'] = 'Fishing Rod', 				['weight'] = 5000, 		['type'] = 'item', 		['image'] = 'fishingrod.png', 			['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'A fishing rod for adventures with friends!!'},
 	['fishingbait'] 			     = {['name'] = 'fishingbait', 					['label'] = 'Fish Bait', 				['weight'] = 400, 		['type'] = 'item', 		['image'] = 'fishbait.png', 			['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'A fish bait'},
 }
 
@@ -468,6 +479,11 @@ QBShared.Weapons = {
 	[`weapon_poolcue`] 				 = {['name'] = 'weapon_poolcue', 		 	  	['label'] = 'Poolcue', 					['weight'] = 1000, 		['type'] = 'weapon', 	['ammotype'] = nil,						['image'] = 'weapon_poolcue.png', 		['unique'] = true, 		['useable'] = false, 	['description'] = 'A stick used to strike a ball, usually the cue ball (sometimes)'},
 	[`weapon_wrench`] 				 = {['name'] = 'weapon_wrench', 			 	['label'] = 'Wrench', 					['weight'] = 1000, 		['type'] = 'weapon', 	['ammotype'] = nil,						['image'] = 'weapon_wrench.png', 		['unique'] = true, 		['useable'] = false, 	['description'] = 'A tool used for gripping and turning nuts, bolts, pipes, etc'},
 	[`weapon_bread`] 				 = {['name'] = 'weapon_bread', 				 	['label'] = 'Baquette', 				['weight'] = 1000, 		['type'] = 'weapon', 	['ammotype'] = nil,						['image'] = 'baquette.png', 			['unique'] = true, 		['useable'] = false, 	['description'] = 'Bread..?'},
+	[`weapon_smg_mk2`] 				 = {['name'] = 'weapon_smg_mk2', 			 	['label'] = 'PD MP5 2', 				['weight'] = 1000,		['type'] = 'weapon', 	['ammotype'] = 'AMMO_SMG',				['image'] = 'smg.png', 					['unique'] = true, 		['useable'] = true, 	['description'] = 'SMG MK2'},
+	[`weapon_assaultrifle_mk2`] 	 = {['name'] = 'weapon_assaultrifle_mk2', 	 	['label'] = 'AK-47 MK2', 				['weight'] = 1000,		['type'] = 'weapon', 	['ammotype'] = 'AMMO_RIFLE',			['image'] = 'assaultriflemk2.png', 		['unique'] = true, 		['useable'] = true, 	['description'] = 'Assault Rifle MK2'},
+	[`weapon_carbinerifle_mk2`] 	 = {['name'] = 'weapon_carbinerifle_mk2', 	 	['label'] = 'PD 762', 					['weight'] = 1000, 		['type'] = 'weapon', 	['ammotype'] = 'AMMO_RIFLE',			['image'] = 'carbineriflemk2.png', 		['unique'] = true, 		['useable'] = true, 	['description'] = 'Carbine Rifle MK2'},
+	[`weapon_revolver_mk2`] 		 = {['name'] = 'weapon_revolver_mk2', 		 	['label'] = 'Violence', 				['weight'] = 1000, 		['type'] = 'weapon', 	['ammotype'] = 'AMMO_PISTOL',			['image'] = 'revolvermk2.png', 			['unique'] = true, 		['useable'] = true, 	['description'] = 'da Violence'},
+	[`weapon_doubleaction`] 	     = {['name'] = 'weapon_doubleaction', 		 	['label'] = 'Double Action Revolver', 	['weight'] = 1000, 		['type'] = 'weapon', 	['ammotype'] = 'AMMO_PISTOL',			['image'] = 'doubleaction.png', 		['unique'] = true, 		['useable'] = true, 	['description'] = 'Double Action Revolver'},
 }
 
 -- Gangs
@@ -966,7 +982,7 @@ QBShared.Vehicles = {
 		['shop'] = 'pdm',
 	},
 	['bfinjection'] = {
-		['name'] = 'Bf Injection', 
+		['name'] = 'Bf Injection',
 		['brand'] = 'Annis',
 		['price'] = 9000,
 		['category'] = 'offroad',
@@ -975,7 +991,7 @@ QBShared.Vehicles = {
 		['shop'] = 'pdm',
 	},
 	['bifta'] = {
-		['name'] = 'Bifta', 
+		['name'] = 'Bifta',
 		['brand'] = 'Annis',
 		['price'] = 15500,
 		['category'] = 'offroad',
@@ -1011,7 +1027,7 @@ QBShared.Vehicles = {
 		['shop'] = 'pdm',
 	},
 	['blazer'] = {
-		['name'] = 'Blazer', 
+		['name'] = 'Blazer',
 		['price'] = 7500,
 		['category'] = 'offroad',
 		['model'] = 'blazer',
@@ -1055,7 +1071,7 @@ QBShared.Vehicles = {
 		['shop'] = 'pdm',
 	},
 	['brawler'] = {
-		['name'] = 'Brawler', 
+		['name'] = 'Brawler',
 		['brand'] = 'Annis',
 		['price'] = 40000,
 		['category'] = 'offroad',
@@ -1072,7 +1088,7 @@ QBShared.Vehicles = {
 		['hash'] = `brioso`,
 		['shop'] = 'pdm',
 	},
-	['btype'] = {              --meme car that goes pretty fast 
+	['btype'] = {              --meme car that goes pretty fast
 		['name'] = 'Roosevelt',
 		['brand'] = 'Albany',
 		['model'] = 'btype',
@@ -1315,7 +1331,7 @@ QBShared.Vehicles = {
 		['hash'] = `coquette3`,
 		['shop'] = 'pdm',
 	},
-	['cyclone'] = {         --might be too overpowered 
+	['cyclone'] = {         --might be too overpowered
 		['name'] = 'Cyclone',
 		['brand'] = 'Coil',
 		['model'] = 'cyclone',
@@ -1370,7 +1386,7 @@ QBShared.Vehicles = {
 		['shop'] = 'pdm',
 	},
 	['dubsta3'] = {
-		['name'] = 'Dubsta 6x6', 
+		['name'] = 'Dubsta 6x6',
 		['brand'] = 'Annis',
 		['price'] = 34000,
 		['category'] = 'offroad',
@@ -1388,7 +1404,7 @@ QBShared.Vehicles = {
 		['shop'] = 'pdm',
 	},
 	['dune'] = {
-		['name'] = 'Dune Buggy', 
+		['name'] = 'Dune Buggy',
 		['brand'] = 'Annis',
 		['price'] = 14000,
 		['category'] = 'offroad',
@@ -1667,7 +1683,7 @@ QBShared.Vehicles = {
 		['shop'] = 'pdm',
 	},
 	['guardian'] = {
-		['name'] = 'Guardian', 
+		['name'] = 'Guardian',
 		['brand'] = 'Annis',
 		['price'] = 21000,
 		['category'] = 'offroad',
@@ -1729,7 +1745,7 @@ QBShared.Vehicles = {
 		['hash'] = `infernus`,
 		['shop'] = 'pdm',
 	},
-	['infernus2'] = {         
+	['infernus2'] = {
 		['name'] = 'Infernus Classic',
 		['brand'] = 'Pegassi',
 		['model'] = 'infernus2',
@@ -2135,7 +2151,7 @@ QBShared.Vehicles = {
 		['shop'] = 'pdm',
 	},
 	['rebel2'] = {
-		['name'] = 'Rebel', 
+		['name'] = 'Rebel',
 		['brand'] = 'Annis',
 		['model'] = 'rebel2',
 		['price'] = 20000,
@@ -2225,7 +2241,7 @@ QBShared.Vehicles = {
 		['shop'] = 'pdm',
 	},
 	['sandking'] = {
-		['name'] = 'Sandking', 
+		['name'] = 'Sandking',
 		['brand'] = 'Annis',
 		['price'] = 25000,
 		['category'] = 'offroad',
@@ -2495,7 +2511,7 @@ QBShared.Vehicles = {
 		['shop'] = 'pdm',
 	},
 	['trophytruck'] = {
-		['name'] = 'Trophy Truck', 
+		['name'] = 'Trophy Truck',
 		['brand'] = 'Annis',
 		['price'] = 60000,
 		['category'] = 'offroad',
@@ -3058,7 +3074,7 @@ QBShared.Vehicles = {
 		['hash'] = `double`,
 		['shop'] = 'pdm',
 	},
-	['drafter'] = {     
+	['drafter'] = {
 		['name'] = '8F Drafter',
 		['brand'] = 'Obey',
 		['model'] = 'drafter',
@@ -3624,7 +3640,7 @@ QBShared.Vehicles = {
 		['hash'] = `nero2`,
 		['shop'] = 'pdm',
 	},
-	['novak'] = {   
+	['novak'] = {
 		['name'] = 'Novak',
 		['brand'] = 'Lampadati',
 		['model'] = 'novak',
@@ -3859,7 +3875,7 @@ QBShared.Vehicles = {
 		['shop'] = 'pdm',
 	},
 	['sandking2'] = {
-		['name'] = 'Sandking SWB', 
+		['name'] = 'Sandking SWB',
 		['brand'] = 'Annis',
 		['price'] = 38000,
 		['category'] = 'offroad',
@@ -4224,7 +4240,7 @@ QBShared.Vehicles = {
 		['shop'] = 'pdm',
 	},
 	['vagrant'] = {
-		['name'] = 'Vagrant', 
+		['name'] = 'Vagrant',
 		['brand'] = 'Maxwell',
 		['price'] = 50000,
 		['category'] = 'offroad',
@@ -4242,7 +4258,7 @@ QBShared.Vehicles = {
 		['shop'] = 'pdm',
 	},
 	['verus'] = {
-		['name'] = 'Verus', 
+		['name'] = 'Verus',
 		['brand'] = 'Dinka',
 		['price'] = 20000,
 		['category'] = 'offroad',
@@ -4323,7 +4339,7 @@ QBShared.Vehicles = {
 		['shop'] = 'pdm',
 	},
 	['winky'] = {
-		['name'] = 'Winky', 
+		['name'] = 'Winky',
 		['brand'] = 'Vapid',
 		['price'] = 10000,
 		['category'] = 'offroad',
@@ -4350,7 +4366,7 @@ QBShared.Vehicles = {
 		['shop'] = 'pdm',
 	},
 	['yosemite3'] = {
-		['name'] = 'Yosemite Rancher', 
+		['name'] = 'Yosemite Rancher',
 		['brand'] = 'Declasse',
 		['price'] = 425000,
 		['category'] = 'offroad',
@@ -4412,7 +4428,7 @@ QBShared.Vehicles = {
 		['hash'] = `zorrusso`,
 		['shop'] = 'pdm',
 	},
-	
+
 	----------MUST BE ENABLED FOR THE BELOW VEHICLES-------------+set sv_enforceGameBuild 2372-------------------------------
 	----------MUST BE ENABLED FOR THE BELOW VEHICLES-------------+set sv_enforceGameBuild 2372-------------------------------
 	----------MUST BE ENABLED FOR THE BELOW VEHICLES-------------+set sv_enforceGameBuild 2372-------------------------------

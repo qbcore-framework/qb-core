@@ -1,0 +1,3 @@
+# Ignore any IDE derived project configs
+.idea
+.vscode
