@@ -13,7 +13,7 @@ export const isEnvBrowser = () => !window.invokeNative;
 export const fetchNui = async (evName, data, mockData = null) => {
   if (isEnvBrowser()) return mockData;
 
-  const resourceName = "qb-core";
+  const resourceName = window.GetParentResourceName();
 
   const rawResp = await fetch(`https://${resourceName}/${evName}`, {
     body: JSON.stringify(data),
