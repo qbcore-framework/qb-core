@@ -45,7 +45,7 @@ QBConfig.Notify.NotificationStyling = {
 -- These are how you define different notification variants
 -- The "color" key is background of the notification
 -- The "icon" key is the css-icon code, this project uses `Material Icons` & `Font Awesome`
-QBconfig.Notify.VariantDefinitions = {
+QBConfig.Notify.VariantDefinitions = {
     success = {
         color = 'green',
         icon = 'done'
