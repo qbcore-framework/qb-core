@@ -58,6 +58,10 @@ function QBCore.Functions.DrawText3D(x, y, z, text) -- Use local function instea
     ClearDrawOrigin()
 end
 
+RegisterNUICallback('getNotifyConfig', function(_, cb)
+	cb(QBCore.Config.Notify)
+end)
+
 function QBCore.Functions.Notify(text, textype, length)
 	if type(text) == "table" then
 		local ttext = text.text or 'Placeholder'
@@ -65,6 +69,7 @@ function QBCore.Functions.Notify(text, textype, length)
 		local ttype = textype or 'primary'
 		local length = length or 5000
 		SendNUIMessage({
+			action = 'notify',
 			type = ttype,
 			length = length,
 			text = ttext,
@@ -73,7 +78,8 @@ function QBCore.Functions.Notify(text, textype, length)
 	else
     	local ttype = textype or 'primary'
     	local length = length or 5000
-    	SendNUIMessage({
+		SendNUIMessage({
+			action = 'notify',
 			type = ttype,
 			length = length,
 			text = text
