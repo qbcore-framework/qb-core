@@ -5,7 +5,7 @@ QBCore.Shared = QBShared
 QBCore.ServerCallbacks = {}
 
 exports('GetCoreObject', function()
-	return QBCore
+    return QBCore
 end)
 
 -- To use this export in a script instead of manifest method
