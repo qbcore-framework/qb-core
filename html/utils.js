@@ -13,7 +13,7 @@ export const isEnvBrowser = () => !window.invokeNative;
 export const fetchNui = async (evName, data, mockData = null) => {
   if (isEnvBrowser()) return mockData;
 
-  const resourceName = window.GetParentResourceName();
+  const resourceName = "qb-core";
 
   const rawResp = await fetch(`https://cfx-nui-${resourceName}/${evName}`, {
     body: JSON.stringify(data),
