@@ -71,13 +71,6 @@ function QBCore.Functions.GetPlayers()
     return sources
 end
 
--- Will return an array of QB Player class instances
--- unlike the GetPlayers() wrapper which only returns IDs
-function QBCore.Functions.GetQBPlayers()
-    return QBCore.Players
-end
--- Paychecks (standalone - don't touch)
-
 -- Get the sources of all the players on duty from a certain job.
 function QBCore.Functions.GetPlayersOnDuty(job)
     local sources = {}
@@ -91,6 +84,13 @@ function QBCore.Functions.GetPlayersOnDuty(job)
     return sources
 end
 
+-- Will return an array of QB Player class instances
+-- unlike the GetPlayers() wrapper which only returns IDs
+function QBCore.Functions.GetQBPlayers()
+    return QBCore.Players
+end
+
+-- Paychecks (standalone - don't touch)
 function PaycheckLoop()
     local Players = QBCore.Functions.GetPlayers()
     for i = 1, #Players, 1 do
