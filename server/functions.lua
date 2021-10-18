@@ -84,7 +84,7 @@ function QBCore.Functions.GetPlayersDuty(job)
     for src, player in pairs(QBCore.Players) do
         if player.PlayerData.job.name == job then
             if player.PlayerData.job.onduty then
-                table.inster(sources, src)
+                table.insert(sources, src)
             end
         end
     end
