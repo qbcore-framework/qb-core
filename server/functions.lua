@@ -79,7 +79,7 @@ end
 -- Paychecks (standalone - don't touch)
 
 -- Get the sources of all the players on duty from a certain job.
-function QBCore.Functions.GetPlayersDuty(job)
+function QBCore.Functions.GetPlayersOnDuty(job)
     local sources = {}
     for src, player in pairs(QBCore.Players) do
         if player.PlayerData.job.name == job then
