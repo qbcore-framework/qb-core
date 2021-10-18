@@ -78,6 +78,19 @@ function QBCore.Functions.GetQBPlayers()
 end
 -- Paychecks (standalone - don't touch)
 
+-- Get the sources of all the players on duty from a certain job.
+function QBCore.Functions.GetPlayersDuty(job)
+    local sources = {}
+    for src, player in pairs(QBCore.Players) do
+        if player.PlayerData.job.name == job then
+            if player.PlayerData.job.onduty then
+                table.inster(sources, src)
+            end
+        end
+    end
+    return sources
+end
+
 function PaycheckLoop()
     local Players = QBCore.Functions.GetPlayers()
     for i = 1, #Players, 1 do
