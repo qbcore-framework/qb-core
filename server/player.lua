@@ -315,7 +315,7 @@ function QBCore.Player.CreatePlayer(PlayerData)
         local totalWeight = QBCore.Player.GetTotalWeight(self.PlayerData.items)
         local itemInfo = QBCore.Shared.Items[item:lower()]
         if itemInfo == nil then
-            TriggerClientEvent('QBCore:Notify', source, 'Item Does Not Exist', 'error')
+            TriggerClientEvent('QBCore:Notify', self.PlayerData.source, 'Item Does Not Exist', 'error')
             return
         end
         local amount = tonumber(amount)
