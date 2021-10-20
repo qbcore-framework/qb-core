@@ -249,7 +249,7 @@ function QBCore.Functions.IsOptin(source)
     local license = QBCore.Functions.GetIdentifier(src, 'license')
     if QBCore.Functions.HasPermission(src, 'admin') then
         retval = QBCore.Config.Server.PermissionList[license].optin
-        return true
+        return retval
     end
     return false
 end
