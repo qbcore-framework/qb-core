@@ -401,7 +401,7 @@ function QBCore.Functions.GetVehicleProperties(vehicle)
             modTrimB = GetVehicleMod(vehicle, 44),
             modTank = GetVehicleMod(vehicle, 45),
             modWindows = GetVehicleMod(vehicle, 46),
-            modLivery = GetVehicleMod(vehicle, 48),
+            modLivery = GetVehicleLivery(vehicle),
         }
     else
         return
@@ -618,7 +618,6 @@ function QBCore.Functions.SetVehicleProperties(vehicle, props)
             SetVehicleMod(vehicle, 46, props.modWindows, false)
         end
         if props.modLivery then
-            SetVehicleMod(vehicle, 48, props.modLivery, false)
             SetVehicleLivery(vehicle, props.modLivery)
         end
     end
