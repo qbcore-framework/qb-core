@@ -20,7 +20,7 @@ const app = Vue.createApp({
       if (data?.action !== "notify") return;
 
       const { text, length, type, caption } = data;
-      const { color, icon } = determineStyleFromVariant(type);
+      const { classes, icon } = determineStyleFromVariant(type);
 
       // Make sure we have sucessfully fetched out config properly
       if (!NOTIFY_CONFIG) {
@@ -44,7 +44,7 @@ const app = Vue.createApp({
         position: NOTIFY_CONFIG.NotificationStyling.position ?? "right",
         timeout: length,
         caption,
-        color,
+        classes,
         icon,
       });
     };
