@@ -9,7 +9,7 @@ function QBCore.Player.Login(source, citizenid, newData)
     local src = source
     if src then
         if citizenid then
-            local result = exports.oxmysql:fetchSync('SELECT * FROM players WHERE citizenid = ?', { citizenid })
+            local result = exports.oxmysql:executeSync('SELECT * FROM players WHERE citizenid = ?', { citizenid })
             local PlayerData = result[1]
             if PlayerData then
                 PlayerData.money = json.decode(PlayerData.money)
@@ -525,7 +525,7 @@ end
 
 QBCore.Player.LoadInventory = function(PlayerData)
     PlayerData.items = {}
-    local result = exports.oxmysql:fetchSync('SELECT * FROM players WHERE citizenid = ?', { PlayerData.citizenid })
+    local result = exports.oxmysql:executeSync('SELECT * FROM players WHERE citizenid = ?', { PlayerData.citizenid })
     if result[1] then
         if result[1].inventory then
             plyInventory = json.decode(result[1].inventory)
@@ -623,7 +623,7 @@ function QBCore.Player.CreateCitizenId()
     local CitizenId = nil
     while not UniqueFound do
         CitizenId = tostring(QBCore.Shared.RandomStr(3) .. QBCore.Shared.RandomInt(5)):upper()
-        local result = exports.oxmysql:fetchSync('SELECT COUNT(*) as count FROM players WHERE citizenid = ?', { CitizenId })
+        local result = exports.oxmysql:executeSync('SELECT COUNT(*) as count FROM players WHERE citizenid = ?', { CitizenId })
         if result[1].count == 0 then
             UniqueFound = true
         end
@@ -637,7 +637,7 @@ function QBCore.Player.CreateFingerId()
     while not UniqueFound do
         FingerId = tostring(QBCore.Shared.RandomStr(2) .. QBCore.Shared.RandomInt(3) .. QBCore.Shared.RandomStr(1) .. QBCore.Shared.RandomInt(2) .. QBCore.Shared.RandomStr(3) .. QBCore.Shared.RandomInt(4))
         local query = '%' .. FingerId .. '%'
-        local result = exports.oxmysql:fetchSync('SELECT COUNT(*) as count FROM `players` WHERE `metadata` LIKE ?', { query })
+        local result = exports.oxmysql:executeSync('SELECT COUNT(*) as count FROM `players` WHERE `metadata` LIKE ?', { query })
         if result[1].count == 0 then
             UniqueFound = true
         end
@@ -651,7 +651,7 @@ function QBCore.Player.CreateWalletId()
     while not UniqueFound do
         WalletId = 'QB-' .. math.random(11111111, 99999999)
         local query = '%' .. WalletId .. '%'
-        local result = exports.oxmysql:fetchSync('SELECT COUNT(*) as count FROM players WHERE metadata LIKE ?', { query })
+        local result = exports.oxmysql:executeSync('SELECT COUNT(*) as count FROM players WHERE metadata LIKE ?', { query })
         if result[1].count == 0 then
             UniqueFound = true
         end
@@ -665,7 +665,7 @@ function QBCore.Player.CreateSerialNumber()
     while not UniqueFound do
         SerialNumber = math.random(11111111, 99999999)
         local query = '%' .. SerialNumber .. '%'
-        local result = exports.oxmysql:fetchSync('SELECT COUNT(*) as count FROM players WHERE metadata LIKE ?', { query })
+        local result = exports.oxmysql:executeSync('SELECT COUNT(*) as count FROM players WHERE metadata LIKE ?', { query })
         if result[1].count == 0 then
             UniqueFound = true
         end

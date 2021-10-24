@@ -160,7 +160,7 @@ function QBCore.Functions.IsWhitelisted(source)
     local plicense = QBCore.Functions.GetIdentifier(src, 'license')
     local identifiers = GetPlayerIdentifiers(src)
     if QBCore.Config.Server.whitelist then
-        local result = exports.oxmysql:fetchSync('SELECT * FROM whitelist WHERE license = ?', { plicense })
+        local result = exports.oxmysql:executeSync('SELECT * FROM whitelist WHERE license = ?', { plicense })
         if result[1] then
             for _, id in pairs(identifiers) do
                 if result[1].license == id then
@@ -269,7 +269,7 @@ function QBCore.Functions.IsPlayerBanned(source)
     local retval = false
     local message = ''
     local plicense = QBCore.Functions.GetIdentifier(src, 'license')
-    local result = exports.oxmysql:fetchSync('SELECT * FROM bans WHERE license = ?', { plicense })
+    local result = exports.oxmysql:executeSync('SELECT * FROM bans WHERE license = ?', { plicense })
     if result[1] then
         if os.time() < result[1].expire then
             retval = true
