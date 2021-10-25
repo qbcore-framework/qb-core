@@ -3,15 +3,9 @@ QBShared = {}
 local StringCharset = {}
 local NumberCharset = {}
 
-for i = 48, 57 do
-    table.insert(NumberCharset, string.char(i))
-end
-for i = 65, 90 do
-    table.insert(StringCharset, string.char(i))
-end
-for i = 97, 122 do
-    table.insert(StringCharset, string.char(i))
-end
+for i = 48,  57 do NumberCharset[#NumberCharset+1] = string.char(i) end
+for i = 65,  90 do StringCharset[#StringCharset+1] = string.char(i) end
+for i = 97, 122 do StringCharset[#StringCharset+1] = string.char(i) end
 
 QBShared.RandomStr = function(length)
     if length > 0 then
@@ -34,11 +28,11 @@ QBShared.SplitStr = function(str, delimiter)
     local from = 1
     local delim_from, delim_to = string.find(str, delimiter, from)
     while delim_from do
-        table.insert(result, string.sub(str, from, delim_from - 1))
+		result[#result+1] = string.sub(str, from, delim_from - 1)
         from = delim_to + 1
         delim_from, delim_to = string.find(str, delimiter, from)
     end
-    table.insert(result, string.sub(str, from))
+	result[#result+1] = string.sub(str, from)
     return result
 end
 
