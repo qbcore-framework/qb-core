@@ -35,6 +35,7 @@ files {
 }
 
 dependencies {
+	'oxmysql',
 	'progressbar',
 	'connectqueue'
 }
