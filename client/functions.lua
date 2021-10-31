@@ -1,4 +1,5 @@
 QBCore.Functions = {}
+QBCore.Functions.Math = {}
 QBCore.RequestId = 0
 
 -- Player
