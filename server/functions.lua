@@ -1,4 +1,5 @@
 QBCore.Functions = {}
+QBCore.Functions.Math = {}
 
 -- Getters
 -- Get your player first and then trigger a function on them
