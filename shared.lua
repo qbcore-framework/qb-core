@@ -36,6 +36,16 @@ QBShared.SplitStr = function(str, delimiter)
     return result
 end
 
+-- Math Rounding Credits: http://lua-users.org/wiki/SimpleRound
+QBShared.Sign = function(v)
+	return (v >= 0 and 1) or -1
+end
+
+QBShared.Round = function(v, bracket)
+	bracket = bracket or 1
+	return QBShared.Sign(v/bracket + QBCore.Functions.Math.Sign(v) * 0.5) * bracket
+end
+
 QBShared.StarterItems = {
     ['phone'] = { amount = 1, item = 'phone' },
     ['id_card'] = { amount = 1, item = 'id_card' },
