@@ -101,3 +101,36 @@ end)
 RegisterNetEvent('QBCore:Client:UseItem', function(item)
     TriggerServerEvent('QBCore:Server:UseItem', item)
 end)
+
+-- Me command
+
+local function Draw3DText(coords, str)
+    local onScreen, worldX, worldY = World3dToScreen2d(coords.x, coords.y, coords.z)
+	local camCoords = GetGameplayCamCoord()
+	local scale = 200 / (GetGameplayCamFov() * #(camCoords - coords))
+    if onScreen then
+        SetTextScale(1.0, 0.5 * scale)
+        SetTextFont(4)
+        SetTextColour(255, 255, 255, 255)
+        SetTextEdge(2, 0, 0, 0, 150)
+		SetTextProportional(1)
+		SetTextOutline()
+		SetTextCentre(1)
+        SetTextEntry("STRING")
+        AddTextComponentString(str)
+        DrawText(worldX, worldY)
+    end
+end
+
+RegisterNetEvent('QBCore:Command:ShowMe3D', function(senderId, msg)
+    local sender = GetPlayerFromServerId(senderId)
+    CreateThread(function()
+        local displayTime = 5000 + GetGameTimer()
+        while displayTime > GetGameTimer() do
+            local targetPed = GetPlayerPed(sender)
+            local tCoords = GetEntityCoords(targetPed)
+            Draw3DText(tCoords, msg)
+            Wait(0)
+        end
+    end)
+end)

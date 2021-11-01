@@ -188,15 +188,43 @@ QBCore.Commands.Add('ooc', 'OOC Chat Message', {}, false, function(source, args)
     local Player = QBCore.Functions.GetPlayer(src)
     for k, v in pairs(Players) do
         if v == src then
-            TriggerClientEvent('chat:addMessage', v, 'OOC ' .. GetPlayerName(src), 'normal', message)
-        elseif #(GetEntityCoords(GetPlayerPed(src)) -
-                GetEntityCoords(GetPlayerPed(v))) < 20.0 then
-            TriggerClientEvent('chat:addMessage', v, 'OOC ' .. GetPlayerName(src), 'normal', message)
+            TriggerClientEvent('chat:addMessage', v, {
+                color = { 0, 0, 255},
+                multiline = true,
+                args = {'OOC | '.. GetPlayerName(src), message}
+            })
+        elseif #(GetEntityCoords(GetPlayerPed(src)) - GetEntityCoords(GetPlayerPed(v))) < 20.0 then
+            TriggerClientEvent('chat:addMessage', v, {
+                color = { 0, 0, 255},
+                multiline = true,
+                args = {'OOC | '.. GetPlayerName(src), message}
+            })
         elseif QBCore.Functions.HasPermission(v, 'admin') then
             if QBCore.Functions.IsOptin(v) then
-                TriggerClientEvent('chat:addMessage', v, 'Proximity OOC ' .. GetPlayerName(src), 'normal', message)
+                TriggerClientEvent('chat:addMessage', v, {
+                    color = { 0, 0, 255},
+                    multiline = true,
+                    args = {'OOC | '.. GetPlayerName(src), message}
+                })
                 TriggerEvent('qb-log:server:CreateLog', 'ooc', 'OOC', 'white', '**' .. GetPlayerName(src) .. '** (CitizenID: ' .. Player.PlayerData.citizenid .. ' | ID: ' .. src .. ') **Message:** ' .. message, false)
             end
+        end
+    end
+end, 'user')
+
+-- Me command
+
+QBCore.Commands.Add('me', 'Show local message', {name = 'message', help = 'Message to respond with'}, false, function(source, args)
+    local src = source
+    local ped = GetPlayerPed(src)
+    local pCoords = GetEntityCoords(ped)
+    local msg = table.concat(args, ' ')
+    if msg == '' then return end
+    for k,v in pairs(QBCore.Functions.GetPlayers()) do
+        local target = GetPlayerPed(v)
+        local tCoords = GetEntityCoords(target)
+        if #(pCoords - tCoords) < 20 then
+            TriggerClientEvent('QBCore:Command:ShowMe3D', v, src, msg)
         end
     end
 end, 'user')
