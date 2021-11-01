@@ -43,7 +43,7 @@ end
 
 QBShared.Round = function(v, bracket)
 	bracket = bracket or 1
-	return QBShared.Sign(v/bracket + QBCore.Functions.Math.Sign(v) * 0.5) * bracket
+	return QBShared.Sign(v/bracket + QBShared.Sign(v) * 0.5) * bracket
 end
 
 QBShared.StarterItems = {
