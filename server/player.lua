@@ -527,10 +527,10 @@ end
 
 QBCore.Player.LoadInventory = function(PlayerData)
     PlayerData.items = {}
-    local result = exports.oxmysql:executeSync('SELECT * FROM players WHERE citizenid = ?', { PlayerData.citizenid })
-    if result[1] then
-        if result[1].inventory then
-            plyInventory = json.decode(result[1].inventory)
+    local result = exports.oxmysql:singleSync('SELECT * FROM players WHERE citizenid = ?', { PlayerData.citizenid })
+    if result then
+        if result.inventory then
+            local plyInventory = json.decode(result.inventory)
             if next(plyInventory) then
                 for _, item in pairs(plyInventory) do
                     if item then
