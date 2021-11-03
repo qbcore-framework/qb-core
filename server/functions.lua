@@ -66,7 +66,7 @@ end
 function QBCore.Functions.GetPlayers()
     local sources = {}
     for k, v in pairs(QBCore.Players) do
-        table.insert(sources, k)
+        sources[#sources+1] = k
     end
     return sources
 end
