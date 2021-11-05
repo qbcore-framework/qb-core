@@ -315,6 +315,11 @@ function QBCore.Functions.DeleteVehicle(vehicle)
     DeleteVehicle(vehicle)
 end
 
+function QBCore.Functions.GetPlate(vehicle)
+    if vehicle == 0 then return end
+    return Trim(GetVehicleNumberPlateText(vehicle))
+end
+
 function QBCore.Functions.GetVehicleProperties(vehicle)
     if DoesEntityExist(vehicle) then
         local colorPrimary, colorSecondary = GetVehicleColours(vehicle)
