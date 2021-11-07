@@ -76,6 +76,22 @@ end
 function QBCore.Functions.GetQBPlayers()
     return QBCore.Players
 end
+
+function QBCore.Functions.GetPlayersOnDuty(job)
+    local players = {}
+    local count = 0
+
+    for src, Player in pairs(QBCore.Players) do
+        if Player.PlayerData.job.name == job then
+            if Player.PlayerData.job.onduty then
+                players[#players + 1] = src
+                count = count + 1
+            end
+        end
+    end
+    return players, count
+end
+
 -- Paychecks (standalone - don't touch)
 
 function PaycheckLoop()
