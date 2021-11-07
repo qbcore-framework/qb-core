@@ -77,6 +77,7 @@ function QBCore.Functions.GetQBPlayers()
     return QBCore.Players
 end
 
+--- Gets a list of all on duty players of a specified job and the number
 function QBCore.Functions.GetPlayersOnDuty(job)
     local players = {}
     local count = 0
@@ -92,6 +93,7 @@ function QBCore.Functions.GetPlayersOnDuty(job)
     return players, count
 end
 
+-- Returns only the amount of players on duty for the specified job
 function QBCore.Functions.GetDutyCount(job)
     local count = 0
 
