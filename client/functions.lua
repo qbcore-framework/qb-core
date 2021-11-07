@@ -265,14 +265,6 @@ end
 
 -- Vehicle
 
-local function Trim(value)
-    if value then
-        return (string.gsub(value, '^%s*(.-)%s*$', '%1'))
-    else
-        return nil
-    end
-end
-
 function QBCore.Functions.SpawnVehicle(model, cb, coords, isnetworked)
     local model = GetHashKey(model)
     local ped = PlayerPedId()
@@ -308,7 +300,7 @@ end
 
 function QBCore.Functions.GetPlate(vehicle)
     if vehicle == 0 then return end
-    return Trim(GetVehicleNumberPlateText(vehicle))
+    return QBCore.Shared.Trim(GetVehicleNumberPlateText(vehicle))
 end
 
 function QBCore.Functions.GetVehicleProperties(vehicle)
@@ -332,7 +324,7 @@ function QBCore.Functions.GetVehicleProperties(vehicle)
 
         return {
             model = GetEntityModel(vehicle),
-            plate = Trim(GetVehicleNumberPlateText(vehicle)),
+            plate = QBCore.Shared.Trim(GetVehicleNumberPlateText(vehicle)),
             plateIndex = GetVehicleNumberPlateTextIndex(vehicle),
             bodyHealth = QBCore.Shared.Round(GetVehicleBodyHealth(vehicle), 0.1),
             engineHealth = QBCore.Shared.Round(GetVehicleEngineHealth(vehicle), 0.1),
