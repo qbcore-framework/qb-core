@@ -265,23 +265,6 @@ end
 
 -- Vehicle
 
-local function Round(value, numDecimalPlaces)
-    if numDecimalPlaces then
-        local power = 10 ^ numDecimalPlaces
-        return math.floor((value * power) + 0.5) / (power)
-    else
-        return math.floor(value + 0.5)
-    end
-end
-
-local function Trim(value)
-    if value then
-        return (string.gsub(value, '^%s*(.-)%s*$', '%1'))
-    else
-        return nil
-    end
-end
-
 function QBCore.Functions.SpawnVehicle(model, cb, coords, isnetworked)
     local model = GetHashKey(model)
     local ped = PlayerPedId()
@@ -317,7 +300,7 @@ end
 
 function QBCore.Functions.GetPlate(vehicle)
     if vehicle == 0 then return end
-    return Trim(GetVehicleNumberPlateText(vehicle))
+    return QBCore.Shared.Trim(GetVehicleNumberPlateText(vehicle))
 end
 
 function QBCore.Functions.GetVehicleProperties(vehicle)
@@ -341,13 +324,13 @@ function QBCore.Functions.GetVehicleProperties(vehicle)
 
         return {
             model = GetEntityModel(vehicle),
-            plate = Trim(GetVehicleNumberPlateText(vehicle)),
+            plate = QBCore.Shared.Trim(GetVehicleNumberPlateText(vehicle)),
             plateIndex = GetVehicleNumberPlateTextIndex(vehicle),
-            bodyHealth = Round(GetVehicleBodyHealth(vehicle), 1),
-            engineHealth = Round(GetVehicleEngineHealth(vehicle), 1),
-            tankHealth = Round(GetVehiclePetrolTankHealth(vehicle), 1),
-            fuelLevel = Round(GetVehicleFuelLevel(vehicle), 1),
-            dirtLevel = Round(GetVehicleDirtLevel(vehicle), 1),
+            bodyHealth = QBCore.Shared.Round(GetVehicleBodyHealth(vehicle), 0.1),
+            engineHealth = QBCore.Shared.Round(GetVehicleEngineHealth(vehicle), 0.1),
+            tankHealth = QBCore.Shared.Round(GetVehiclePetrolTankHealth(vehicle), 0.1),
+            fuelLevel = QBCore.Shared.Round(GetVehicleFuelLevel(vehicle), 0.1),
+            dirtLevel = QBCore.Shared.Round(GetVehicleDirtLevel(vehicle), 0.1),
             color1 = colorPrimary,
             color2 = colorSecondary,
             pearlescentColor = pearlescentColor,
