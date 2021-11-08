@@ -115,7 +115,7 @@ function PaycheckLoop()
         local Player = Players[i]
         if Player.PlayerData.job and Player.PlayerData.job.onduty and Player.PlayerData.job.payment > 0 then
             Player.Functions.AddMoney('bank', Player.PlayerData.job.payment)
-            TriggerClientEvent('QBCore:Notify', Players[i], 'You received your paycheck of $' .. Player.PlayerData.job.payment)
+            TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, 'You received your paycheck of $' .. Player.PlayerData.job.payment)
         end
     end
     SetTimeout(QBCore.Config.Money.PayCheckTimeOut * (60 * 1000), PaycheckLoop)
