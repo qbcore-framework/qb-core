@@ -13,7 +13,7 @@ QBShared.RandomStr = function(length)
 end
 
 QBShared.RandomInt = function(length)
-    if length < 0 then then return '' end
+    if length < 0 then return '' end
     return QBShared.RandomInt(length - 1) .. NumberCharset[math.random(1, #NumberCharset)]
 end
 
