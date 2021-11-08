@@ -8,12 +8,12 @@ for i = 65,  90 do StringCharset[#StringCharset+1] = string.char(i) end
 for i = 97, 122 do StringCharset[#StringCharset+1] = string.char(i) end
 
 QBShared.RandomStr = function(length)
-    if length < 0 then return '' end
+    if length <= 0 then return '' end
     return QBShared.RandomStr(length - 1) .. StringCharset[math.random(1, #StringCharset)]
 end
 
 QBShared.RandomInt = function(length)
-    if length < 0 then return '' end
+    if length <= 0 then return '' end
     return QBShared.RandomInt(length - 1) .. NumberCharset[math.random(1, #NumberCharset)]
 end
 
@@ -1063,7 +1063,7 @@ QBShared.Vehicles = {
 		['category'] = 'compacts',
 		['hash'] = `prairie`,
 		['shop'] = 'pdm',
-	},	
+	},
 	['rhapsody'] = {
 		['name'] = 'Rhapsody',
 		['brand'] = 'Declasse',
@@ -1145,7 +1145,7 @@ QBShared.Vehicles = {
 		['category'] = 'coupes',
 		['hash'] = `jackal`,
 		['shop'] = 'pdm',
-	},	
+	},
 	['oracle'] = {
 		['name'] = 'Oracle',
 		['brand'] = 'Ubermacht',
@@ -1283,8 +1283,8 @@ QBShared.Vehicles = {
 		['category'] = 'cycles',
 		['hash'] = `tribike3`,
 		['shop'] = 'pdm',
-	},	
-	--- Motorcycles	
+	},
+	--- Motorcycles
 	['akuma'] = {
 		['name'] = 'Akuma',
 		['brand'] = 'Dinka',
@@ -2149,7 +2149,7 @@ QBShared.Vehicles = {
 		['category'] = 'muscle',
 		['hash'] = `ratloader2`,
 		['shop'] = 'pdm',
-	},	
+	},
 	['ruiner'] = {
 		['name'] = 'Ruiner',
 		['brand'] = 'Imponte',
@@ -2293,7 +2293,7 @@ QBShared.Vehicles = {
 		['category'] = 'muscle',
 		['hash'] = `virgo3`,
 		['shop'] = 'pdm',
-	},	
+	},
 	['voodoo'] = {
 		['name'] = 'Voodoo',
 		['brand'] = 'Declasse',
@@ -2383,7 +2383,7 @@ QBShared.Vehicles = {
 		['model'] = 'blazer4',
 		['hash'] = `blazer4`,
 		['shop'] = 'pdm',
-	},	
+	},
 	['blazer5'] = {
 		['name'] = 'Blazer Aqua',
 		['brand'] = 'Nagasaki',
@@ -3178,7 +3178,7 @@ QBShared.Vehicles = {
 		['category'] = 'sports',
 		['hash'] = `comet4`,
 		['shop'] = 'pdm',
-	},	
+	},
 	['comet5'] = {
 		['name'] = 'Comet SR',
 		['brand'] = 'Pfister',
@@ -4738,7 +4738,7 @@ QBShared.Vehicles = {
 		['category'] = 'vans',
 		['hash'] = `youga3`,
 		['shop'] = 'pdm',
-	},	
+	},
 	['youga'] = {
 		['name'] = 'Youga',
 		['brand'] = 'Bravado',
