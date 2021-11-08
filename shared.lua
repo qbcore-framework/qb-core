@@ -8,19 +8,13 @@ for i = 65,  90 do StringCharset[#StringCharset+1] = string.char(i) end
 for i = 97, 122 do StringCharset[#StringCharset+1] = string.char(i) end
 
 QBShared.RandomStr = function(length)
-    if length > 0 then
-        return QBShared.RandomStr(length - 1) .. StringCharset[math.random(1, #StringCharset)]
-    else
-        return ''
-    end
+    if length < 0 then return '' end
+    return QBShared.RandomStr(length - 1) .. StringCharset[math.random(1, #StringCharset)]
 end
 
 QBShared.RandomInt = function(length)
-    if length > 0 then
-        return QBShared.RandomInt(length - 1) .. NumberCharset[math.random(1, #NumberCharset)]
-    else
-        return ''
-    end
+    if length < 0 then then return '' end
+    return QBShared.RandomInt(length - 1) .. NumberCharset[math.random(1, #NumberCharset)]
 end
 
 QBShared.SplitStr = function(str, delimiter)
@@ -37,20 +31,14 @@ QBShared.SplitStr = function(str, delimiter)
 end
 
 QBShared.Trim = function(value)
-	if value then
-		return (string.gsub(value, '^%s*(.-)%s*$', '%1'))
-	else
-		return nil
-	end
+	if not value then return nil end
+    return (string.gsub(value, '^%s*(.-)%s*$', '%1'))
 end
 
 QBShared.Round = function(value, numDecimalPlaces)
-    if numDecimalPlaces then
-        local power = 10 ^ numDecimalPlaces
-        return math.floor((value * power) + 0.5) / (power)
-    else
-        return math.floor(value + 0.5)
-    end
+    if not numDecimalPlaces then return math.floor(value + 0.5) end
+    local power = 10 ^ numDecimalPlaces
+    return math.floor((value * power) + 0.5) / (power)
 end
 
 
