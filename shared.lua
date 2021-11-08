@@ -44,14 +44,13 @@ QBShared.Trim = function(value)
 	end
 end
 
--- Math Rounding Credits: http://lua-users.org/wiki/SimpleRound
-QBShared.Sign = function(v)
-	return (v >= 0 and 1) or -1
-end
-
-QBShared.Round = function(v, bracket)
-	bracket = bracket or 1
-	return QBShared.Sign(v/bracket + QBShared.Sign(v) * 0.5) * bracket
+QBShared.Round = function(value, numDecimalPlaces)
+    if numDecimalPlaces then
+        local power = 10 ^ numDecimalPlaces
+        return math.floor((value * power) + 0.5) / (power)
+    else
+        return math.floor(value + 0.5)
+    end
 end
 
 
