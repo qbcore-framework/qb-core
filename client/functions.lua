@@ -4,10 +4,10 @@ QBCore.RequestId = 0
 -- Player
 
 function QBCore.Functions.GetPlayerData(cb)
-    if cb then
-        cb(QBCore.PlayerData)
-    else
+    if not cb then
         return QBCore.PlayerData
+    else
+        cb(QBCore.PlayerData)
     end
 end
 
