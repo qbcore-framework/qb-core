@@ -134,6 +134,22 @@ function QBCore.Functions.GetPlayers()
     return GetActivePlayers()
 end
 
+function QBCore.Functions.GetPlayersInArea(coords, area)
+    local players, playersInArea = QBCore.Functions.GetPlayers(), {}
+    coords = vector3(coords.x, coords.y, coords.z)
+
+    for i=1, #players, 1 do
+        local target = GetPlayerPed(players[i])
+        local targetCoords = GetEntityCoords(target)
+
+        if #(coords - targetCoords) <= area then
+            playersInArea[#playersInArea + 1] = players[i]
+        end
+    end
+
+    return playersInArea
+end
+
 function QBCore.Functions.GetPeds(ignoreList)
     local pedPool = GetGamePool('CPed')
     local ignoreList = ignoreList or {}
