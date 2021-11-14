@@ -36,9 +36,9 @@ function QBCore.Debug(table, indent)
 end
 
 function QBCore.ShowError(resource, msg)
-    print('\x1b[31m[' .. resource .. ':ERROR]\x1b[0m ' .. msg)
+    print('\x1b[31m['..resource..':ERROR]\x1b[0m '..msg)
 end
 
 function QBCore.ShowSuccess(resource, msg)
-    print('\x1b[32m[' .. resource .. ':LOG]\x1b[0m ' .. msg)
+    print('\x1b[32m['..resource..':LOG]\x1b[0m '..msg)
 end
