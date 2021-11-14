@@ -279,7 +279,7 @@ function QBCore.Functions.SpawnVehicle(model, cb, coords, isnetworked)
     end
     RequestModel(model)
     while not HasModelLoaded(model) do
-        Citizen.Wait(10)
+        Wait(10)
     end
     local veh = CreateVehicle(model, coords.x, coords.y, coords.z, coords.w, isnetworked, false)
     local netid = NetworkGetNetworkIdFromEntity(veh)
