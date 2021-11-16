@@ -809,6 +809,15 @@ QBShared.Jobs = {
             },
         },
 	},
+    ['bus'] = {
+		label = 'Bus',
+		defaultDuty = true,
+		grades = {
+            ['0'] = {
+                name = 'Driver',
+                payment = 50
+            },
+	},
 	['cardealer'] = {
 		label = 'Vehicle Dealer',
 		defaultDuty = true,
