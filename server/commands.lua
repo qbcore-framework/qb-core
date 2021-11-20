@@ -228,3 +228,13 @@ QBCore.Commands.Add('me', 'Show local message', {name = 'message', help = 'Messa
         end
     end
 end, 'user')
+
+QBCore.Commands.Add("skin", "Give Cloothing Menu (Admin Only)", {{name="id", help="Player ID"}}, false, function(source, args)
+	local playerId = args[1] ~= nil and args[1] or source
+	local Player = QBCore.Functions.GetPlayer(tonumber(playerId))
+	if Player ~= nil then
+		TriggerClientEvent('qb-clothing:client:openMenu', playerId)
+	else
+		TriggerClientEvent('QBCore:Notify', source, "Player Not Online", "error")
+	end
+end, "admin")
