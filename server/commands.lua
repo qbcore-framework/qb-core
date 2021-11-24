@@ -166,19 +166,6 @@ QBCore.Commands.Add('setgang', 'Set A Players Gang (Admin Only)', { { name = 'id
     end
 end, 'admin')
 
--- Inventory (should be in qb-inventory?)
-
-QBCore.Commands.Add('clearinv', 'Clear Players Inventory (Admin Only)', { { name = 'id', help = 'Player ID' } }, false, function(source, args)
-    local src = source
-    local playerId = args[1] or src
-    local Player = QBCore.Functions.GetPlayer(tonumber(playerId))
-    if Player then
-        Player.Functions.ClearInventory()
-    else
-        TriggerClientEvent('QBCore:Notify', src, 'Player Not Online', 'error')
-    end
-end, 'admin')
-
 -- Out of Character Chat
 
 QBCore.Commands.Add('ooc', 'OOC Chat Message', {}, false, function(source, args)
