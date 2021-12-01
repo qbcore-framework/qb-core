@@ -4,8 +4,10 @@
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     ShutdownLoadingScreenNui()
     LocalPlayer.state:set('isLoggedIn', true, false)
-    SetCanAttackFriendly(PlayerPedId(), true, false)
-    NetworkSetFriendlyFireOption(true)
+    if QBConfig.Server.pvp then
+        SetCanAttackFriendly(PlayerPedId(), true, false)
+        NetworkSetFriendlyFireOption(true)
+    end
 end)
 
 RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
