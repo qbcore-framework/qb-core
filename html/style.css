@@ -1,49 +1,34 @@
 .success {
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-
-    background-color: rgba(23, 23, 23, 80%);
-    border-left: 5px solid #20bb44
+    background-color: rgba(23, 23, 23, 90%);
+    border-radius: 10px;
+    box-shadow: 0rem 0rem 0.1rem 0.05rem #000000;
+    border-left: 0.5rem solid #20bb44;
 }
 
 .primary {
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-
-    background-color: rgba(23, 23, 23, 80%);
-    border-left: 5px solid #1c75d2
+    background-color: rgba(23, 23, 23, 90%);
+    border-radius: 10px;
+    box-shadow: 0rem 0rem 0.1rem 0.05rem #000000;
+    border-left: 5px solid #1c75d2;
 }
 
 .error {
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-
-    background-color: rgba(23, 23, 23, 80%);
-    border-left: 5px solid #c10114
+    background-color: rgba(23, 23, 23, 90%);
+    border-radius: 10px;
+    box-shadow: 0rem 0rem 0.1rem 0.05rem #000000;
+    border-left: 5px solid #c10114;
 }
 
 .police {
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-
-    background-color: rgba(23, 23, 23, 80%);
-    border-left: 5px solid #2197f2
+    background-color: rgba(23, 23, 23, 90%);
+    border-radius: 10px;
+    box-shadow: 0rem 0rem 0.1rem 0.05rem #000000;
+    border-left: 5px solid #2197f2;
 }
 
 .ambulance {
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-
-    background-color: rgba(23, 23, 23, 80%);
-    border-left: 5px solid #f44236
+    background-color: rgba(23, 23, 23, 90%);
+    border-radius: 10px;
+    box-shadow: 0rem 0rem 0.1rem 0.05rem #000000;
+    border-left: 5px solid #f44236;
 }
