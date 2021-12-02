@@ -14,6 +14,10 @@ RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
     LocalPlayer.state:set('isLoggedIn', false, false)
 end)
 
+RegisterNetEvent('QBCore:Client:PvpHasToggled', function(pvp_state)
+    SetCanAttackFriendly(PlayerPedId(), pvp_state, pvp_state)
+    NetworkSetFriendlyFireOption(pvp_state)
+end)
 -- Teleport Commands
 
 RegisterNetEvent('QBCore:Command:TeleportToPlayer', function(coords)
