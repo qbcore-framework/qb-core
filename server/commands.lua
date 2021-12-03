@@ -73,6 +73,13 @@ QBCore.Commands.Add('tpm', 'TP To Marker (Admin Only)', {}, false, function(sour
     TriggerClientEvent('QBCore:Command:GoToMarker', src)
 end, 'admin')
 
+
+QBCore.Commands.Add('togglepvp', 'Toggle PVP on the server (Admin Only)', {}, false, function(source)
+    local src = source
+    local pvp_state = QBConfig.Server.pvp
+    QBConfig.Server.pvp = not pvp_state
+    TriggerClientEvent('QBCore:Client:PvpHasToggled', -1, QBConfig.Server.pvp)
+end, 'admin')
 -- Permissions
 
 QBCore.Commands.Add('addpermission', 'Give Player Permissions (God Only)', { { name = 'id', help = 'ID of player' }, { name = 'permission', help = 'Permission level' } }, true, function(source, args)

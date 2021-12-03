@@ -4,14 +4,20 @@
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     ShutdownLoadingScreenNui()
     LocalPlayer.state:set('isLoggedIn', true, false)
-    SetCanAttackFriendly(PlayerPedId(), true, false)
-    NetworkSetFriendlyFireOption(true)
+    if QBConfig.Server.pvp then
+        SetCanAttackFriendly(PlayerPedId(), true, false)
+        NetworkSetFriendlyFireOption(true)
+    end
 end)
 
 RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
     LocalPlayer.state:set('isLoggedIn', false, false)
 end)
 
+RegisterNetEvent('QBCore:Client:PvpHasToggled', function(pvp_state)
+    SetCanAttackFriendly(PlayerPedId(), pvp_state, false)
+    NetworkSetFriendlyFireOption(pvp_state)
+end)
 -- Teleport Commands
 
 RegisterNetEvent('QBCore:Command:TeleportToPlayer', function(coords)
