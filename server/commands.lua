@@ -149,7 +149,11 @@ QBCore.Commands.Add('setjob', 'Set A Players Job (Admin Only)', { { name = 'id',
     local src = source
     local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
     if Player then
-        Player.Functions.SetJob(tostring(args[2]), tonumber(args[3]))
+        if QBCore.Functions.DoesJobExist(args[2], args[3]) then
+            Player.Functions.SetJob(tostring(args[2]), tonumber(args[3]))
+        else
+            TriggerClientEvent('QBCore:Notify', src, 'Invalid Job/Grade', 'error')
+        end
     else
         TriggerClientEvent('QBCore:Notify', src, 'Player Not Online', 'error')
     end
