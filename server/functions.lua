@@ -111,6 +111,13 @@ end
 _G.Player_Buckets = {} -- Bucket array containing all players that have been set to a different bucket
 _G.Entity_Buckets = {} -- Bucket array containing all entities that have been set to a different bucket
 
+
+--- Returns the objects related to buckets, first returned value is the player buckets , second one is entity buckets
+function QBCore.Functions.GetBucketObjects()
+    return _G.Player_Buckets, _G.Entity_Buckets
+end
+
+
 --- Will set the provided player id / source into the provided bucket id
 function QBCore.Functions.SetPlayerBucket(player_source --[[int]],bucket --[[int]])
     if player_source and bucket then
