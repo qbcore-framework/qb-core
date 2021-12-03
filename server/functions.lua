@@ -169,11 +169,7 @@ end
 --- Will return true / false wheter the mentioned player id is present in the bucket provided
 function QBCore.Functions.IsPlayerInBucket(player_source --[[int]] ,bucket --[[int]])
     local curr_player_bucket = GetPlayerRoutingBucket(player_source)
-    if curr_player_bucket == bucket then
-        return true
-    else
-        return false
-    end
+    return curr_player_bucket == bucket
 end
 
 -- Paychecks (standalone - don't touch)
