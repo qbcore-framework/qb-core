@@ -328,3 +328,15 @@ function QBCore.Functions.IsLicenseInUse(license)
     end
     return false
 end
+
+function QBCore.Functions.DoesJobExist(job, grade)
+    if job and grade then
+        for k, v in pairs(QBCore.Shared.Jobs) do
+            if job == k and v.grades[grade] then
+                return true
+            end
+        end
+    end
+    
+    return false
+end
