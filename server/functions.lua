@@ -121,7 +121,7 @@ end
 --- Will set the provided player id / source into the provided bucket id
 function QBCore.Functions.SetPlayerBucket(player_source --[[int]],bucket --[[int]])
     if player_source and bucket then
-        local plicense = QBCore.Functions.GetIdentifier(player, 'license')
+        local plicense = QBCore.Functions.GetIdentifier(player_source, 'license')
         SetPlayerRoutingBucket(player_source, bucket)
         _G.Player_Buckets[plicense] = {player_id = player_source, player_bucket = bucket}
         return true
