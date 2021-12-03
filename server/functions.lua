@@ -107,6 +107,75 @@ function QBCore.Functions.GetDutyCount(job)
     return count
 end
 
+--- Routingbucket stuff (Only touch if you know what you are doing)
+_G.QBCore.Player_Buckets = {} -- Bucket array containing all players that have been set to a different bucket
+_G.QBCore.Entity_Buckets = {} -- Bucket array containing all entities that have been set to a different bucket
+
+--- Will set the provided player id / source into the provided bucket id
+function QBCore.Functions.SetPlayerBucket(player_source --[[int]],bucket --[[int]])
+    if player_source and bucket then
+        local plicense = QBCore.Functions.GetIdentifier(player, 'license')
+        SetPlayerRoutingBucket(player_source, bucket)
+        _G.QBCore.Player_Buckets[plicense] = {player_id = player_source, player_bucket = bucket}
+        return true
+    else
+        return false
+    end
+end
+
+--- Will set any entity into the provided bucket, for example peds / vehicles / props / etc...
+function QBCore.Functions.SetEntityBucket(entity --[[int]],bucket --[[int]])
+    if entity and bucket then
+        SetEntityRoutingBucket(entity, bucket)
+        _G.QBCore.Entity_Buckets[entity] = {entity_id = entity, entity_bucket = bucket}
+        return true
+    else
+        return false
+    end
+end
+
+
+-- Will return an array of all the player ids inside the current bucket
+function QBCore.Functions.GetPlayersInBucket(bucket --[[int]])
+    local curr_bucket_pool = {}
+    if _G.QBCore.Player_Buckets ~= nil then
+        for k, v in pairs(_G.QBCore.Player_Buckets) do
+            if k['player_bucket'] == bucket then
+                curr_bucket_pool[#curr_bucket_pool + 1] = k['player_id']
+            end
+        end
+        return curr_bucket_pool
+    else
+        return false
+    end
+end
+
+
+--- Will return an array of all the entities inside the current bucket (Not player entities , use GetPlayersInBucket for that)
+function QBCore.Functions.GetEntitiesInBucket(bucket --[[int]])
+    local curr_bucket_pool = {}
+    if _G.QBCore.Entity_Buckets ~= nil then
+        for k, v in pairs(_G.QBCore.Entity_Buckets) do
+            if k['entity_bucket'] == bucket then
+                curr_bucket_pool[#curr_bucket_pool + 1] = k['entity_id']
+            end
+        end
+        return curr_bucket_pool
+    else
+        return false
+    end
+end
+
+--- Will return true / false wheter the mentioned player id is present in the bucket provided
+function QBCore.Functions.IsPlayerInBucket(player_source --[[int]] ,bucket --[[int]])
+    local curr_player_bucket = GetPlayerRoutingBucket(player_source)
+    if curr_player_bucket == bucket then
+        return true
+    else
+        return false
+    end
+end
+
 -- Paychecks (standalone - don't touch)
 
 function PaycheckLoop()
