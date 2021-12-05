@@ -60,6 +60,26 @@ function QBCore.Functions.DrawText3D(x, y, z, text)
     ClearDrawOrigin()
 end
 
+function = QBCore.Functions.ShowNotification(msg, flash, saveToBrief, hudColorIndex)
+	if saveToBrief == nil then saveToBrief = true end
+	AddTextEntry('qbcoreNotification', msg)
+	BeginTextCommandThefeedPost('qbcoreNotification')
+	if hudColorIndex then ThefeedNextPostBackgroundColor(hudColorIndex) end
+	EndTextCommandThefeedPostTicker(flash or false, saveToBrief)
+end
+
+function = QBCore.Functions.ShowHelpNotification(msg, thisFrame, beep, duration)
+	AddTextEntry('qbcoreHelpNotification', msg)
+
+	if thisFrame then
+		DisplayHelpTextThisFrame('qbcoreHelpNotification', false)
+	else
+		if beep == nil then beep = true end
+		BeginTextCommandDisplayHelp('qbcoreHelpNotification')
+		EndTextCommandDisplayHelp(0, false, beep, duration or -1)
+	end
+end
+
 RegisterNUICallback('getNotifyConfig', function(_, cb)
     cb(QBCore.Config.Notify)
 end)
