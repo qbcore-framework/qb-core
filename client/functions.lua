@@ -279,7 +279,7 @@ function QBCore.Functions.SpawnVehicle(model, cb, coords, isnetworked)
     end
     RequestModel(model)
     while not HasModelLoaded(model) do
-        Wait(10)
+        Citizen.Wait(10)
     end
     local veh = CreateVehicle(model, coords.x, coords.y, coords.z, coords.w, isnetworked, false)
     local netid = NetworkGetNetworkIdFromEntity(veh)
@@ -308,6 +308,16 @@ function QBCore.Functions.GetVehicleProperties(vehicle)
         local colorPrimary, colorSecondary = GetVehicleColours(vehicle)
         local pearlescentColor, wheelColor = GetVehicleExtraColours(vehicle)
         local extras = {}
+
+        if GetIsVehiclePrimaryColourCustom(vehicle) then
+            r, g, b = GetVehicleCustomPrimaryColour(vehicle)
+            colorPrimary = { r, g, b }
+        end
+
+        if GetIsVehicleSecondaryColourCustom(vehicle) then
+            r, g, b = GetVehicleCustomSecondaryColour(vehicle)
+            colorSecondary = { r, g, b }
+        end
 
         for extraId = 0, 12 do
             if DoesExtraExist(vehicle, extraId) then
@@ -426,10 +436,18 @@ function QBCore.Functions.SetVehicleProperties(vehicle, props)
             SetVehicleDirtLevel(vehicle, props.dirtLevel + 0.0)
         end
         if props.color1 then
-            SetVehicleColours(vehicle, props.color1, colorSecondary)
+            if type(props.color1) == "number" then
+                SetVehicleColours(vehicle, props.color1, colorSecondary)
+            else
+                SetVehicleCustomPrimaryColour(vehicle, props.color1[1], props.color1[2], props.color1[3])
+            end
         end
         if props.color2 then
-            SetVehicleColours(vehicle, props.color1 or colorPrimary, props.color2)
+            if type(props.color2) == "number" then
+                SetVehicleColours(vehicle, props.color1 or colorPrimary, props.color2)
+            else
+                SetVehicleCustomSecondaryColour(vehicle, props.color2[1], props.color2[2], props.color2[3])
+            end
         end
         if props.pearlescentColor then
             SetVehicleExtraColours(vehicle, props.pearlescentColor, wheelColor)
