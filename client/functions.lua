@@ -77,6 +77,16 @@ function QBCore.Functions.CreateBlip(coords, sprite, display, scale, colour, sho
     end
 end
 
+function QBCore.Functions.RequestAnimDict(animDict)
+	if not HasAnimDictLoaded(animDict) then
+		RequestAnimDict(animDict)
+
+		while not HasAnimDictLoaded(animDict) do
+			Wait(4)
+		end
+	end
+end
+
 RegisterNUICallback('getNotifyConfig', function(_, cb)
     cb(QBCore.Config.Notify)
 end)
