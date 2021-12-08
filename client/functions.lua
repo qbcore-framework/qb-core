@@ -60,6 +60,23 @@ function QBCore.Functions.DrawText3D(x, y, z, text)
     ClearDrawOrigin()
 end
 
+function QBCore.Functions.CreateBlip(coords, sprite, display, scale, colour, shortRange, title)
+    print(coords, sprite, display, scale, colour, shortRange, title)
+    if not coords or not sprite or not display or not scale or not colour or shortRange == nil or not title then 
+        print("Blip failed to create, most likely missed a setting")
+    else 
+        blip = AddBlipForCoord(coords)
+        SetBlipSprite(blip, sprite)
+        SetBlipDisplay(blip, display)
+        SetBlipScale(blip, scale)
+        SetBlipColour(blip, colour)
+        SetBlipAsShortRange(blip, shortRange)
+        BeginTextCommandSetBlipName("STRING")
+        AddTextComponentString(title)
+        EndTextCommandSetBlipName(blip)
+    end
+end
+
 RegisterNUICallback('getNotifyConfig', function(_, cb)
     cb(QBCore.Config.Notify)
 end)
