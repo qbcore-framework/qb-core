@@ -328,3 +328,8 @@ function QBCore.Functions.IsLicenseInUse(license)
     end
     return false
 end
+
+QBCore.Functions.GlobalTax = function(value)
+	local tax = (value / 100 * QBConfig.Server.GlobalTax)
+	return tax
+end
