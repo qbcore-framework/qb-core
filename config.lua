@@ -34,6 +34,7 @@ QBConfig.Server.whitelist = false -- Enable or disable whitelist on the server
 QBConfig.Server.pvp = true -- Enable or disable pvp on the server (Ability to shoot other players)
 QBConfig.Server.discord = "" -- Discord invite link
 QBConfig.Server.PermissionList = {} -- permission list
+QBConfig.Server.GlobalTax = 15.0
 
 QBConfig.Notify = {}
 
