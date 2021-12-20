@@ -185,7 +185,7 @@ function PaycheckLoop()
     local Players = QBCore.Functions.GetQBPlayers()
     for _, Player in pairs(Players) do
         local payment = Player.PlayerData.job.payment
-        if Player.PlayerData.job and Player.PlayerData.job.onduty and payment > 0 then
+        if Player.PlayerData.job and payment > 0 and (QBShared.Jobs[Player.PlayerData.job.name].offDutyPay or Player.PlayerData.job.onduty) then
             Player.Functions.AddMoney('bank', payment)
             TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, ('You received your paycheck of $%s'):format(payment))
         end
