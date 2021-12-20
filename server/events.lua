@@ -93,7 +93,6 @@ RegisterNetEvent('QBCore:server:CloseServer', function(reason)
         local reason = reason or 'No reason specified'
         QBCore.Config.Server.closed = true
         QBCore.Config.Server.closedReason = reason
-        TriggerClientEvent('qbadmin:client:SetServerStatus', -1, true)
     else
         QBCore.Functions.Kick(src, 'You don\'t have permissions for this..', nil, nil)
     end
@@ -103,7 +102,6 @@ RegisterNetEvent('QBCore:server:OpenServer', function()
     local src = source
     if QBCore.Functions.HasPermission(src, 'admin') or QBCore.Functions.HasPermission(src, 'god') then
         QBCore.Config.Server.closed = false
-        TriggerClientEvent('qbadmin:client:SetServerStatus', -1, false)
     else
         QBCore.Functions.Kick(src, 'You don\'t have permissions for this..', nil, nil)
     end
