@@ -64,7 +64,7 @@ function QBCore.Functions.DrawText3D(x, y, z, text)
 end
 
 function QBCore.Functions.CreateBlip(id, data)
-    local blip = AddBlipForCoord(data.x, data.y, data.z)
+    local blip = AddBlipForCoord(data.coords)
 
     if data.sprite then SetBlipSprite(blip, data.sprite) end
     if data.range then SetBlipAsShortRange(blip, data.range) else SetBlipAsShortRange(blip, true) end
