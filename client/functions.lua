@@ -18,13 +18,15 @@ function QBCore.Functions.GetCoords(entity)
 end
 
 function QBCore.Functions.HasItem(item)
+    local p = promise.new()
     QBCore.Functions.TriggerCallback('QBCore:HasItem', function(result)
         if result then
-            return true
+            p:resolve(true)
         end
-        return false
+        p:resolve(false)
     end, item)
-    return false
+
+    return Citizen.Await(p)
 end
 
 -- Utility
