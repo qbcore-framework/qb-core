@@ -41,6 +41,22 @@ QBShared.Round = function(value, numDecimalPlaces)
     return math.floor((value * power) + 0.5) / (power)
 end
 
+QBShared.ChangeVehicleExtra = function (vehicle, extra, enable)
+	if DoesExtraExist(vehicle, extra) then
+		if enable then
+			SetVehicleExtra(vehicle, extra, false)
+			if not IsVehicleExtraTurnedOn(vehicle, extra) then
+				QBShared.ChangeVehicleExtra(vehicle, extra, enable)
+			end
+		else
+			SetVehicleExtra(vehicle, extra, true)
+			if IsVehicleExtraTurnedOn(vehicle, extra) then
+				QBShared.ChangeVehicleExtra(vehicle, extra, enable)
+			end
+		end
+	end
+end
+
 QBShared.SetDefaultVehicleExtras = function (vehicle, config)
     -- Clear Extras
     for i=1,20 do
