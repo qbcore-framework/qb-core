@@ -41,6 +41,18 @@ QBShared.Round = function(value, numDecimalPlaces)
     return math.floor((value * power) + 0.5) / (power)
 end
 
+QBShared.SetDefaultVehicleExtras = function (vehicle, config)
+    -- Clear Extras
+    for i=1,20 do
+        if DoesExtraExist(vehicle, i) then
+            SetVehicleExtra(vehicle, i, 1)
+        end
+    end
+
+    for id, enabled in pairs(config) do
+        QBShared.ChangeVehicleExtra(vehicle, tonumber(id), true)
+    end
+end
 
 QBShared.StarterItems = {
     ['phone'] = { amount = 1, item = 'phone' },
