@@ -315,6 +315,21 @@ function QBCore.Functions.GetClosestBone(entity, list)
     return bone, coords, distance
 end
 
+function QBCore.Functions.GetBoneDistance(entity, Type, Bone)
+    local bone
+
+    if Type == 1 then
+        bone = GetPedBoneIndex(entity, Bone)
+    else
+        bone = GetEntityBoneIndexByName(entity, Bone)
+    end
+
+    local boneCoords = GetWorldPositionOfEntityBone(entity, bone)
+    local playerCoords = GetEntityCoords(PlayerPedId())
+
+    return #(boneCoords - playerCoords)
+end
+
 -- Vehicle
 
 function QBCore.Functions.SpawnVehicle(model, cb, coords, isnetworked)
