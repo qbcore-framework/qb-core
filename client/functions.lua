@@ -1,4 +1,5 @@
 QBCore.Functions = {}
+Blips = Blips or {}
 QBCore.RequestId = 0
 
 -- Player
@@ -62,21 +63,52 @@ function QBCore.Functions.DrawText3D(x, y, z, text)
     ClearDrawOrigin()
 end
 
-function QBCore.Functions.CreateBlip(coords, sprite, display, scale, colour, shortRange, title)
-    if not coords or not sprite or not display or not scale or not colour or shortRange == nil or not title then 
-        print("Blip failed to create, most likely missed a setting, debug log: ")
-        print("Coords: " .. coords .. " Sprite: " .. sprite .. " Display: " .. display .. " scale: " .. scale .. " shortRange: " .. shortRange .. " Title: " .. title .. " if you're attempting to use a blip without a title, use an empty string.")
-    else 
-        blip = AddBlipForCoord(coords)
-        SetBlipSprite(blip, sprite)
-        SetBlipDisplay(blip, display)
-        SetBlipScale(blip, scale)
-        SetBlipColour(blip, colour)
-        SetBlipAsShortRange(blip, shortRange)
-        BeginTextCommandSetBlipName("STRING")
-        AddTextComponentString(title)
-        EndTextCommandSetBlipName(blip)
+function QBCore.Functions.CreateBlip(id, data)
+    local blip = AddBlipForCoord(data.x, data.y, data.z)
+
+    if data.sprite then SetBlipSprite(blip, data.sprite) end
+    if data.range then SetBlipAsShortRange(blip, data.range) else SetBlipAsShortRange(blip, true) end
+    if data.color then SetBlipColour(blip, data.color) end
+    if data.display then SetBlipDisplay(blip, data.display) end
+    if data.playername then SetBlipNameToPlayerName(blip, data.playername) end
+    if data.showcone then SetBlipShowCone(blip, data.showcone) end
+    if data.secondarycolor then SetBlipSecondaryColour(blip, data.secondarycolor) end
+    if data.friend then SetBlipFriend(blip, data.friend) end
+    if data.mission then SetBlipAsMissionCreatorBlip(blip, data.mission) end
+    if data.route then SetBlipRoute(blip, data.route) end
+    if data.friendly then SetBlipAsFriendly(blip, data.friendly) end
+    if data.routecolor then SetBlipRouteColour(blip, data.routecolor) end
+    if data.scale then SetBlipScale(blip, data.scale) else SetBlipScale(blip, 0.8) end
+
+    BeginTextCommandSetBlipName("STRING")
+    AddTextComponentString(data.name)
+    EndTextCommandSetBlipName(blip)
+
+    Blips[id] = {blip = blip, data = data}
+end
+
+function QBCore.Functions.RemoveBlip(id)
+    local blip = Blips[id]
+    if blip then RemoveBlip(blip.blip) end
+    Blips[id] = nil
+end
+
+function QBCore.Functions.HideBlip(id, toggle)
+    local blip = Blips[id]
+    if not blip then return end
+    if toggle then 
+        SetBlipAlpha(blip.blip, 0)
+        SetBlipHiddenOnLegend(blip.blip, true)
+    else
+        SetBlipAlpha(blip.blip, 255)
+        SetBlipHiddenOnLegend(blip.blip, false)
     end
+end
+
+function QBCore.Functions.GetBlip(id)
+    local blip = Blips[id]
+    if not blip then return false end
+    return blip
 end
 
 function QBCore.Functions.RequestAnimDict(animDict)
