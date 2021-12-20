@@ -111,7 +111,7 @@ function QBCore.Functions.GetBlip(id)
     return blip
 end
 
-function QBCore.Functions.animationtask(entity, coordsType, coordsOrigin, coordsDist, animationType, animDict, animName, animFlag)
+function QBCore.Functions.AnimationTask(entity, coordsType, coordsOrigin, coordsDist, animationType, animDict, animName, animFlag)
     local anim = {}
 
     anim.active = true
