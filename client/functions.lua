@@ -111,14 +111,65 @@ function QBCore.Functions.GetBlip(id)
     return blip
 end
 
-function QBCore.Functions.RequestAnimDict(animDict)
-	if not HasAnimDictLoaded(animDict) then
-		RequestAnimDict(animDict)
+function QBCore.Functions.animationtask(entity, coordsType, coordsOrigin, coordsDist, animationType, animDict, animName, animFlag)
+    local anim = {}
 
-		while not HasAnimDictLoaded(animDict) do
-			Wait(4)
-		end
-	end
+    anim.active = true
+
+    CreateThread(function()
+		local ped = PlayerPedId()
+        local playerCoords, coords = GetEntityCoords(ped)
+
+        if animationType == "scenario" then
+            TaskStartScenarioInPlace(ped, animDict, 0, true)
+        elseif animationType == "normal" then
+            QBCore.Functions.LoadAnimationDic(animDict)
+        end
+
+        while anim.active do
+            local sleep = 100
+
+            playerCoords = GetEntityCoords(ped)
+
+            if coordsType == "bone" then
+                coords = GetWorldPositionOfEntityBone(entity, coordsOrigin)
+            else
+                coords = GetEntityCoords(entity)
+            end
+
+            if animationType == "normal" and not IsEntityPlayingAnim(ped, animDict, animName, 3) then
+                TaskPlayAnim(ped, animDict, animName, -8.0, -8.0, -1, animFlag, 0, 0, 0, 0)
+            end
+
+            if #(coords - playerCoords) > coordsDist then
+                anim.abort()
+            end
+
+            Wait(sleep)
+        end
+
+        if animationType == "scenario" then
+            ClearPedTasks(ped)
+        else
+            StopAnimTask(ped, animDict, animName, 1.5)
+        end
+    end)
+
+    anim.abort = function()
+        anim.active = false
+    end
+
+    return anim
+end
+
+function QBCore.Functions.LoadAnimationDic(dict)
+    if not HasAnimDictLoaded(dict) then
+        RequestAnimDict(dict)
+
+        while not HasAnimDictLoaded(dict) do
+            Wait(0)
+        end
+    end
 end
 
 RegisterNUICallback('getNotifyConfig', function(_, cb)
