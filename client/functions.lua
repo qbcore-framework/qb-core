@@ -1,5 +1,6 @@
 QBCore.Functions = {}
 Blips = Blips or {}
+Animation = {}
 QBCore.RequestId = 0
 
 -- Player
@@ -111,14 +112,86 @@ function QBCore.Functions.GetBlip(id)
     return blip
 end
 
-function QBCore.Functions.RequestAnimDict(animDict)
-	if not HasAnimDictLoaded(animDict) then
-		RequestAnimDict(animDict)
+function QBCore.Functions.LoadAnimDict(animDict)
+    if not HasAnimDictLoaded(animDict) then
+        RequestAnimDict(animDict)
 
-		while not HasAnimDictLoaded(animDict) do
-			Wait(4)
-		end
-	end
+        local timeout = false
+        SetTimeout(60000, function () timeout = false end)
+		
+        while not HasAnimDictLoaded(animDict) and not timeout do
+            Wait(0)
+        end
+    end
+end
+
+function QBCore.Functions.Animation:new(iPed, iType, iText, iDuration, iDict, iAnim, iFlag)
+    local this = {}
+
+    this.ped = iPed;
+    this.type = iType;
+    this.flag = iFlag or 1;
+    this.text = iText;
+    this.active = false;
+    this.duration = iDuration;
+    this.dictionary = iDict;
+    this.animation = iAnim;
+
+    has.__index = has
+
+    return setmetatable(this, has)
+end
+
+function QBCore.Functions.Animation:start(Task)
+    if has.active then return end
+
+    has.active = true
+
+    if has.animation then
+        QBCore.Functions.LoadAnimDict(has.dictionary)
+    end
+
+    CreateThread(function ()
+        while has.active do
+            if has.animation and not IsEntityPlayingAnim(has.ped, has.dictionary, has.animation, 3) then
+                TaskPlayAnim(has.ped, has.dictionary, has.animation, -8.0, -8.0, -1, has.flag, 0, false, false, false);
+            elseif not has.animation and not IsPedUsingScenario(has.ped, has.dictionary) then
+                TaskStartScenarioInPlace(has.ped, has.dictionary, 0, true);
+            end
+
+            if Task then
+                Task(has)
+            end
+            
+            Wait(100)
+        end
+    end)
+
+    has.task:next(function (a)
+        has:stop()
+    end)
+
+    return has.task
+end
+
+function QBCore.Functions.Animation:stop()
+    has.active = false
+
+    if not has.animation then
+        ClearPedTasks(has.ped)
+    else
+        StopAnimTask(has.ped, has.dictionary, has.animation, 3.0);
+    end
+end
+
+function QBCore.Functions.Animation:abort()
+    if not (has.active) then return end
+
+    if not has.text then
+        has.task:resolve(0)
+    else
+        print('task Cancel')
+    end
 end
 
 RegisterNUICallback('getNotifyConfig', function(_, cb)
