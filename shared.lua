@@ -1,3 +1,4 @@
+-- The Lux Empire OG
 QBShared = {}
 
 local StringCharset = {}
@@ -87,7 +88,7 @@ QBShared.Items = {
 	['weapon_flashlight']			 = {['name'] = 'weapon_flashlight',				['label'] = 'Flashlight',				['weight'] = 1000,		['type'] = 'weapon',	['ammotype'] = nil,						['image'] = 'weapon_flashlight.png',	['unique'] = true,		['useable'] = false,	['description'] = 'A battery-operated portable light'},
 	['weapon_golfclub'] 			 = {['name'] = 'weapon_golfclub', 		 	  	['label'] = 'Golfclub', 				['weight'] = 1000, 		['type'] = 'weapon', 	['ammotype'] = nil,						['image'] = 'weapon_golfclub.png', 		['unique'] = true, 		['useable'] = false, 	['description'] = 'A club used to hit the ball in golf'},
 	['weapon_hammer'] 				 = {['name'] = 'weapon_hammer', 			 	['label'] = 'Hammer', 					['weight'] = 1000, 		['type'] = 'weapon', 	['ammotype'] = nil,						['image'] = 'weapon_hammer.png', 		['unique'] = true, 		['useable'] = false, 	['description'] = 'Used for jobs such as breaking things (legs) and driving in nails'},
-	['weapon_hatchet'] 				 = {['name'] = 'weapon_hatchet', 		 	  	['label'] = 'Hatchet', 					['weight'] = 1000, 		['type'] = 'weapon', 	['ammotype'] = nil,						['image'] = 'weapon_hatchet.png', 		['unique'] = true, 		['useable'] = false, 	['description'] = 'A small axe with a short handle for use in one hand'},
+	['weapon_hatchet'] 				 = {['name'] = 'weapon_hatchet', 		 	  	['label'] = 'Hatchet', 					['weight'] = 1000, 		['type'] = 'weapon', 	['ammotype'] = 'AMMO_PISTOL',			['image'] = 'weapon_hatchet.png', 		['unique'] = true, 		['useable'] = false, 	['description'] = 'A small axe with a short handle for use in one hand'},
 	['weapon_knuckle'] 				 = {['name'] = 'weapon_knuckle', 		 	  	['label'] = 'Knuckle', 					['weight'] = 1000, 		['type'] = 'weapon', 	['ammotype'] = nil,						['image'] = 'weapon_knuckle.png', 		['unique'] = true, 		['useable'] = false, 	['description'] = 'A metal guard worn over the knuckles in fighting, especially to increase the effect of the blows'},
 	['weapon_knife'] 				 = {['name'] = 'weapon_knife', 			 	  	['label'] = 'Knife', 					['weight'] = 1000, 		['type'] = 'weapon', 	['ammotype'] = nil,						['image'] = 'weapon_knife.png', 		['unique'] = true, 		['useable'] = false, 	['description'] = 'An instrument composed of a blade fixed into a handle, used for cutting or as a weapon'},
 	['weapon_machete'] 				 = {['name'] = 'weapon_machete', 		 	  	['label'] = 'Machete', 					['weight'] = 1000, 		['type'] = 'weapon', 	['ammotype'] = nil,						['image'] = 'weapon_machete.png', 		['unique'] = true, 		['useable'] = false, 	['description'] = 'A broad, heavy knife used as a weapon'},
@@ -113,7 +114,7 @@ QBShared.Items = {
 	['weapon_snspistol'] 			 = {['name'] = 'weapon_snspistol', 		 	  	['label'] = 'SNS Pistol', 				['weight'] = 1000, 		['type'] = 'weapon', 	['ammotype'] = 'AMMO_PISTOL',			['image'] = 'weapon_snspistol.png', 	['unique'] = true, 		['useable'] = false, 	['description'] = 'A very small firearm designed to be easily concealed'},
 	['weapon_heavypistol'] 			 = {['name'] = 'weapon_heavypistol', 	 	  	['label'] = 'Heavy Pistol', 			['weight'] = 1000, 		['type'] = 'weapon', 	['ammotype'] = 'AMMO_PISTOL',			['image'] = 'weapon_heavypistol.png', 	['unique'] = true, 		['useable'] = false, 	['description'] = 'A hefty firearm designed to be held in one hand (or attempted)'},
 	['weapon_vintagepistol'] 		 = {['name'] = 'weapon_vintagepistol', 	 	  	['label'] = 'Vintage Pistol', 			['weight'] = 1000, 		['type'] = 'weapon', 	['ammotype'] = 'AMMO_PISTOL',			['image'] = 'weapon_vintagepistol.png', ['unique'] = true, 		['useable'] = false, 	['description'] = 'An antique firearm designed to be held in one hand'},
-	['weapon_flaregun'] 			 = {['name'] = 'weapon_flaregun', 		 	  	['label'] = 'Flare Gun', 				['weight'] = 1000, 		['type'] = 'weapon', 	['ammotype'] = 'AMMO_FLARE',			['image'] = 'weapon_flaregun.png', 		['unique'] = true, 		['useable'] = false, 	['description'] = 'A handgun for firing signal rockets'},
+	['weapon_flaregun'] 			 = {['name'] = 'weapon_flaregun', 		 	  	['label'] = 'Flare Gun', 				['weight'] = 1000, 		['type'] = 'weapon', 	['ammotype'] = 'AMMO_FLARE',			['image'] = 'weapon_flaregun.png', 		['unique'] = true, 		['useable'] = true, 	['description'] = 'A handgun for firing signal rockets'},
 	['weapon_marksmanpistol'] 		 = {['name'] = 'weapon_marksmanpistol', 	 	['label'] = 'Marksman Pistol', 			['weight'] = 1000, 		['type'] = 'weapon', 	['ammotype'] = 'AMMO_PISTOL',			['image'] = 'weapon_marksmanpistol.png', ['unique'] = true, 	['useable'] = false, 	['description'] = 'A very accurate small firearm designed to be held in one hand'},
 	['weapon_revolver'] 			 = {['name'] = 'weapon_revolver', 		 	  	['label'] = 'Revolver', 				['weight'] = 1000, 		['type'] = 'weapon', 	['ammotype'] = 'AMMO_PISTOL',			['image'] = 'weapon_revolver.png', 		['unique'] = true, 		['useable'] = false, 	['description'] = 'A pistol with revolving chambers enabling several shots to be fired without reloading'},
 	['weapon_revolver_mk2'] 		 = {['name'] = 'weapon_revolver_mk2', 		 	['label'] = 'Violence', 				['weight'] = 1000, 		['type'] = 'weapon', 	['ammotype'] = 'AMMO_PISTOL',			['image'] = 'weapon_revolver_mk2.png', 	['unique'] = true, 		['useable'] = true, 	['description'] = 'da Violence'},
@@ -312,8 +313,73 @@ QBShared.Items = {
 	['weapontint_orange'] 	 		 = {['name'] = 'weapontint_orange', 			['label'] = 'Orange Tint', 				['weight'] = 1000, 		['type'] = 'item', 		['image'] = 'weapontint_orange.png', 	['unique'] = false, 		['useable'] = true, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'Orange Weapon Tint'},
 	['weapontint_plat'] 	 		 = {['name'] = 'weapontint_plat', 				['label'] = 'Platinum Tint', 			['weight'] = 1000, 		['type'] = 'item', 		['image'] = 'weapontint_plat.png', 		['unique'] = false, 		['useable'] = true, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'Platinum Weapon Tint'},
 
-	-- ITEMS
+	-- Eat Items, Foods and beverage
+	["burger"] 				     	 = {["name"] = "burger", 			 	  	  	["label"] = "Hamburger", 					["weight"] = 200, 		["type"] = "item", 		["image"] = "burger.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Needs"},
+	["chaser"] 				    	 = {["name"] = "chaser", 			 	  	  	["label"] = "Chaser Choco Bar", 			["weight"] = 200, 		["type"] = "item", 		["image"] = "chaser.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Needs"},
+	["meteorite"] 				     = {["name"] = "meteorite", 			 	  	["label"] = "Meteorite Choco Bar", 			["weight"] = 200, 		["type"] = "item", 		["image"] = "meteorite.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Needs"},
+	["hotdog"] 				    	 = {["name"] = "hotdog", 			 	  	  	["label"] = "Hotdog", 						["weight"] = 200, 		["type"] = "item", 		["image"] = "hotdog.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Needs"},
+	["taco"] 				     	 = {["name"] = "taco", 			 	  	  		["label"] = "Taco", 						["weight"] = 200, 		["type"] = "item", 		["image"] = "taco.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Needs"},
+	["piswasser"] 				     = {["name"] = "piswasser", 			 	  	["label"] = "Pißwasser", 					["weight"] = 200, 		["type"] = "item", 		["image"] = "piswasser.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Needs"},
+	["mount_whisky"] 				 = {["name"] = "mount_whisky", 			 	  	["label"] = "The Mount Whisky", 			["weight"] = 200, 		["type"] = "item", 		["image"] = "mount_whisky.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Needs"},
+	["tequila"] 				     = {["name"] = "tequila", 			 	  	  	["label"] = "Tequilya", 					["weight"] = 200, 		["type"] = "item", 		["image"] = "tequila.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Needs"},
+	["nogo_vodka"] 				     = {["name"] = "nogo_vodka", 			 	  	["label"] = "Nogo Vodka", 					["weight"] = 200, 		["type"] = "item", 		["image"] = "nogo_vodka.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Needs"},
+	["raine"] 				    	 = {["name"] = "raine", 			 	  	  	["label"] = "Raine Water", 					["weight"] = 200, 		["type"] = "item", 		["image"] = "raine.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Needs"},
+	["bean_machine_coffe"] 			 = {["name"] = "bean_machine_coffe", 			["label"] = "Bean Machine Coffe", 			["weight"] = 200, 		["type"] = "item", 		["image"] = "bean_machine_coffe.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Needs"},
+	["sprunk"] 				    	 = {["name"] = "sprunk", 			 	  	  	["label"] = "Sprunk", 						["weight"] = 200, 		["type"] = "item", 		["image"] = "sprunk.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Needs"},
+	["cola"] 				     	 = {["name"] = "cola", 			 	  	  		["label"] = "Cola", 						["weight"] = 200, 		["type"] = "item", 		["image"] = "cola.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Needs"},
+	["shot_mount_whisky"] 			 = {["name"] = "shot_mount_whisky", 			["label"] = "Shot Mount Whisky", 			["weight"] = 200, 		["type"] = "item", 		["image"] = "shot_mount_whisky.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Needs"},
+	["shot_nogo_vodka"] 			 = {["name"] = "shot_nogo_vodka", 			 	["label"] = "Shot Nogo Vodka", 				["weight"] = 200, 		["type"] = "item", 		["image"] = "shot_nogo_vodka.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Needs"},
+	["shot_tequila"] 				 = {["name"] = "shot_tequila", 			 	  	["label"] = "Shot Tequilya", 				["weight"] = 200, 		["type"] = "item", 		["image"] = "shot_tequila.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Needs"},
+	["costa_del_perro"] 			 = {["name"] = "costa_del_perro", 			 	["label"] = "Costa Del Perro", 				["weight"] = 200, 		["type"] = "item", 		["image"] = "costa_del_perro.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Needs"},
+	["rockford_hill"] 				 = {["name"] = "rockford_hill", 			 	["label"] = "Rockford Hill Reserve", 		["weight"] = 200, 		["type"] = "item", 		["image"] = "rockford_hill.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Needs"},
+	["vinewood_red"] 				 = {["name"] = "vinewood_red", 			 	  	["label"] = "Vinewood Red Zinfadel", 		["weight"] = 200, 		["type"] = "item", 		["image"] = "vinewood_red.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Needs"},
+	["vinewood_blanc"] 				 = {["name"] = "vinewood_blanc", 			 	["label"] = "Vinewood Sauvignon Blanc", 	["weight"] = 200, 		["type"] = "item", 		["image"] = "vinewood_blanc.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Needs"},
+	["glass_costa_del_perro"] 		 = {["name"] = "glass_costa_del_perro", 		["label"] = "Glass Costa Del Perro", 		["weight"] = 200, 		["type"] = "item", 		["image"] = "glass_costa_del_perro.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Needs"},
+	["glass_rockford_hill"] 		 = {["name"] = "glass_rockford_hill", 			["label"] = "Glass Rockford Hill Reserve",  ["weight"] = 200, 		["type"] = "item", 		["image"] = "glass_rockford_hill.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Needs"},
+	["glass_vinewood_red"] 			 = {["name"] = "glass_vinewood_red", 			["label"] = "Glass  Vinewood Red Zinfadel", ["weight"] = 200, 		["type"] = "item", 		["image"] = "glass_vinewood_red.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Needs"},
+	["glass_vinewood_blanc"] 		 = {["name"] = "glass_vinewood_blanc", 			["label"] = "Glass Vinewood Sauvignon Blanc", ["weight"] = 200, 	["type"] = "item", 		["image"] = "glass_vinewood_blanc.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Needs"},
+	
 
+	-- Consumable & Drugs
+	["redw"] 						 = {["name"] = "redw", 			 	  	  		["label"] = "Redwood Pack", 			["weight"] = 200, 		["type"] = "item", 		["image"] = "redw.png", 				["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Take out your cigarettes"},
+	["marlboro"] 				     = {["name"] = "marlboro", 			 	  	  	["label"] = "Marlboro Pack", 			["weight"] = 200, 		["type"] = "item", 		["image"] = "marlboro.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Take out your cigarettes"},
+	["cubancigar"] 			         = {["name"] = "cubancigar", 			 	  	["label"] = "Cuban Cigar", 				["weight"] = 200, 		["type"] = "item", 		["image"] = "cubancigar.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Real cigar"},
+	["davidoffcigar"] 	             = {["name"] = "davidoffcigar", 			 	["label"] = "Davidoff Cigar", 			["weight"] = 200, 		["type"] = "item", 		["image"] = "davidoffcigar.png", 		["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Real cigar"},
+	["redwcig"] 				     = {["name"] = "redwcig", 			 	  	  	["label"] = "Redwood Cigarette", 		["weight"] = 200, 		["type"] = "item", 		["image"] = "redwcig.png", 				["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Smoking cigarette"},	
+	["marlborocig"] 		         = {["name"] = "marlborocig", 			 	  	["label"] = "Marlboro Cigarette", 		["weight"] = 200, 		["type"] = "item", 		["image"] = "marlborocig.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Smoking cigarette"},
+	["vape"] 						 = {["name"] = "vape", 			 	  	  		["label"] = "Vape", 					["weight"] = 200, 		["type"] = "item", 		["image"] = "vape.png", 				["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Electronic cigarette"},
+	["liquid"] 					     = {["name"] = "liquid", 			 	  	  	["label"] = "Liquid", 					["weight"] = 200, 		["type"] = "item", 		["image"] = "liquid.png", 				["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Vape liquid"},
+	["lighter"] 					 = {["name"] = "lighter", 			 	  	  	["label"] = "Lighter", 					["weight"] = 200, 		["type"] = "item", 		["image"] = "lighter.png", 				["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Cigarette lighter"},
+	["bong"] 						 = {["name"] = "bong", 			 	  	  		["label"] = "Bong", 					["weight"] = 200, 		["type"] = "item", 		["image"] = "bong.png", 				["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Bong"},
+	["ocb_paper"] 					 = {["name"] = "ocb_paper", 			 	  	["label"] = "Ocb Paper", 				["weight"] = 200, 		["type"] = "item", 		["image"] = "ocb_paper.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Ocb paper for rolling joints"},
+	["og_kush_joint"] 				 = {["name"] = "og_kush_joint", 			 	["label"] = "Og Kush Joint", 			["weight"] = 200, 		["type"] = "item", 		["image"] = "og_kush_joint.png", 		["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Good joint"},
+	["blue_dream_joint"] 			 = {["name"] = "blue_dream_joint", 			 	["label"] = "Blue Dream Joint", 		["weight"] = 200, 		["type"] = "item", 		["image"] = "blue_dream_joint.png", 	["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Good joint"},
+	["purple_haze_joint"] 			 = {["name"] = "purple_haze_joint", 			["label"] = "Purple Haze Joint", 		["weight"] = 200, 		["type"] = "item", 		["image"] = "purple_haze_joint.png", 	["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Good joint"},
+	["banana_kush_joint"] 			 = {["name"] = "banana_kush_joint", 			["label"] = "Banana Lush Joint", 		["weight"] = 200, 		["type"] = "item", 		["image"] = "banana_kush_joint.png", 	["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Good joint"},
+	["og_kush_bag"] 				 = {["name"] = "og_kush_bag", 			 		["label"] = "Og Kush Bag", 				["weight"] = 200, 		["type"] = "item", 		["image"] = "og_kush_bag.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Weed for packing"},
+	["blue_dream_bag"] 			 	 = {["name"] = "blue_dream_bag", 			 	["label"] = "Blue Dream Bag", 			["weight"] = 200, 		["type"] = "item", 		["image"] = "blue_dream_bag.png", 		["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Weed for packing"},
+	["purple_haze_bag"] 			 = {["name"] = "purple_haze_bag", 				["label"] = "Purple Haze Bag", 			["weight"] = 200, 		["type"] = "item", 		["image"] = "purple_haze_bag.png", 		["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Weed for packing"},
+	["banana_kush_bag"] 			 = {["name"] = "banana_kush_bag", 				["label"] = "Banana Kush Bag", 			["weight"] = 200, 		["type"] = "item", 		["image"] = "banana_kush_bag.png", 		["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Weed for packing"},
+	["og_kush_weed"] 				 = {["name"] = "og_kush_weed", 			 	  	["label"] = "Og Kush Weed 1G", 			["weight"] = 200, 		["type"] = "item", 		["image"] = "og_kush_weed.png", 		["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Weed for packing"},
+	["blue_dream_weed"] 			 = {["name"] = "blue_dream_weed", 			 	["label"] = "Blue Dream Weed 1G", 		["weight"] = 200, 		["type"] = "item", 		["image"] = "blue_dream_weed.png", 		["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Weed for packing"},
+	["banana_kush_weed"] 			 = {["name"] = "banana_kush_weed", 			 	["label"] = "Banana Kush Weed 1G", 		["weight"] = 200, 		["type"] = "item", 		["image"] = "banana_kush_weed.png", 	["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Weed for packing"},
+	["purple_haze_weed"] 			 = {["name"] = "purple_haze_weed", 			 	["label"] = "Purple Haze Weed 1G", 		["weight"] = 200, 		["type"] = "item", 		["image"] = "purple_haze_weed.png", 	["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Weed for packing"},
+	["cannabis"] 			 		 = {["name"] = "cannabis", 			 	    	["label"] = "Cannabis", 		    	["weight"] = 200, 		["type"] = "item", 		["image"] = "cannabis.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "A Road To Happieness!!"},
+	["empty_weed_bag"] 				 = {["name"] = "empty_weed_bag", 				["label"] = "Empty Weed Bag", 			["weight"] = 10, 		["type"] = "item", 		["image"] = "empty-weed-baggie.png", 	["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "To get happy real fast."},
+	["weed_bag"] 					 = {["name"] = "weed_bag", 			  	  		["label"] = "Weed Bag", 		    	["weight"] = 0, 		["type"] = "item", 		["image"] = "weed-baggie.png", 		    ["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "To get happy real fast."},
+	
+	-- Taco Restaurant Items
+	["taco"] 		 			 	 = {["name"] = "taco",       		    		["label"] = "Taco",	 					["weight"] = 300, 		["type"] = "item", 		["image"] = "taco.png", 				["unique"] = false, 	["useable"] = false, 	["shouldClose"] = false,   ["combinable"] = nil,   ["description"] = "Some big taco brother"},
+	["meat"] 		 			 	 = {["name"] = "meat",       		    		["label"] = "Meat",	 					["weight"] = 100, 		["type"] = "item", 		["image"] = "meat.png", 				["unique"] = false, 	["useable"] = false, 	["shouldClose"] = false,   ["combinable"] = nil,   ["description"] = "Some big taco brother"},
+	["lettuce"] 	 			 	 = {["name"] = "lettuce",       			    ["label"] = "Lettuce",	 				["weight"] = 100, 		["type"] = "item", 		["image"] = "lettuce.png", 				["unique"] = false, 	["useable"] = false, 	["shouldClose"] = false,   ["combinable"] = nil,   ["description"] = "Some big taco brother"},
+	["taco-box"] 	 			 	 = {["name"] = "taco-box",       			    ["label"] = "Taco Box",	 				["weight"] = 100, 		["type"] = "item", 		["image"] = "taco-box.png", 			["unique"] = false, 	["useable"] = false, 	["shouldClose"] = false,   ["combinable"] = nil,   ["description"] = "Some big taco brother"},
+	["taco-bag"] 	 			 	 = {["name"] = "taco-bag",       			    ["label"] = "Taco Bag",	 				["weight"] = 100, 		["type"] = "item", 		["image"] = "taco-bag.png", 			["unique"] = false, 	["useable"] = false, 	["shouldClose"] = false,   ["combinable"] = nil,   ["description"] = "Some big taco brother"},
+	["p2p"] 		 			 	 = {["name"] = "p2p",       		    		["label"] = "P2P",	 					["weight"] = 200, 		["type"] = "item", 		["image"] = "p2p.png", 					["unique"] = false, 	["useable"] = false, 	["shouldClose"] = false,   ["combinable"] = nil,   ["description"] = "Some weird stuff you got there.."},
+
+	-- Fishing
+	['fishingrod'] 				 	 = {['name'] = 'fishingrod', 			  	  	['label'] = 'Fishing Rod', 				['weight'] = 105, 		['type'] = 'item', 		['image'] = 'fishingrod.png', 			['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,   ['combinable'] = nil,   ['description'] = 'Fishing Rod for Fishing'},
+	['fishingbait'] 				 = {['name'] = 'fishingbait', 			  	  	['label'] = 'Fishing Bait', 			['weight'] = 50, 		['type'] = 'item', 		['image'] = 'fishingbait.png', 			['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,   ['combinable'] = nil,   ['description'] = 'Fishing Bait For Fishing'},
+	["lotto"] 		 		     	 = {["name"] = "lotto",           		   		["label"] = "Lotto ticket",	 		    ["weight"] = 10, 		["type"] = "item", 		["image"] = "lotto.png", 				["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,   ["combinable"] = nil,   ["description"] = "Lucky Ticket"},
 	-- Ammo ITEMS
 	['pistol_ammo'] 				 = {['name'] = 'pistol_ammo', 			  	  	['label'] = 'Pistol ammo', 				['weight'] = 200, 		['type'] = 'item', 		['image'] = 'pistol_ammo.png', 			['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,   ['combinable'] = nil,   ['description'] = 'Ammo for Pistols'},
 	['rifle_ammo'] 				 	 = {['name'] = 'rifle_ammo', 			  	  	['label'] = 'Rifle ammo', 				['weight'] = 1000, 		['type'] = 'item', 		['image'] = 'rifle_ammo.png', 			['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,   ['combinable'] = nil,   ['description'] = 'Ammo for Rifles'},
@@ -331,26 +397,10 @@ QBShared.Items = {
 	['mastercard'] 					 = {['name'] = 'mastercard', 					['label'] = 'Master Card', 				['weight'] = 0, 		['type'] = 'item', 		['image'] = 'mastercard.png', 			['unique'] = true, 		['useable'] = true, 	['shouldClose'] = false,   ['combinable'] = nil,   ['description'] = 'MasterCard can be used via ATM'},
 	['security_card_01'] 			 = {['name'] = 'security_card_01', 			  	['label'] = 'Security Card A', 			['weight'] = 0, 		['type'] = 'item', 		['image'] = 'security_card_01.png', 	['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'A security card... I wonder what it goes to'},
 	['security_card_02'] 			 = {['name'] = 'security_card_02', 			  	['label'] = 'Security Card B', 			['weight'] = 0, 		['type'] = 'item', 		['image'] = 'security_card_02.png', 	['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'A security card... I wonder what it goes to'},
+	['contract']                     = {['name'] = "contract",                      ['label'] = 'Sell Contract',            ['weight'] = 1,         ['type'] = 'item',      ['image'] = 'contract.png',             ['unique'] = false,     ['useable'] = true,     ['shouldClose'] = true,    ['combinable'] = nil,   ['description'] = 'A Contract for selling vehicles'},
 
 	-- Eat ITEMS
-	['tosti'] 						 = {['name'] = 'tosti', 			 	  	  	['label'] = 'Grilled Cheese Sandwich', 	['weight'] = 200, 		['type'] = 'item', 		['image'] = 'tosti.png', 				['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,   ['combinable'] = nil,   ['description'] = 'Nice to eat'},
-	['twerks_candy'] 				 = {['name'] = 'twerks_candy', 			  	  	['label'] = 'Twerks', 					['weight'] = 100, 		['type'] = 'item', 		['image'] = 'twerks_candy.png', 		['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'Some delicious candy :O'},
-	['snikkel_candy'] 				 = {['name'] = 'snikkel_candy', 			  	['label'] = 'Snikkel', 					['weight'] = 100, 		['type'] = 'item', 		['image'] = 'snikkel_candy.png', 		['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'Some delicious candy :O'},
-	['sandwich'] 				 	 = {['name'] = 'sandwich', 			  	  		['label'] = 'Sandwich', 				['weight'] = 200, 		['type'] = 'item', 		['image'] = 'sandwich.png', 			['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'Nice bread for your stomach'},
-
-	-- Drink ITEMS
-	['water_bottle'] 				 = {['name'] = 'water_bottle', 			  	  	['label'] = 'Bottle of Water', 			['weight'] = 500, 		['type'] = 'item', 		['image'] = 'water_bottle.png', 		['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'For all the thirsty out there'},
-	['coffee'] 				 		 = {['name'] = 'coffee', 			  	  		['label'] = 'Coffee', 					['weight'] = 200, 		['type'] = 'item', 		['image'] = 'coffee.png', 				['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'Pump 4 Caffeine'},
-	['kurkakola'] 				 	 = {['name'] = 'kurkakola', 			  	  	['label'] = 'Cola', 					['weight'] = 500, 		['type'] = 'item', 		['image'] = 'cola.png', 				['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'For all the thirsty out there'},
-
-	-- Alcohol
-	['beer'] 				 		 = {['name'] = 'beer', 			  	  			['label'] = 'Beer', 					['weight'] = 500, 		['type'] = 'item', 		['image'] = 'beer.png', 				['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'Nothing like a good cold beer!'},
-	['whiskey'] 				 	 = {['name'] = 'whiskey', 			  	  		['label'] = 'Whiskey', 					['weight'] = 500, 		['type'] = 'item', 		['image'] = 'whiskey.png', 				['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'For all the thirsty out there'},
-	['vodka'] 				 		 = {['name'] = 'vodka', 			  	  		['label'] = 'Vodka', 					['weight'] = 500, 		['type'] = 'item', 		['image'] = 'vodka.png', 				['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'For all the thirsty out there'},
-	['grape'] 					 	 = {['name'] = 'grape', 						['label'] = 'Grape', 					['weight'] = 100, 		['type'] = 'item', 		['image'] = 'grape.png', 				['unique'] = false, 	['useable'] = true, 	['shouldClose'] = false,   ['combinable'] = nil,   ['description'] = 'Mmmmh yummie, grapes'},
-	['wine'] 					 	 = {['name'] = 'wine', 							['label'] = 'Wine', 					['weight'] = 300, 		['type'] = 'item', 		['image'] = 'wine.png', 				['unique'] = false, 	['useable'] = true, 	['shouldClose'] = false,   ['combinable'] = nil,   ['description'] = 'Some good wine to drink on a fine evening'},
-	['grapejuice'] 					 = {['name'] = 'grapejuice', 					['label'] = 'Grape Juice', 				['weight'] = 200, 		['type'] = 'item', 		['image'] = 'grapejuice.png', 			['unique'] = false, 	['useable'] = true, 	['shouldClose'] = false,   ['combinable'] = nil,   ['description'] = 'Grape juice is said to be healthy'},
-
+	
 	-- Drugs
 	['joint'] 						 = {['name'] = 'joint', 			  	  		['label'] = 'Joint', 					['weight'] = 0, 		['type'] = 'item', 		['image'] = 'joint.png', 				['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,    ['combinable'] = nil,   ['description'] = 'Sidney would be very proud at you'},
 	['cokebaggy'] 					 = {['name'] = 'cokebaggy', 			  	  	['label'] = 'Bag of Coke', 				['weight'] = 0, 		['type'] = 'item', 		['image'] = 'cocaine_baggy.png', 		['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,    ['combinable'] = nil,   ['description'] = 'To get happy real quick'},
@@ -395,11 +445,49 @@ QBShared.Items = {
 	['lockpick'] 					 = {['name'] = 'lockpick', 			 	  	  	['label'] = 'Lockpick', 				['weight'] = 300, 		['type'] = 'item', 		['image'] = 'lockpick.png', 			['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,	   ['combinable'] = {accept = {'screwdriverset'}, reward = 'advancedlockpick', anim = {['dict'] = 'anim@amb@business@weed@weed_inspecting_high_dry@', ['lib'] = 'weed_inspecting_high_base_inspector', ['text'] = 'Crafting lockpick', ['timeOut'] = 7500,}},   ['description'] = 'Very useful if you lose your keys a lot.. or if you want to use it for something else...'},
 	['advancedlockpick'] 			 = {['name'] = 'advancedlockpick', 			 	['label'] = 'Advanced Lockpick', 		['weight'] = 500, 		['type'] = 'item', 		['image'] = 'advancedlockpick.png', 	['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'If you lose your keys a lot this is very useful... Also useful to open your beers'},
 	['electronickit'] 				 = {['name'] = 'electronickit', 			  	['label'] = 'Electronic Kit', 			['weight'] = 100, 		['type'] = 'item', 		['image'] = 'electronickit.png', 		['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,	   ['combinable'] = {accept = {'gatecrack'}, reward = 'trojan_usb', anim = nil}, ['description'] = 'If you\'ve always wanted to build a robot you can maybe start here. Maybe you\'ll be the new Elon Musk?'},
-	['gatecrack'] 				 	 = {['name'] = 'gatecrack', 			  	  	['label'] = 'Gatecrack', 				['weight'] = 0, 		['type'] = 'item', 		['image'] = 'usb_device.png', 			['unique'] = false, 	['useable'] = false, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'Handy software to tear down some fences'},
+	['gatecrack'] 				 	 = {['name'] = 'gatecrack', 			  	  	['label'] = 'Gatecrack', 				['weight'] = 1000, 		['type'] = 'item', 		['image'] = 'usb_device.png', 			['unique'] = false, 	['useable'] = false, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'Handy software to tear down some fences'},
 	['thermite'] 			 	 	 = {['name'] = 'thermite', 			  			['label'] = 'Thermite', 				['weight'] = 1000, 		['type'] = 'item', 		['image'] = 'thermite.png', 			['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,    ['combinable'] = nil,   ['description'] = 'Sometimes you\'d wish for everything to burn'},
-	['trojan_usb'] 				 	 = {['name'] = 'trojan_usb', 			  	  	['label'] = 'Trojan USB', 				['weight'] = 0, 		['type'] = 'item', 		['image'] = 'usb_device.png', 			['unique'] = false, 	['useable'] = false, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'Handy software to shut down some systems'},
+	['trojan_usb'] 				 	 = {['name'] = 'trojan_usb', 			  	  	['label'] = 'Trojan USB', 				['weight'] = 100, 		['type'] = 'item', 		['image'] = 'usb_device.png', 			['unique'] = false, 	['useable'] = false, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'Handy software to shut down some systems'},
 	['screwdriverset'] 				 = {['name'] = 'screwdriverset', 			    ['label'] = 'Toolkit', 					['weight'] = 1000, 		['type'] = 'item', 		['image'] = 'screwdriverset.png', 		['unique'] = false, 	['useable'] = false, 	['shouldClose'] = false,   ['combinable'] = nil,   ['description'] = 'Very useful to screw... screws...'},
 	['drill'] 				 		 = {['name'] = 'drill', 			    		['label'] = 'Drill', 					['weight'] = 20000, 	['type'] = 'item', 		['image'] = 'drill.png', 				['unique'] = false, 	['useable'] = false, 	['shouldClose'] = false,   ['combinable'] = nil,   ['description'] = 'The real deal...'},
+	
+	--Additional Secret Items
+	["treasuremap"] 	 		     = {["name"] = "treasuremap", 	  	  	        ["label"] = "Treasure Map", 	        ["weight"] = 500, 		["type"] = "item", 		["image"] = "map.png", 					["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,	   ["combinable"] = nil,   ["description"] = "Treasure Map"},	
+	["licenseplate"] 				 = {["name"] = "licenseplate",    				["label"] = "License Plate",    		["weight"] = 30,    	["type"] = "item",    	["image"] = "licenseplate.png",    		["unique"] = true,    	["useable"] = true,    	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "A License Plate"},
+    ["race_brakes"] = {    ["name"] = "race_brakes",    ["label"] = "License Plate",    ["weight"] = 30,    ["type"] = "item",    ["image"] = "licenseplate.png",    ["unique"] = true,    ["useable"] = true,    ["shouldClose"] = true,    ["combinable"] = nil,    ["description"] = "race_brakes"},
+    ["michelin_tires"] = {   ["name"] = "michelin_tires",    ["label"] = "michelin_tires",   ["weight"] = 30,   ["type"] = "item",    ["image"] = "licenseplate.png",    ["unique"] = true,    ["useable"] = true,    ["shouldClose"] = true,    ["combinable"] = nil,    ["description"] = "michelin_tires"},
+    ["2jzengine"] = {    ["name"] = "2jzengine",    ["label"] = "2jzengine",   ["weight"] = 30,   ["type"] = "item",   ["image"] = "licenseplate.png",   ["unique"] = true,    ["useable"] = true,    ["shouldClose"] = true,    ["combinable"] = nil,    ["description"] = "2jzengine"},
+    ["v8engine"] = {   ["name"] = "v8engine",    ["label"] = "v8engine",    ["weight"] = 30,    ["type"] = "item",    ["image"] = "licenseplate.png",    ["unique"] = true,    ["useable"] = true,    ["shouldClose"] = true,    ["combinable"] = nil,    ["description"] = "v8engine"},
+    ["race_suspension"] = {    ["name"] = "race_suspension",    ["label"] = "race_suspension",    ["weight"] = 30,    ["image"] = "licenseplate.png",    ["unique"] = true,    ["useable"] = true,    ["combinable"] = nil,    ["description"] = "race_suspension"},
+    ["race_transmition"] = {    ["name"] = "race_transmition",    ["label"] = "race_transmition",    ["weight"] = 30,    ["type"] = "item",    ["image"] = "licenseplate.png",    ["unique"] = true,    ["useable"] = true,    ["shouldClose"] = true,    ["combinable"] = nil,    ["description"] = "race_transmition"},
+    ["turbo_lvl_1"] = {    ["name"] = "turbo_lvl_1",    ["label"] = "turbo_lvl_1",    ["weight"] = 30,    ["type"] = "item",    ["image"] = "licenseplate.png",    ["unique"] = true,    ["useable"] = true,    ["shouldClose"] = true,    ["combinable"] = nil,    ["description"] = "turbo_lvl_1"},
+    ["toolbox"] = {    ["name"] = "toolbox",    ["label"] = "toolbox",    ["weight"] = 30,    ["type"] = "item",    ["image"] = "licenseplate.png",    ["unique"] = true,    ["shouldClose"] = true,    ["combinable"] = nil,    ["description"] = "toolbox"},
+    ["mechanic_tools"] = {    ["name"] = "mechanic_tools",    ["label"] = "Mechanic Tools",    ["weight"] = 30,    ["type"] = "item",    ["image"] = "licenseplate.png",    ["unique"] = true,    ["useable"] = true,    ["shouldClose"] = true,    ["combinable"] = nil,    ["description"] = "mechanic tools"},
+    ["csgocase"] = {    ["name"] = "csgocase",    ["label"] = "csgocase Tools",    ["weight"] = 30,    ["type"] = "item",    ["image"] = "licenseplate.png",    ["unique"] = true,    ["useable"] = true,    ["shouldClose"] = true,    ["description"] = "csgocase tools"},
+    ["monitor"] = {  ["name"] = "monitor",   ["label"] = "monitor Tools",    ["weight"] = 30,    ["type"] = "item",    ["image"] = "licenseplate.png",    ["unique"] = true,    ["useable"] = true,    ["shouldClose"] = true,    ["combinable"] = nil,    ["description"] = "monitor tools"},
+    ["serverfan"] = {    ["name"] = "serverfan",    ["label"] = "serverfan Tools",    ["weight"] = 30,    ["type"] = "item",    ["image"] = "licenseplate.png",    ["unique"] = true,    ["useable"] = true,    ["shouldClose"] = true,    ["combinable"] = nil,    ["description"] = "serverfan tools"},
+    ["servergpu"] = {   ["name"] = "servergpu",   ["label"] = "servergpu Tools",    ["weight"] = 30,    ["type"] = "item",    ["image"] = "licenseplate.png",    ["unique"] = true,    ["useable"] = true,    ["shouldClose"] = true,    ["combinable"] = nil,    ["description"] = "servergpu tools"},
+    ["fixserver"] = {    ["name"] = "fixserver",   ["label"] = "fixserver Tools",    ["weight"] = 30,    ["type"] = "item",    ["image"] = "licenseplate.png",    ["unique"] = true,   ["useable"] = true,   ["shouldClose"] = true,    ["combinable"] = nil,    ["description"] = "fixserver tools"},
+    ["server"] = {    ["name"] = "server",    ["label"] = "server Tools",    ["weight"] = 30,    ["type"] = "item",    ["image"] = "licenseplate.png",    ["unique"] = true,    ["useable"] = true,    ["shouldClose"] = true,    ["combinable"] = nil,    ["description"] = "server tools"},
+    ["vehiclekey"] = {    ["name"] = "vehiclekey",    ["label"] = "Vehicle Key",    ["weight"] = 30,    ["type"] = "item",    ["image"] = "vehiclekey.png",    ["unique"] = true,    ["useable"] = true,    ["shouldClose"] = true,    ["combinable"] = nil,    ["description"] = "Own vehicle key"},
+    ["secure"] = {    ["name"] = "secure",    ["label"] = "Delivery Key",    ["weight"] = 30,    ["type"] = "item",    ["image"] = "security_card_01.png",    ["unique"] = true,    ["useable"] = true,    ["shouldClose"] = true,    ["combinable"] = nil,    ["description"] = "Delivery Card"},
+    ["ticaret_kutusu"] = {    ["name"] = "ticaret_kutusu",    ["label"] = "Delivery Box",    ["weight"] = 30,    ["type"] = "item",    ["image"] = "box.png",    ["unique"] = true,    ["shouldClose"] = true,    ["combinable"] = nil,    ["description"] = "Delivery Box"},
+    ["car_gps"] = {    ["name"] = "car_gps",   ["label"] = "Car GPS",    ["weight"] = 30,    ["type"] = "item",    ["image"] = "gpsill.png",    ["unique"] = true,    ["useable"] = true,    ["shouldClose"] = true,    ["combinable"] = nil,    ["description"] = "Car GPS"},
+    ["adrenaline_shot"] 						 = {["name"] = "adrenaline_shot", 			 	  	  	["label"] = "adrenaline_shot", 					["weight"] = 200, 		["type"] = "item", 		["image"] = "adrenaline_shot.png", 				["unique"] = false, 	["useable"] = true, 	["shouldClose"] = false,   ["combinable"] = nil,   ["description"] = "Tasty to eat."},	
+	["carjack"] 			         = {["name"] = "carjack", 			            ["label"] = "Car Jack Tool", 		    ["weight"] = 700, 		["type"] = "item", 		["image"] = "carjack.png", 	            ["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,	   ["combinable"] = nil,   ["description"] = "Car Jack For Mechanic Tool"},
+	["hifi"] 			   	         = {["name"] = "hifi", 			 	  	  	    ["label"] = "Boombox", 		            ["weight"] = 2, 		["type"] = "item", 		["image"] = "hifi.png", 				["unique"] = false,     ["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Ghettoblaster"},
+	["lotto"] 		 		         = {["name"] = "lotto",           	     	    ["label"] = "Lotto ticket",	 		    ["weight"] = 10, 		["type"] = "item", 		["image"] = "lotto.png", 			    ["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Lucky Ticket"},
+	["hackerdevice"] 		 	     = {["name"] = "hackerdevice", 					["label"] = "Hack Device", 				["weight"] = 1000, 	    ["type"] = "item", 		["image"] = "hackerdevice.png", 		["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,	   ["combinable"] = nil,   ["description"] = "A little protection never hurts.?"},
+	["headbag"] 			 	 	 = {["name"] = "headbag", 			  			["label"] = "Headbag", 					["weight"] = 70, 	    ["type"] = "item", 		["image"] = "headbag.png", 				["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Headbag"},
+    ["note"] 			 	 		 = {["name"] = "note", 			  				["label"] = "Sticky Note", 				["weight"] = 500, 	    ["type"] = "item", 		["image"] = "note.png", 				["unique"] = true,   	["useable"] = false, 	["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "An empty piece of paper?"},
+	
+	---Sectret Veapons Ammo
+	["bzgas_ammo"] 				 = {["name"] = "bzgas_ammo", 			  	  	["label"] = "BZGas Ammo", 		    	["weight"] = 200, 		["type"] = "item", 		["image"] = "pistol_ammo.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = false,   ["combinable"] = nil,   ["description"] = "Ammunition intended for Pistols."},	
+	["smokegrenade_ammo"] 		 = {["name"] = "smokegrenade_ammo", 			["label"] = "Smoke Grenade Ammo", 		["weight"] = 200, 		["type"] = "item", 		["image"] = "pistol_ammo.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = false,   ["combinable"] = nil,   ["description"] = "Ammunition intended for Pistols."},	
+	["stickybomb_ammo"] 		 = {["name"] = "stickybomb_ammo", 			  	["label"] = "C4 Ammo", 		    		["weight"] = 200, 		["type"] = "item", 		["image"] = "pistol_ammo.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = false,   ["combinable"] = nil,   ["description"] = "Ammunition intended for Pistols."},	
+	["grenade_ammo"] 			 = {["name"] = "grenade_ammo", 			  	  	["label"] = "Grenade Ammo", 		    ["weight"] = 200, 		["type"] = "item", 		["image"] = "pistol_ammo.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = false,   ["combinable"] = nil,   ["description"] = "Ammunition intended for Pistols."},					
+	["molotov_ammo"] 			 = {["name"] = "molotov_ammo", 			  	  	["label"] = "Molotov Ammo", 		    ["weight"] = 200, 		["type"] = "item", 		["image"] = "pistol_ammo.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = false,   ["combinable"] = nil,   ["description"] = "Ammunition intended for Pistols."},	
+	
 
 	-- Vehicle Tools
 	['nitrous'] 				 	 = {['name'] = 'nitrous', 			  	  		['label'] = 'Nitrous', 					['weight'] = 1000, 		['type'] = 'item', 		['image'] = 'nitrous.png', 				['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'Speed up, gas pedal! :D'},
@@ -411,7 +499,7 @@ QBShared.Items = {
     ['jerry_can'] 			 		 = {['name'] = 'jerry_can', 					['label'] = 'Jerrycan 20L', 			['weight'] = 20000, 	['type'] = 'item', 		['image'] = 'jerry_can.png', 			['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,    ['combinable'] = nil,   ['description'] = 'A can full of Fuel'},
 
 	-- Medication
-	['firstaid'] 			 		 = {['name'] = 'firstaid', 						['label'] = 'First Aid', 				['weight'] = 2500, 		['type'] = 'item', 		['image'] = 'firstaid.png', 			['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'You can use this First Aid kit to get people back on their feet'},
+	['firstaid'] 			 		 = {['name'] = 'firstaid', 						['label'] = 'First Aid', 				['weight'] = 250, 		['type'] = 'item', 		['image'] = 'firstaid.png', 			['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'You can use this First Aid kit to get people back on their feet'},
 	['bandage'] 			 		 = {['name'] = 'bandage', 						['label'] = 'Bandage', 					['weight'] = 0, 		['type'] = 'item', 		['image'] = 'bandage.png', 				['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,    ['combinable'] = nil,   ['description'] = 'A bandage works every time'},
 	['painkillers'] 			 	 = {['name'] = 'painkillers', 					['label'] = 'Painkillers', 				['weight'] = 0, 		['type'] = 'item', 		['image'] = 'painkillers.png', 			['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,    ['combinable'] = nil,   ['description'] = 'For pain you can\'t stand anymore, take this pill that\'d make you feel great again'},
 	['walkstick'] 				 	 = {['name'] = 'walkstick', 			  	  	['label'] = 'Walking Stick', 			['weight'] = 1000, 		['type'] = 'item', 		['image'] = 'walkstick.png', 			['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'Walking stick for ya\'ll grannies out there.. HAHA'},
@@ -453,6 +541,28 @@ QBShared.Items = {
     ['dendrogyra_coral'] 			 = {['name'] = 'dendrogyra_coral', 			  	['label'] = 'Dendrogyra', 				['weight'] = 1000, 		['type'] = 'item', 		['image'] = 'dendrogyra_coral.png', 	['unique'] = false, 	['useable'] = false, 	['shouldClose'] = true,    ['combinable'] = nil,   ['description'] = 'Its also known as pillar coral'},
     ['antipatharia_coral'] 			 = {['name'] = 'antipatharia_coral', 			['label'] = 'Antipatharia', 			['weight'] = 1000, 		['type'] = 'item', 		['image'] = 'antipatharia_coral.png', 	['unique'] = false, 	['useable'] = false, 	['shouldClose'] = true,    ['combinable'] = nil,   ['description'] = 'Its also known as black corals or thorn corals'},
 	['diving_gear'] 			     = {['name'] = 'diving_gear', 					['label'] = 'Diving Gear', 				['weight'] = 30000, 	['type'] = 'item', 		['image'] = 'diving_gear.png', 			['unique'] = true, 	    ['useable'] = true, 	['shouldClose'] = true,    ['combinable'] = nil,   ['description'] = 'An oxygen tank and a rebreather'},
+
+	
+	-- Fishs
+	["fish"] 			 		 	 = {["name"] = "fish", 							["label"] = "Fish",                     ["weight"] = 1100,      ["type"] = "item",      ["image"] = "fish.png",                 ["unique"] = false,     ["useable"] = true,     ["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Fish for Fishing."},
+    ["killerwhalemeat"] 			 = {["name"] = "killerwhalemeat", 				["label"] = "killerwhalemeat",          ["weight"] = 1100,      ["type"] = "item",      ["image"] = "killerwhalemeat.png",      ["unique"] = false,     ["useable"] = true,     ["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Fish for Fishing."},
+	["stingraymeat"] 			     = {["name"] = "stingraymeat", 				    ["label"] = "stingraymeat",             ["weight"] = 1111,      ["type"] = "item",      ["image"] = "stingraymeat.png",         ["unique"] = false,     ["useable"] = true,     ["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Fish for Fishing."},
+	["tigersharkmeat"] 			     = {["name"] = "tigersharkmeat", 				["label"] = "tigersharkmeat",           ["weight"] = 1111,      ["type"] = "item",      ["image"] = "tigersharkmeat.png",       ["unique"] = false,     ["useable"] = true,     ["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Fish for Fishing."},
+	["catfish"] 			         = {["name"] = "catfish", 				        ["label"] = "catfish",                  ["weight"] = 1111,      ["type"] = "item",      ["image"] = "catfish.png",              ["unique"] = false,     ["useable"] = true,     ["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Fish for Fishing."},
+	["salmon"] 			             = {["name"] = "salmon", 				        ["label"] = "salmon",                   ["weight"] = 1111,      ["type"] = "item",      ["image"] = "salmon.png",               ["unique"] = false,     ["useable"] = true,     ["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Fish for Fishing."},
+	["largemouthbass"] 			     = {["name"] = "largemouthbass", 				["label"] = "largemouthbass",           ["weight"] = 1111,      ["type"] = "item",      ["image"] = "largemouthbass.png",       ["unique"] = false,     ["useable"] = true,     ["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Fish for Fishing."},
+	["goldfish"] 			         = {["name"] = "goldfish", 			        	["label"] = "goldfish",                 ["weight"] = 1111,      ["type"] = "item",      ["image"] = "goldfish.png",             ["unique"] = false,     ["useable"] = true,     ["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Fish for Fishing."},
+	["redfish"] 			         = {["name"] = "redfish", 			        	["label"] = "redfish",                  ["weight"] = 1111,      ["type"] = "item",      ["image"] = "redfish.png",              ["unique"] = false,     ["useable"] = true,     ["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Fish for Fishing."},
+	["bluefish"] 			         = {["name"] = "bluefish", 			        	["label"] = "bluefish",                 ["weight"] = 1111,      ["type"] = "item",      ["image"] = "bluefish.png",             ["unique"] = false,     ["useable"] = true,     ["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Fish for Fishing."},
+	["stripedbass"] 			     = {["name"] = "stripedbass", 			        ["label"] = "stripedbass",              ["weight"] = 1111,      ["type"] = "item",      ["image"] = "stripedbass.png",          ["unique"] = false,     ["useable"] = true,     ["shouldClose"] = true,    ["combinable"] = nil,   ["description"] = "Fish for Fishing."},
+	["fishingrod"] 			 		 = {["name"] = "fishingrod", 					["label"] = "Fishing Rod", 				["weight"] = 5000, 		["type"] = "item", 		["image"] = "fishingrod.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,	   ["combinable"] = nil,   ["description"] = "A fishing rod for adventures with friends!!"},	
+	["fishbait"] 			 		 = {["name"] = "fishbait", 						["label"] = "Fish Bait", 				["weight"] = 400, 		["type"] = "item", 		["image"] = "fishbait.png", 			["unique"] = false, 	["useable"] = true, 	["shouldClose"] = true,	   ["combinable"] = nil,   ["description"] = "A fish bait"},
+
+	-- Core Evidence
+	["uvlight"]						 = {["name"] = "uvlight",						["label"] = "UV Flashlight",			["weight"] = 300,		["type"] = "item",      ["image"] = "uvlight.png", 				["unique"] = true,		["useable"] = true,		["shouldClose"]	= true,	   ["combinable"] = nil,   ["description"] = "A flashlight to see fingerprints"},
+	
+	-- Documents
+	["rentalpapers"]				 = {["name"] = "rentalpapers", 					["label"] = "Rental Papers", 			["weight"] = 0, 		["type"] = "item", 		["image"] = "rentalpapers.png", 		["unique"] = true, 		["useable"] = false, 	["shouldClose"] = false, 	["combinable"] = nil, 	["description"] = "Yea, this is my car i can prove it!"},
 
 	-- Other Tools
 	['casinochips'] 				 = {['name'] = 'casinochips', 			  	  	['label'] = 'Casino Chips', 			['weight'] = 0, 		['type'] = 'item', 		['image'] = 'casinochips.png', 			['unique'] = false, 	['useable'] = false, 	['shouldClose'] = false,	['combinable'] = nil,   ['description'] = 'Chips For Casino Gambling'},
@@ -720,13 +830,107 @@ QBShared.Gangs = {
 QBShared.ForceJobDefaultDutyAtLogin = true -- true: Force duty state to jobdefaultDuty | false: set duty state from database last saved
 QBShared.Jobs = {
 	['unemployed'] = {
-		label = 'Civilian',
+		label = 'Homeless',
 		defaultDuty = true,
-		offDutyPay = false,
 		grades = {
             ['0'] = {
-                name = 'Freelancer',
+                name = 'Homeless',
                 payment = 10
+            },
+        },
+	},
+	['unemployed'] = {
+		label = 'Civilian',
+		defaultDuty = true,
+		grades = {
+            ['1'] = {
+                name = 'Civilian',
+                payment = 0,
+				offDutyPay = false,
+            },
+        },
+	},
+	['uber'] = {
+		label = 'Uber Driver',
+		defaultDuty = true,
+		grades = {
+            ['0'] = {
+                name = 'Uber Driver',
+				isboss = true,
+				payment = 16,
+				offDutyPay = false,
+            },
+        },
+	},
+	['milkman'] = {
+		label = 'Cow Farm - Milkman',
+		defaultDuty = true,
+		grades = {
+            ['0'] = {
+                name = 'Milkman Farmer',
+				isboss = true,
+				payment = 16,
+				offDutyPay = false,
+            },
+        },
+	},
+	['technician'] = {
+		label = 'Technician',
+		defaultDuty = true,
+		grades = {
+            ['0'] = {
+                name = 'Integration Specialist',
+				isboss = true,
+				offDutyPay = false,
+				payment = 16
+            },
+        },
+	},
+	['gundealer'] = {
+		label = 'Gun Dealer',
+		defaultDuty = true,
+		grades = {
+            ['0'] = {
+                name = 'Gun Dealer',
+				isboss = true,
+				offDutyPay = false,
+				payment = 16
+            },
+        },
+	},
+	['burger'] = {
+		label = 'Burger Shot',
+		defaultDuty = true,
+		grades = {
+            ['0'] = {
+                name = 'Burger Shot',
+				isboss = true,
+				offDutyPay = false,
+				payment = 16
+            },
+        },
+	},
+	['pizzeria'] = {
+		label = 'Pizza Restaurant',
+		defaultDuty = true,
+		grades = {
+            ['0'] = {
+                name = 'Pizza Restaurant',
+				isboss = true,
+				offDutyPay = false,
+				payment = 16
+            },
+        },
+	},
+	['candy'] = {
+		label = 'Candy Cats',
+		defaultDuty = true,
+		grades = {
+            ['0'] = {
+                name = 'Candy Cats',
+				isboss = true,
+				offDutyPay = false,
+				payment = 16
             },
         },
 	},
@@ -736,25 +940,68 @@ QBShared.Jobs = {
 		offDutyPay = false,
 		grades = {
             ['0'] = {
-                name = 'Recruit',
-                payment = 50
+                name = 'Cadet',
+                payment = 100
             },
 			['1'] = {
                 name = 'Officer',
-                payment = 75
+                payment = 150
             },
 			['2'] = {
-                name = 'Sergeant',
-                payment = 100
+                name = 'FTO',
+                payment = 200
             },
 			['3'] = {
-                name = 'Lieutenant',
-                payment = 125
+                name = 'Detective',
+                payment = 250
             },
-			['4'] = {
-                name = 'Chief',
+			['5'] = {
+                name = 'Sergeant',
+                payment = 275
+            },
+			['6'] = {
+                name = 'Lieutenant',
+                payment = 300
+            },
+			['7'] = {
+                name = 'Captain',
+                payment = 325
+            },
+			['8'] = {
+                name = 'Chief Of LSPD',
 				isboss = true,
+                payment = 350
+            },
+			['9'] = {
+                name = 'Sheriff Detective',
+                payment = 250
+            },
+			['10'] = {
+                name = 'Sheriff Sergeant',
+                payment = 275
+            },
+			['11'] = {
+                name = 'Sheriff Lieutenant',
+                payment = 300
+            },
+			['12'] = {
+                name = 'Sheriff Captain',
+                payment = 325
+            },
+			['12'] = {
+                name = 'Sheriff Of Paleto PD',
+				isboss = true,
+                payment = 350
+            },
+			['13'] = {
+                name = 'Water Special Forces WSF',
+				isboss = false,
                 payment = 150
+            },
+			['14'] = {
+                name = 'Chief of Water Special Forces',
+				isboss = true,
+                payment = 250
             },
         },
 	},
@@ -765,24 +1012,24 @@ QBShared.Jobs = {
 		grades = {
             ['0'] = {
                 name = 'Recruit',
-                payment = 50
+                payment = 25
             },
 			['1'] = {
                 name = 'Paramedic',
-                payment = 75
+                payment = 35
             },
 			['2'] = {
                 name = 'Doctor',
-                payment = 100
+                payment = 45
             },
 			['3'] = {
                 name = 'Surgeon',
-                payment = 125
+                payment = 85
             },
 			['4'] = {
                 name = 'Chief',
 				isboss = true,
-                payment = 150
+                payment = 100
             },
         },
 	},
@@ -793,24 +1040,24 @@ QBShared.Jobs = {
 		grades = {
             ['0'] = {
                 name = 'Recruit',
-                payment = 50
+                payment = 25
             },
 			['1'] = {
                 name = 'House Sales',
-                payment = 75
+                payment = 50
             },
 			['2'] = {
                 name = 'Business Sales',
-                payment = 100
+                payment = 75
             },
 			['3'] = {
                 name = 'Broker',
-                payment = 125
+                payment = 85
             },
 			['4'] = {
                 name = 'Manager',
 				isboss = true,
-                payment = 150
+                payment = 100
             },
         },
 	},
@@ -821,63 +1068,110 @@ QBShared.Jobs = {
 		grades = {
             ['0'] = {
                 name = 'Recruit',
-                payment = 50
+                payment = 25
             },
 			['1'] = {
                 name = 'Driver',
-                payment = 75
+                payment = 35
             },
 			['2'] = {
                 name = 'Event Driver',
-                payment = 100
+                payment = 45
             },
 			['3'] = {
                 name = 'Sales',
-                payment = 125
+                payment = 50
             },
 			['4'] = {
                 name = 'Manager',
 				isboss = true,
-                payment = 150
+                payment = 75
             },
         },
 	},
-     ['bus'] = {
+    ['bus'] = {
 		label = 'Bus',
 		defaultDuty = true,
 		offDutyPay = false,
 		grades = {
             ['0'] = {
                 name = 'Driver',
-                payment = 50
+                payment = 35
             },
 		},
 	},
-	['cardealer'] = {
-		label = 'Vehicle Dealer',
+	["airdealer"] = {
+		label = "Airship Dealer",
+		defaultDuty = true,
+		grades = {
+            ['0'] = {
+                name = "Trainee",
+                payment = 1000
+            },
+			['1'] = {
+                name = "CEO",
+				isboss = true,
+                payment = 10000
+            },
+        },
+	},
+	['luxurydealer'] = {
+		label = 'Luxury Vehicle Dealer',
 		defaultDuty = true,
 		offDutyPay = false,
 		grades = {
             ['0'] = {
                 name = 'Recruit',
-                payment = 50
+                payment = 25
             },
 			['1'] = {
                 name = 'Showroom Sales',
-                payment = 75
+                payment = 50
             },
 			['2'] = {
                 name = 'Business Sales',
-                payment = 100
+                payment = 75
             },
 			['3'] = {
                 name = 'Finance',
-                payment = 125
+                payment = 85
             },
 			['4'] = {
                 name = 'Manager',
 				isboss = true,
-                payment = 150
+                payment = 100
+            },
+        },
+	},
+	['pdmdealer'] = {
+		label = 'The Lux Empire - Dealership',
+		defaultDuty = true,
+		grades = {
+            ['0'] = {
+                name = 'Recruit',
+                payment = 25
+            },
+			['1'] = {
+                name = 'Showroom Sales',
+                payment = 50
+            },
+			['2'] = {
+                name = 'Business Sales',
+                payment = 75
+            },
+			['3'] = {
+                name = 'Finance',
+                payment = 85
+            },
+			['4'] = {
+                name = 'Manager',
+				isboss = false,
+                payment = 100
+            },
+			['5'] = {
+                name = 'Business Owner',
+				isboss = true,
+                payment = 1000
             },
         },
 	},
@@ -888,24 +1182,52 @@ QBShared.Jobs = {
 		grades = {
             ['0'] = {
                 name = 'Recruit',
-                payment = 50
+                payment = 16
             },
 			['1'] = {
                 name = 'Novice',
-                payment = 75
+                payment = 18
             },
 			['2'] = {
                 name = 'Experienced',
-                payment = 100
+                payment = 21
             },
 			['3'] = {
                 name = 'Advanced',
-                payment = 125
+                payment = 50
             },
 			['4'] = {
                 name = 'Manager',
+				isboss = false,
+                payment = 100
+            },
+        },
+	},
+	['mechanics'] = {
+		label = 'Tunner Shop',
+		defaultDuty = true,
+		offDutyPay = false,
+		grades = {
+            ['0'] = {
+                name = 'Recruit',
+                payment = 16
+            },
+			['1'] = {
+                name = 'Novice',
+                payment = 18
+            },
+			['2'] = {
+                name = 'Experienced',
+                payment = 21
+            },
+			['3'] = {
+                name = 'Advanced',
+                payment = 50
+            },
+			['4'] = {
+                name = 'Business Owner',
 				isboss = true,
-                payment = 150
+                payment = 100
             },
         },
 	},
@@ -916,7 +1238,7 @@ QBShared.Jobs = {
 		grades = {
             ['0'] = {
                 name = 'Judge',
-                payment = 100
+                payment = 250
             },
         },
 	},
@@ -927,18 +1249,18 @@ QBShared.Jobs = {
 		grades = {
             ['0'] = {
                 name = 'Associate',
-                payment = 50
+                payment = 35
             },
         },
 	},
-	['reporter'] = {
-		label = 'Reporter',
+	['Influencer'] = {
+		label = 'Influencer',
 		defaultDuty = true,
 		offDutyPay = false,
 		grades = {
             ['0'] = {
-                name = 'Journalist',
-                payment = 50
+                name = 'Influencer',
+                payment = 16
             },
         },
 	},
@@ -949,7 +1271,7 @@ QBShared.Jobs = {
 		grades = {
             ['0'] = {
                 name = 'Driver',
-                payment = 50
+                payment = 25
             },
         },
 	},
@@ -960,7 +1282,7 @@ QBShared.Jobs = {
 		grades = {
             ['0'] = {
                 name = 'Driver',
-                payment = 50
+                payment = 16
             },
         },
 	},
@@ -971,7 +1293,7 @@ QBShared.Jobs = {
 		grades = {
             ['0'] = {
                 name = 'Collector',
-                payment = 50
+                payment = 16
             },
         },
 	},
@@ -982,7 +1304,7 @@ QBShared.Jobs = {
 		grades = {
             ['0'] = {
                 name = 'Picker',
-                payment = 50
+                payment = 9
             },
         },
 	},
@@ -993,7 +1315,37 @@ QBShared.Jobs = {
 		grades = {
             ['0'] = {
                 name = 'Sales',
-                payment = 50
+                payment = 11
+            },
+        },
+	},
+	['unicorn'] = {
+		label = 'unicorn',
+		defaultDuty = true,
+		grades = {
+            ['0'] = {
+                name = 'Cashier',
+                payment = 35
+            },
+			['1'] = {
+                name = 'Vanilla Owner',
+				isboss = true,
+                payment = 100
+            },
+        },
+	},
+	['247'] = {
+		label = '247 Shop',
+		defaultDuty = true,
+		grades = {
+            ['0'] = {
+                name = 'Cashier',
+                payment = 16
+            },
+			['1'] = {
+                name = 'Shop Owner',
+				isboss = true,
+                payment = 100
             },
         },
 	},
@@ -1662,7 +2014,7 @@ QBShared.Vehicles = {
 		['price'] = 9999999,
 		['category'] = 'super',
 		['hash'] = `oppressor`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['pcj'] = {
 		['name'] = 'PCJ-600',
@@ -3152,7 +3504,7 @@ QBShared.Vehicles = {
 		['price'] = 53000,
 		['category'] = 'sports',
 		['hash'] = `alpha`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['banshee'] = {
 		['name'] = 'Banshee',
@@ -3161,7 +3513,7 @@ QBShared.Vehicles = {
 		['price'] = 56000,
 		['category'] = 'sports',
 		['hash'] = `banshee`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['bestiagts'] = {
 		['name'] = 'Bestia GTS',
@@ -3170,7 +3522,7 @@ QBShared.Vehicles = {
 		['price'] = 37000,
 		['category'] = 'sports',
 		['hash'] = `bestiagts`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['blista2'] = {
 		['name'] = 'Blista Compact',
@@ -3197,7 +3549,7 @@ QBShared.Vehicles = {
 		['price'] = 18750,
 		['category'] = 'sports',
 		['hash'] = `buffalo`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['buffalo2'] = {
 		['name'] = 'Buffalo S',
@@ -3206,7 +3558,7 @@ QBShared.Vehicles = {
 		['price'] = 24500,
 		['category'] = 'sports',
 		['hash'] = `buffalo2`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['carbonizzare'] = {
 		['name'] = 'Carbonizzare',
@@ -3215,7 +3567,7 @@ QBShared.Vehicles = {
 		['price'] = 155000,
 		['category'] = 'sports',
 		['hash'] = `carbonizzare`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['comet2'] = {
 		['name'] = 'Comet',
@@ -3224,7 +3576,7 @@ QBShared.Vehicles = {
 		['price'] = 130000,
 		['category'] = 'sports',
 		['hash'] = `comet2`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['comet3'] = {
 		['name'] = 'Comet Retro Custom',
@@ -3233,7 +3585,7 @@ QBShared.Vehicles = {
 		['price'] = 175000,
 		['category'] = 'sports',
 		['hash'] = `comet3`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['comet4'] = {
 		['name'] = 'Comet Safari',
@@ -3242,7 +3594,7 @@ QBShared.Vehicles = {
 		['price'] = 110000,
 		['category'] = 'sports',
 		['hash'] = `comet4`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['comet5'] = {
 		['name'] = 'Comet SR',
@@ -3251,7 +3603,7 @@ QBShared.Vehicles = {
 		['price'] = 155000,
 		['category'] = 'sports',
 		['hash'] = `comet5`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['coquette'] = {
 		['name'] = 'Coquette',
@@ -3260,7 +3612,7 @@ QBShared.Vehicles = {
 		['price'] = 145000,
 		['category'] = 'sports',
 		['hash'] = `coquette`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['coquette2'] = {
 		['name'] = 'Coquette Classic',
@@ -3278,7 +3630,7 @@ QBShared.Vehicles = {
 		['price'] = 220000,
 		['category'] = 'sports',
 		['hash'] = `coquette4`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['drafter'] = {							--DLC
 		['name'] = '8F Drafter',
@@ -3287,7 +3639,7 @@ QBShared.Vehicles = {
 		['price'] = 80000,
 		['category'] = 'sports',
 		['hash'] = `drafter`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['deveste'] = {							--DLC
 		['name'] = 'Deveste',
@@ -3296,7 +3648,7 @@ QBShared.Vehicles = {
 		['price'] = 234000,
 		['category'] = 'super',
 		['hash'] = `deveste`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['elegy'] = {							--DLC
 		['name'] = 'Elegy Retro Custom',
@@ -3305,7 +3657,7 @@ QBShared.Vehicles = {
 		['price'] = 145000,
 		['category'] = 'sports',
 		['hash'] = `elegy`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['elegy2'] = {
 		['name'] = 'Elegy RH8',
@@ -3314,7 +3666,7 @@ QBShared.Vehicles = {
 		['price'] = 150000,
 		['category'] = 'sports',
 		['hash'] = `elegy2`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['feltzer2'] = {
 		['name'] = 'Feltzer',
@@ -3323,7 +3675,7 @@ QBShared.Vehicles = {
 		['price'] = 97000,
 		['category'] = 'sports',
 		['hash'] = `feltzer2`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['flashgt'] = {
 		['name'] = 'Flash GT',
@@ -3332,7 +3684,7 @@ QBShared.Vehicles = {
 		['price'] = 48000,
 		['category'] = 'sports',
 		['hash'] = `flashgt`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['furoregt'] = {
 		['name'] = 'Furore GT',
@@ -3341,7 +3693,7 @@ QBShared.Vehicles = {
 		['price'] = 78000,
 		['category'] = 'sports',
 		['hash'] = `furoregt`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['futo'] = {
 		['name'] = 'Futo',
@@ -3359,7 +3711,7 @@ QBShared.Vehicles = {
 		['price'] = 140000,
 		['category'] = 'sports',
 		['hash'] = `gb200`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['komoda'] = {
 		['name'] = 'Komoda',
@@ -3368,7 +3720,7 @@ QBShared.Vehicles = {
 		['price'] = 55000,
 		['category'] = 'sports',
 		['hash'] = `komoda`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['imorgon'] = {
 		['name'] = 'Imorgon',
@@ -3377,7 +3729,7 @@ QBShared.Vehicles = {
 		['price'] = 120000,
 		['category'] = 'sports',
 		['hash'] = `imorgon`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['issi7'] = {							--DLC
 		['name'] = 'Issi Sport',
@@ -3395,7 +3747,7 @@ QBShared.Vehicles = {
 		['price'] = 260000,
 		['category'] = 'sports',
 		['hash'] = `italigto`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['jugular'] = {							--DLC
 		['name'] = 'Jugular',
@@ -3404,7 +3756,7 @@ QBShared.Vehicles = {
 		['price'] = 80000,
 		['category'] = 'sports',
 		['hash'] = `jugular`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['jester'] = {
 		['name'] = 'Jester',
@@ -3413,7 +3765,7 @@ QBShared.Vehicles = {
 		['price'] = 132250,
 		['category'] = 'sports',
 		['hash'] = `jester`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['jester2'] = {
 		['name'] = 'Jester Racecar',
@@ -3422,7 +3774,7 @@ QBShared.Vehicles = {
 		['price'] = 210000,
 		['category'] = 'sports',
 		['hash'] = `jester2`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['jester3'] = {
 		['name'] = 'Jester Classic',
@@ -3431,7 +3783,7 @@ QBShared.Vehicles = {
 		['price'] = 85000,
 		['category'] = 'sports',
 		['hash'] = `jester3`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['khamelion'] = {
 		['name'] = 'Khamelion',
@@ -3440,7 +3792,7 @@ QBShared.Vehicles = {
 		['price'] = 90000,
 		['category'] = 'sports',
 		['hash'] = `khamelion`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['kuruma'] = {
 		['name'] = 'Kuruma',
@@ -3449,7 +3801,7 @@ QBShared.Vehicles = {
 		['price'] = 72000,
 		['category'] = 'sports',
 		['hash'] = `kuruma`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['kuruma2'] = {
 		['name'] = 'kuruma2',
@@ -3458,7 +3810,7 @@ QBShared.Vehicles = {
 		['price'] = 72000,
 		['category'] = 'sports',
 		['hash'] = `kuruma2`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['locust'] = {							--DLC
 		['name'] = 'Locust',
@@ -3467,7 +3819,7 @@ QBShared.Vehicles = {
 		['price'] = 200000,
 		['category'] = 'sports',
 		['hash'] = `locust`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['lynx'] = {
 		['name'] = 'Lynx',
@@ -3476,7 +3828,7 @@ QBShared.Vehicles = {
 		['price'] = 150000,
 		['category'] = 'sports',
 		['hash'] = `lynx`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['massacro'] = {
 		['name'] = 'Massacro',
@@ -3485,7 +3837,7 @@ QBShared.Vehicles = {
 		['price'] = 110000,
 		['category'] = 'sports',
 		['hash'] = `massacro`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['massacro2'] = {
 		['name'] = 'Massacro Racecar',
@@ -3494,7 +3846,7 @@ QBShared.Vehicles = {
 		['price'] = 80000,
 		['category'] = 'sports',
 		['hash'] = `massacro2`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['neo'] = {							--DLC
 		['name'] = 'Neo',
@@ -3503,7 +3855,7 @@ QBShared.Vehicles = {
 		['price'] = 230000,
 		['category'] = 'sports',
 		['hash'] = `neo`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['neon'] = {							--DLC
 		['name'] = 'Neon',
@@ -3512,7 +3864,7 @@ QBShared.Vehicles = {
 		['price'] = 220000,
 		['category'] = 'sports',
 		['hash'] = `neon`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['ninef'] = {
 		['name'] = '9F',
@@ -3521,7 +3873,7 @@ QBShared.Vehicles = {
 		['price'] = 95000,
 		['category'] = 'sports',
 		['hash'] = `ninef`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['ninef2'] = {
 		['name'] = '9F Cabrio',
@@ -3530,7 +3882,7 @@ QBShared.Vehicles = {
 		['price'] = 105000,
 		['category'] = 'sports',
 		['hash'] = `ninef2`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['omnis'] = {
 		['name'] = 'Omnis',
@@ -3539,7 +3891,7 @@ QBShared.Vehicles = {
 		['price'] = 90000,
 		['category'] = 'sports',
 		['hash'] = `omnis`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['paragon'] = {							--DLC
 		['name'] = 'Paragon',
@@ -3548,7 +3900,7 @@ QBShared.Vehicles = {
 		['price'] = 60000,
 		['category'] = 'sports',
 		['hash'] = `paragon`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['pariah'] = {
 		['name'] = 'Pariah',
@@ -3557,7 +3909,7 @@ QBShared.Vehicles = {
 		['price'] = 90000,
 		['category'] = 'sports',
 		['hash'] = `pariah`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['penumbra'] = {
 		['name'] = 'Penumbra',
@@ -3566,7 +3918,7 @@ QBShared.Vehicles = {
 		['price'] = 22000,
 		['category'] = 'sports',
 		['hash'] = `penumbra`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['penumbra2'] = {
 		['name'] = 'Penumbra FF',
@@ -3575,7 +3927,7 @@ QBShared.Vehicles = {
 		['price'] = 30000,
 		['category'] = 'sports',
 		['hash'] = `penumbra2`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['rapidgt'] = {
 		['name'] = 'Rapid GT',
@@ -3584,7 +3936,7 @@ QBShared.Vehicles = {
 		['price'] = 86000,
 		['category'] = 'sports',
 		['hash'] = `rapidgt`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['rapidgt2'] = {
 		['name'] = 'Rapid GT Convertible',
@@ -3593,7 +3945,7 @@ QBShared.Vehicles = {
 		['price'] = 92000,
 		['category'] = 'sports',
 		['hash'] = `rapidgt2`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['raptor'] = {
 		['name'] = 'Raptor',
@@ -3602,7 +3954,7 @@ QBShared.Vehicles = {
 		['price'] = 90000,
 		['category'] = 'sports',
 		['hash'] = `raptor`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['revolter'] = {
 		['name'] = 'Revolter',
@@ -3611,7 +3963,7 @@ QBShared.Vehicles = {
 		['price'] = 95000,
 		['category'] = 'sports',
 		['hash'] = `revolter`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['ruston'] = {
 		['name'] = 'Ruston',
@@ -3620,7 +3972,7 @@ QBShared.Vehicles = {
 		['price'] = 130000,
 		['category'] = 'sports',
 		['hash'] = `ruston`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['schafter2'] = {
 		['name'] = 'Schafter',
@@ -3638,7 +3990,7 @@ QBShared.Vehicles = {
 		['price'] = 35000,
 		['category'] = 'sports',
 		['hash'] = `schafter3`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['schafter4'] = {
 		['name'] = 'Schafter LWB',
@@ -3647,7 +3999,7 @@ QBShared.Vehicles = {
 		['price'] = 21000,
 		['category'] = 'sports',
 		['hash'] = `schafter4`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['schlagen'] = {							--DLC
 		['name'] = 'Schlagen GT',
@@ -3656,7 +4008,7 @@ QBShared.Vehicles = {
 		['price'] = 160000,
 		['category'] = 'sports',
 		['hash'] = `schlagen`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['schwarzer'] = {
 		['name'] = 'Schwartzer',
@@ -3665,7 +4017,7 @@ QBShared.Vehicles = {
 		['price'] = 47000,
 		['category'] = 'sports',
 		['hash'] = `schwarzer`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['sentinel3'] = {
 		['name'] = 'Sentinel Classic',
@@ -3683,7 +4035,7 @@ QBShared.Vehicles = {
 		['price'] = 140000,
 		['category'] = 'sports',
 		['hash'] = `seven70`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['specter'] = {
 		['name'] = 'Specter',
@@ -3692,7 +4044,7 @@ QBShared.Vehicles = {
 		['price'] = 160000,
 		['category'] = 'sports',
 		['hash'] = `specter`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['streiter'] = {
 		['name'] = 'Streiter',
@@ -3701,7 +4053,7 @@ QBShared.Vehicles = {
 		['price'] = 40000,
 		['category'] = 'sports',
 		['hash'] = `streiter`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['sugoi'] = {
 		['name'] = 'Sugoi',
@@ -3710,7 +4062,7 @@ QBShared.Vehicles = {
 		['price'] = 85000,
 		['category'] = 'sports',
 		['hash'] = `sugoi`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['sultan'] = {
 		['name'] = 'Sultan',
@@ -3719,7 +4071,7 @@ QBShared.Vehicles = {
 		['price'] = 50000,
 		['category'] = 'sports',
 		['hash'] = `sultan`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['sultan2'] = {
 		['name'] = 'Sultan Custom',
@@ -3728,7 +4080,7 @@ QBShared.Vehicles = {
 		['price'] = 55000,
 		['category'] = 'sports',
 		['hash'] = `sultan2`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['surano'] = {
 		['name'] = 'Surano',
@@ -3737,7 +4089,7 @@ QBShared.Vehicles = {
 		['price'] = 80000,
 		['category'] = 'sports',
 		['hash'] = `surano`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['tampa2'] = {
 		['name'] = 'Drift Tampa',
@@ -3755,7 +4107,7 @@ QBShared.Vehicles = {
 		['price'] = 65000,
 		['category'] = 'sports',
 		['hash'] = `tropos`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['verlierer2'] = {
 		['name'] = 'Verlierer',
@@ -3764,7 +4116,7 @@ QBShared.Vehicles = {
 		['price'] = 90500,
 		['category'] = 'sports',
 		['hash'] = `verlierer2`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['vstr'] = {
 		['name'] = 'V-STR',
@@ -3773,7 +4125,7 @@ QBShared.Vehicles = {
 		['price'] = 80000,
 		['category'] = 'sports',
 		['hash'] = `vstr`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['italirsx'] = {
 		['name'] = 'Itali RSX',
@@ -3782,7 +4134,7 @@ QBShared.Vehicles = {
 		['price'] = 260000,
 		['category'] = 'sports',
 		['hash'] = `italirsx`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['zr350'] = {							--DLC +set sv_enforceGameBuild 2372
 		['name'] = 'ZR350',
@@ -3791,7 +4143,7 @@ QBShared.Vehicles = {
 		['price'] = 38000,
 		['category'] = 'sports',
 		['hash'] = `zr350`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['calico'] = {							--DLC +set sv_enforceGameBuild 2372
 		['name'] = 'Calico GTF',
@@ -3800,7 +4152,7 @@ QBShared.Vehicles = {
 		['price'] = 39000,
 		['category'] = 'sports',
 		['hash'] = `calico`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['futo2'] = {							--DLC +set sv_enforceGameBuild 2372
 		['name'] = 'Futo GTX',
@@ -3809,7 +4161,7 @@ QBShared.Vehicles = {
 		['price'] = 39000,
 		['category'] = 'sports',
 		['hash'] = `futo2`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['euros'] = {							--DLC +set sv_enforceGameBuild 2372
 		['name'] = 'Euros',
@@ -3818,7 +4170,7 @@ QBShared.Vehicles = {
 		['price'] = 80000,
 		['category'] = 'sports',
 		['hash'] = `euros`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['jester4'] = {							--DLC +set sv_enforceGameBuild 2372
 		['name'] = 'Jester RR',
@@ -3827,7 +4179,7 @@ QBShared.Vehicles = {
 		['price'] = 240000,
 		['category'] = 'sports',
 		['hash'] = `jester4`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['remus'] = {							--DLC +set sv_enforceGameBuild 2372
 		['name'] = 'Remus',
@@ -3836,7 +4188,7 @@ QBShared.Vehicles = {
 		['price'] = 48000,
 		['category'] = 'sports',
 		['hash'] = `remus`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['comet6'] = {							--DLC +set sv_enforceGameBuild 2372
 		['name'] = 'Comet S2',
@@ -3845,7 +4197,7 @@ QBShared.Vehicles = {
 		['price'] = 230000,
 		['category'] = 'sports',
 		['hash'] = `comet6`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['growler'] = {							--DLC +set sv_enforceGameBuild 2372
 		['name'] = 'Growler',
@@ -3854,7 +4206,7 @@ QBShared.Vehicles = {
 		['price'] = 205000,
 		['category'] = 'sports',
 		['hash'] = `growler`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['vectre'] = {							--DLC +set sv_enforceGameBuild 2372
 		['name'] = 'Emperor Vectre',
@@ -3863,7 +4215,7 @@ QBShared.Vehicles = {
 		['price'] = 80000,
 		['category'] = 'sports',
 		['hash'] = `vectre`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['cypher'] = {							--DLC +set sv_enforceGameBuild 2372
 		['name'] = 'Cypher',
@@ -3872,7 +4224,7 @@ QBShared.Vehicles = {
 		['price'] = 155000,
 		['category'] = 'sports',
 		['hash'] = `cypher`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['sultan3'] = {							--DLC +set sv_enforceGameBuild 2372
 		['name'] = 'Sultan Classic Custom',
@@ -3881,7 +4233,7 @@ QBShared.Vehicles = {
 		['price'] = 56000,
 		['category'] = 'sports',
 		['hash'] = `sultan3`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['rt3000'] = {							--DLC +set sv_enforceGameBuild 2372
 		['name'] = 'RT3000',
@@ -3890,7 +4242,7 @@ QBShared.Vehicles = {
 		['price'] = 65000,
 		['category'] = 'sports',
 		['hash'] = `rt3000`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	--- Sports Classic
 	['ardent'] = {
@@ -3945,7 +4297,7 @@ QBShared.Vehicles = {
 		['price'] = 195000,
 		['category'] = 'sports',
 		['hash'] = `cheetah2`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['deluxo'] = {
 		['name'] = 'Deluxo',
@@ -4279,7 +4631,7 @@ QBShared.Vehicles = {
 		['price'] = 280000,
 		['category'] = 'super',
 		['hash'] = `adder`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['autarch'] = {
 		['name'] = 'Autarch',
@@ -4288,7 +4640,7 @@ QBShared.Vehicles = {
 		['price'] = 224000,
 		['category'] = 'super',
 		['hash'] = `autarch`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['banshee2'] = {
 		['name'] = 'Banshee 900R',
@@ -4297,7 +4649,7 @@ QBShared.Vehicles = {
 		['price'] = 120000,
 		['category'] = 'super',
 		['hash'] = `banshee2`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['bullet'] = {
 		['name'] = 'Bullet',
@@ -4306,7 +4658,7 @@ QBShared.Vehicles = {
 		['price'] = 120000,
 		['category'] = 'super',
 		['hash'] = `bullet`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['cheetah'] = {
 		['name'] = 'Cheetah',
@@ -4315,7 +4667,7 @@ QBShared.Vehicles = {
 		['price'] = 214000,
 		['category'] = 'super',
 		['hash'] = `cheetah`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['cyclone'] = {         --might be too overpowered
 		['name'] = 'Cyclone',
@@ -4324,7 +4676,7 @@ QBShared.Vehicles = {
 		['price'] = 300000,
 		['category'] = 'super',
 		['hash'] = `cyclone`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['entity2'] = {
 		['name'] = 'Entity XXR',
@@ -4333,7 +4685,7 @@ QBShared.Vehicles = {
 		['price'] = 164000,
 		['category'] = 'super',
 		['hash'] = `entity2`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['entityxf'] = {
 		['name'] = 'Entity XF',
@@ -4342,7 +4694,7 @@ QBShared.Vehicles = {
 		['price'] = 180000,
 		['category'] = 'super',
 		['hash'] = `entityxf`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['emerus'] = {							--DLC
 		['name'] = 'Emerus',
@@ -4351,7 +4703,7 @@ QBShared.Vehicles = {
 		['price'] = 220000,
 		['category'] = 'super',
 		['hash'] = `emerus`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['fmj'] = {
 		['name'] = 'FMJ',
@@ -4360,7 +4712,7 @@ QBShared.Vehicles = {
 		['price'] = 125000,
 		['category'] = 'super',
 		['hash'] = `fmj`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['furia'] = {
 		['name'] = 'Furia',
@@ -4369,7 +4721,7 @@ QBShared.Vehicles = {
 		['price'] = 230000,
 		['category'] = 'super',
 		['hash'] = `furia`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['gp1'] = {
 		['name'] = 'GP1',
@@ -4378,7 +4730,7 @@ QBShared.Vehicles = {
 		['price'] = 110000,
 		['category'] = 'super',
 		['hash'] = `gp1`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['infernus'] = {
 		['name'] = 'Infernus',
@@ -4387,7 +4739,7 @@ QBShared.Vehicles = {
 		['price'] = 235000,
 		['category'] = 'super',
 		['hash'] = `infernus`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['italigtb'] = {
 		['name'] = 'Itali GTB',
@@ -4396,7 +4748,7 @@ QBShared.Vehicles = {
 		['price'] = 170000,
 		['category'] = 'super',
 		['hash'] = `italigtb`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['italigtb2'] = {
 		['name'] = 'Itali GTB',
@@ -4405,7 +4757,7 @@ QBShared.Vehicles = {
 		['price'] = 250000,
 		['category'] = 'super',
 		['hash'] = `italigtb2`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['krieger'] = {							--DLC
 		['name'] = 'Krieger',
@@ -4414,7 +4766,7 @@ QBShared.Vehicles = {
 		['price'] = 222000,
 		['category'] = 'super',
 		['hash'] = `krieger`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['le7b'] = {
 		['name'] = 'RE-7B',
@@ -4423,7 +4775,7 @@ QBShared.Vehicles = {
 		['price'] = 260000,
 		['category'] = 'super',
 		['hash'] = `le7b`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['nero'] = {
 		['name'] = 'Nero',
@@ -4432,7 +4784,7 @@ QBShared.Vehicles = {
 		['price'] = 200000,
 		['category'] = 'super',
 		['hash'] = `nero`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['nero2'] = {
 		['name'] = 'Nero Custom',
@@ -4441,7 +4793,7 @@ QBShared.Vehicles = {
 		['price'] = 260000,
 		['category'] = 'super',
 		['hash'] = `nero2`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['osiris'] = {
 		['name'] = 'Osiris',
@@ -4450,7 +4802,7 @@ QBShared.Vehicles = {
 		['price'] = 220000,
 		['category'] = 'super',
 		['hash'] = `osiris`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['penetrator'] = {
 		['name'] = 'Penetrator',
@@ -4459,7 +4811,7 @@ QBShared.Vehicles = {
 		['price'] = 130000,
 		['category'] = 'super',
 		['hash'] = `penetrator`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['pfister811'] = {
 		['name'] = '811',
@@ -4468,7 +4820,7 @@ QBShared.Vehicles = {
 		['price'] = 220000,
 		['category'] = 'super',
 		['hash'] = `pfister811`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['prototipo'] = {
 		['name'] = 'X80 Proto',
@@ -4477,7 +4829,7 @@ QBShared.Vehicles = {
 		['price'] = 235000,
 		['category'] = 'super',
 		['hash'] = `prototipo`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['reaper'] = {
 		['name'] = 'Reaper',
@@ -4486,7 +4838,7 @@ QBShared.Vehicles = {
 		['price'] = 100000,
 		['category'] = 'super',
 		['hash'] = `reaper`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['s80'] = {							--DLC
 		['name'] = 'S80RR',
@@ -4495,7 +4847,7 @@ QBShared.Vehicles = {
 		['price'] = 205000,
 		['category'] = 'super',
 		['hash'] = `s80`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['sc1'] = {
 		['name'] = 'SC1',
@@ -4504,7 +4856,7 @@ QBShared.Vehicles = {
 		['price'] = 90000,
 		['category'] = 'super',
 		['hash'] = `sc1`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['sheava'] = {							--DLC
 		['name'] = 'ETR1',
@@ -4513,7 +4865,7 @@ QBShared.Vehicles = {
 		['price'] = 220000,
 		['category'] = 'super',
 		['hash'] = `sheava`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['sultanrs'] = {
 		['name'] = 'Sultan RS',
@@ -4522,7 +4874,7 @@ QBShared.Vehicles = {
 		['price'] = 76500,
 		['category'] = 'sports',
 		['hash'] = `sultanrs`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['t20'] = {
 		['name'] = 'T20',
@@ -4531,7 +4883,7 @@ QBShared.Vehicles = {
 		['price'] = 1650000,
 		['category'] = 'super',
 		['hash'] = `t20`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['taipan'] = {
 		['name'] = 'Taipan',
@@ -4540,7 +4892,7 @@ QBShared.Vehicles = {
 		['price'] = 1850000,
 		['category'] = 'super',
 		['hash'] = `taipan`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['tempesta'] = {
 		['name'] = 'Tempesta',
@@ -4549,7 +4901,7 @@ QBShared.Vehicles = {
 		['price'] = 120000,
 		['category'] = 'super',
 		['hash'] = `tempesta`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['tezeract'] = {
 		['name'] = 'Tezeract',
@@ -4558,7 +4910,7 @@ QBShared.Vehicles = {
 		['price'] = 220000,
 		['category'] = 'super',
 		['hash'] = `tezeract`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['thrax'] = {							--DLC
 		['name'] = 'Thrax',
@@ -4567,7 +4919,7 @@ QBShared.Vehicles = {
 		['price'] = 180000,
 		['category'] = 'super',
 		['hash'] = `thrax`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['tigon'] = {
 		['name'] = 'Tigon',
@@ -4576,7 +4928,7 @@ QBShared.Vehicles = {
 		['price'] = 240000,
 		['category'] = 'super',
 		['hash'] = `tigon`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['turismor'] = {
 		['name'] = 'Turismo R',
@@ -4585,7 +4937,7 @@ QBShared.Vehicles = {
 		['price'] = 140000,
 		['category'] = 'super',
 		['hash'] = `turismor`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['tyrant'] = {
 		['name'] = 'Tyrant',
@@ -4594,7 +4946,7 @@ QBShared.Vehicles = {
 		['price'] = 2100000,
 		['category'] = 'super',
 		['hash'] = `tyrant`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['tyrus'] = {
 		['name'] = 'Tyrus',
@@ -4603,7 +4955,7 @@ QBShared.Vehicles = {
 		['price'] = 230000,
 		['category'] = 'super',
 		['hash'] = `tyrus`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['vacca'] = {
 		['name'] = 'Vacca',
@@ -4612,7 +4964,7 @@ QBShared.Vehicles = {
 		['price'] = 105000,
 		['category'] = 'super',
 		['hash'] = `vacca`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['vagner'] = {
 		['name'] = 'Vagner',
@@ -4621,7 +4973,7 @@ QBShared.Vehicles = {
 		['price'] = 1660000,
 		['category'] = 'super',
 		['hash'] = `vagner`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['visione'] = {
 		['name'] = 'Visione',
@@ -4630,7 +4982,7 @@ QBShared.Vehicles = {
 		['price'] = 750000,
 		['category'] = 'sports',
 		['hash'] = `visione`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['voltic'] = {
 		['name'] = 'Voltic',
@@ -4639,7 +4991,7 @@ QBShared.Vehicles = {
 		['price'] = 120000,
 		['category'] = 'super',
 		['hash'] = `voltic`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['voltic2'] = {
 		['name'] = 'Rocket Voltic',
@@ -4648,7 +5000,7 @@ QBShared.Vehicles = {
 		['price'] = 9830400,
 		['category'] = 'super',
 		['hash'] = `voltic2`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['xa21'] = {
 		['name'] = 'XA-21',
@@ -4657,7 +5009,7 @@ QBShared.Vehicles = {
 		['price'] = 180000,
 		['category'] = 'super',
 		['hash'] = `xa21`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['zentorno'] = {
 		['name'] = 'Zentorno',
@@ -4666,7 +5018,7 @@ QBShared.Vehicles = {
 		['price'] = 340000,
 		['category'] = 'super',
 		['hash'] = `zentorno`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	['zorrusso'] = {							--DLC
 		['name'] = 'Zorrusso',
@@ -4675,7 +5027,7 @@ QBShared.Vehicles = {
 		['price'] = 277000,
 		['category'] = 'super',
 		['hash'] = `zorrusso`,
-		['shop'] = 'luxury',
+		['shop'] = 'pdm',
 	},
 	-- Vans
 	['bison'] = {
@@ -4858,5 +5210,79 @@ QBShared.Vehicles = {
 		['category'] = 'sedans',
 		['hash'] = `warrener2`,
 		['shop'] = 'pdm',
+	},
+	--- The Lux Empire Luxury Dealer Cars | goes here only
+	----AIRCRAFTSHOP----
+    ['luxor'] = {
+		['name'] = 'Luxor',
+		['brand'] = 'Luxor',
+		['model'] = 'luxor',
+		['price'] = 15000000,
+		['category'] = 'privatejet',
+		['hash'] = `luxor`,
+		['shop'] = 'LAVS',
+	},
+		['luxor2'] = {
+		['name'] = 'Luxor Super Delux',
+		['brand'] = 'Luxor',
+		['model'] = 'luxor2',
+		['price'] = 20000000,
+		['category'] = 'privatejet',
+		['hash'] = `luxor2`,
+		['shop'] = 'LAVS',
+	},    
+		['nimbus'] = {
+		['name'] = 'Nimbus',
+		['brand'] = 'Nimbus',
+		['model'] = 'nimbus',
+		['price'] = 25000000,
+		['category'] = 'privatejet',
+		['hash'] = `nimbus`,
+		['shop'] = 'LAVS',
+	},    
+		['shamal'] = {
+		['name'] = 'Shamal Super Jet',
+		['brand'] = 'Shamal',
+		['model'] = 'shamal',
+		['price'] = 30000000,
+		['category'] = 'privatejet',
+		['hash'] = `shamal`,
+		['shop'] = 'LAVS',
+	},    
+		['havok'] = {
+		['name'] = 'Havok',
+		['brand'] = 'Havok',
+		['model'] = 'havok',
+		['price'] = 300000,
+		['category'] = 'helikopter',
+		['hash'] = `havok`,
+		['shop'] = 'LAVS',
+	},    
+		['swift2'] = {
+		['name'] = 'Luxury Swift Delux',
+		['brand'] = 'Swift',
+		['model'] = 'swift2',
+		['price'] = 300000,
+		['category'] = 'helikopter',
+		['hash'] = `swift2`,
+		['shop'] = 'LAVS',
+	},    
+		['supervolito'] = {
+		['name'] = 'Super Volito',
+		['brand'] = 'Volito',
+		['model'] = 'supervolito',
+		['price'] = 300000,
+		['category'] = 'helikopter',
+		['hash'] = `supervolito`,
+		['shop'] = 'LAVS',
+	},    
+		['volatus'] = {
+		['name'] = 'Volatus Delux',
+		['brand'] = 'Volatus',
+		['model'] = 'volatus',
+		['price'] = 300000,
+		['category'] = 'helikopter',
+		['hash'] = `volatus`,
+		['shop'] = 'LAVS',
 	},
 }
