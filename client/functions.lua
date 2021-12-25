@@ -362,6 +362,16 @@ function QBCore.Functions.GetBoneDistance(entity, Type, Bone)
     return #(boneCoords - playerCoords)
 end
 
+QBCore.Functions.GetStreetLabel = function()
+	local s1, s2 = GetStreetNameAtCoord(GetEntityCoords(PlayerPedId()).x, GetEntityCoords(PlayerPedId()).y, GetEntityCoords(PlayerPedId()).z)
+    local street1 = GetStreetNameFromHashKey(s1)
+    local street2 = GetStreetNameFromHashKey(s2)
+    if street2 ~= nil and street2 ~= "" then 
+        street1 = street1 .. " " .. street2
+    end
+    return street1
+end
+
 -- Vehicle
 
 function QBCore.Functions.SpawnVehicle(model, cb, coords, isnetworked)
