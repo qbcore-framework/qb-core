@@ -362,6 +362,22 @@ function QBCore.Functions.GetBoneDistance(entity, Type, Bone)
     return #(boneCoords - playerCoords)
 end
 
+function QBCore.Functions.IsWearingHandshoes()
+    local armIndex = GetPedDrawableVariation(PlayerPedId(), 3)
+    local model = GetEntityModel(PlayerPedId())
+    local retval = true
+    if model == `mp_m_freemode_01` then
+        if QBCore.Shared.MaleNoHandshoes[armIndex] ~= nil and QBCore.Shared.MaleNoHandshoes[armIndex] then
+            retval = false
+        end
+    else
+        if QBCore.Shared.FemaleNoHandshoes[armIndex] ~= nil and QBCore.Shared.FemaleNoHandshoes[armIndex] then
+            retval = false
+        end
+    end
+    return retval
+end
+
 -- Vehicle
 
 function QBCore.Functions.SpawnVehicle(model, cb, coords, isnetworked)
