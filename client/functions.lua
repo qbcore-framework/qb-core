@@ -397,6 +397,13 @@ function QBCore.Functions.DeleteVehicle(vehicle)
     DeleteVehicle(vehicle)
 end
 
+function QBCore.Functions.SetVehiclePlate = function(Vehicle, Plate)
+	NetworkRequestControlOfEntity(Vehicle)
+	SetTimeout(100, function()
+		SetVehicleNumberPlateText(Vehicle, Plate)
+	end)
+end
+
 function QBCore.Functions.GetPlate(vehicle)
     if vehicle == 0 then return end
     return QBCore.Shared.Trim(GetVehicleNumberPlateText(vehicle))
