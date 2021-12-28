@@ -126,20 +126,20 @@ function QBCore.Functions.LoadAnimDict(animDict)
 end
 
 function QBCore.Functions.Animation:new(iPed, iType, iText, iDuration, iDict, iAnim, iFlag)
-    local this = {}
+    local self = {}
 
-    this.ped = iPed;
-    this.type = iType;
-    this.flag = iFlag or 1;
-    this.text = iText;
-    this.active = false;
-    this.duration = iDuration;
-    this.dictionary = iDict;
-    this.animation = iAnim;
+    self.ped = iPed;
+    self.type = iType;
+    self.flag = iFlag or 1;
+    self.text = iText;
+    self.active = false;
+    self.duration = iDuration;
+    self.dictionary = iDict;
+    self.animation = iAnim;
 
     has.__index = has
 
-    return setmetatable(this, has)
+    return setmetatable(self, has)
 end
 
 function QBCore.Functions.Animation:start(Task)
