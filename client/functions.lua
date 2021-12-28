@@ -362,7 +362,7 @@ function QBCore.Functions.GetBoneDistance(entity, Type, Bone)
     return #(boneCoords - playerCoords)
 end
 
-function QBCore.Functions.attachProp(ped, model, boneId, x, y, z, xR, yR, zR, Vertex)
+function QBCore.Functions.AttachProp(ped, model, boneId, x, y, z, xR, yR, zR, Vertex)
     local modelHash = GetHashKey(model)
     local bone = GetPedBoneIndex(ped, boneId)
     RequestModel(modelHash)
