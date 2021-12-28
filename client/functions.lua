@@ -121,7 +121,7 @@ function QBCore.Functions.RequestAnimDict(animDict)
 	end
 end
 
-function QBCore.Functions.loadModel(ModelName)
+function QBCore.Functions.LoadModel(ModelName)
 	RequestModel(ModelName)
 	while not HasModelLoaded(ModelName) do
 		Wait(100)
