@@ -183,6 +183,10 @@ function QBCore.Functions.Progressbar(name, label, duration, useWhileDead, canCa
     end)
 end
 
+QBCore.Functions.OpenMenu = function(ShowMenu)
+	exports['qb-menu']:openMenu(ShowMenu)
+end
+
 -- Getters
 
 function QBCore.Functions.GetVehicles()
