@@ -362,7 +362,7 @@ function QBCore.Functions.GetBoneDistance(entity, Type, Bone)
     return #(boneCoords - playerCoords)
 end
 
-function QBCore.Functions.IsWearingHandshoes()
+function QBCore.Functions.IsWearingGloves()
     local armIndex = GetPedDrawableVariation(PlayerPedId(), 3)
     local model = GetEntityModel(PlayerPedId())
     local retval = true
