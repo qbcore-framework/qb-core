@@ -125,7 +125,7 @@ function QBCore.Functions.LoadAnimDict(animDict)
     end
 end
 
-function QBCore.Functions.Animation:new(iPed, iType, iText, iDuration, iDict, iAnim, iFlag)
+function QBCore.Functions.Animation.new(iPed, iType, iText, iDuration, iDict, iAnim, iFlag)
     local self = {}
 
     self.ped = iPed;
@@ -142,7 +142,7 @@ function QBCore.Functions.Animation:new(iPed, iType, iText, iDuration, iDict, iA
     return setmetatable(self, has)
 end
 
-function QBCore.Functions.Animation:start(Task)
+function QBCore.Functions.Animation.start(Task)
     if has.active then return end
 
     has.active = true
@@ -174,7 +174,7 @@ function QBCore.Functions.Animation:start(Task)
     return has.task
 end
 
-function QBCore.Functions.Animation:stop()
+function QBCore.Functions.Animation.stop()
     has.active = false
 
     if not has.animation then
@@ -184,7 +184,7 @@ function QBCore.Functions.Animation:stop()
     end
 end
 
-function QBCore.Functions.Animation:abort()
+function QBCore.Functions.Animation.abort()
     if not (has.active) then return end
 
     if not has.text then
