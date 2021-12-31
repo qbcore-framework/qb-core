@@ -32,35 +32,100 @@ end
 
 -- Utility
 
-function QBCore.Functions.DrawText(x, y, width, height, scale, r, g, b, a, text)
-    -- Use local function instead
+function drawTxt(x,y ,width,height,scale, text, r,g,b,a)
     SetTextFont(4)
     SetTextProportional(0)
     SetTextScale(scale, scale)
     SetTextColour(r, g, b, a)
-    SetTextDropShadow(0, 0, 0, 0, 255)
+    SetTextDropShadow(0, 0, 0, 0,15)
     SetTextEdge(2, 0, 0, 0, 255)
     SetTextDropShadow()
     SetTextOutline()
-    SetTextEntry('STRING')
+    SetTextEntry("STRING")
     AddTextComponentString(text)
-    DrawText(x - width / 2, y - height / 2 + 0.005)
+    DrawText(x - width/2, y - height/2)
 end
 
-function QBCore.Functions.DrawText3D(x, y, z, text)
-    -- Use local function instead
+function QBCore.Functions.DrawText(text, font, centre, x, y, scale, r, g, b, a)
+    SetTextFont(font)
+    SetTextProportional(0)
+    SetTextScale(scale, scale)
+    SetTextColour(r, g, b, a)
+    SetTextDropShadow(0, 0, 0, 0,255)
+    SetTextEdge(1, 0, 0, 0, 255)
+    SetTextDropShadow()
+    SetTextOutline()
+    SetTextCentre(centre)
+    SetTextEntry("STRING")
+    AddTextComponentString(text)
+    DrawText(x , y)
+end
+
+function QBCore.Functions.DrawText3D(x,y,z, text)
+    local onScreen,_x,_y=GetScreenCoordFromWorldCoord(x,y,z)
     SetTextScale(0.35, 0.35)
     SetTextFont(4)
     SetTextProportional(1)
     SetTextColour(255, 255, 255, 215)
-    SetTextEntry('STRING')
-    SetTextCentre(true)
+    SetTextEntry("STRING")
+    SetTextCentre(1)
     AddTextComponentString(text)
-    SetDrawOrigin(x, y, z, 0)
-    DrawText(0.0, 0.0)
+    DrawText(_x,_y)
     local factor = (string.len(text)) / 370
-    DrawRect(0.0, 0.0 + 0.0125, 0.017 + factor, 0.03, 0, 0, 0, 75)
-    ClearDrawOrigin()
+    DrawRect(_x,_y+0.0125, 0.015+ factor, 0.03, 41, 11, 41, 68)
+end
+
+function QBCore.Functions.RotationToDirection(rotation)
+    
+  local z = math.rad(rotation.z);
+  local x = math.rad(rotation.x);
+  local num = math.abs(math.cos(x));
+
+  local vector3Direction = vector3(-math.sin(z) * num, math.cos(z) * num, math.sin(x))
+  return vector3Direction
+end
+
+function QBcore.Functions.ScreenRelToWorld(camPos,camRot,coord)
+
+      local distance = 1000.0
+      local camForward = QBCore.Functions.RotationToDirection(camRot);
+      local rotUp = camRot + vector3(distance, 0, 0);
+      local rotDown = camRot + vector3(-distance, 0, 0);
+      local rotLeft = camRot + vector3(0, 0, -distance);
+      local rotRight = camRot + vector3(0, 0, distance);
+
+      local camRight = QBCore.Functions.RotationToDirection(rotRight) - QBCore.Functions.RotationToDirection(rotLeft);
+      local camUp = TQBCore.Functions.RotationToDirection(rotUp) - QBCore.Functions.RotationToDirection(rotDown);
+
+      local rollRad = -math.rad(camRot.y);
+
+      local camRightRoll = camRight * math.cos(rollRad) - camUp * math.sin(rollRad);
+      local camUpRoll = camRight * math.sin(rollRad) + camUp * math.cos(rollRad);
+
+      local point3D = camPos + camForward * distance + camRightRoll + camUpRoll;
+      local point2D;
+      local b,cx,cy = GetScreenCoordFromWorldCoord(point3D.x,point3D.y,point3D.z)
+      local point2D = {X = cx,Y = cy};
+      if not point2D or not cx or not cy then 
+        return camPos + camForward * distance; 
+      end
+
+      local point3DZero = camPos + camForward * distance;
+      local b,cx,cy = GetScreenCoordFromWorldCoord(point3DZero.x,point3DZero.y,point3DZero.z)
+      local point2DZero = {X = cx,Y = cy};
+      if not point2DZero or not cx or not cy then 
+        return camPos + camForward * distance; 
+      end
+
+      local eps = 0.001;
+      if (math.abs(point2D.X - point2DZero.X) < eps or math.abs(point2D.Y - point2DZero.Y) < eps) then 
+        return camPos + camForward * distance; 
+      end
+
+      local scaleX = (coord.x - point2DZero.X) / (point2D.X - point2DZero.X);
+      local scaleY = (coord.y - point2DZero.Y) / (point2D.Y - point2DZero.Y);
+      local point3Dret = camPos + camForward * distance + camRightRoll * scaleX + camUpRoll * scaleY;
+      return point3Dret;
 end
 
 function QBCore.Functions.CreateBlip(id, data)
