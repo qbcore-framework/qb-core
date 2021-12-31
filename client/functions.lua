@@ -78,7 +78,7 @@ function QBCore.Functions.CreateBlip(id, data)
     if data.route then SetBlipRoute(blip, data.route) end
     if data.friendly then SetBlipAsFriendly(blip, data.friendly) end
     if data.routecolor then SetBlipRouteColour(blip, data.routecolor) end
-    if data.scale then SetBlipScale(blip, data.scale) else SetBlipScale(blip, 0.8) end
+    if data.scale then SetBlipScale(blip, data.scale) else SetBlipScale(blip, 0.7) end
 
     BeginTextCommandSetBlipName("STRING")
     AddTextComponentString(data.name)
@@ -96,13 +96,7 @@ end
 function QBCore.Functions.HideBlip(id, toggle)
     local blip = Blips[id]
     if not blip then return end
-    if toggle then 
-        SetBlipAlpha(blip.blip, 0)
-        SetBlipHiddenOnLegend(blip.blip, true)
-    else
-        SetBlipAlpha(blip.blip, 255)
-        SetBlipHiddenOnLegend(blip.blip, false)
-    end
+    if toggle then SetBlipAlpha(blip, 0) else SetBlipAlpha(blip, 255) end
 end
 
 function QBCore.Functions.GetBlip(id)
