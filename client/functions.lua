@@ -402,6 +402,20 @@ function QBCore.Functions.GetPlate(vehicle)
     return QBCore.Shared.Trim(GetVehicleNumberPlateText(vehicle))
 end
 
+function QBCore.Functions.SpawnClear(coords, radius)
+    local vehicles = GetGamePool('CVehicle')
+    local closeVeh = {}
+    for i=1, #vehicles, 1 do
+        local vehicleCoords = GetEntityCoords(vehicles[i])
+        local distance = #(vehicleCoords - coords)
+        if distance <= radius then
+            closeVeh[#closeVeh + 1] = vehicles[i]
+        end
+    end
+    if #closeVeh > 0 then return false end
+    return true
+end
+
 function QBCore.Functions.GetVehicleProperties(vehicle)
     if DoesEntityExist(vehicle) then
         local colorPrimary, colorSecondary = GetVehicleColours(vehicle)
