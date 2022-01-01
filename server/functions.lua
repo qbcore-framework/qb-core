@@ -186,8 +186,25 @@ function PaycheckLoop()
     for _, Player in pairs(Players) do
         local payment = Player.PlayerData.job.payment
         if Player.PlayerData.job and payment > 0 and (QBShared.Jobs[Player.PlayerData.job.name].offDutyPay or Player.PlayerData.job.onduty) then
-            Player.Functions.AddMoney('bank', payment)
-            TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, ('You received your paycheck of $%s'):format(payment))
+            if QBCore.Config.Money.PayCheckSociety then 
+                QBCore.Functions.TriggerCallback('qb-bossmenu:server:GetAccount', Player.PlayerData.source, function(account)
+                    if account ~= 0 then -- Checks if player is employed by a society 
+                        if account < payment then -- Checks if company has enough money to pay society
+                            TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, 'The company you\'re employeed at is too poor to pay out your salary')
+                        else
+                            Player.Functions.AddMoney('bank', payment)
+                            TriggerEvent('qb-bossmenu:server:removeAccountMoney', Player.PlayerData.job.name, payment)
+                            TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, ('You received your paycheck of $%s'):format(payment))
+                        end
+                    else
+                        Player.Functions.AddMoney('bank', payment)
+                        TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, ('You received your paycheck of $%s'):format(payment))
+                    end
+                end, Player.PlayerData.job.name)
+            else
+                Player.Functions.AddMoney('bank', payment)
+                TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, ('You received your paycheck of $%s'):format(payment))
+            end
         end
     end
     SetTimeout(QBCore.Config.Money.PayCheckTimeOut * (60 * 1000), PaycheckLoop)
