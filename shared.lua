@@ -415,7 +415,7 @@ QBShared.Items = {
 	['bandage'] 			 		 = {['name'] = 'bandage', 						['label'] = 'Bandage', 					['weight'] = 0, 		['type'] = 'item', 		['image'] = 'bandage.png', 				['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,    ['combinable'] = nil,   ['description'] = 'A bandage works every time'},
 	['painkillers'] 			 	 = {['name'] = 'painkillers', 					['label'] = 'Painkillers', 				['weight'] = 0, 		['type'] = 'item', 		['image'] = 'painkillers.png', 			['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,    ['combinable'] = nil,   ['description'] = 'For pain you can\'t stand anymore, take this pill that\'d make you feel great again'},
 	['walkstick'] 				 	 = {['name'] = 'walkstick', 			  	  	['label'] = 'Walking Stick', 			['weight'] = 1000, 		['type'] = 'item', 		['image'] = 'walkstick.png', 			['unique'] = false, 	['useable'] = true, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'Walking stick for ya\'ll grannies out there.. HAHA'},
-	
+
 	-- Communication
 	['phone'] 			 	 	 	 = {['name'] = 'phone', 			  			['label'] = 'Phone', 					['weight'] = 700, 		['type'] = 'item', 		['image'] = 'phone.png', 				['unique'] = true, 		['useable'] = false, 	['shouldClose'] = false,   ['combinable'] = nil,   ['description'] = 'Neat phone ya got there'},
 	['radio'] 			 	 		 = {['name'] = 'radio', 			  			['label'] = 'Radio', 					['weight'] = 2000, 		['type'] = 'item', 		['image'] = 'radio.png', 				['unique'] = true, 		['useable'] = true, 	['shouldClose'] = true,	   ['combinable'] = nil,   ['description'] = 'You can communicate with this through a signal'},
@@ -1291,29 +1291,29 @@ QBShared.Vehicles = {
 		['hash'] = `previon`,
 		['shop'] = 'pdm',
 	},
-	['champion'] = {		--DLC +set sv_enforceGameBuild 2545 
+	['champion'] = {		--DLC +set sv_enforceGameBuild 2545
 		['name'] = 'Champion',
 		['brand'] = 'Dewbauchee',
 		['model'] = 'champion',
-		['price'] = 205000, 	
+		['price'] = 205000,
 		['category'] = 'coupes',
 		['hash'] = `champion`,
 		['shop'] = 'pdm',
 	},
-	['ignus'] = { 	 	--DLC +set sv_enforceGameBuild 2545 
+	['ignus'] = { 	 	--DLC +set sv_enforceGameBuild 2545
 		['name'] = 'Ignus',
 		['brand'] = 'Pegassi',
 		['model'] = 'ignus',
-		['price'] = 1120000, 	
+		['price'] = 1120000,
 		['category'] = 'coupes',
 		['hash'] = `ignus`,
 		['shop'] = 'pdm',
 	},
-	['zeno'] = { 	 	--DLC +set sv_enforceGameBuild 2545 
+	['zeno'] = { 	 	--DLC +set sv_enforceGameBuild 2545
 		['name'] = 'Patriot',
 		['brand'] = 'Mil-Spec',
 		['model'] = 'zeno',
-		['price'] = 1350000, 	
+		['price'] = 1350000,
 		['category'] = 'coupes',
 		['hash'] = `zeno`,
 		['shop'] = 'pdm',
@@ -1844,7 +1844,7 @@ QBShared.Vehicles = {
 		['hash'] = `manchez2`,
 		['shop'] = 'pdm',
 	},
-	['shinobi'] = {		--DLC +set sv_enforceGameBuild 2545 
+	['shinobi'] = {		--DLC +set sv_enforceGameBuild 2545
 		['name'] = 'Shinobi',
 		['brand'] = 'Nagasaki',
 		['model'] = 'shinobi',
@@ -1853,11 +1853,11 @@ QBShared.Vehicles = {
 		['hash'] = `shinobi`,
 		['shop'] = 'pdm',
 	},
-	['reever'] = {		--DLC +set sv_enforceGameBuild 2545 
+	['reever'] = {		--DLC +set sv_enforceGameBuild 2545
 		['name'] = 'Reever',
 		['brand'] = 'Western',
 		['model'] = 'reever',
-		['price'] = 25000, 	
+		['price'] = 25000,
 		['category'] = 'motorcycles',
 		['hash'] = `reever`,
 		['shop'] = 'pdm',
@@ -2439,11 +2439,11 @@ QBShared.Vehicles = {
 		['hash'] = `yosemite3`,
 		['shop'] = 'pdm',
 	},
-	['buffalo4'] = { 	 	--DLC +set sv_enforceGameBuild 2545 
+	['buffalo4'] = { 	 	--DLC +set sv_enforceGameBuild 2545
 		['name'] = 'Buffalo STX',
 		['brand'] = 'Bravado',
 		['model'] = 'buffalo4',
-		['price'] = 345000, 	
+		['price'] = 345000,
 		['category'] = 'muscle',
 		['hash'] = `buffalo4`,
 		['shop'] = 'pdm',
@@ -2981,11 +2981,11 @@ QBShared.Vehicles = {
 		['hash'] = `xls`,
 		['shop'] = 'pdm',
 	},
-	['granger2'] = { 	 	--DLC +set sv_enforceGameBuild 2545 
+	['granger2'] = { 	 	--DLC +set sv_enforceGameBuild 2545
 		['name'] = 'Granger 3600LX',
 		['brand'] = 'Declasse',
 		['model'] = 'granger2',
-		['price'] = 221000, 	
+		['price'] = 221000,
 		['category'] = 'suvs',
 		['hash'] = `granger2`,
 		['shop'] = 'pdm',
@@ -3207,74 +3207,74 @@ QBShared.Vehicles = {
 		['hash'] = `tailgater2`,
 		['shop'] = 'pdm',
 	},
-	['cinquemila'] = { 	 	--DLC +set sv_enforceGameBuild 2545 
+	['cinquemila'] = { 	 	--DLC +set sv_enforceGameBuild 2545
 		['name'] = 'Lampadati',
 		['brand'] = 'Cinquemila',
 		['model'] = 'cinquemila',
-		['price'] = 125000, 	
+		['price'] = 125000,
 		['category'] = 'sedans',
 		['hash'] = `cinquemila`,
 		['shop'] = 'pdm',
 	},
-	['iwagen'] = { 	 	--DLC +set sv_enforceGameBuild 2545 
+	['iwagen'] = { 	 	--DLC +set sv_enforceGameBuild 2545
 		['name'] = 'Obey',
 		['brand'] = 'I-Wagen',
 		['model'] = 'iwagen',
-		['price'] = 225000, 	
+		['price'] = 225000,
 		['category'] = 'sedans',
 		['hash'] = `iwagen`,
 		['shop'] = 'pdm',
 	},
-	['astron'] = { 	 	--DLC +set sv_enforceGameBuild 2545 
+	['astron'] = { 	 	--DLC +set sv_enforceGameBuild 2545
 		['name'] = 'Pfister',
 		['brand'] = 'Astron',
 		['model'] = 'astron',
-		['price'] = 150000, 	
+		['price'] = 150000,
 		['category'] = 'sedans',
 		['hash'] = `astron`,
 		['shop'] = 'pdm',
 	},
-	['baller7'] = { 	 	--DLC +set sv_enforceGameBuild 2545 
+	['baller7'] = { 	 	--DLC +set sv_enforceGameBuild 2545
 		['name'] = 'Baller ST',
 		['brand'] = 'Gallivanter',
 		['model'] = 'baller7',
-		['price'] = 145000, 	
+		['price'] = 145000,
 		['category'] = 'sedans',
 		['hash'] = `baller7`,
 		['shop'] = 'pdm',
 	},
-	['comet7'] = { 	 	--DLC +set sv_enforceGameBuild 2545 
+	['comet7'] = { 	 	--DLC +set sv_enforceGameBuild 2545
 		['name'] = 'Comet',
 		['brand'] = 'S2 Cabrio',
 		['model'] = 'comet7',
-		['price'] = 25000, 	
+		['price'] = 25000,
 		['category'] = 'sedans',
 		['hash'] = `comet7`,
 		['shop'] = 'pdm',
 	},
-	['deity'] = { 	 	--DLC +set sv_enforceGameBuild 2545 
+	['deity'] = { 	 	--DLC +set sv_enforceGameBuild 2545
 		['name'] = 'Deity',
 		['brand'] = 'Enus',
 		['model'] = 'deity',
-		['price'] = 505000, 	
+		['price'] = 505000,
 		['category'] = 'sedans',
 		['hash'] = `deity`,
 		['shop'] = 'pdm',
 	},
-	['jubilee'] = { 	 	--DLC +set sv_enforceGameBuild 2545 
+	['jubilee'] = { 	 	--DLC +set sv_enforceGameBuild 2545
 		['name'] = 'Jubilee',
 		['brand'] = 'Enus',
 		['model'] = 'jubilee',
-		['price'] = 485000, 	
+		['price'] = 485000,
 		['category'] = 'sedans',
 		['hash'] = `jubilee`,
 		['shop'] = 'pdm',
 	},
-	['patriot3'] = { 	 	--DLC +set sv_enforceGameBuild 2545 
+	['patriot3'] = { 	 	--DLC +set sv_enforceGameBuild 2545
 		['name'] = 'Patriot',
 		['brand'] = 'Mil-Spec',
 		['model'] = 'patriot3',
-		['price'] = 270000, 	
+		['price'] = 270000,
 		['category'] = 'sedans',
 		['hash'] = `patriot3`,
 		['shop'] = 'pdm',
@@ -4957,20 +4957,20 @@ QBShared.Vehicles = {
 		['hash'] = `youga2`,
 		['shop'] = 'pdm',
 	},
-	['youga4'] = { 	 	--DLC +set sv_enforceGameBuild 2545 
+	['youga4'] = { 	 	--DLC +set sv_enforceGameBuild 2545
 		['name'] = 'Youga',
 		['brand'] = 'Bravado',
 		['model'] = 'youga4',
-		['price'] = 85000, 	
+		['price'] = 85000,
 		['category'] = 'vans',
 		['hash'] = `youga4`,
 		['shop'] = 'pdm',
 	},
-	['mule5'] = { 	 	--DLC +set sv_enforceGameBuild 2545 
+	['mule5'] = { 	 	--DLC +set sv_enforceGameBuild 2545
 		['name'] = 'Mule',
 		['brand'] = 'Box Truck',
 		['model'] = 'mule5',
-		['price'] = 221000, 	
+		['price'] = 221000,
 		['category'] = 'vans',
 		['hash'] = `mule5`,
 		['shop'] = 'pdm',
