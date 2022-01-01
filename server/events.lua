@@ -158,9 +158,11 @@ RegisterNetEvent('QBCore:ToggleDuty', function()
     if Player.PlayerData.job.onduty then
         Player.Functions.SetJobDuty(false)
         TriggerClientEvent('QBCore:Notify', src, 'You are now off duty!')
+        TriggerEvent("qb-log:server:CreateLog", "duty", "Job onduty", "white", GetPlayerName(src).." on duty ", false)
     else
         Player.Functions.SetJobDuty(true)
         TriggerClientEvent('QBCore:Notify', src, 'You are now on duty!')
+        TriggerEvent("qb-log:server:CreateLog", "duty", "Job offduty", "white", GetPlayerName(src).." off duty ", false)
     end
     TriggerClientEvent('QBCore:Client:SetDuty', src, Player.PlayerData.job.onduty)
 end)
