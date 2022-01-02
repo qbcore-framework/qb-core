@@ -352,8 +352,7 @@ function QBCore.Player.CreatePlayer(PlayerData)
                 end
             end
         else
-            TriggerEvent("inventory:server:spawnOnGround", self.PlayerData.source, { name = itemInfo['name'], amount = amount, info = info or '', label = itemInfo['label'], description = itemInfo['description'] or '', weight = itemInfo['weight'], type = itemInfo['type'], unique = itemInfo['unique'], useable = itemInfo['useable'], image = itemInfo['image'], shouldClose = itemInfo['shouldClose'], slot = slot, combinable = itemInfo['combinable'] }, amount)
-            TriggerClientEvent('QBCore:Notify', self.PlayerData.source, 'Your inventory is too heavy, placing item on floor!', 'error')
+            TriggerClientEvent('QBCore:Notify', self.PlayerData.source, 'Your inventory is too heavy!', 'error')
         end
         return false
     end
