@@ -320,6 +320,7 @@ QBShared.Vehicles = {
 	--- Cycles
 	['bmx'] = {
 		['name'] = 'BMX',
+        ['brand'] = 'Unknown',
 		['model'] = 'bmx',
 		['price'] = 160,
 		['category'] = 'cycles',
@@ -328,6 +329,7 @@ QBShared.Vehicles = {
 	},
 	['cruiser'] = {
 		['name'] = 'Cruiser',
+        ['brand'] = 'Unknown',
 		['model'] = 'cruiser',
 		['price'] = 510,
 		['category'] = 'cycles',
@@ -336,6 +338,7 @@ QBShared.Vehicles = {
 	},
 	['fixter'] = {
 		['name'] = 'Fixter',
+        ['brand'] = 'Unknown',
 		['model'] = 'fixter',
 		['price'] = 225,
 		['category'] = 'cycles',
@@ -344,6 +347,7 @@ QBShared.Vehicles = {
 	},
 	['scorcher'] = {
 		['name'] = 'Scorcher',
+        ['brand'] = 'Unknown',
 		['model'] = 'scorcher',
 		['price'] = 280,
 		['category'] = 'cycles',
@@ -360,6 +364,7 @@ QBShared.Vehicles = {
 	},
 	['tribike2'] = {
 		['name'] = 'Tri Bike 2',
+        ['brand'] = 'Unknown',
 		['model'] = 'tribike2',
 		['price'] = 700,
 		['category'] = 'cycles',
@@ -368,6 +373,7 @@ QBShared.Vehicles = {
 	},
 	['tribike3'] = {
 		['name'] = 'Tri Bike 3',
+        ['brand'] = 'Unknown',
 		['model'] = 'tribike3',
 		['price'] = 520,
 		['category'] = 'cycles',
