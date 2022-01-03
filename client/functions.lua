@@ -241,11 +241,11 @@ function QBCore.Functions.IsWearingGloves()
     local model = GetEntityModel(PlayerPedId())
     local retval = true
     if model == `mp_m_freemode_01` then
-        if QBCore.Shared.MaleNoHandshoes[armIndex] ~= nil and QBCore.Shared.MaleNoHandshoes[armIndex] then
+        if QBCore.Shared.MaleNoGloves[armIndex] ~= nil and QBCore.Shared.MaleNoGloves[armIndex] then
             retval = false
         end
     else
-        if QBCore.Shared.FemaleNoHandshoes[armIndex] ~= nil and QBCore.Shared.FemaleNoHandshoes[armIndex] then
+        if QBCore.Shared.FemaleNoGloves[armIndex] ~= nil and QBCore.Shared.FemaleNoGloves[armIndex] then
             retval = false
         end
     end
