@@ -62,6 +62,8 @@ QBShared.SetDefaultVehicleExtras = function (vehicle, config)
     for i=1,20 do
         if DoesExtraExist(vehicle, i) then
             SetVehicleExtra(vehicle, i, 1)
+            else
+            break
         end
     end
 
