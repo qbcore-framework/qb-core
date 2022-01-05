@@ -66,17 +66,19 @@ function QBCore.Functions.CreateBlip(coords, sprite, display, scale, colour, sho
     if not coords or not sprite or not display or not scale or not colour or shortRange == nil or not title then 
         print("Blip failed to create, most likely missed a setting, debug log: ")
         print("Coords: " .. coords .. " Sprite: " .. sprite .. " Display: " .. display .. " scale: " .. scale .. " shortRange: " .. shortRange .. " Title: " .. title .. " if you're attempting to use a blip without a title, use an empty string.")
-    else 
-        blip = AddBlipForCoord(coords)
-        SetBlipSprite(blip, sprite)
-        SetBlipDisplay(blip, display)
-        SetBlipScale(blip, scale)
-        SetBlipColour(blip, colour)
-        SetBlipAsShortRange(blip, shortRange)
-        BeginTextCommandSetBlipName("STRING")
-        AddTextComponentString(title)
-        EndTextCommandSetBlipName(blip)
+        return
     end
+    
+    coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords
+    blip = AddBlipForCoord(coords)
+    SetBlipSprite(blip, sprite)
+    SetBlipDisplay(blip, display)
+    SetBlipScale(blip, scale)
+    SetBlipColour(blip, colour)
+    SetBlipAsShortRange(blip, shortRange)
+    BeginTextCommandSetBlipName("STRING")
+    AddTextComponentString(title)
+    EndTextCommandSetBlipName(blip)
 end
 
 function QBCore.Functions.RequestAnimDict(animDict)
@@ -371,6 +373,11 @@ function QBCore.Functions.GetPlate(vehicle)
 end
 
 function QBCore.Functions.SpawnClear(coords, radius)
+    if coords then
+        coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords
+    else
+        coords = GetEntityCoords(ped)
+    end
     local vehicles = GetGamePool('CVehicle')
     local closeVeh = {}
     for i=1, #vehicles, 1 do
