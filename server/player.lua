@@ -80,12 +80,21 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
     PlayerData.metadata['craftingrep'] = PlayerData.metadata['craftingrep'] or 0
     PlayerData.metadata['attachmentcraftingrep'] = PlayerData.metadata['attachmentcraftingrep'] or 0
     PlayerData.metadata['currentapartment'] = PlayerData.metadata['currentapartment'] or nil
-    PlayerData.metadata['jobrep'] = PlayerData.metadata['jobrep'] or {
-        ['tow'] = 0,
-        ['trucker'] = 0,
-        ['taxi'] = 0,
-        ['hotdog'] = 0,
-    }
+    if PlayerData.metadata['jobrep'] ~= nil then
+		PlayerData.metadata['jobrep'] = {
+			['tow'] = PlayerData.metadata['jobrep']['tow'] or 0,
+			['trucker'] = PlayerData.metadata['jobrep']['trucker'] or 0,
+			['taxi'] = PlayerData.metadata['jobrep']['taxi'] or 0,
+			['hotdog'] = PlayerData.metadata['jobrep']['hotdog'] or 0,
+		}
+	else
+		PlayerData.metadata['jobrep'] = {
+			['tow'] = 0,
+			['trucker'] = 0,
+			['taxi'] = 0,
+			['hotdog'] = 0,
+		}
+	end
     PlayerData.metadata['callsign'] = PlayerData.metadata['callsign'] or 'NO CALLSIGN'
     PlayerData.metadata['fingerprint'] = PlayerData.metadata['fingerprint'] or QBCore.Player.CreateFingerId()
     PlayerData.metadata['walletid'] = PlayerData.metadata['walletid'] or QBCore.Player.CreateWalletId()
@@ -316,9 +325,10 @@ function QBCore.Player.CreatePlayer(PlayerData)
         return false
     end
 
-    self.Functions.AddItem = function(item, amount, slot, info)
+    self.Functions.AddItem = function(item, amount, slot, info, overflowToGround)
         local totalWeight = QBCore.Player.GetTotalWeight(self.PlayerData.items)
         local itemInfo = QBCore.Shared.Items[item:lower()]
+        overflowToGround = overflowToGround or false  -- default to false (original behaviour)
         if itemInfo == nil then
             TriggerClientEvent('QBCore:Notify', self.PlayerData.source, 'Item Does Not Exist', 'error')
             return
@@ -330,7 +340,7 @@ function QBCore.Player.CreatePlayer(PlayerData)
                 serie = tostring(QBCore.Shared.RandomInt(2) .. QBCore.Shared.RandomStr(3) .. QBCore.Shared.RandomInt(1) .. QBCore.Shared.RandomStr(2) .. QBCore.Shared.RandomInt(3) .. QBCore.Shared.RandomStr(4)),
             }
         end
-        if (totalWeight + (itemInfo['weight'] * amount)) <= QBCore.Config.Player.MaxWeight then
+        if (totalWeight + (itemInfo['weight'] * amount)) <= QBCore.Config.Player.MaxWeight then  -- if adding onto stack already in inv
             if (slot and self.PlayerData.items[slot]) and (self.PlayerData.items[slot].name:lower() == item:lower()) and (itemInfo['type'] == 'item' and not itemInfo['unique']) then
                 self.PlayerData.items[slot].amount = self.PlayerData.items[slot].amount + amount
                 self.Functions.UpdatePlayerData()
@@ -350,9 +360,17 @@ function QBCore.Player.CreatePlayer(PlayerData)
                         return true
                     end
                 end
+                if overflowToGround then
+                    TriggerEvent("inventory:server:spawnOnGround", self.PlayerData.source, { name = itemInfo['name'], amount = amount, info = info or '', label = itemInfo['label'], description = itemInfo['description'] or '', weight = itemInfo['weight'], type = itemInfo['type'], unique = itemInfo['unique'], useable = itemInfo['useable'], image = itemInfo['image'], shouldClose = itemInfo['shouldClose'], slot = slot, combinable = itemInfo['combinable'] }, amount)
+                    TriggerClientEvent('QBCore:Notify', self.PlayerData.source, 'There is no space in your inventory, placing item on floor!', 'error')
+                    return true
+                end
+                return false
             end
-        else
-            TriggerClientEvent('QBCore:Notify', self.PlayerData.source, 'Your inventory is too heavy!', 'error')
+        elseif overflowToGround then
+            TriggerEvent("inventory:server:spawnOnGround", self.PlayerData.source, { name = itemInfo['name'], amount = amount, info = info or '', label = itemInfo['label'], description = itemInfo['description'] or '', weight = itemInfo['weight'], type = itemInfo['type'], unique = itemInfo['unique'], useable = itemInfo['useable'], image = itemInfo['image'], shouldClose = itemInfo['shouldClose'], slot = slot, combinable = itemInfo['combinable'] }, amount)
+            TriggerClientEvent('QBCore:Notify', self.PlayerData.source, 'Your inventory is too heavy, placing item on floor!', 'error')
+            return true
         end
         return false
     end
