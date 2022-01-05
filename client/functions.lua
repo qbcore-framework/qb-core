@@ -324,6 +324,16 @@ function QBCore.Functions.GetClosestObject(coords)
     return closestObject, closestDistance
 end
 
+function QBCore.Functions.IsInsideArea(coords, radius)
+    local inside = false
+
+    if coords and radius then
+        inside = #(coords - GetEntityCoords(PlayerPedId())) <= radius
+    end
+
+    return inside
+end
+
 function QBCore.Functions.GetClosestBone(entity, list)
     local playerCoords, bone, coords, distance = GetEntityCoords(PlayerPedId())
 
