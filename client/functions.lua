@@ -487,6 +487,7 @@ function QBCore.Functions.GetVehicleProperties(vehicle)
             modTank = GetVehicleMod(vehicle, 45),
             modWindows = GetVehicleMod(vehicle, 46),
             modLivery = modLivery,
+            wheelStance = exports["vstancer"]:GetWheelPreset(vehicle),
         }
     else
         return
@@ -713,6 +714,9 @@ function QBCore.Functions.SetVehicleProperties(vehicle, props)
         if props.modLivery then
             SetVehicleMod(vehicle, 48, props.modLivery, false)
             SetVehicleLivery(vehicle, props.modLivery)
+        end
+        if props.wheelStance then
+            exports["vstancer"]:SetWheelPreset(vehicle, props.wheelStance[1], props.wheelStance[2], props.wheelStance[3], props.wheelStance[4])
         end
     end
 end
