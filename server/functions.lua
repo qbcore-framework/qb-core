@@ -185,7 +185,7 @@ function PaycheckLoop()
     local Players = QBCore.Functions.GetQBPlayers()
     for _, Player in pairs(Players) do
         local payment = Player.PlayerData.job.payment
-        if Player.PlayerData.job and Player.PlayerData.job.onduty and payment > 0 then
+        if Player.PlayerData.job and payment > 0 and (QBShared.Jobs[Player.PlayerData.job.name].offDutyPay or Player.PlayerData.job.onduty) then
             if QBCore.Config.Money.PayCheckSociety then
                 local account = exports['qb-bossmenu']:GetAccount(Player.PlayerData.job.name)
                 if account ~= 0 then -- Checks if player is employed by a society
