@@ -204,6 +204,22 @@ function QBCore.Functions.GetClosestPed(coords, ignoreList)
     return closestPed, closestDistance
 end
 
+function QBCore.Functions.IsWearingGloves()
+    local armIndex = GetPedDrawableVariation(PlayerPedId(), 3)
+    local model = GetEntityModel(PlayerPedId())
+    local retval = true
+    if model == `mp_m_freemode_01` then
+        if QBCore.Shared.MaleNoGloves[armIndex] ~= nil and QBCore.Shared.MaleNoGloves[armIndex] then
+            retval = false
+        end
+    else
+        if QBCore.Shared.FemaleNoGloves[armIndex] ~= nil and QBCore.Shared.FemaleNoGloves[armIndex] then
+            retval = false
+        end
+    end
+    return retval
+end
+
 function QBCore.Functions.GetClosestPlayer(coords)
     local ped = PlayerPedId()
     if coords then
