@@ -89,6 +89,13 @@ function QBCore.Functions.RequestAnimDict(animDict)
 	end
 end
 
+function QBCore.Functions.LoadModel(ModelName)
+	RequestModel(ModelName)
+	while not HasModelLoaded(ModelName) do
+		Wait(100)
+	end
+end
+
 RegisterNUICallback('getNotifyConfig', function(_, cb)
     cb(QBCore.Config.Notify)
 end)
