@@ -353,6 +353,19 @@ function QBCore.Functions.GetBoneDistance(entity, Type, Bone)
     return #(boneCoords - playerCoords)
 end
 
+function QBCore.Functions.AttachProp(ped, model, boneId, x, y, z, xR, yR, zR, Vertex)
+    local modelHash = GetHashKey(model)
+    local bone = GetPedBoneIndex(ped, boneId)
+    RequestModel(modelHash)
+    while not HasModelLoaded(modelHash) do
+        Wait(0)
+    end
+    local prop = CreateObject(modelHash, 1.0, 1.0, 1.0, 1, 1, 0)
+    AttachEntityToEntity(prop, ped, bone, x, y, z, xR, yR, zR, 1, 1, 0, 1, not Vertex and 2 or 0, 1)
+    SetModelAsNoLongerNeeded(modelHash)
+    return prop
+end
+
 -- Vehicle
 
 function QBCore.Functions.SpawnVehicle(model, cb, coords, isnetworked)
