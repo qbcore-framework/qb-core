@@ -96,6 +96,16 @@ function QBCore.Functions.LoadModel(ModelName)
 	end
 end
 
+function QBCore.Functions.GetStreetAndZone()
+    local pos = GetEntityCoords(PlayerPedId(), true)
+	local s1, s2 = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
+    local street1 = GetStreetNameFromHashKey(s1)
+    local street2 = GetStreetNameFromHashKey(s2)
+    local zone = GetLabelText(GetNameOfZone(pos.x, pos.y, pos.z))
+    local street = street1 .. ", " .. zone
+    return street
+end
+
 RegisterNUICallback('getNotifyConfig', function(_, cb)
     cb(QBCore.Config.Notify)
 end)
