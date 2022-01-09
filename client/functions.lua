@@ -29,6 +29,16 @@ function QBCore.Functions.HasItem(item)
     return Citizen.Await(p)
 end
 
+function QBCore.Functions.PromiseTimeout(time)
+    local timeout = promise:new()
+
+    SetTimeout(time or 1000, function ()
+        timeout:resolve(false)
+    end)
+
+    return timeout
+end
+
 -- Utility
 
 function QBCore.Functions.DrawText(x, y, width, height, scale, r, g, b, a, text)
