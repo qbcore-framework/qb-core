@@ -89,6 +89,57 @@ function QBCore.Functions.RequestAnimDict(animDict)
 	end
 end
 
+function QBCore.Functions.Animation(entity, coordsType, coordsOrigin, coordsDist, animationType, animDict, animName, animFlag)
+    local anim = {}
+
+    anim.active = true
+
+    CreateThread(function()
+        local ped = PlayerPedId()
+        local playerCoords, coords = GetEntityCoords(ped)
+
+        if animationType == "scenario" then
+            TaskStartScenarioInPlace(ped, animDict, 0, true)
+        elseif animationType == "normal" then
+            QBCore.Functions.RequestAnimDict(animDict)
+        end
+
+        while anim.active do
+            local idle = 100
+
+            playerCoords = GetEntityCoords(ped)
+
+            if coordsType == "bone" then
+                coords = GetWorldPositionOfEntityBone(entity, coordsOrigin)
+            else
+                coords = GetEntityCoords(entity)
+            end
+
+            if animationType == "normal" and not IsEntityPlayingAnim(ped, animDict, animName, 3) then
+                TaskPlayAnim(ped, animDict, animName, -8.0, -8.0, -1, animFlag, 0, 0, 0, 0)
+            end
+
+            if #(coords - playerCoords) > coordsDist then
+                anim.abort()
+            end
+
+            Wait(idle)
+        end
+
+        if animationType == "scenario" then
+            ClearPedTasks(ped)
+        else
+            StopAnimTask(ped, animDict, animName, 1.5)
+        end
+    end)
+
+    anim.abort = function()
+        anim.active = false
+    end
+
+    return anim
+end
+
 function QBCore.Functions.LoadModel(ModelName)
 	RequestModel(ModelName)
 	while not HasModelLoaded(ModelName) do
