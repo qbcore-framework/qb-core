@@ -396,11 +396,25 @@ function QBCore.Player.CreatePlayer(PlayerData)
                         self.Functions.UpdatePlayerData()
                         TriggerEvent('qb-log:server:CreateLog', 'playerinventory', 'RemoveItem', 'red', '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')** lost item: [slot:' .. slot .. '], itemname: ' .. item .. ', removed amount: ' .. amount .. ', item removed')
                         return true
+                    elseif self.PlayerData.items[slot].amount < amountToRemove then
+                        amountToRemove = amountToRemove - self.PlayerData.items[slot].amount
+                        self.PlayerData.items[slot] = nil
+                        self.Functions.UpdatePlayerData()
+                        TriggerEvent('qb-log:server:CreateLog', 'playerinventory', 'RemoveItem', 'red', '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')** lost item: [slot:' .. slot .. '], itemname: ' .. item .. ', removed amount: ' .. amount .. ', item removed')
                     end
                 end
             end
         end
         return false
+    end
+    
+    self.Functions.getItemQuantityByName = function(item)
+        local items = self.Functions.GetItemsByName(item)
+        local quantity = 0
+        for k = 1, #items do
+            quantity = quantity + items[k].amount
+        end
+        return quantity
     end
 
     self.Functions.SetInventory = function(items, dontUpdateChat)
