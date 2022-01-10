@@ -6,7 +6,7 @@ local Translations = {
         missing_args2 = 'Alle argumenten moeten worden ingevuld!',
         no_access = 'Geen toegang tot deze commando',
         company_too_poor = 'Je werkgever is arm',
-        item_exist = 'Item bestaat niet',
+        item_not_exist = 'Item bestaat niet',
         too_heavy = 'Inventaris is te vol'
     },
     success = {},

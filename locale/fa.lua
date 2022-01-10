@@ -6,7 +6,7 @@ local Translations = {
         missing_args2 = 'Tamam vorodi hara vared konid !',
         no_access = 'Shoma dastresi nadarid !',
         company_too_poor = 'Sherkat shoma, pul kafi baraye hoghogh dadan nadarad !',
-        item_exist = 'In item vojod nadarad',
+        item_not_exist = 'In item vojod nadarad',
         too_heavy = 'Inventory kheyli sangin ast !'
     },
     success = {},

@@ -6,7 +6,7 @@ local Translations = {
         missing_args2 = 'Tous les arguments doivent être remplis!',
         no_access = 'Vous n\'avez pas accès à cette commande',
         company_too_poor = 'Votre entreprise n\'a pas suffisamment d\'argent',
-        item_exist = 'L\'objet n\'existe pas',
+        item_not_exist = 'L\'objet n\'existe pas',
         too_heavy = 'L\'inventaire est plein'
     },
     success = {},

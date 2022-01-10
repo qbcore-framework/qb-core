@@ -6,7 +6,7 @@ local Translations = {
         missing_args2 = 'Все аргументы должны быть заполнены!',
         no_access = 'Нет доступа к этой команде',
         company_too_poor = 'Ваш работодатель разорился',
-        item_exist = 'Элемент не существует',
+        item_not_exist = 'Элемент не существует',
         too_heavy = 'Инвентарь слишком полон'
     },
     success = {},
