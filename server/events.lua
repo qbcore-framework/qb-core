@@ -139,17 +139,22 @@ RegisterNetEvent('QBCore:UpdatePlayer', function()
 end)
 
 RegisterNetEvent('QBCore:Server:SetMetaData', function(meta, data)
-    local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    if meta == 'hunger' or meta == 'thirst' then
-        if data > 100 then
-            data = 100
-        end
-    end
-    if Player then
-        Player.Functions.SetMetaData(meta, data)
-    end
-    TriggerClientEvent('hud:client:UpdateNeeds', src, Player.PlayerData.metadata['hunger'], Player.PlayerData.metadata['thirst'])
+    -- local src = source
+    -- local Player = QBCore.Functions.GetPlayer(src)
+    -- if meta == 'hunger' or meta == 'thirst' then
+        -- if data > 100 then
+            -- data = 100
+        -- end
+    -- end
+        
+    -- if Player then
+        -- Player.Functions.SetMetaData(meta, data)
+    -- end
+        
+    -- TriggerClientEvent('hud:client:UpdateNeeds', src, Player.PlayerData.metadata['hunger'], Player.PlayerData.metadata['thirst'])
+    print('Deprecated please use this on the serverside only')
+    print('Deprecated please use this on the serverside only')
+    print('Deprecated please use this on the serverside only')
 end)
 
 RegisterNetEvent('QBCore:ToggleDuty', function()
@@ -177,15 +182,21 @@ RegisterNetEvent('QBCore:Server:UseItem', function(item)
 end)
 
 RegisterNetEvent('QBCore:Server:RemoveItem', function(itemName, amount, slot)
-    local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    Player.Functions.RemoveItem(itemName, amount, slot)
+    -- local src = source
+    -- local Player = QBCore.Functions.GetPlayer(src)
+    -- Player.Functions.RemoveItem(itemName, amount, slot)
+    print('Deprecated please use this on the serverside only')
+    print('Deprecated please use this on the serverside only')
+    print('Deprecated please use this on the serverside only')
 end)
 
 RegisterNetEvent('QBCore:Server:AddItem', function(itemName, amount, slot, info)
-    local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    Player.Functions.AddItem(itemName, amount, slot, info)
+    -- local src = source
+    -- local Player = QBCore.Functions.GetPlayer(src)
+    -- Player.Functions.AddItem(itemName, amount, slot, info)
+    print('Deprecated please use this on the serverside only')
+    print('Deprecated please use this on the serverside only')
+    print('Deprecated please use this on the serverside only')
 end)
 
 -- Non-Chat Command Calling (ex: qb-adminmenu)
