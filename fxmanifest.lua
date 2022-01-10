@@ -6,12 +6,7 @@ version '1.0.0'
 
 shared_scripts {
 	'config.lua',
-	'shared/main.lua',
-	'shared/items.lua',
-	'shared/jobs.lua',
-	'shared/vehicles.lua',
-	'shared/gangs.lua',
-	'shared/weapons.lua'
+	'shared/*.lua'
 }
 
 client_scripts {
