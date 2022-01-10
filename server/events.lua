@@ -26,12 +26,12 @@ AddEventHandler('chatMessage', function(source, n, message)
                 table.remove(args, 1)
                 if isGod or hasPerm or isPrincipal then
                     if (QBCore.Commands.List[command].argsrequired and #QBCore.Commands.List[command].arguments ~= 0 and args[#QBCore.Commands.List[command].arguments] == nil) then
-                        TriggerClientEvent('QBCore:Notify', src, 'All arguments must be filled out!', 'error')
+                        TriggerClientEvent('QBCore:Notify', src, Lang:t('error.missing_args2'), 'error')
                     else
                         QBCore.Commands.List[command].callback(src, args)
                     end
                 else
-                    TriggerClientEvent('QBCore:Notify', src, 'No Access To This Command', 'error')
+                    TriggerClientEvent('QBCore:Notify', src, Lang:t('error.no_access'), 'error')
                 end
             end
         end
@@ -157,10 +157,10 @@ RegisterNetEvent('QBCore:ToggleDuty', function()
     local Player = QBCore.Functions.GetPlayer(src)
     if Player.PlayerData.job.onduty then
         Player.Functions.SetJobDuty(false)
-        TriggerClientEvent('QBCore:Notify', src, 'You are now off duty!')
+        TriggerClientEvent('QBCore:Notify', src, Lang:t('info.off_duty'))
     else
         Player.Functions.SetJobDuty(true)
-        TriggerClientEvent('QBCore:Notify', src, 'You are now on duty!')
+        TriggerClientEvent('QBCore:Notify', src, Lang:t('info.on_duty'))
     end
     TriggerClientEvent('QBCore:Client:SetDuty', src, Player.PlayerData.job.onduty)
 end)
@@ -200,12 +200,12 @@ RegisterNetEvent('QBCore:CallCommand', function(command, args)
             local isPrincipal = IsPlayerAceAllowed(src, 'command')
             if (QBCore.Commands.List[command].permission == Player.PlayerData.job.name) or isGod or hasPerm or isPrincipal then
                 if (QBCore.Commands.List[command].argsrequired and #QBCore.Commands.List[command].arguments ~= 0 and args[#QBCore.Commands.List[command].arguments] == nil) then
-                    TriggerClientEvent('QBCore:Notify', src, 'All arguments must be filled out!', 'error')
+                    TriggerClientEvent('QBCore:Notify', src, Lang:t('error.missing_args2'), 'error')
                 else
                     QBCore.Commands.List[command].callback(src, args)
                 end
             else
-                TriggerClientEvent('QBCore:Notify', src, 'No Access To This Command', 'error')
+                TriggerClientEvent('QBCore:Notify', src, Lang:t('error.no_access'), 'error')
             end
         end
     end

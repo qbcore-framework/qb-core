@@ -5,6 +5,8 @@ description 'QB-Core'
 version '1.0.0'
 
 shared_scripts {
+	'shared/locale.lua',
+	'locale/en.lua', -- replace with desired language
 	'config.lua',
 	'shared/main.lua',
 	'shared/items.lua',
@@ -22,6 +24,7 @@ client_scripts {
 }
 
 server_scripts {
+	'@oxmysql/lib/MySQL.lua',
 	'server/main.lua',
 	'server/functions.lua',
 	'server/player.lua',

@@ -10,7 +10,7 @@ function QBCore.Player.Login(source, citizenid, newData)
     if src then
         if citizenid then
             local license = QBCore.Functions.GetIdentifier(src, 'license')
-            local PlayerData = exports.oxmysql:singleSync('SELECT * FROM players where citizenid = ?', { citizenid })
+            local PlayerData = MySQL.Sync.prepare('SELECT * FROM players where citizenid = ?', { citizenid })
             if PlayerData and license == PlayerData.license then
                 PlayerData.money = json.decode(PlayerData.money)
                 PlayerData.job = json.decode(PlayerData.job)
@@ -329,7 +329,7 @@ function QBCore.Player.CreatePlayer(PlayerData)
         local totalWeight = QBCore.Player.GetTotalWeight(self.PlayerData.items)
         local itemInfo = QBCore.Shared.Items[item:lower()]
         if itemInfo == nil then
-            TriggerClientEvent('QBCore:Notify', self.PlayerData.source, 'Item Does Not Exist', 'error')
+            TriggerClientEvent('QBCore:Notify', self.PlayerData.source, Lang:t('error.item_exist'), 'error')
             return
         end
         local amount = tonumber(amount)
@@ -361,7 +361,7 @@ function QBCore.Player.CreatePlayer(PlayerData)
                 end
             end
         else
-            TriggerClientEvent('QBCore:Notify', self.PlayerData.source, 'Your inventory is too heavy!', 'error')
+            TriggerClientEvent('QBCore:Notify', self.PlayerData.source, Lang:t('error.too_heavy'), 'error')
         end
         return false
     end
@@ -482,7 +482,7 @@ function QBCore.Player.Save(source)
     local pcoords = GetEntityCoords(ped)
     local PlayerData = QBCore.Players[src].PlayerData
     if PlayerData then
-        exports.oxmysql:insert('INSERT INTO players (citizenid, cid, license, name, money, charinfo, job, gang, position, metadata) VALUES (:citizenid, :cid, :license, :name, :money, :charinfo, :job, :gang, :position, :metadata) ON DUPLICATE KEY UPDATE cid = :cid, name = :name, money = :money, charinfo = :charinfo, job = :job, gang = :gang, position = :position, metadata = :metadata', {
+        MySQL.Async.insert('INSERT INTO players (citizenid, cid, license, name, money, charinfo, job, gang, position, metadata) VALUES (:citizenid, :cid, :license, :name, :money, :charinfo, :job, :gang, :position, :metadata) ON DUPLICATE KEY UPDATE cid = :cid, name = :name, money = :money, charinfo = :charinfo, job = :job, gang = :gang, position = :position, metadata = :metadata', {
             citizenid = PlayerData.citizenid,
             cid = tonumber(PlayerData.cid),
             license = PlayerData.license,
@@ -522,12 +522,22 @@ local playertables = { -- Add tables as needed
 function QBCore.Player.DeleteCharacter(source, citizenid)
     local src = source
     local license = QBCore.Functions.GetIdentifier(src, 'license')
-    local result = exports.oxmysql:scalarSync('SELECT license FROM players where citizenid = ?', { citizenid })
+    local result = MySQL.Sync.fetchScalar('SELECT license FROM players where citizenid = ?', { citizenid })
     if license == result then
-        for k, v in pairs(playertables) do
-            exports.oxmysql:execute('DELETE FROM ' .. v.table .. ' WHERE citizenid = ?', { citizenid })
-        end
-        TriggerEvent('qb-log:server:CreateLog', 'joinleave', 'Character Deleted', 'red', '**' .. GetPlayerName(src) .. '** ' .. license .. ' deleted **' .. citizenid .. '**..')
+        local query = "DELETE FROM %s WHERE citizenid = ?"
+		local tableCount = #playertables
+		local queries = table.create(tableCount, 0)
+
+		for i=1, tableCount do
+			local v = playertables[i]
+			queries[i] = {query = query:format(v.table), values = { citizenid }}
+		end
+
+        MySQL.Async.transaction(queries, function(result)
+			if result then
+				TriggerEvent('qb-log:server:CreateLog', 'joinleave', 'Character Deleted', 'red', '**' .. GetPlayerName(src) .. '** ' .. license .. ' deleted **' .. citizenid .. '**..')
+            end
+		end)
     else
         DropPlayer(src, 'You Have Been Kicked For Exploitation')
         TriggerEvent('qb-log:server:CreateLog', 'anticheat', 'Anti-Cheat', 'white', GetPlayerName(src) .. ' Has Been Dropped For Character Deletion Exploit', false)
@@ -538,31 +548,29 @@ end
 
 QBCore.Player.LoadInventory = function(PlayerData)
     PlayerData.items = {}
-    local result = exports.oxmysql:singleSync('SELECT * FROM players WHERE citizenid = ?', { PlayerData.citizenid })
-    if result then
-        if result.inventory then
-            local plyInventory = json.decode(result.inventory)
-            if next(plyInventory) then
-                for _, item in pairs(plyInventory) do
-                    if item then
-                        local itemInfo = QBCore.Shared.Items[item.name:lower()]
-                        if itemInfo then
-                            PlayerData.items[item.slot] = {
-                                name = itemInfo['name'],
-                                amount = item.amount,
-                                info = item.info or '',
-                                label = itemInfo['label'],
-                                description = itemInfo['description'] or '',
-                                weight = itemInfo['weight'],
-                                type = itemInfo['type'],
-                                unique = itemInfo['unique'],
-                                useable = itemInfo['useable'],
-                                image = itemInfo['image'],
-                                shouldClose = itemInfo['shouldClose'],
-                                slot = item.slot,
-                                combinable = itemInfo['combinable']
-                            }
-                        end
+    local inventory = MySQL.Sync.prepare('SELECT inventory FROM players WHERE citizenid = ?', { PlayerData.citizenid })
+    if inventory then
+        inventory = json.decode(inventory)
+        if next(inventory) then
+            for _, item in pairs(inventory) do
+                if item then
+                    local itemInfo = QBCore.Shared.Items[item.name:lower()]
+                    if itemInfo then
+                        PlayerData.items[item.slot] = {
+                            name = itemInfo['name'],
+                            amount = item.amount,
+                            info = item.info or '',
+                            label = itemInfo['label'],
+                            description = itemInfo['description'] or '',
+                            weight = itemInfo['weight'],
+                            type = itemInfo['type'],
+                            unique = itemInfo['unique'],
+                            useable = itemInfo['useable'],
+                            image = itemInfo['image'],
+                            shouldClose = itemInfo['shouldClose'],
+                            slot = item.slot,
+                            combinable = itemInfo['combinable']
+                        }
                     end
                 end
             end
@@ -589,9 +597,9 @@ QBCore.Player.SaveInventory = function(source)
                     }
                 end
             end
-            exports.oxmysql:execute('UPDATE players SET inventory = ? WHERE citizenid = ?', { json.encode(ItemsJson), PlayerData.citizenid })
+            MySQL.Async.prepare('UPDATE players SET inventory = ? WHERE citizenid = ?', { json.encode(ItemsJson), PlayerData.citizenid })
         else
-            exports.oxmysql:execute('UPDATE players SET inventory = ? WHERE citizenid = ?', { '[]', PlayerData.citizenid })
+            MySQL.Async.prepare('UPDATE players SET inventory = ? WHERE citizenid = ?', { '[]', PlayerData.citizenid })
         end
     end
 end
@@ -636,8 +644,8 @@ function QBCore.Player.CreateCitizenId()
     local CitizenId = nil
     while not UniqueFound do
         CitizenId = tostring(QBCore.Shared.RandomStr(3) .. QBCore.Shared.RandomInt(5)):upper()
-        local result = exports.oxmysql:executeSync('SELECT COUNT(*) as count FROM players WHERE citizenid = ?', { CitizenId })
-        if result[1].count == 0 then
+        local result = MySQL.Sync.prepare('SELECT COUNT(*) as count FROM players WHERE citizenid = ?', { CitizenId })
+        if result == 0 then
             UniqueFound = true
         end
     end
@@ -650,8 +658,8 @@ function QBCore.Player.CreateFingerId()
     while not UniqueFound do
         FingerId = tostring(QBCore.Shared.RandomStr(2) .. QBCore.Shared.RandomInt(3) .. QBCore.Shared.RandomStr(1) .. QBCore.Shared.RandomInt(2) .. QBCore.Shared.RandomStr(3) .. QBCore.Shared.RandomInt(4))
         local query = '%' .. FingerId .. '%'
-        local result = exports.oxmysql:executeSync('SELECT COUNT(*) as count FROM `players` WHERE `metadata` LIKE ?', { query })
-        if result[1].count == 0 then
+        local result = MySQL.Sync.prepare('SELECT COUNT(*) as count FROM `players` WHERE `metadata` LIKE ?', { query })
+        if result == 0 then
             UniqueFound = true
         end
     end
@@ -664,8 +672,8 @@ function QBCore.Player.CreateWalletId()
     while not UniqueFound do
         WalletId = 'QB-' .. math.random(11111111, 99999999)
         local query = '%' .. WalletId .. '%'
-        local result = exports.oxmysql:executeSync('SELECT COUNT(*) as count FROM players WHERE metadata LIKE ?', { query })
-        if result[1].count == 0 then
+        local result = MySQL.Sync.prepare('SELECT COUNT(*) as count FROM players WHERE metadata LIKE ?', { query })
+        if result == 0 then
             UniqueFound = true
         end
     end
@@ -678,8 +686,8 @@ function QBCore.Player.CreateSerialNumber()
     while not UniqueFound do
         SerialNumber = math.random(11111111, 99999999)
         local query = '%' .. SerialNumber .. '%'
-        local result = exports.oxmysql:executeSync('SELECT COUNT(*) as count FROM players WHERE metadata LIKE ?', { query })
-        if result[1].count == 0 then
+        local result = MySQL.Sync.prepare('SELECT COUNT(*) as count FROM players WHERE metadata LIKE ?', { query })
+        if result == 0 then
             UniqueFound = true
         end
     end

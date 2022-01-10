@@ -190,19 +190,19 @@ function PaycheckLoop()
                 local account = exports['qb-bossmenu']:GetAccount(Player.PlayerData.job.name)
                 if account ~= 0 then -- Checks if player is employed by a society
                     if account < payment then -- Checks if company has enough money to pay society
-                        TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, 'The company you\'re employed at doesn\'t have enough money to pay for your salary', 'error')
+                        TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, Lang:t('error.company_too_poor'), 'error')
                     else
                         Player.Functions.AddMoney('bank', payment)
                         TriggerEvent('qb-bossmenu:server:removeAccountMoney', Player.PlayerData.job.name, payment)
-                        TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, ('You received your paycheck of $%s'):format(payment))
+                        TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, Lang:t('info.received_paycheck', {value = payment}))
                     end
                 else
                     Player.Functions.AddMoney('bank', payment)
-                    TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, ('You received your paycheck of $%s'):format(payment))
+                    TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, Lang:t('info.received_paycheck', {value = payment}))
                 end
             else
                 Player.Functions.AddMoney('bank', payment)
-                TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, ('You received your paycheck of $%s'):format(payment))
+                TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, Lang:t('info.received_paycheck', {value = payment}))
             end
         end
     end
@@ -279,10 +279,10 @@ function QBCore.Functions.IsWhitelisted(source)
     local plicense = QBCore.Functions.GetIdentifier(src, 'license')
     local identifiers = GetPlayerIdentifiers(src)
     if QBCore.Config.Server.whitelist then
-        local result = exports.oxmysql:executeSync('SELECT * FROM whitelist WHERE license = ?', { plicense })
-        if result[1] then
+        local result = MySQL.Sync.fetchSingle('SELECT * FROM whitelist WHERE license = ?', { plicense })
+        if result then
             for _, id in pairs(identifiers) do
-                if result[1].license == id then
+                if result.license == id then
                     return true
                 end
             end
@@ -304,9 +304,9 @@ function QBCore.Functions.AddPermission(source, permission)
             license = plicense,
             permission = permission:lower(),
         }
-        exports.oxmysql:execute('DELETE FROM permissions WHERE license = ?', { plicense })
+        MySQL.Async.execute('DELETE FROM permissions WHERE license = ?', { plicense })
 
-        exports.oxmysql:insert('INSERT INTO permissions (name, license, permission) VALUES (?, ?, ?)', {
+        MySQL.Async.insert('INSERT INTO permissions (name, license, permission) VALUES (?, ?, ?)', {
             GetPlayerName(src),
             plicense,
             permission:lower()
@@ -323,7 +323,7 @@ function QBCore.Functions.RemovePermission(source)
     local license = Player.PlayerData.license
     if Player then
         QBCore.Config.Server.PermissionList[license] = nil
-        exports.oxmysql:execute('DELETE FROM permissions WHERE license = ?', { license })
+        MySQL.Async.execute('DELETE FROM permissions WHERE license = ?', { license })
         Player.Functions.UpdatePlayerData()
     end
 end
@@ -386,14 +386,14 @@ function QBCore.Functions.IsPlayerBanned(source)
     local retval = false
     local message = ''
     local plicense = QBCore.Functions.GetIdentifier(src, 'license')
-    local result = exports.oxmysql:executeSync('SELECT * FROM bans WHERE license = ?', { plicense })
-    if result[1] then
-        if os.time() < result[1].expire then
+    local result = MySQL.Sync.fetchSingle('SELECT * FROM bans WHERE license = ?', { plicense })
+    if result then
+        if os.time() < result.expire then
             retval = true
             local timeTable = os.date('*t', tonumber(result.expire))
             message = 'You have been banned from the server:\n' .. result[1].reason .. '\nYour ban expires ' .. timeTable.day .. '/' .. timeTable.month .. '/' .. timeTable.year .. ' ' .. timeTable.hour .. ':' .. timeTable.min .. '\n'
         else
-            exports.oxmysql:execute('DELETE FROM bans WHERE id = ?', { result[1].id })
+            MySQL.Async.execute('DELETE FROM bans WHERE id = ?', { result[1].id })
         end
     end
     return retval, message
