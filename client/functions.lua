@@ -20,12 +20,8 @@ end
 function QBCore.Functions.HasItem(item)
     local p = promise.new()
     QBCore.Functions.TriggerCallback('QBCore:HasItem', function(result)
-        if result then
-            p:resolve(true)
-        end
-        p:resolve(false)
+        p:resolve(result)
     end, item)
-
     return Citizen.Await(p)
 end
 
