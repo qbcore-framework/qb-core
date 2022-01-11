@@ -5,7 +5,7 @@ local Translations = {
         missing_args = 'Nu ai introdus toate argumentele (x, y, z)',
         missing_args2 = 'Toate argumentele trebuie specificate!',
         no_access = 'Nu ai acces la aceasta comanda',
-        company_too_poor = 'Seful tau este sarac si nu are bani de a te plati',
+        company_too_poor = 'Seful tau este sarac si nu are bani pentru a te plati',
         item_not_exist = 'Item-ul nu exista',
         too_heavy = 'Inventarul este prea greu'
     },
