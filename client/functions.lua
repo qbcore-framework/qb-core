@@ -272,6 +272,11 @@ function QBCore.Functions.GetPlayersFromCoords(coords, distance)
     return closePlayers
 end
 
+function QBCore.Functions.GenerateSerial()
+	local serial =  tostring(QBCore.Shared.RandomInt(2) .. QBCore.Shared.RandomStr(3) .. QBCore.Shared.RandomInt(1) .. QBCore.Shared.RandomStr(2) .. QBCore.Shared.RandomInt(3) .. QBCore.Shared.RandomStr(4))
+	return serial
+end
+
 function QBCore.Functions.GetClosestVehicle(coords)
     local ped = PlayerPedId()
     local vehicles = GetGamePool('CVehicle')
