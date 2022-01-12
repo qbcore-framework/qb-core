@@ -639,6 +639,15 @@ function QBCore.Player.GetFirstSlotByItem(items, itemName)
     return nil
 end
 
+function QBCore.Player.GetFreeInventorySlot(items)
+	for i = 1, QBConfig.Player.MaxInvSlots, 1 do
+		if items[i] == nil then
+			return i
+		end
+	end
+	return false
+end
+
 function QBCore.Player.CreateCitizenId()
     local UniqueFound = false
     local CitizenId = nil
