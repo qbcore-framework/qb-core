@@ -313,7 +313,7 @@ QBShared.Vehicles = {
 		['brand'] = 'Overflod',
 		['model'] = 'zeno',
 		['price'] = 1350000,
-		['category'] = 'dlc',
+		['category'] = 'coupes',
 		['hash'] = `zeno`,
 		['shop'] = 'pdm',
 	},
