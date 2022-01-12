@@ -273,3 +273,8 @@ QBCore.Functions.CreateCallback('QBCore:HasItem', function(source, cb, items, am
     end
     cb(retval)
 end)
+
+QBCore.Functions.CreateCallback('QBCore:server:SpawnVehicle', function(source, cb, model, coords, plate)
+	local SpawnVehicle = QBCore.Functions.SpawnVehicle(source, model, coords, plate)
+	cb(SpawnVehicle)
+end)
