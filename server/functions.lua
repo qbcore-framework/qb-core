@@ -209,19 +209,16 @@ function PaycheckLoop()
     SetTimeout(QBCore.Config.Money.PayCheckTimeOut * (60 * 1000), PaycheckLoop)
 end
 
-QBCore.Functions.SpawnVehicle = function(source, entity, locations, plate)
+function QBCore.Functions.SpawnVehicle(source, model, spawncoords)
     local CreateAutomobile = `CREATE_AUTOMOBILE`
-    local model = (type(entity) == "number" and entity or GetHashKey(entity))
-    local coords = locations ~= nil and locations or GetEntityCoords(GetPlayerPed(source))
-    local heading = locations ~= nil and locations.w ~= nil and locations.w or GetEntityHeading(GetPlayerPed(source))
-    local vehicle = Citizen.InvokeNative(CreateAutomobile, model, coords.x, coords.y, coords.z, heading);
+    local model = type(model) == "number" and model or GetHashKey(model)
+    local coords = spawncoords or GetEntityCoords(GetPlayerPed(source))
+    local heading = spawncoords and spawncoords.w or GetEntityHeading(GetPlayerPed(source))
+    local vehicle = Citizen.InvokeNative(CreateAutomobile, model, coords.x, coords.y, coords.z, heading)
     while not DoesEntityExist(vehicle) do
         Wait(0)
     end
-    if plate ~= nil and plate ~= false then
-        SetVehicleNumberPlateText(vehicle, plate)
-        return vehicle
-    end
+    return NetworkGetNetworkIdFromEntity(vehicle)
 end
 
 -- Callbacks
