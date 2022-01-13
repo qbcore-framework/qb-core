@@ -188,6 +188,16 @@ RegisterNetEvent('QBCore:Server:AddItem', function(itemName, amount, slot, info)
     Player.Functions.AddItem(itemName, amount, slot, info)
 end)
 
+QBCore.Functions.CreateCallback('QBCore:Server:RemoveMoney', function(source, cb, mtype, amount)
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
+    if Player.Functions.RemoveMoney(mtype, amount) then
+        cb(true)
+    else 
+        cb(false)
+    end
+end)
+
 -- Non-Chat Command Calling (ex: qb-adminmenu)
 
 RegisterNetEvent('QBCore:CallCommand', function(command, args)
