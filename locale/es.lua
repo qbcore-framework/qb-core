@@ -1,12 +1,12 @@
 local Translations = {
     error = {
-        not_online = 'El jugador no esta conectado!',
+        not_online = 'El jugador no está conectado!',
         wrong_format = 'Formato incorrecto!',
-        missing_args = 'No todos los argumentos estan presente! (x, y, z)',
-        missing_args2 = 'Todos los argumentos estan presente!',
+        missing_args = 'No todos los argumentos estan presentes! (x, y, z)',
+        missing_args2 = 'Todos los argumentos deben estar presentes!',
         no_access = 'No tienes acceso a este comando!',
         company_too_poor = 'Tu empresa está en bancarrota. No hay dinero suficiente.',
-        item_not_exist = 'El objeto no existe en el systema.',
+        item_not_exist = 'El objeto no existe en el sistema.',
         too_heavy = 'Tienes el inventario muy lleno.'
     },
     success = {},
