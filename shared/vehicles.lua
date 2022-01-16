@@ -309,8 +309,8 @@ QBShared.Vehicles = {
 		['shop'] = 'pdm',
 	},
 	['zeno'] = { 	 	--DLC +set sv_enforceGameBuild 2545
-		['name'] = 'Patriot',
-		['brand'] = 'Mil-Spec',
+		['name'] = 'Zeno',
+		['brand'] = 'Overflod',
 		['model'] = 'zeno',
 		['price'] = 1350000,
 		['category'] = 'coupes',
