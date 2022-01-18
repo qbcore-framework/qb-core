@@ -74,7 +74,7 @@ local function OnPlayerConnecting(name, setKickReason, deferrals)
         deferrals.done('No Valid Rockstar License Found')
     elseif isBanned then
         deferrals.done(Reason)
-    elseif isLicenseAlreadyInUse then
+    elseif isLicenseAlreadyInUse and QBCore.Config.Server.checkDuplicateLicense then
         deferrals.done('Duplicate Rockstar License Found')
     else
         deferrals.done()
