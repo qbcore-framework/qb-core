@@ -36,6 +36,8 @@ QBConfig.Server.pvp = true -- Enable or disable pvp on the server (Ability to sh
 QBConfig.Server.discord = "" -- Discord invite link
 QBConfig.Server.PermissionList = {} -- permission list
 
+QBConfig.Client.enableDebug = true
+
 QBConfig.Notify = {}
 
 QBConfig.Notify.NotificationStyling = {
