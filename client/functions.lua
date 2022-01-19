@@ -154,6 +154,18 @@ function QBCore.Functions.Progressbar(name, label, duration, useWhileDead, canCa
     end)
 end
 
+function QBCore.Functions.Debug(msg, ...)
+    if not QBConfig.EnableDebug then return end
+    local params = {}
+    for _, param in ipairs({ ... }) do
+        if type(param) == "table" then
+            param = json.encode(param)
+        end
+		params[#params+1] = param
+    end
+    print((msg):format(table.unpack(params)))
+end
+
 -- Getters
 
 function QBCore.Functions.GetVehicles()
