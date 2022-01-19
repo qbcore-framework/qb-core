@@ -362,6 +362,18 @@ function QBCore.Functions.AttachProp(ped, model, boneId, x, y, z, xR, yR, zR, Ve
     return prop
 end
 
+function QBCore.Functions.Debug(msg, ...)
+    if not QBConfig.Client.enableDebug then return end
+    local params = {}
+    for _, param in ipairs({ ... }) do
+        if type(param) == "table" then
+            param = json.encode(param)
+        end
+		params[#params+1] = param
+    end
+    print((msg):format(table.unpack(params)))
+end
+
 -- Vehicle
 
 function QBCore.Functions.SpawnVehicle(model, cb, coords, isnetworked)
@@ -378,7 +390,7 @@ function QBCore.Functions.SpawnVehicle(model, cb, coords, isnetworked)
     end
     RequestModel(model)
     while not HasModelLoaded(model) do
-        Citizen.Wait(10)
+        Wait(10)
     end
     local veh = CreateVehicle(model, coords.x, coords.y, coords.z, coords.w, isnetworked, false)
     local netid = NetworkGetNetworkIdFromEntity(veh)
