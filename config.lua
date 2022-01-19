@@ -4,6 +4,7 @@ QBConfig.MaxPlayers = GetConvarInt('sv_maxclients', 48) -- Gets max players from
 QBConfig.DefaultSpawn = vector4(-1035.71, -2731.87, 12.86, 0.0)
 QBConfig.UpdateInterval = 5 -- how often to update player data in minutes
 QBConfig.StatusInterval = 5000 -- how often to check hunger/thirst status in ms
+QBConfig.EnableDebug = true -- show and hide Print Debug
 
 QBConfig.Money = {}
 QBConfig.Money.MoneyTypes = { ['cash'] = 500, ['bank'] = 5000, ['crypto'] = 0 } -- ['type']=startamount - Add or remove money types for your server (for ex. ['blackmoney']=0), remember once added it will not be removed from the database!
@@ -16,16 +17,7 @@ QBConfig.Player.MaxWeight = 120000 -- Max weight a player can carry (currently 1
 QBConfig.Player.MaxInvSlots = 41 -- Max inventory slots for a player
 QBConfig.Player.HungerRate = 4.2 -- Rate at which hunger goes down.
 QBConfig.Player.ThirstRate = 3.8 -- Rate at which thirst goes down.
-QBConfig.Player.Bloodtypes = {
-    "A+",
-    "A-",
-    "B+",
-    "B-",
-    "AB+",
-    "AB-",
-    "O+",
-    "O-",
-}
+QBConfig.Player.Bloodtypes = { "A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-", }
 
 QBConfig.Server = {} -- General server config
 QBConfig.Server.closed = false -- Set server closed (no one can join except people with ace permission 'qbadmin.join')
