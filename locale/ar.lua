@@ -1,21 +1,21 @@
 local Translations = {
     error = {
-        not_online = 'اللاعب غير متواجد',
-        wrong_format = 'التنسيق غير صحيح',
-        missing_args = 'لم يتم ادخل جميع الحقول تاكد من وضع (x, y, z)',
-        missing_args2 = 'يجب ملأ جميع الحقول اللازمة!',
+        not_online = 'اللاعب غير متصل',
+        wrong_format = 'خطأ في المعلومات',
+        missing_args = '(x, y, z) يجب ادخال كل من',
+        missing_args2 = 'يجب ملء جميع الحقول',
         no_access = 'لا يمكن الوصول إلى هذا الأمر',
-        company_too_poor = 'رئيس العمل الخاص بك لا يملك اموال كافية',
-        item_not_exist = 'لا يوجد هذا العنصر',
-        too_heavy = 'المحفظة ممتلئة'
+        company_too_poor = 'صاحب العمل مفلس',
+        item_not_exist = 'العنصر غير موجود',
+        too_heavy = 'الحقيبة ممتلئة للغاية'
     },
     success = {},
     info = {
-        received_paycheck = 'لقد استملت راتبك الشهري $%{value}',
-        job_info = 'الوظيفة: %{value} | الرتبة: %{value2} | الخدمة: %{value3}',
-        gang_info = 'العصابة: %{value} | الرتبة: %{value2}',
-        on_duty = 'انت الان خارج الخدمة!',
-        off_duty = 'انت الان في الخدمة!'
+        received_paycheck = 'لقد تلقيت راتبك $%{value}',
+        job_info = '%{value} | %{value2} | %{value3} حالة الخدمة:',
+        gang_info = '%{value} | %{value2}',
+        on_duty = 'أنت الآن داخل الخدمة',
+        off_duty = 'أنت الأن حارج الخدمة'
     }
 }
 
