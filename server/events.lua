@@ -59,23 +59,23 @@ local function OnPlayerConnecting(name, setKickReason, deferrals)
     end
 
     -- mandatory wait!
-    Wait(2500)
+   Wait(2500)
 
-    deferrals.update(string.format('Hello %s. We are checking if you are banned.', name))
+    deferrals.update(string.format(Lang:t('info.checking_ban'), name))
 
     local isBanned, Reason = QBCore.Functions.IsPlayerBanned(player)
     local isLicenseAlreadyInUse = QBCore.Functions.IsLicenseInUse(license)
 
     Wait(2500)
 
-    deferrals.update(string.format('Welcome %s to {Server Name}.', name))
+    deferrals.update(string.format(Lang:t('info.join_server'), name))
 
     if not license then
-        deferrals.done('No Valid Rockstar License Found')
+        deferrals.done(Lang:t('error.no_valid_license'))
     elseif isBanned then
         deferrals.done(Reason)
     elseif isLicenseAlreadyInUse then
-        deferrals.done('Duplicate Rockstar License Found')
+        deferrals.done(Lang:t('error.duplicate_license'))
     else
         deferrals.done()
         Wait(1000)
