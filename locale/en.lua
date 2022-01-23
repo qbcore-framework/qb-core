@@ -19,8 +19,9 @@ local Translations = {
         on_duty = 'You are now on duty!',
         off_duty = 'You are now off duty!',
         checking_ban = 'Hello %s. We are checking if you are banned.',
-        validating_license = 'Hello %s. Validating Your Rockstar License'
-    }
+        validating_license = 'Hello %s. Validating Your Rockstar License',
+        join_server = 'Welcome %s to {Server Name}.'
+ }
 }
 
 Lang = Locale:new({
