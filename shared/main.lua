@@ -35,6 +35,11 @@ QBShared.Trim = function(value)
     return (string.gsub(value, '^%s*(.-)%s*$', '%1'))
 end
 
+QBShared.GroupDigits = function(value)
+	local left,num,right = string.match(value,'^([^%d]*%d)(%d*)(.-)$')
+	return left..(num:reverse():gsub('(%d%d%d)','%1' ..","):reverse())..right
+end
+
 QBShared.Round = function(value, numDecimalPlaces)
     if not numDecimalPlaces then return math.floor(value + 0.5) end
     local power = 10 ^ numDecimalPlaces
