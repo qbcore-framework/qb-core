@@ -533,6 +533,7 @@ function QBCore.Player.DeleteCharacter(source, citizenid)
 			queries[i] = {query = query:format(v.table), values = { citizenid }}
 		end
 
+        MySQL.Async.execute('UPDATE houselocations JOIN player_houses ON name = house SET owned = 0 WHERE citizenid = ?', { citizenid })
         MySQL.Async.transaction(queries, function(result)
 			if result then
 				TriggerEvent('qb-log:server:CreateLog', 'joinleave', 'Character Deleted', 'red', '**' .. GetPlayerName(src) .. '** ' .. license .. ' deleted **' .. citizenid .. '**..')
