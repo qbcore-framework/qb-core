@@ -416,6 +416,20 @@ function QBCore.Functions.SpawnClear(coords, radius)
     return true
 end
 
+function QBCore.Functions.GetVehicleInDirection()
+	local playerPed    = PlayerPedId()
+	local playerCoords = GetEntityCoords(playerPed)
+	local inDirection  = GetOffsetFromEntityInWorldCoords(playerPed, 0.0, 5.0, 0.0)
+	local rayHandle    = StartShapeTestRay(playerCoords, inDirection, 10, playerPed, 0)
+	local numRayHandle, hit, endCoords, surfaceNormal, entityHit = GetShapeTestResult(rayHandle)
+
+	if hit == 1 and GetEntityType(entityHit) == 2 then
+		return entityHit
+	end
+
+	return nil
+end
+
 function QBCore.Functions.GetVehicleProperties(vehicle)
     if DoesEntityExist(vehicle) then
         local colorPrimary, colorSecondary = GetVehicleColours(vehicle)
