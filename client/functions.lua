@@ -364,7 +364,7 @@ end
 
 -- Vehicle
 
-function QBCore.Functions.SpawnVehicle(model, cb, coords, isnetworked)
+function QBCore.Functions.SpawnVehicle(model, cb, coords, isnetworked, teleportInto)
     local model = GetHashKey(model)
     local ped = PlayerPedId()
     if coords then
@@ -387,6 +387,8 @@ function QBCore.Functions.SpawnVehicle(model, cb, coords, isnetworked)
     SetVehicleNeedsToBeHotwired(veh, false)
     SetVehRadioStation(veh, 'OFF')
     SetModelAsNoLongerNeeded(model)
+    exports['LegacyFuel']:SetFuel(veh, 100)
+    if teleportInto then TaskWarpPedIntoVehicle(PlayerPedId(), veh, -1) end
     if cb then
         cb(veh)
     end
@@ -418,10 +420,9 @@ end
 
 function QBCore.Functions.GetVehicleProperties(vehicle)
     if DoesEntityExist(vehicle) then
-        local colorPrimary, colorSecondary = GetVehicleColours(vehicle)
         local pearlescentColor, wheelColor = GetVehicleExtraColours(vehicle)
-        local extras = {}
 
+        local colorPrimary, colorSecondary = GetVehicleColours(vehicle)
         if GetIsVehiclePrimaryColourCustom(vehicle) then
             r, g, b = GetVehicleCustomPrimaryColour(vehicle)
             colorPrimary = { r, g, b }
@@ -432,6 +433,7 @@ function QBCore.Functions.GetVehicleProperties(vehicle)
             colorSecondary = { r, g, b }
         end
 
+        local extras = {}
         for extraId = 0, 12 do
             if DoesExtraExist(vehicle, extraId) then
                 local state = IsVehicleExtraTurnedOn(vehicle, extraId) == 1
@@ -439,10 +441,29 @@ function QBCore.Functions.GetVehicleProperties(vehicle)
             end
         end
 
+        local modLivery = GetVehicleMod(vehicle, 48)
         if GetVehicleMod(vehicle, 48) == -1 and GetVehicleLivery(vehicle) ~= -1 then
             modLivery = GetVehicleLivery(vehicle)
-        else
-            modLivery = GetVehicleMod(vehicle, 48)
+        end
+
+        local neons = {}
+        for i = 0,3 do
+            neons[i] = IsVehicleNeonLightEnabled(vehicle, i)
+        end
+
+        local tireHealth = {}
+        for i = 0,3 do
+            tireHealth[i] = GetVehicleWheelHealth(vehicle, i)
+        end
+
+        local tireBurstState = {}
+        for i = 0,5 do
+           tireBurstState[i] = IsVehicleTyreBurst(vehicle, i, false)
+        end
+
+        local tireBurstCompletely = {}
+        for i = 0,5 do
+            tireBurstCompletely[i] = IsVehicleTyreBurst(vehicle, i, true)
         end
 
         return {
@@ -454,6 +475,7 @@ function QBCore.Functions.GetVehicleProperties(vehicle)
             tankHealth = QBCore.Shared.Round(GetVehiclePetrolTankHealth(vehicle), 0.1),
             fuelLevel = QBCore.Shared.Round(GetVehicleFuelLevel(vehicle), 0.1),
             dirtLevel = QBCore.Shared.Round(GetVehicleDirtLevel(vehicle), 0.1),
+            oilLevel = QBCore.Shared.Round(GetVehicleOilLevel(vehicle), 0.1),
             color1 = colorPrimary,
             color2 = colorSecondary,
             pearlescentColor = pearlescentColor,
@@ -461,15 +483,17 @@ function QBCore.Functions.GetVehicleProperties(vehicle)
             dashboardColor = GetVehicleDashboardColour(vehicle),
             wheelColor = wheelColor,
             wheels = GetVehicleWheelType(vehicle),
+            wheelSize = GetVehicleWheelSize(vehicle),
+            wheelWidth = GetVehicleWheelWidth(vehicle),
+            tireHealth = tireHealth,
+            tireBurstState = tireBurstState,
+            tireBurstCompletely = tireBurstCompletely,
             windowTint = GetVehicleWindowTint(vehicle),
             xenonColor = GetVehicleXenonLightsColour(vehicle),
-            neonEnabled = {
-                IsVehicleNeonLightEnabled(vehicle, 0),
-                IsVehicleNeonLightEnabled(vehicle, 1),
-                IsVehicleNeonLightEnabled(vehicle, 2),
-                IsVehicleNeonLightEnabled(vehicle, 3)
-            },
+            neonEnabled = neons,
             neonColor = table.pack(GetVehicleNeonLightsColour(vehicle)),
+            headlightColor = GetVehicleHeadlightsColour(vehicle),
+            interiorColor = GetVehicleInteriorColour(vehicle),
             extras = extras,
             tyreSmokeColor = table.pack(GetVehicleTyreSmokeColor(vehicle)),
             modSpoilers = GetVehicleMod(vehicle, 0),
@@ -489,8 +513,11 @@ function QBCore.Functions.GetVehicleProperties(vehicle)
             modHorns = GetVehicleMod(vehicle, 14),
             modSuspension = GetVehicleMod(vehicle, 15),
             modArmor = GetVehicleMod(vehicle, 16),
+            modKit17 = GetVehicleMod(vehicle, 17),
             modTurbo = IsToggleModOn(vehicle, 18),
+            modKit19 = GetVehicleMod(vehicle, 19),
             modSmokeEnabled = IsToggleModOn(vehicle, 20),
+            modKit21 = GetVehicleMod(vehicle, 21),
             modXenon = IsToggleModOn(vehicle, 22),
             modFrontWheels = GetVehicleMod(vehicle, 23),
             modBackWheels = GetVehicleMod(vehicle, 24),
@@ -518,7 +545,10 @@ function QBCore.Functions.GetVehicleProperties(vehicle)
             modTrimB = GetVehicleMod(vehicle, 44),
             modTank = GetVehicleMod(vehicle, 45),
             modWindows = GetVehicleMod(vehicle, 46),
+            modKit47 = GetVehicleMod(vehicle, 47),
             modLivery = modLivery,
+            modKit49 = GetVehicleMod(vehicle, 49),
+            liveryRoof = GetVehicleRoofLivery(vehicle),
         }
     else
         return
@@ -542,12 +572,38 @@ function QBCore.Functions.SetVehicleProperties(vehicle, props)
         if props.engineHealth then
             SetVehicleEngineHealth(vehicle, props.engineHealth + 0.0)
         end
+        if props.tankHealth then
+            SetVehiclePetrolTankHealth(vehicle, props.tankHealth)
+        end
         if props.fuelLevel then
             SetVehicleFuelLevel(vehicle, props.fuelLevel + 0.0)
+            exports['LegacyFuel']:SetFuel(veh, props.fuelLevel + 0.0)
+        end
+        if props.oilLevel then
+            SetVehicleOilLevel(vehicle, props.oilLevel)
         end
         if props.dirtLevel then
             SetVehicleDirtLevel(vehicle, props.dirtLevel + 0.0)
         end
+        if props.tireHealth then
+            for wheelIndex, health in pairs(props.tireHealth) do
+                SetVehicleWheelHealth(vehicle, wheelIndex, health)
+            end
+        end
+        if props.tireBurstState then
+            for wheelIndex, burstState in pairs(props.tireBurstState) do
+                if burstState then 
+                    SetVehicleTyreBurst(vehicle, tonumber(wheelIndex), false, 1000.0)
+                end
+            end
+        end
+        if props.tireBurstCompletely then
+            for wheelIndex, burstState in pairs(props.tireBurstCompletely) do
+                if burstState then 
+                    SetVehicleTyreBurst(vehicle, tonumber(wheelIndex), true, 1000.0)
+                end
+            end
+        end 
         if props.color1 then
             if type(props.color1) == "number" then
                 SetVehicleColours(vehicle, props.color1, colorSecondary)
@@ -598,8 +654,17 @@ function QBCore.Functions.SetVehicleProperties(vehicle, props)
         if props.neonColor then
             SetVehicleNeonLightsColour(vehicle, props.neonColor[1], props.neonColor[2], props.neonColor[3])
         end
-        if props.modSmokeEnabled then
-            ToggleVehicleMod(vehicle, 20, true)
+        if props.headlightColor then
+            SetVehicleHeadlightsColour(vehicle, props.headlightColor)
+        end
+        if props.interiorColor then
+            SetVehicleInteriorColour(vehicle, props.interiorColor)
+        end
+        if props.wheelSize then
+            SetVehicleWheelSize(vehicle, props.wheelSize)
+        end
+        if props.wheelWidth then
+            SetVehicleWheelWidth(vehicle, props.wheelWidth)
         end
         if props.tyreSmokeColor then
             SetVehicleTyreSmokeColor(vehicle, props.tyreSmokeColor[1], props.tyreSmokeColor[2], props.tyreSmokeColor[3])
@@ -655,8 +720,20 @@ function QBCore.Functions.SetVehicleProperties(vehicle, props)
         if props.modArmor then
             SetVehicleMod(vehicle, 16, props.modArmor, false)
         end
+        if props.modKit17 then
+            SetVehicleMod(vehicle, 17, props.modKit17, false)
+        end
         if props.modTurbo then
             ToggleVehicleMod(vehicle, 18, props.modTurbo)
+        end
+        if props.modKit19 then
+            SetVehicleMod(vehicle, 19, props.modKit19, false)
+        end
+        if props.modSmokeEnabled then
+            ToggleVehicleMod(vehicle, 20, props.modSmokeEnabled)
+        end
+        if props.modKit21 then
+            SetVehicleMod(vehicle, 21, props.modKit21, false)
         end
         if props.modXenon then
             ToggleVehicleMod(vehicle, 22, props.modXenon)
@@ -742,9 +819,18 @@ function QBCore.Functions.SetVehicleProperties(vehicle, props)
         if props.modWindows then
             SetVehicleMod(vehicle, 46, props.modWindows, false)
         end
+        if props.modKit47 then
+            SetVehicleMod(vehicle, 47, props.modKit47, false)
+        end
         if props.modLivery then
             SetVehicleMod(vehicle, 48, props.modLivery, false)
             SetVehicleLivery(vehicle, props.modLivery)
+        end
+        if props.modKit49 then
+            SetVehicleMod(vehicle, 49, props.modKit49, false)
+        end
+        if props.liveryRoof then
+            SetVehicleRoofLivery(vehicle, props.liveryRoof)
         end
     end
 end

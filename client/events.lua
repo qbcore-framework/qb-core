@@ -61,7 +61,9 @@ RegisterNetEvent('QBCore:Command:SpawnVehicle', function(vehName)
     end
     local vehicle = CreateVehicle(hash, GetEntityCoords(ped), GetEntityHeading(ped), true, false)
     TaskWarpPedIntoVehicle(ped, vehicle, -1)
+    exports['LegacyFuel']:SetFuel(vehicle, 100)
     SetModelAsNoLongerNeeded(vehicle)
+    
     TriggerEvent("vehiclekeys:client:SetOwner", QBCore.Functions.GetPlate(vehicle))
 end)
 
