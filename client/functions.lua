@@ -466,6 +466,16 @@ function QBCore.Functions.GetVehicleProperties(vehicle)
             tireBurstCompletely[i] = IsVehicleTyreBurst(vehicle, i, true)
         end
 
+        local _windowStatus = {}
+        for i=0, 7 do
+            _windowStatus[i] = IsVehicleWindowIntact(vehicle, i) == 1
+        end
+
+        local _doorStatus = {}
+        for i=0, 5 do
+            _doorStatus[i] = IsVehicleDoorDamaged(vehicle, i) == 1
+        end
+
         return {
             model = GetEntityModel(vehicle),
             plate = QBCore.Functions.GetPlate(vehicle),
@@ -489,6 +499,8 @@ function QBCore.Functions.GetVehicleProperties(vehicle)
             tireBurstState = tireBurstState,
             tireBurstCompletely = tireBurstCompletely,
             windowTint = GetVehicleWindowTint(vehicle),
+            windowStatus = _windowStatus,
+            doorStatus = _doorStatus,
             xenonColor = GetVehicleXenonLightsColour(vehicle),
             neonEnabled = neons,
             neonColor = table.pack(GetVehicleNeonLightsColour(vehicle)),
@@ -557,6 +569,16 @@ end
 
 function QBCore.Functions.SetVehicleProperties(vehicle, props)
     if DoesEntityExist(vehicle) then
+        if props.extras then
+            for id, enabled in pairs(props.extras) do
+                if enabled then
+                    SetVehicleExtra(vehicle, tonumber(id), 0)
+                else
+                    SetVehicleExtra(vehicle, tonumber(id), 1)
+                end
+            end
+        end
+
         local colorPrimary, colorSecondary = GetVehicleColours(vehicle)
         local pearlescentColor, wheelColor = GetVehicleExtraColours(vehicle)
         SetVehicleModKit(vehicle, 0)
@@ -636,19 +658,19 @@ function QBCore.Functions.SetVehicleProperties(vehicle, props)
         if props.windowTint then
             SetVehicleWindowTint(vehicle, props.windowTint)
         end
-        if props.neonEnabled then
-            SetVehicleNeonLightEnabled(vehicle, 0, props.neonEnabled[1])
-            SetVehicleNeonLightEnabled(vehicle, 1, props.neonEnabled[2])
-            SetVehicleNeonLightEnabled(vehicle, 2, props.neonEnabled[3])
-            SetVehicleNeonLightEnabled(vehicle, 3, props.neonEnabled[4])
+        if props.windowStatus then
+            for windowIndex, smashWindow in pairs(props.windowStatus) do
+                if not smashWindow then SmashVehicleWindow(vehicle, windowIndex) end
+            end
         end
-        if props.extras then
-            for id, enabled in pairs(props.extras) do
-                if enabled then
-                    SetVehicleExtra(vehicle, tonumber(id), 0)
-                else
-                    SetVehicleExtra(vehicle, tonumber(id), 1)
-                end
+        if props.doorStatus then
+            for doorIndex, breakDoor in pairs(props.doorStatus) do
+                if breakDoor then SetVehicleDoorBroken(vehicle, doorIndex, true)  end
+            end 
+        end
+        if props.neonEnabled then
+            for neonIndex, enableNeons in pairs(props.neonEnabled) do
+                SetVehicleNeonLightEnabled(vehicle, i, enableNeons)
             end
         end
         if props.neonColor then
