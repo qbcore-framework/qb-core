@@ -295,7 +295,7 @@ function QBCore.Functions.CheckVehicleAtCoords(coords)
     local retval, out = FindFirstVehicle()
     local check
     repeat
-        local dist = GetDistanceBetweenCoords(GetEntityCoords(out), coords.x, coords.y, coords.z)
+        local dist = #(GetEntityCoords(out) - coords)
         if dist < veh then
             veh = dist
         end
