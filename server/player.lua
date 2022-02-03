@@ -658,7 +658,7 @@ function QBCore.Functions.CreateAccountNumber()
     while not UniqueFound do
         AccountNumber = 'US0' .. math.random(1, 9) .. 'QBCore' .. math.random(1111, 9999) .. math.random(1111, 9999) .. math.random(11, 99)
         local query = '%' .. AccountNumber .. '%'
-        local result = MySQL.Sync.prepare('SELECT COUNT(*) as count FROM players WHERE metadata LIKE ?', { query })
+        local result = MySQL.Sync.prepare('SELECT COUNT(*) as count FROM players WHERE charinfo LIKE ?', { query })
         if result == 0 then
             UniqueFound = true
         end
@@ -672,7 +672,7 @@ function QBCore.Functions.CreatePhoneNumber()
     while not UniqueFound do
         PhoneNumber = math.random(100,999) .. math.random(1000000,9999999)
         local query = '%' .. PhoneNumber .. '%'
-        local result = MySQL.Sync.prepare('SELECT COUNT(*) as count FROM players WHERE metadata LIKE ?', { query })
+        local result = MySQL.Sync.prepare('SELECT COUNT(*) as count FROM players WHERE charinfo LIKE ?', { query })
         if result == 0 then
             UniqueFound = true
         end
