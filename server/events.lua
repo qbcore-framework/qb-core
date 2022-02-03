@@ -70,11 +70,11 @@ local function OnPlayerConnecting(name, setKickReason, deferrals)
 
     deferrals.update(string.format(Lang:t('info.join_server'), name))
 
-    if not license then
+        if not license then
         deferrals.done(Lang:t('error.no_valid_license'))
     elseif isBanned then
         deferrals.done(Reason)
-    elseif isLicenseAlreadyInUse then
+    elseif isLicenseAlreadyInUse and QBCore.Config.Server.checkDuplicateLicense then
         deferrals.done(Lang:t('error.duplicate_license'))
     else
         deferrals.done()
