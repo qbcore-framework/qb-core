@@ -233,6 +233,7 @@ function QBCore.Player.CreatePlayer(PlayerData)
     self.Functions.SetJobDuty = function(onDuty)
         self.PlayerData.job.onduty = onDuty
         self.Functions.UpdatePlayerData()
+        TriggerClientEvent('QBCore:Client:OnJobUpdate', self.PlayerData.source, self.PlayerData.job)
     end
 
     self.Functions.SetMetaData = function(meta, val)
