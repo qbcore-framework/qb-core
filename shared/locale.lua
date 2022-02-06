@@ -38,7 +38,16 @@ function Locale:new(opts)
     self.phrases = {}
     self:extend(opts.phrases or {})
 
-    return self
+    if not opts.locale or opts.locale == "en" then
+        return self
+    else
+        --Get locale from server.cfg
+        local conflocale = GetConvar('qb_locale', "en")
+        --Return only if server language
+        if conflocale == opts.locale then
+            return self
+        end        
+    end
 end
 
 --- Method for extending an instances phrases map. This is also, used

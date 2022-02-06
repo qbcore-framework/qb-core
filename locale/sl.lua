@@ -19,7 +19,15 @@ local Translations = {
     }
 }
 
-Lang = Locale:new({
-    phrases = Translations,
-    warnOnMissing = true
-})
+--if not Lang then            --This test is only needed in locale en, please comment it on other languages
+
+    local templocale = Locale:new({
+        phrases = Translations,
+        warnOnMissing = true,
+        locale = "sl"
+    }) 
+    if templocale then
+        Lang = templocale
+    end
+    
+--end                         --Comment this line also
