@@ -85,6 +85,15 @@ function QBCore.Functions.RequestAnimDict(animDict)
 	end
 end
 
+function QBCore.Functions.PlayAnim(animDict, animName, upperbodyOnly, duration)
+    local flags = upperbodyOnly == true and 16 or 0
+    local runTime = duration ~= nil and duration or -1
+
+    QBCore.Functions.RequestAnimDict(animDict)
+    TaskPlayAnim(PlayerPedId(), animDict, animName, 8.0, 1.0, runTime, flags, 0.0, false, false, true)
+    RemoveAnimDict(animDict)
+end
+
 function QBCore.Functions.LoadModel(ModelName)
 	RequestModel(ModelName)
 	while not HasModelLoaded(ModelName) do
