@@ -30,6 +30,7 @@ server_scripts {
 	'server/player.lua',
 	'server/events.lua',
 	'server/commands.lua',
+	'server/exports.lua',
 	'server/debug.lua'
 }
 
