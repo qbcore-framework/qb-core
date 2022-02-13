@@ -1,0 +1,76 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap");
+:root {
+    --primary-bg: rgba(23, 23, 23, 90%);
+    --active-bg: #dc143c;
+    --font-color: white;
+}
+
+#drawtext-container {
+    display: none;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    font-family: "Poppins", sans-serif !important;
+    font-weight: 300;
+}
+.text {
+    position: absolute;
+    background: var(--primary-bg);
+    color: var(--font-color);
+    margin-top: 0.5rem;
+    padding: 0.45rem;
+    border-radius: 0.15rem;
+    box-shadow: 0rem 0rem 0.1rem 0.05rem #000000;
+}
+
+.text.pressed {
+    background: var(--active-bg);
+}
+
+.top {
+    left: 45vw;
+    top: -100px;
+}
+.top.show {
+    transition: 0.5s;
+    top: 10px;
+    opacity: 1;
+}
+.top.hide {
+    transition: 0.5s;
+    top: -100px;
+    opacity: 0;
+}
+
+.right {
+    top: 50%;
+    right: -100px;
+}
+.right.show {
+    transition: 0.5s;
+    right: 10px;
+    opacity: 1;
+}
+.right.hide {
+    transition: 0.5s;
+    right: -100px;
+    opacity: 0;
+}
+
+.left {
+    top: 50%;
+    left: -100px;
+}
+
+.left.show {
+    transition: 0.5s;
+    left: 10px;
+    opacity: 1;
+}
+.left.hide {
+    transition: 0.5s;
+    left: -100px;
+    opacity: 0;
+}
