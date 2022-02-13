@@ -20,7 +20,8 @@ client_scripts {
 	'client/main.lua',
 	'client/functions.lua',
 	'client/loops.lua',
-	'client/events.lua'
+	'client/events.lua',
+	'client/drawtext.lua'
 }
 
 server_scripts {
@@ -38,6 +39,7 @@ ui_page 'html/index.html'
 files {
 	'html/index.html',
 	'html/style.css',
+	'html/drawtext.css',
 	'html/*.js'
 }
 
