@@ -58,6 +58,24 @@ function QBCore.Functions.DrawText3D(x, y, z, text)
     ClearDrawOrigin()
 end
 
+function QBCore.Functions.Draw3DText(coords, str)
+    local onScreen, worldX, worldY = World3dToScreen2d(coords.x, coords.y, coords.z)
+	local camCoords = GetGameplayCamCoord()
+	local scale = 200 / (GetGameplayCamFov() * #(camCoords - coords))
+    if onScreen then
+        SetTextScale(1.0, 0.5 * scale)
+        SetTextFont(4)
+        SetTextColour(255, 255, 255, 255)
+        SetTextEdge(2, 0, 0, 0, 150)
+		SetTextProportional(1)
+		SetTextOutline()
+		SetTextCentre(1)
+        SetTextEntry("STRING")
+        AddTextComponentString(str)
+        DrawText(worldX, worldY)
+    end
+end
+
 function QBCore.Functions.CreateBlip(coords, sprite, display, scale, colour, shortRange, title)
     if not coords or not sprite or not display or not scale or not colour or shortRange == nil or not title then 
         print("Blip failed to create, most likely missed a setting, debug log: ")
