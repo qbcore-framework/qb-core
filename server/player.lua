@@ -549,6 +549,8 @@ end
 QBCore.Player.LoadInventory = function(PlayerData)
     PlayerData.items = {}
     local inventory = MySQL.Sync.prepare('SELECT inventory FROM players WHERE citizenid = ?', { PlayerData.citizenid })
+    local missingItems = {}
+
     if inventory then
         inventory = json.decode(inventory)
         if next(inventory) then
@@ -571,10 +573,17 @@ QBCore.Player.LoadInventory = function(PlayerData)
                             slot = item.slot,
                             combinable = itemInfo['combinable']
                         }
+                    else
+                        missingItems[#missingItems+1] = item.name:lower()
                     end
+
                 end
             end
         end
+    end
+
+    if #missingItems > 0 then
+        print(("%s the following items removed as they no longer exist: %s"):format(GetPlayerName(PlayerData.source), json.encode(missingItems)))
     end
     return PlayerData
 end
