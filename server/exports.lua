@@ -142,3 +142,13 @@ local function AddGangs(gangs)
 end
 QBCore.Functions.AddGangs = AddGangs
 exports('AddGangs', AddGangs)
+
+local function GetCoreVersion(InvokingResource)
+    local resourceVersion = GetResourceMetadata(GetCurrentResourceName(), 'version')
+    if InvokingResource ~= nil then
+        print( ("%s called qbcore version check: %s"):format(InvokingResource, resourceVersion) )
+    end
+    return resourceVersion
+end
+QBCore.Functions.GetCoreVersion = GetCoreVersion
+exports('GetCoreVersion', GetCoreVersion)
