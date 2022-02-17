@@ -39,9 +39,9 @@ ui_page 'html/index.html'
 
 files {
 	'html/index.html',
-	'html/style.css',
-	'html/drawtext.css',
-	'html/*.js'
+	'html/css/style.css',
+	'html/css/drawtext.css',
+	'html/js/*.js'
 }
 
 dependencies {
