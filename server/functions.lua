@@ -35,7 +35,7 @@ function QBCore.Functions.GetSource(identifier)
 end
 
 function QBCore.Functions.GetPlayer(source)
-    if type(src) == 'number' then
+    if type(source) == 'number' then
         return QBCore.Players[source]
     else
         return QBCore.Players[QBCore.Functions.GetSource(source)]
