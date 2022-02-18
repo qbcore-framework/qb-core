@@ -76,19 +76,18 @@ function QBCore.Functions.CreateBlip(coords, sprite, display, scale, colour, sho
 end
 
 function QBCore.Functions.RequestAnimDict(animDict)
-	if not HasAnimDictLoaded(animDict) then
-		RequestAnimDict(animDict)
-
-		while not HasAnimDictLoaded(animDict) do
-			Wait(4)
-		end
+	if HasAnimDictLoaded(animDict) then return end
+	RequestAnimDict(animDict)
+	while not HasAnimDictLoaded(animDict) do
+		Wait(0)
 	end
 end
 
 function QBCore.Functions.LoadModel(ModelName)
+    if HasModelLoaded(ModelName) then return end
 	RequestModel(ModelName)
 	while not HasModelLoaded(ModelName) do
-		Wait(100)
+		Wait(0)
 	end
 end
 
@@ -208,15 +207,16 @@ function QBCore.Functions.GetClosestPed(coords, ignoreList)
 end
 
 function QBCore.Functions.IsWearingGloves()
-    local armIndex = GetPedDrawableVariation(PlayerPedId(), 3)
-    local model = GetEntityModel(PlayerPedId())
+    local ped = PlayerPedId()
+    local armIndex = GetPedDrawableVariation(ped, 3)
+    local model = GetEntityModel(ped)
     local retval = true
     if model == `mp_m_freemode_01` then
-        if QBCore.Shared.MaleNoGloves[armIndex] ~= nil and QBCore.Shared.MaleNoGloves[armIndex] then
+        if QBCore.Shared.MaleNoGloves[armIndex] then
             retval = false
         end
     else
-        if QBCore.Shared.FemaleNoGloves[armIndex] ~= nil and QBCore.Shared.FemaleNoGloves[armIndex] then
+        if QBCore.Shared.FemaleNoGloves[armIndex] then
             retval = false
         end
     end
