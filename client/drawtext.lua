@@ -1,11 +1,11 @@
-local function HideText()
+local function hideText()
     SendNUIMessage({
         action = 'HIDE_TEXT',
     })
 end
 
-local function DrawText(text, position)
-    if (not type(position) == "string") then position = "left" end
+local function drawText(text, position)
+    if not type(position) == "string" then position = "left" end
 
     SendNUIMessage({
         action = 'DRAW_TEXT',
@@ -16,8 +16,8 @@ local function DrawText(text, position)
     })
 end
 
-local function ChangeText(text, position)
-    if (not type(position) == "string") then position = "left" end
+local function changeText(text, position)
+    if not type(position) == "string" then position = "left" end
 
     SendNUIMessage({
         action = 'CHANGE_TEXT',
@@ -28,33 +28,33 @@ local function ChangeText(text, position)
     })
 end
 
-local function KeyPressed()
-    Citizen.CreateThread(function() -- Not sure if a thread is needed but why not eh?
+local function keyPressed()
+    CreateThread(function() -- Not sure if a thread is needed but why not eh?
         SendNUIMessage({
             action = 'KEY_PRESSED',
         })
         Wait(500)
-        HideText()
+        hideText()
     end)
 end
 
 RegisterNetEvent('qb-core:client:DrawText', function(text, position)
-    DrawText(text, position)
+    drawText(text, position)
 end)
 
 RegisterNetEvent('qb-core:client:ChangeText', function(text, position)
-    ChangeText(text, position)
+    changeText(text, position)
 end)
 
 RegisterNetEvent('qb-core:client:HideText', function()
-    HideText()
+    hideText()
 end)
 
 RegisterNetEvent('qb-core:client:KeyPressed', function()
-    KeyPressed()
+    keyPressed()
 end)
 
-exports('DrawText', DrawText)
-exports('ChangeText', ChangeText)
-exports('HideText', HideText)
-exports('KeyPressed', KeyPressed)
+exports('DrawText', drawText)
+exports('ChangeText', changeText)
+exports('HideText', hideText)
+exports('KeyPressed', keyPressed)
