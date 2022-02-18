@@ -1,4 +1,4 @@
-QBShared = {}
+QBShared = QBShared or {}
 
 local StringCharset = {}
 local NumberCharset = {}
@@ -18,7 +18,7 @@ QBShared.RandomInt = function(length)
 end
 
 QBShared.SplitStr = function(str, delimiter)
-    local result = { }
+    local result = {}
     local from = 1
     local delim_from, delim_to = string.find(str, delimiter, from)
     while delim_from do
@@ -66,7 +66,7 @@ QBShared.SetDefaultVehicleExtras = function (vehicle, config)
     end
 
     for id, enabled in pairs(config) do
-        QBShared.ChangeVehicleExtra(vehicle, tonumber(id), true)
+        QBShared.ChangeVehicleExtra(vehicle, tonumber(id), type(enabled) == 'boolean' and enabled or true)
     end
 end
 
