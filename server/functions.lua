@@ -1,4 +1,6 @@
 QBCore.Functions = {}
+QBCore.Player_Buckets = {}
+QBCore.Entity_Buckets = {}
 
 -- Getters
 -- Get your player first and then trigger a function on them
@@ -102,48 +104,43 @@ function QBCore.Functions.GetDutyCount(job)
     return count
 end
 
---- Routingbucket stuff (Only touch if you know what you are doing)
-Player_Buckets = {} -- Bucket array containing all players that have been set to a different bucket
-Entity_Buckets = {} -- Bucket array containing all entities that have been set to a different bucket
+-- Routing buckets (Only touch if you know what you are doing)
 
-
---- Returns the objects related to buckets, first returned value is the player buckets , second one is entity buckets
+-- Returns the objects related to buckets, first returned value is the player buckets, second one is entity buckets
 function QBCore.Functions.GetBucketObjects()
-    return Player_Buckets, Entity_Buckets
+    return QBCore.Player_Buckets, QBCore.Entity_Buckets
 end
 
-
---- Will set the provided player id / source into the provided bucket id
-function QBCore.Functions.SetPlayerBucket(player_source --[[int]],bucket --[[int]])
-    if player_source and bucket then
-        local plicense = QBCore.Functions.GetIdentifier(player_source, 'license')
-        SetPlayerRoutingBucket(player_source, bucket)
-        Player_Buckets[plicense] = {player_id = player_source, player_bucket = bucket}
+-- Will set the provided player id / source into the provided bucket id
+function QBCore.Functions.SetPlayerBucket(source --[[ int ]], bucket --[[ int ]])
+    if source and bucket then
+        local plicense = QBCore.Functions.GetIdentifier(source, 'license')
+        SetPlayerRoutingBucket(source, bucket)
+        QBCore.Player_Buckets[plicense] = {id = source, bucket = bucket}
         return true
     else
         return false
     end
 end
 
---- Will set any entity into the provided bucket, for example peds / vehicles / props / etc...
-function QBCore.Functions.SetEntityBucket(entity --[[int]],bucket --[[int]])
+-- Will set any entity into the provided bucket, for example peds / vehicles / props / etc.
+function QBCore.Functions.SetEntityBucket(entity --[[ int ]], bucket --[[ int ]])
     if entity and bucket then
         SetEntityRoutingBucket(entity, bucket)
-        Entity_Buckets[entity] = {entity_id = entity, entity_bucket = bucket}
+        QBCore.Entity_Buckets[entity] = {id = entity, bucket = bucket}
         return true
     else
         return false
     end
 end
 
-
 -- Will return an array of all the player ids inside the current bucket
-function QBCore.Functions.GetPlayersInBucket(bucket --[[int]])
+function QBCore.Functions.GetPlayersInBucket(bucket --[[ int ]])
     local curr_bucket_pool = {}
-    if Player_Buckets ~= nil then
-        for k, v in pairs(Player_Buckets) do
-            if k['player_bucket'] == bucket then
-                curr_bucket_pool[#curr_bucket_pool + 1] = k['player_id']
+    if QBCore.Player_Buckets and next(QBCore.Player_Buckets) then
+        for k, v in pairs(QBCore.Player_Buckets) do
+            if v.bucket == bucket then
+                curr_bucket_pool[#curr_bucket_pool + 1] = v.id
             end
         end
         return curr_bucket_pool
@@ -152,26 +149,19 @@ function QBCore.Functions.GetPlayersInBucket(bucket --[[int]])
     end
 end
 
-
---- Will return an array of all the entities inside the current bucket (Not player entities , use GetPlayersInBucket for that)
-function QBCore.Functions.GetEntitiesInBucket(bucket --[[int]])
+-- Will return an array of all the entities inside the current bucket (not for player entities, use GetPlayersInBucket for that)
+function QBCore.Functions.GetEntitiesInBucket(bucket --[[ int ]])
     local curr_bucket_pool = {}
-    if Entity_Buckets ~= nil then
-        for k, v in pairs(Entity_Buckets) do
-            if k['entity_bucket'] == bucket then
-                curr_bucket_pool[#curr_bucket_pool + 1] = k['entity_id']
+    if QBCore.Entity_Buckets and next(QBCore.Entity_Buckets) then
+        for k, v in pairs(QBCore.Entity_Buckets) do
+            if v.bucket == bucket then
+                curr_bucket_pool[#curr_bucket_pool + 1] = v.id
             end
         end
         return curr_bucket_pool
     else
         return false
     end
-end
-
---- Will return true / false wheter the mentioned player id is present in the bucket provided
-function QBCore.Functions.IsPlayerInBucket(player_source --[[int]] ,bucket --[[int]])
-    local curr_player_bucket = GetPlayerRoutingBucket(player_source)
-    return curr_player_bucket == bucket
 end
 
 -- Paychecks (standalone - don't touch)
