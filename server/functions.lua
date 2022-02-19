@@ -391,9 +391,9 @@ function QBCore.Functions.IsPlayerBanned(source)
         if os.time() < result.expire then
             retval = true
             local timeTable = os.date('*t', tonumber(result.expire))
-            message = 'You have been banned from the server:\n' .. result[1].reason .. '\nYour ban expires ' .. timeTable.day .. '/' .. timeTable.month .. '/' .. timeTable.year .. ' ' .. timeTable.hour .. ':' .. timeTable.min .. '\n'
+            message = 'You have been banned from the server:\n' .. result.reason .. '\nYour ban expires ' .. timeTable.day .. '/' .. timeTable.month .. '/' .. timeTable.year .. ' ' .. timeTable.hour .. ':' .. timeTable.min .. '\n'
         else
-            MySQL.Async.execute('DELETE FROM bans WHERE id = ?', { result[1].id })
+            MySQL.Async.execute('DELETE FROM bans WHERE id = ?', { result.id })
         end
     end
     return retval, message
