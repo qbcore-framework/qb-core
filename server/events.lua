@@ -6,7 +6,7 @@ AddEventHandler('playerDropped', function()
     local Player = QBCore.Players[src]
     TriggerEvent('qb-log:server:CreateLog', 'joinleave', 'Dropped', 'red', '**' .. GetPlayerName(src) .. '** (' .. Player.PlayerData.license .. ') left..')
     Player.Functions.Save()
-    Player_Buckets[Player.PlayerData.license] = nil
+    QBCore.Player_Buckets[Player.PlayerData.license] = nil
     QBCore.Players[src] = nil
 end)
 
