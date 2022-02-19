@@ -290,6 +290,21 @@ function QBCore.Functions.GetClosestVehicle(coords)
     return closestVehicle, closestDistance
 end
 
+function QBCore.Functions.CheckVehicleAtCoords(coords)
+    local veh = 1000
+    local retval, out = FindFirstVehicle()
+    local check
+    repeat
+        local dist = #(GetEntityCoords(out) - coords)
+        if dist < veh then
+            veh = dist
+        end
+        check, out = FindNextVehicle(retval, out)
+    until not check
+    EndFindVehicle(retval)
+    return veh
+end
+
 function QBCore.Functions.GetClosestObject(coords)
     local ped = PlayerPedId()
     local objects = GetGamePool('CObject')
