@@ -3,6 +3,18 @@
 ### [Official QBCore Documentation](https://qbcore-framework.github.io/qb-docs/)
 
 
+## QBCore is officially partnered with Sonoran Software!
+Sonoran Software offers:
+* [The most advanced, integrated CAD software](https://sonorancad.com/kakarot)
+* [Complete community management software](https://sonorancms.com/kakarot)
+* [In-depth radio communications simulator](https://sonoranradio.com/kakarot)
+* [Premium server hosting](https://sonoranservers.com/kakarot)
+
+Use code `KAKAROT` for 20% off your first month at checkout!
+
+# Sonoran Software
+![Sonoran Software Partnership](https://sonoransoftware.com/assets/images/promotional/partners/qb_banner_coupon.png)
+
 # License
 
     QBCore Framework
