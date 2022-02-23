@@ -2,6 +2,8 @@ local Translations = {
     error = {
         not_online = 'El jugador no está conectado!',
         wrong_format = 'Formato incorrecto!',
+        missing_args = 'No todos los argumentos estan presente! (x, y, z)',
+        missing_args2 = 'Todos los argumentos tienen que estar presente!',
         missing_args = 'No todos los argumentos estan presentes! (x, y, z)',
         missing_args2 = 'Todos los argumentos deben estar presentes!',
         no_access = 'No tienes acceso a este comando!',
@@ -13,7 +15,7 @@ local Translations = {
     info = {
         received_paycheck = 'Has recibido tu pago de $%{value}',
         job_info = 'Trabajo: %{value} | Grado: %{value2} | Estado: %{value3}',
-        gang_info = 'Banda: %{value} | Grado: %{value2}',
+        gang_info = 'Pandilla: %{value} | Grado: %{value2}',
         on_duty = 'Ahora estás en servicio!',
         off_duty = 'Ahora estás fuera de servicio!'
     }

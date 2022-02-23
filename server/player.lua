@@ -179,6 +179,7 @@ function QBCore.Player.CreatePlayer(PlayerData)
             self.PlayerData.job.isboss = false
         end
         self.Functions.UpdatePlayerData()
+        TriggerEvent('QBCore:Server:OnJobUpdate', self.PlayerData.source, self.PlayerData.job)
         TriggerClientEvent('QBCore:Client:OnJobUpdate', self.PlayerData.source, self.PlayerData.job)
         return true
     end
@@ -209,6 +210,8 @@ function QBCore.Player.CreatePlayer(PlayerData)
     function self.Functions.SetJobDuty(onDuty)
         self.PlayerData.job.onduty = onDuty
         self.Functions.UpdatePlayerData()
+        TriggerEvent('QBCore:Server:OnJobUpdate', self.PlayerData.source, self.PlayerData.job)
+        TriggerClientEvent('QBCore:Client:OnJobUpdate', self.PlayerData.source, self.PlayerData.job)
     end
 
     function self.Functions.SetMetaData(meta, val)
