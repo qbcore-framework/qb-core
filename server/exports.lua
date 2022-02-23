@@ -146,7 +146,7 @@ exports('AddGangs', AddGangs)
 local function GetCoreVersion(InvokingResource)
     local resourceVersion = GetResourceMetadata(GetCurrentResourceName(), 'version')
     if InvokingResource and InvokingResource ~= '' then
-        print(("%s called qbcore version check: %s"):format(InvokingResource or 'Unknown Resource', resourceVersion))
+        print(("%s called qbcore version check: %s"):format(InvokingResource, resourceVersion))
     end
     return resourceVersion
 end
