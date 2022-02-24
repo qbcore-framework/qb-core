@@ -19,11 +19,9 @@ AddEventHandler('chatMessage', function(source, _, message)
     if not QBCore.Commands.List[command] then return end
     local Player = QBCore.Functions.GetPlayer(src)
     if not Player then return end
-    local isGod = QBCore.Functions.HasPermission(src, 'god')
     local hasPerm = QBCore.Functions.HasPermission(src, QBCore.Commands.List[command].permission)
-    local isPrincipal = IsPlayerAceAllowed(src, 'command')
     table.remove(args, 1)
-    if isGod or hasPerm or isPrincipal then
+    if hasPerm then
         if QBCore.Commands.List[command].argsrequired and #QBCore.Commands.List[command].arguments ~= 0 and not args[#QBCore.Commands.List[command].arguments] then
             TriggerClientEvent('QBCore:Notify', src, Lang:t('error.missing_args2'), 'error')
         else
@@ -190,10 +188,8 @@ RegisterNetEvent('QBCore:CallCommand', function(command, args)
     if not QBCore.Commands.List[command] then return end
     local Player = QBCore.Functions.GetPlayer(src)
     if not Player then return end
-    local isGod = QBCore.Functions.HasPermission(src, 'god')
     local hasPerm = QBCore.Functions.HasPermission(src, QBCore.Commands.List[command].permission)
-    local isPrincipal = IsPlayerAceAllowed(src, 'command')
-    if (QBCore.Commands.List[command].permission == Player.PlayerData.job.name) or isGod or hasPerm or isPrincipal then
+    if (QBCore.Commands.List[command].permission == Player.PlayerData.job.name) or hasPerm then
         if QBCore.Commands.List[command].argsrequired and #QBCore.Commands.List[command].arguments ~= 0 and not args[#QBCore.Commands.List[command].arguments] then
             TriggerClientEvent('QBCore:Notify', src, Lang:t('error.missing_args2'), 'error')
         else

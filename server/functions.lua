@@ -275,28 +275,36 @@ function QBCore.Functions.AddPermission(source, permission)
     local Player = QBCore.Functions.GetPlayer(source)
     local plicense = Player.PlayerData.license
     if not Player then return end
-    QBCore.Config.Server.PermissionList[plicense] = {
-        license = plicense,
-        permission = permission:lower(),
-    }
-    MySQL.Async.execute('DELETE FROM permissions WHERE license = ?', { plicense })
-    MySQL.Async.insert('INSERT INTO permissions (name, license, permission) VALUES (?, ?, ?)', {
-        GetPlayerName(source),
-        plicense,
-        permission:lower()
-    })
-    Player.Functions.UpdatePlayerData()
-    TriggerClientEvent('QBCore:Client:OnPermissionUpdate', source, permission)
+    if QBCore.Config.Server.UseOldPermissionSystem then
+        QBCore.Config.Server.PermissionList[plicense] = {
+            license = plicense,
+            permission = permission:lower(),
+        }
+        MySQL.Async.execute('DELETE FROM permissions WHERE license = ?', { plicense })
+        MySQL.Async.insert('INSERT INTO permissions (name, license, permission) VALUES (?, ?, ?)', {
+            GetPlayerName(source),
+            plicense,
+            permission:lower()
+        })
+        Player.Functions.UpdatePlayerData()
+        TriggerClientEvent('QBCore:Client:OnPermissionUpdate', source, permission)
+    else
+        Player.Functions.SetPermission(permission)
+    end
 end
 
 function QBCore.Functions.RemovePermission(source)
     local Player = QBCore.Functions.GetPlayer(source)
     local license = Player.PlayerData.license
     if not Player then return end
-    QBCore.Config.Server.PermissionList[license] = nil
-    MySQL.Async.execute('DELETE FROM permissions WHERE license = ?', { license })
-    Player.Functions.UpdatePlayerData()
-    TriggerClientEvent('QBCore:Client:OnPermissionUpdate', source, 'user')
+    if QBCore.Config.Server.UseOldPermissionSystem then
+        QBCore.Config.Server.PermissionList[license] = nil
+        MySQL.Async.execute('DELETE FROM permissions WHERE license = ?', { license })
+        Player.Functions.UpdatePlayerData()
+        TriggerClientEvent('QBCore:Client:OnPermissionUpdate', source, 'user')
+    else
+        Player.Functions.SetPermission('user')
+    end
 end
 
 -- Checking for Permission Level
@@ -304,20 +312,34 @@ end
 function QBCore.Functions.HasPermission(source, permission)
     permission = tostring(permission:lower())
     local license = QBCore.Functions.GetIdentifier(source, 'license')
-    if permission == 'user' then
-        return true
-    else
+    if QBCore.Config.Server.UseOldPermissionSystem then
+        if permission == 'user' then return true end
         if not QBCore.Config.Server.PermissionList[license] or QBCore.Config.Server.PermissionList[license].license ~= license then return false end
         if QBCore.Config.Server.PermissionList[license].permission ~= permission or QBCore.Config.Server.PermissionList[license].permission ~= 'god' then return false end
         return true
+    else
+        local Player = QBCore.Functions.GetPlayer(source)
+        if next(QBCore.Config.Server.AllPermissions) then
+            for i = 1, #QBCore.Config.Server.AllPermissions do
+                if QBCore.Config.Server.AllPermissions[i] == permission then
+                    return true
+                end
+            end
+        end
+        return Player.PlayerData.permission == permission
     end
     return false
 end
 
 function QBCore.Functions.GetPermission(source)
     local license = QBCore.Functions.GetIdentifier(source, 'license')
-    if not license or not QBCore.Config.Server.PermissionList[license] or QBCore.Config.Server.PermissionList[license].license ~= license then return 'user' end
-    return QBCore.Config.Server.PermissionList[license].permission
+    if QBCore.Config.Server.UseOldPermissionSystem then
+        if not license or not QBCore.Config.Server.PermissionList[license] or QBCore.Config.Server.PermissionList[license].license ~= license then return 'user' end
+        return QBCore.Config.Server.PermissionList[license].permission
+    else
+        local Player = QBCore.Functions.GetPlayer(source)
+        return Player.PlayerData.permission
+    end
 end
 
 -- Opt in or out of admin reports
@@ -325,13 +347,24 @@ end
 function QBCore.Functions.IsOptin(source)
     local license = QBCore.Functions.GetIdentifier(source, 'license')
     if not license or not QBCore.Functions.HasPermission(source, 'admin') then return false end
-    return QBCore.Config.Server.PermissionList[license].optin
+    if QBCore.Config.Server.UseOldPermissionSystem then
+        return QBCore.Config.Server.PermissionList[license].optin
+    else
+        local Player = QBCore.Functions.GetPlayer(source)
+        return Player.PlayerData.optin
+    end
 end
 
 function QBCore.Functions.ToggleOptin(source)
     local license = QBCore.Functions.GetIdentifier(source, 'license')
     if not license or not QBCore.Functions.HasPermission(source, 'admin') then return end
-    QBCore.Config.Server.PermissionList[license].optin = not QBCore.Config.Server.PermissionList[license].optin
+    if QBCore.Config.Server.UseOldPermissionSystem then
+        QBCore.Config.Server.PermissionList[license].optin = not QBCore.Config.Server.PermissionList[license].optin
+    else
+        local Player = QBCore.Functions.GetPlayer(source)
+        Player.PlayerData.optin = not Player.PlayerData.optin
+        Player.Functions.SetMetaData('optin', Player.PlayerData.optin)
+    end
 end
 
 -- Check if player is banned

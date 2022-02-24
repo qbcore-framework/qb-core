@@ -5,10 +5,9 @@ description 'QB-Core'
 version '1.1.0'
 
 shared_scripts {
-	'shared/locale.lua',
-	'locale/en.lua', -- replace with desired language
+	'shared/*.lua',
 	'config.lua',
-	'shared/*.lua'
+	'locale/en.lua' -- replace with desired language
 }
 
 client_scripts {

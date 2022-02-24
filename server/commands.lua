@@ -24,10 +24,8 @@ function QBCore.Commands.Refresh(source)
     local suggestions = {}
     if not Player then return end
     for command, info in pairs(QBCore.Commands.List) do
-        local isGod = QBCore.Functions.HasPermission(source, 'god')
         local hasPerm = QBCore.Functions.HasPermission(source, QBCore.Commands.List[command].permission)
-        local isPrincipal = IsPlayerAceAllowed(source, 'command')
-        if isGod or hasPerm or isPrincipal then
+        if hasPerm then
             suggestions[#suggestions + 1] = {
                 name = '/' .. command,
                 help = info.help,

@@ -64,7 +64,7 @@ function QBCore.Functions.CreateBlip(coords, sprite, display, scale, colour, sho
         print("Coords: " .. coords .. " Sprite: " .. sprite .. " Display: " .. display .. " scale: " .. scale .. " shortRange: " .. shortRange .. " Title: " .. title .. " if you're attempting to use a blip without a title, use an empty string.")
         return
     end
-    
+
     coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords
     blip = AddBlipForCoord(coords)
     SetBlipSprite(blip, sprite)

@@ -43,6 +43,12 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
     PlayerData.license = PlayerData.license or QBCore.Functions.GetIdentifier(source, 'license')
     PlayerData.name = GetPlayerName(source)
     PlayerData.cid = PlayerData.cid or 1
+    if not QBCore.Config.Server.UseOldPermissionSystem then
+        if PlayerData.permission then ExecuteCommand(('remove_principal identifier.%s group.%s'):format(PlayerData.license, PlayerData.permission)) end
+        PlayerData.permission = PlayerData.permission or 'user'
+        ExecuteCommand(('add_principal identifier.%s group.%s'):format(PlayerData.license, PlayerData.permission))
+        PlayerData.optin = PlayerData.optin or true
+    end
     PlayerData.money = PlayerData.money or {}
     for moneytype, startamount in pairs(QBCore.Config.Money.MoneyTypes) do
         PlayerData.money[moneytype] = PlayerData.money[moneytype] or startamount
@@ -152,8 +158,19 @@ function QBCore.Player.CreatePlayer(PlayerData)
 
     function self.Functions.UpdatePlayerData(dontUpdateChat)
         TriggerClientEvent('QBCore:Player:SetPlayerData', self.PlayerData.source, self.PlayerData)
-        if dontUpdateChat == nil then
+        if not dontUpdateChat then
             QBCore.Commands.Refresh(self.PlayerData.source)
+        end
+    end
+
+    if not QBCore.Config.Server.UseOldPermissionSystem then
+        function self.Functions.SetPermission(permission)
+            permission = permission:lower()
+            ExecuteCommand(('remove_principal identifier.%s group.%s'):format(self.PlayerData.license, self.PlayerData.permission))
+            ExecuteCommand(('add_principal identifier.%s group.%s'):format(self.PlayerData.license, permission))
+            self.PlayerData.permission = permission
+            self.Functions.UpdatePlayerData()
+            TriggerClientEvent('QBCore:Client:OnPermissionUpdate', self.PlayerData.source, permission)
         end
     end
 
@@ -215,13 +232,14 @@ function QBCore.Player.CreatePlayer(PlayerData)
     end
 
     function self.Functions.SetMetaData(meta, val)
-        meta = meta:lower()
         if not meta then return end
+        meta = meta:lower()
         self.PlayerData.metadata[meta] = val
         self.Functions.UpdatePlayerData()
     end
 
     function self.Functions.AddJobReputation(amount)
+        if not amount then return end
         amount = tonumber(amount)
         self.PlayerData.metadata['jobrep'][self.PlayerData.job.name] = self.PlayerData.metadata['jobrep'][self.PlayerData.job.name] + amount
         self.Functions.UpdatePlayerData()
