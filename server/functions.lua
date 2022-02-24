@@ -321,7 +321,7 @@ function QBCore.Functions.HasPermission(source, permission)
         local Player = QBCore.Functions.GetPlayer(source)
         if next(QBCore.Config.Server.AllPermissions) then
             for i = 1, #QBCore.Config.Server.AllPermissions do
-                if QBCore.Config.Server.AllPermissions[i] == permission then
+                if QBCore.Config.Server.AllPermissions[i] == Player.PlayerData.permission then
                     return true
                 end
             end

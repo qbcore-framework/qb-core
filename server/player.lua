@@ -45,10 +45,10 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
     PlayerData.cid = PlayerData.cid or 1
     if not QBCore.Config.Server.UseOldPermissionSystem then
         if PlayerData.permission then ExecuteCommand(('remove_principal identifier.%s group.%s'):format(PlayerData.license, PlayerData.permission)) end
-        PlayerData.permission = PlayerData.permission or 'user'
-        if IsPlayerAceAllowed(source, 'command') and IsPlayerAceAllowed(source, 'webadmin') then -- if both are true then the person has group.admin and is a system admin
+        if not PlayerData.permission and IsPlayerAceAllowed(source, 'command') and IsPlayerAceAllowed(source, 'webadmin') then -- if both aces are allowed then the person has group.admin and is a system admin
             PlayerData.permission = QBCore.Config.Server.AllPermissions[1] or 'god'
         end
+        PlayerData.permission = PlayerData.permission or 'user'
         ExecuteCommand(('add_principal identifier.%s group.%s'):format(PlayerData.license, PlayerData.permission))
         PlayerData.optin = PlayerData.optin or true
     end
