@@ -17,6 +17,7 @@ RegisterNetEvent('QBCore:Client:PvpHasToggled', function(pvp_state)
     SetCanAttackFriendly(PlayerPedId(), pvp_state, false)
     NetworkSetFriendlyFireOption(pvp_state)
 end)
+
 -- Teleport Commands
 
 RegisterNetEvent('QBCore:Command:TeleportToPlayer', function(coords)
@@ -144,7 +145,7 @@ RegisterNetEvent('QBCore:Client:OnSharedUpdate', function(tableName, key, value)
 end)
 
 RegisterNetEvent('QBCore:Client:OnSharedUpdateMultiple', function(tableName, values)
-    for key, value in ipairs(values) do
+    for key, value in pairs(values) do
         QBCore.Shared[tableName][key] = value
     end
     TriggerEvent('QBCore:Client:UpdateObject')
