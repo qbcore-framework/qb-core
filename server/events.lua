@@ -34,7 +34,7 @@ end)
 
 -- Player Connecting
 
-local function OnPlayerConnecting(name, setKickReason, deferrals)
+local function onPlayerConnecting(name, setKickReason, deferrals)
     local src = source
     local license
     local identifiers = GetPlayerIdentifiers(src)
@@ -42,6 +42,10 @@ local function OnPlayerConnecting(name, setKickReason, deferrals)
 
     -- Mandatory wait
     Wait(0)
+
+    if QBCore.Config.Server.Closed then
+        deferrals.done(QBCore.Config.Server.ClosedReason)
+    end
 
     deferrals.update(string.format('Hello %s. Validating Your Rockstar License', name))
 
@@ -55,10 +59,11 @@ local function OnPlayerConnecting(name, setKickReason, deferrals)
     -- Mandatory wait
     Wait(2500)
 
-    deferrals.update(string.format('Hello %s. We are checking if you are banned.', name))
+    deferrals.update(string.format('Hello %s. We are checking your allowance.', name))
 
     local isBanned, Reason = QBCore.Functions.IsPlayerBanned(src)
     local isLicenseAlreadyInUse = QBCore.Functions.IsLicenseInUse(license)
+    local isWhitelist, whitelisted = QBCore.Config.Server.Whitelist, QBCore.Functions.IsWhitelisted(src)
 
     Wait(2500)
 
@@ -68,35 +73,39 @@ local function OnPlayerConnecting(name, setKickReason, deferrals)
         deferrals.done('No Valid Rockstar License Found')
     elseif isBanned then
         deferrals.done(Reason)
-    elseif isLicenseAlreadyInUse and QBCore.Config.Server.checkDuplicateLicense then
+    elseif isLicenseAlreadyInUse and QBCore.Config.Server.CheckDuplicateLicense then
         deferrals.done('Duplicate Rockstar License Found')
+    elseif isWhitelist and not whitelisted then
+        deferrals.done('You\'re not whitelisted for this server')
     else
         deferrals.done()
-        Wait(1000)
-        TriggerEvent('connectqueue:playerConnect', name, setKickReason, deferrals)
+        if QBCore.Config.Server.UseConnectQueue then
+            Wait(1000)
+            TriggerEvent('connectqueue:playerConnect', name, setKickReason, deferrals)
+        end
     end
     -- Add any additional defferals you may need!
 end
 
-AddEventHandler('playerConnecting', OnPlayerConnecting)
+AddEventHandler('playerConnecting', onPlayerConnecting)
 
 -- Open & Close Server (prevents players from joining)
 
-RegisterNetEvent('QBCore:server:CloseServer', function(reason)
+RegisterNetEvent('QBCore:Server:CloseServer', function(reason)
     local src = source
     if QBCore.Functions.HasPermission(src, 'admin') then
         reason = reason or 'No reason specified'
-        QBCore.Config.Server.closed = true
-        QBCore.Config.Server.closedReason = reason
+        QBCore.Config.Server.Closed = true
+        QBCore.Config.Server.ClosedReason = reason
     else
         QBCore.Functions.Kick(src, 'You don\'t have permissions for this..', nil, nil)
     end
 end)
 
-RegisterNetEvent('QBCore:server:OpenServer', function()
+RegisterNetEvent('QBCore:Server:OpenServer', function()
     local src = source
     if QBCore.Functions.HasPermission(src, 'admin') then
-        QBCore.Config.Server.closed = false
+        QBCore.Config.Server.Closed = false
     else
         QBCore.Functions.Kick(src, 'You don\'t have permissions for this..', nil, nil)
     end
