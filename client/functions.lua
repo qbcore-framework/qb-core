@@ -56,7 +56,7 @@ end
 function QBCore.Functions.CreateBlip(coords, sprite, display, scale, colour, shortRange, title, alpha, friendly, bright, category, hiddenOnLegend, highDetail, rotation, cone, shrink, showHeight, showNumber, showOutline)
     if not coords or (type(coords) ~= 'table' and type(coords) ~= 'vector3') then
         print("Blip failed to create, the coords were not specified or was specified in the wrong format, coords must be a table or vector3, debug log: ")
-        print("Coords: " .. coords .. " Sprite: " .. sprite .. " Display: " .. display .. " scale: " .. scale .. " shortRange: " .. shortRange .. " Title: " .. title .. " Alpha: " .. alpha .. " Friendly: " .. friendly .. " Bright: " .. bright .. " Category: " .. category .. " Hidden On Legend: " .. hiddenOnLegend .. " High Detail: " .. highDetail .. " Rotation: " .. rotation .. " Cone: " .. cone .. " Shrink: " .. shrink .. " Show Heigt: " .. showHeight .. " Show Number: " .. showNumber .. " Show Outline: " .. showOutline)
+        print(("Coords: %s Sprite: %s Display: %s scale: %s shortRange: %s Title: %s Alpha: %s Friendly: %s Bright: %s Category: %s Hidden On Legend: %s High Detail: %s Rotation: %s Cone: %s Shrink: %s Show Heigt: %s Show Number: %s Show Outline: %s"):format(coords, sprite, display, scale, colour, shortRange, title, alpha, friendly, bright, category, hiddenOnLegend, highDetail, rotation, cone, shrink, showHeight, showNumber, showOutline))
         return
     end
     coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords
@@ -598,9 +598,6 @@ function QBCore.Functions.SetVehicleProperties(vehicle, props)
         end
         if props.fuelLevel then
             SetVehicleFuelLevel(vehicle, props.fuelLevel + 0.0)
-        end
-        if props.oilLevel then
-            SetVehicleOilLevel(vehicle, props.oilLevel)
         end
         if props.dirtLevel then
             SetVehicleDirtLevel(vehicle, props.dirtLevel + 0.0)
