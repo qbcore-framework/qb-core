@@ -113,7 +113,7 @@ function QBCore.Functions.Notify(text, texttype, length)
         length = length or 5000
         SendNUIMessage({
             action = 'notify',
-            type = textype,
+            type = texttype,
             length = length,
             text = ttext,
             caption = caption
