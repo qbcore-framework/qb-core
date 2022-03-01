@@ -68,9 +68,8 @@ QBCore.Commands.Add('tpm', 'TP To Marker (Admin Only)', {}, false, function(sour
 end, 'admin')
 
 QBCore.Commands.Add('togglepvp', 'Toggle PVP on the server (Admin Only)', {}, false, function()
-    local pvp_state = QBConfig.Server.pvp
-    QBConfig.Server.pvp = not pvp_state
-    TriggerClientEvent('QBCore:Client:PvpHasToggled', -1, QBConfig.Server.pvp)
+    QBConfig.Server.PVP = not QBConfig.Server.PVP
+    TriggerClientEvent('QBCore:Client:PvpHasToggled', -1, QBConfig.Server.PVP)
 end, 'admin')
 
 -- Permissions
@@ -93,6 +92,34 @@ QBCore.Commands.Add('removepermission', 'Remove Players Permissions (God Only)',
         TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
     end
 end, 'god')
+
+-- Open & Close Server
+
+QBCore.Commands.Add('openserver', 'Open the server for everyone (Admin Only)', {}, false, function(source)
+    if not QBCore.Config.Server.Closed then
+        TriggerClientEvent('QBCore:Notfy', source, 'The server is already open', 'error')
+        return
+    end
+    if QBCore.Functions.HasPermission(source, 'admin') then
+        QBCore.Config.Server.Closed = false
+    else
+        QBCore.Functions.Kick(source, 'You don\'t have permissions for this..', nil, nil)
+    end
+end, 'admin')
+
+QBCore.Commands.Add('closeserver', 'Close the server for people without permissions (Admin Only)', { { name = 'reason', help = 'Reason for closing it (optional)' } }, false, function(source, args)
+    if QBCore.Config.Server.Closed then
+        TriggerClientEvent('QBCore:Notfy', source, 'The server is already closed', 'error')
+        return
+    end
+    if QBCore.Functions.HasPermission(source, 'admin') then
+        reason = args[1] or 'No reason specified'
+        QBCore.Config.Server.Closed = true
+        QBCore.Config.Server.ClosedReason = reason
+    else
+        QBCore.Functions.Kick(source, 'You don\'t have permissions for this..', nil, nil)
+    end
+end, 'admin')
 
 -- Vehicle
 
