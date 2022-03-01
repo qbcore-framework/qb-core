@@ -599,6 +599,9 @@ function QBCore.Functions.SetVehicleProperties(vehicle, props)
         if props.fuelLevel then
             SetVehicleFuelLevel(vehicle, props.fuelLevel + 0.0)
         end
+        if props.oilLevel then
+            SetVehicleOilLevel(vehicle, props.oilLevel)
+        end
         if props.dirtLevel then
             SetVehicleDirtLevel(vehicle, props.dirtLevel + 0.0)
         end

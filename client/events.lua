@@ -59,6 +59,7 @@ RegisterNetEvent('QBCore:Command:SpawnVehicle', function(vehName)
     TaskWarpPedIntoVehicle(ped, vehicle, -1)
     SetVehicleFuelLevel(vehicle, 100.0)
     SetModelAsNoLongerNeeded(vehicle)
+    
     TriggerEvent("vehiclekeys:client:SetOwner", QBCore.Functions.GetPlate(vehicle))
 end)
 
