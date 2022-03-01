@@ -54,7 +54,7 @@ function QBCore.Functions.DrawText3D(x, y, z, text)
 end
 
 function QBCore.Functions.CreateBlip(coords, sprite, display, scale, colour, shortRange, title, alpha, friendly, bright, category, hiddenOnLegend, highDetail, rotation, cone, shrink, showHeight, showNumber, showOutline)
-    if not coords or (type(coords) ~= 'table' or type(coords) ~= 'vector3') then
+    if not coords or (type(coords) ~= 'table' and type(coords) ~= 'vector3') then
         print("Blip failed to create, the coords were not specified or was specified in the wrong format, coords must be a table or vector3, debug log: ")
         print("Coords: " .. coords .. " Sprite: " .. sprite .. " Display: " .. display .. " scale: " .. scale .. " shortRange: " .. shortRange .. " Title: " .. title .. " Alpha: " .. alpha .. " Friendly: " .. friendly .. " Bright: " .. bright .. " Category: " .. category .. " Hidden On Legend: " .. hiddenOnLegend .. " High Detail: " .. highDetail .. " Rotation: " .. rotation .. " Cone: " .. cone .. " Shrink: " .. shrink .. " Show Heigt: " .. showHeight .. " Show Number: " .. showNumber .. " Show Outline: " .. showOutline)
         return
