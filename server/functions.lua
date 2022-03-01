@@ -225,7 +225,7 @@ end
 -- Kick Player
 
 function QBCore.Functions.Kick(source, reason, setKickReason, deferrals)
-    reason = '\n' .. reason .. '\n🔸 Check our Discord for further information: ' .. QBCore.Config.Server.discord
+    reason = '\n' .. reason .. '\n🔸 Check our Discord for further information: ' .. QBCore.Config.Server.Discord
     if setKickReason then
         setKickReason(reason)
     end
@@ -254,22 +254,11 @@ function QBCore.Functions.Kick(source, reason, setKickReason, deferrals)
     end)
 end
 
--- Check if player is whitelisted (not used anywhere)
+-- Check if player is whitelisted, kept like this for backwards compatibility or future plans
 
 function QBCore.Functions.IsWhitelisted(source)
-    local plicense = QBCore.Functions.GetIdentifier(source, 'license')
-    local identifiers = GetPlayerIdentifiers(source)
-    if QBCore.Config.Server.whitelist then
-        local result = MySQL.Sync.fetchSingle('SELECT * FROM whitelist WHERE license = ?', { plicense })
-        if not result then return false end
-        for _, id in pairs(identifiers) do
-            if result.license == id then
-                return true
-            end
-        end
-    else
-        return true
-    end
+    if not QBCore.Config.Server.Whitelist then return true end
+    if QBCore.Functions.HasPermission(source, QBConfig.Server.WhitelistPermission) then return true end
     return false
 end
 
