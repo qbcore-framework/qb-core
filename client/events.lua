@@ -4,7 +4,7 @@
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     ShutdownLoadingScreenNui()
     LocalPlayer.state:set('isLoggedIn', true, false)
-    if not QBConfig.Server.pvp then return end
+    if not QBConfig.Server.PVP then return end
     SetCanAttackFriendly(PlayerPedId(), true, false)
     NetworkSetFriendlyFireOption(true)
 end)
@@ -17,7 +17,6 @@ RegisterNetEvent('QBCore:Client:PvpHasToggled', function(pvp_state)
     SetCanAttackFriendly(PlayerPedId(), pvp_state, false)
     NetworkSetFriendlyFireOption(pvp_state)
 end)
-
 -- Teleport Commands
 
 RegisterNetEvent('QBCore:Command:TeleportToPlayer', function(coords)
@@ -58,6 +57,7 @@ RegisterNetEvent('QBCore:Command:SpawnVehicle', function(vehName)
     end
     local vehicle = CreateVehicle(hash, GetEntityCoords(ped), GetEntityHeading(ped), true, false)
     TaskWarpPedIntoVehicle(ped, vehicle, -1)
+    SetVehicleFuelLevel(vehicle, 100.0)
     SetModelAsNoLongerNeeded(vehicle)
     TriggerEvent("vehiclekeys:client:SetOwner", QBCore.Functions.GetPlate(vehicle))
 end)
