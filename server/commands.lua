@@ -116,6 +116,11 @@ QBCore.Commands.Add('closeserver', 'Close the server for people without permissi
         reason = args[1] or 'No reason specified'
         QBCore.Config.Server.Closed = true
         QBCore.Config.Server.ClosedReason = reason
+        for k in pairs(QBCore.Players) do
+            if not QBCore.Functions.HasPermission(k, QBCore.Config.Server.WhitelistPermission) then
+                QBCore.Functions.Kick(k, reason, nil, nil)
+            end
+        end
     else
         QBCore.Functions.Kick(source, 'You don\'t have permissions for this..', nil, nil)
     end
