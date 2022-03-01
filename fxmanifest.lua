@@ -40,8 +40,7 @@ files {
 
 dependencies {
 	'oxmysql',
-	'progressbar',
-	'connectqueue'
+	'progressbar'
 }
 
 lua54 'yes'
