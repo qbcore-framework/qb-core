@@ -307,7 +307,6 @@ function QBCore.Functions.AddPermission(source, permission)
     local Player = QBCore.Functions.GetPlayer(src)
     if Player then
         local plicense = Player.PlayerData.license
-    if Player then
         QBCore.Config.Server.PermissionList[plicense] = {
             license = plicense,
             permission = permission:lower(),
@@ -330,7 +329,6 @@ function QBCore.Functions.RemovePermission(source)
     local Player = QBCore.Functions.GetPlayer(src)
     if Player then
         local license = Player.PlayerData.license
-    if Player then
         QBCore.Config.Server.PermissionList[license] = nil
         MySQL.Async.execute('DELETE FROM permissions WHERE license = ?', { license })
         Player.Functions.UpdatePlayerData()
