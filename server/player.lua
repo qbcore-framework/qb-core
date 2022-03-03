@@ -150,6 +150,7 @@ end
 function QBCore.Player.Logout(source)
     local src = source
     TriggerClientEvent('QBCore:Client:OnPlayerUnload', src)
+    TriggerEvent('QBCore:Server:OnPlayerUnload', src)
     TriggerClientEvent('QBCore:Player:UpdatePlayerData', src)
     Wait(200)
     QBCore.Players[src] = nil
@@ -246,6 +247,13 @@ function QBCore.Player.CreatePlayer(PlayerData)
         end
     end
 
+    self.Functions.GetMetaData = function(meta)
+        local meta = meta:lower()
+        if meta ~= nil then
+            return self.PlayerData.metadata[meta]
+        end
+    end
+
     self.Functions.AddJobReputation = function(amount)
         local amount = tonumber(amount)
         self.PlayerData.metadata['jobrep'][self.PlayerData.job.name] = self.PlayerData.metadata['jobrep'][self.PlayerData.job.name] + amount
@@ -290,11 +298,11 @@ function QBCore.Player.CreatePlayer(PlayerData)
             end
             self.PlayerData.money[moneytype] = self.PlayerData.money[moneytype] - amount
             self.Functions.UpdatePlayerData()
+            local mentionEveryone = false
             if amount > 100000 then
-                TriggerEvent('qb-log:server:CreateLog', 'playermoney', 'RemoveMoney', 'red', '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')** $' .. amount .. ' (' .. moneytype .. ') removed, new ' .. moneytype .. ' balance: ' .. self.PlayerData.money[moneytype], true)
-            else
-                TriggerEvent('qb-log:server:CreateLog', 'playermoney', 'RemoveMoney', 'red', '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')** $' .. amount .. ' (' .. moneytype .. ') removed, new ' .. moneytype .. ' balance: ' .. self.PlayerData.money[moneytype])
+                mentionEveryone = true
             end
+            TriggerEvent('qb-log:server:CreateLog', 'playermoney', 'RemoveMoney', 'red', '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')** $' .. amount .. ' (' .. moneytype .. ') removed, new ' .. moneytype .. ' balance: ' .. self.PlayerData.money[moneytype]..' | Reason: '..reason, mentionEveryone)
             TriggerClientEvent('hud:client:OnMoneyChange', self.PlayerData.source, moneytype, amount, true)
             if moneytype == 'bank' then
                 TriggerClientEvent('qb-phone:client:RemoveBankMoney', self.PlayerData.source, amount)

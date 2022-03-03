@@ -8,6 +8,7 @@ local Translations = {
         company_too_poor = 'Your employer is broke',
         item_not_exist = 'Item does not exist',
         too_heavy = 'Inventory too full'
+        location_not_exist = 'Location was not found'
     },
     success = {},
     info = {

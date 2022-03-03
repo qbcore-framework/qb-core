@@ -182,11 +182,11 @@ RegisterNetEvent('QBCore:Server:RemoveItem', function(itemName, amount, slot)
     Player.Functions.RemoveItem(itemName, amount, slot)
 end)
 
-RegisterNetEvent('QBCore:Server:AddItem', function(itemName, amount, slot, info)
-    local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    Player.Functions.AddItem(itemName, amount, slot, info)
-end)
+-- RegisterNetEvent('QBCore:Server:AddItem', function(itemName, amount, slot, info)
+--     local src = source
+--     local Player = QBCore.Functions.GetPlayer(src)
+--     Player.Functions.AddItem(itemName, amount, slot, info)
+-- end)
 
 -- Non-Chat Command Calling (ex: qb-adminmenu)
 

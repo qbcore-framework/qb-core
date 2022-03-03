@@ -23,11 +23,14 @@ end)
 RegisterNetEvent('QBCore:Command:TeleportToPlayer', function(coords)
     local ped = PlayerPedId()
     SetPedCoordsKeepVehicle(ped, coords.x, coords.y, coords.z)
+    exports['qb-doorlock']:updateDoors()
 end)
 
-RegisterNetEvent('QBCore:Command:TeleportToCoords', function(x, y, z)
+RegisterNetEvent('QBCore:Command:TeleportToCoords', function(x, y, z, h)
     local ped = PlayerPedId()
     SetPedCoordsKeepVehicle(ped, x, y, z)
+    if h then SetEntityHeading(ped, h) end
+    exports['qb-doorlock']:updateDoors()
 end)
 
 RegisterNetEvent('QBCore:Command:GoToMarker', function()
@@ -45,6 +48,7 @@ RegisterNetEvent('QBCore:Command:GoToMarker', function()
             Wait(0)
         end
     end
+    exports['qb-doorlock']:updateDoors()
 end)
 
 -- Vehicle Commands
@@ -62,6 +66,7 @@ RegisterNetEvent('QBCore:Command:SpawnVehicle', function(vehName)
     local vehicle = CreateVehicle(hash, GetEntityCoords(ped), GetEntityHeading(ped), true, false)
     TaskWarpPedIntoVehicle(ped, vehicle, -1)
     SetVehicleFuelLevel(vehicle, 100.0)
+    SetVehicleDirtLevel(vehicle, 0.0)
     SetModelAsNoLongerNeeded(vehicle)
     
     TriggerEvent("vehiclekeys:client:SetOwner", QBCore.Functions.GetPlate(vehicle))

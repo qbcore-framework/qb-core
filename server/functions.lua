@@ -225,6 +225,13 @@ end
 -- Items
 
 function QBCore.Functions.CreateUseableItem(item, cb)
+    if type(item) == "table" then
+        for _,i in ipairs(item) do
+            QBCore.UseableItems[i] = cb
+        end
+    else 
+        QBCore.UseableItems[item] = cb
+    end
     QBCore.UseableItems[item] = cb
 end
 
@@ -298,7 +305,8 @@ end
 function QBCore.Functions.AddPermission(source, permission)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-    local plicense = Player.PlayerData.license
+    if Player then
+        local plicense = Player.PlayerData.license
     if Player then
         QBCore.Config.Server.PermissionList[plicense] = {
             license = plicense,
@@ -320,7 +328,8 @@ end
 function QBCore.Functions.RemovePermission(source)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-    local license = Player.PlayerData.license
+    if Player then
+        local license = Player.PlayerData.license
     if Player then
         QBCore.Config.Server.PermissionList[license] = nil
         MySQL.Async.execute('DELETE FROM permissions WHERE license = ?', { license })
