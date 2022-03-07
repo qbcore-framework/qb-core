@@ -308,7 +308,7 @@ function QBCore.Functions.HasPermission(source, permission)
     if QBCore.Config.Server.UseOldPermissionSystem then
         if permission == 'user' then return true end
         if not QBCore.Config.Server.PermissionList[license] or QBCore.Config.Server.PermissionList[license].license ~= license then return false end
-        if QBCore.Config.Server.PermissionList[license].permission ~= permission or QBCore.Config.Server.PermissionList[license].permission ~= 'god' then return false end
+        if QBCore.Config.Server.PermissionList[license].permission ~= permission and QBCore.Config.Server.PermissionList[license].permission ~= 'god' then return false end
         return true
     else
         local Player = QBCore.Functions.GetPlayer(source)
