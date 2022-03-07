@@ -17,12 +17,12 @@ end)
 CreateThread(function()
     if QBCore.Config.Server.UseOldPermissionSystem then
         local result = MySQL.Sync.fetchAll('SELECT * FROM permissions', {})
-        if not result[1] then return end
+        if not result then return end
         for k, v in pairs(result) do
             QBCore.Config.Server.PermissionList[v.license] = {
                 license = v.license,
                 permission = v.permission,
-                optin = true,
+                optin = true
             }
         end
     else
