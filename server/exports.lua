@@ -129,7 +129,7 @@ local function AddGangs(gangs)
         if QBCore.Shared.Gangs[key] then
             message = "gang_exists"
             shouldContinue = false
-            errorItem = items[key]
+            errorItem = gangs[key]
             break
         end
         QBCore.Shared.Gangs[key] = value
