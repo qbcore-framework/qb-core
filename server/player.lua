@@ -64,8 +64,8 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
     PlayerData.charinfo.gender = PlayerData.charinfo.gender or 0
     PlayerData.charinfo.backstory = PlayerData.charinfo.backstory or 'placeholder backstory'
     PlayerData.charinfo.nationality = PlayerData.charinfo.nationality or 'USA'
-    PlayerData.charinfo.phone = PlayerData.charinfo.phone or ('1' .. math.random(111111111, 999999999))
-    PlayerData.charinfo.account = PlayerData.charinfo.account or ('US0' .. math.random(1, 9) .. 'QBCore' .. math.random(1111, 9999) .. math.random(1111, 9999) .. math.random(11, 99))
+    PlayerData.charinfo.phone = PlayerData.charinfo.phone or QBCore.Functions.CreatePhoneNumber()
+    PlayerData.charinfo.account = PlayerData.charinfo.account or QBCore.Functions.CreateAccountNumber()
     -- Metadata
     PlayerData.metadata = PlayerData.metadata or {}
     PlayerData.metadata['hunger'] = PlayerData.metadata['hunger'] or 100
@@ -634,6 +634,34 @@ function QBCore.Player.CreateCitizenId()
         end
     end
     return CitizenId
+end
+
+function QBCore.Functions.CreateAccountNumber()
+    local UniqueFound = false
+    local AccountNumber = nil
+    while not UniqueFound do
+        AccountNumber = 'US0' .. math.random(1, 9) .. 'QBCore' .. math.random(1111, 9999) .. math.random(1111, 9999) .. math.random(11, 99)
+        local query = '%' .. AccountNumber .. '%'
+        local result = MySQL.Sync.prepare('SELECT COUNT(*) as count FROM players WHERE charinfo LIKE ?', { query })
+        if result == 0 then
+            UniqueFound = true
+        end
+    end
+    return AccountNumber
+end
+
+function QBCore.Functions.CreatePhoneNumber()
+    local UniqueFound = false
+    local PhoneNumber = nil
+    while not UniqueFound do
+        PhoneNumber = math.random(100,999) .. math.random(1000000,9999999)
+        local query = '%' .. PhoneNumber .. '%'
+        local result = MySQL.Sync.prepare('SELECT COUNT(*) as count FROM players WHERE charinfo LIKE ?', { query })
+        if result == 0 then
+            UniqueFound = true
+        end
+    end
+    return PhoneNumber
 end
 
 function QBCore.Player.CreateFingerId()
