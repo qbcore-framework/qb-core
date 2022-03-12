@@ -868,7 +868,7 @@ function QBCore.Functions.StartParticleAtCoord(dict, ptName, looped, coords, rot
     if coords then
         coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords
     else
-        coords = GetEntityCoords(ped)
+        coords = GetEntityCoords(PlayerPedId())
     end
     QBCore.Functions.LoadParticleDictionary(dict)
     UseParticleFxAssetNextCall(dict)
