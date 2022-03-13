@@ -122,7 +122,7 @@ local function AddGangs(gangs)
         if type(key) ~= "string" then
             message = "invalid_gang_name"
             shouldContinue = false
-            errorItem = items[key]
+            errorItem = gangs[key]
             break
         end
 
