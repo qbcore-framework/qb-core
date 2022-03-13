@@ -38,9 +38,6 @@ files {
 	'html/js/*.js'
 }
 
-dependencies {
-	'oxmysql',
-	'progressbar'
-}
+dependency 'oxmysql'
 
 lua54 'yes'
