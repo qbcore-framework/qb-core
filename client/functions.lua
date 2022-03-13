@@ -140,6 +140,7 @@ function QBCore.Functions.TriggerCallback(name, cb, ...)
 end
 
 function QBCore.Functions.Progressbar(name, label, duration, useWhileDead, canCancel, disableControls, animation, prop, propTwo, onFinish, onCancel)
+    if GetResourceState('progressbar') ~= 'started' then error('progressbar needs to be started in order for QBCore.Functions.Progressbar to work') end
     exports['progressbar']:Progress({
         name = name:lower(),
         duration = duration,
