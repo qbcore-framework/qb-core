@@ -523,7 +523,7 @@ function QBCore.Player.DeleteCharacter(source, citizenid)
 		end)
     else
         DropPlayer(source, 'You Have Been Kicked For Exploitation')
-        TriggerEvent('qb-log:server:CreateLog', 'anticheat', 'Anti-Cheat', 'white', GetPlayerName(source) .. ' Has Been Dropped For Character Deletion Exploit', false)
+        TriggerEvent('qb-log:server:CreateLog', 'anticheat', 'Anti-Cheat', 'white', GetPlayerName(source) .. ' Has Been Dropped For Character Deletion Exploit', true)
     end
 end
 
