@@ -402,7 +402,7 @@ function QBCore.Functions.SpawnClear(coords, radius)
     if coords then
         coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords
     else
-        coords = GetEntityCoords(ped)
+        coords = GetEntityCoords(PlayerPedId())
     end
     local vehicles = GetGamePool('CVehicle')
     local closeVeh = {}
