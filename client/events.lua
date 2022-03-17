@@ -4,10 +4,9 @@
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     ShutdownLoadingScreenNui()
     LocalPlayer.state:set('isLoggedIn', true, false)
-    if QBConfig.Server.pvp then
-        SetCanAttackFriendly(PlayerPedId(), true, false)
-        NetworkSetFriendlyFireOption(true)
-    end
+    if not QBConfig.Server.PVP then return end
+    SetCanAttackFriendly(PlayerPedId(), true, false)
+    NetworkSetFriendlyFireOption(true)
 end)
 
 RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
@@ -36,17 +35,16 @@ end)
 RegisterNetEvent('QBCore:Command:GoToMarker', function()
     local ped = PlayerPedId()
     local blip = GetFirstBlipInfoId(8)
-    if DoesBlipExist(blip) then
-        local blipCoords = GetBlipCoords(blip)
-        for height = 1, 1000 do
+    if not DoesBlipExist(blip) then return end
+    local blipCoords = GetBlipCoords(blip)
+    for height = 1, 1000 do
+        SetPedCoordsKeepVehicle(ped, blipCoords.x, blipCoords.y, height + 0.0)
+        local foundGround, zPos = GetGroundZFor_3dCoord(blipCoords.x, blipCoords.y, height + 0.0)
+        if foundGround then
             SetPedCoordsKeepVehicle(ped, blipCoords.x, blipCoords.y, height + 0.0)
-            local foundGround, zPos = GetGroundZFor_3dCoord(blipCoords.x, blipCoords.y, height + 0.0)
-            if foundGround then
-                SetPedCoordsKeepVehicle(ped, blipCoords.x, blipCoords.y, height + 0.0)
-                break
-            end
-            Wait(0)
+            break
         end
+        Wait(0)
     end
     TriggerEvent('qb-doorlock:client:UpdateDoors')
 end)
@@ -56,12 +54,10 @@ end)
 RegisterNetEvent('QBCore:Command:SpawnVehicle', function(vehName)
     local ped = PlayerPedId()
     local hash = GetHashKey(vehName)
-    if not IsModelInCdimage(hash) then
-        return
-    end
+    if not IsModelInCdimage(hash) then return end
     RequestModel(hash)
     while not HasModelLoaded(hash) do
-        Wait(10)
+        Wait(0)
     end
     local vehicle = CreateVehicle(hash, GetEntityCoords(ped), GetEntityHeading(ped), true, false)
     TaskWarpPedIntoVehicle(ped, vehicle, -1)
@@ -155,7 +151,7 @@ RegisterNetEvent('QBCore:Client:OnSharedUpdate', function(tableName, key, value)
 end)
 
 RegisterNetEvent('QBCore:Client:OnSharedUpdateMultiple', function(tableName, values)
-    for key, value in ipairs(values) do
+    for key, value in pairs(values) do
         QBCore.Shared[tableName][key] = value
     end
     TriggerEvent('QBCore:Client:UpdateObject')
