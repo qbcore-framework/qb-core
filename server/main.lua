@@ -15,14 +15,19 @@ end)
 -- Get permissions on server start
 
 CreateThread(function()
-    local result = MySQL.Sync.fetchAll('SELECT * FROM permissions', {})
-    if result[1] then
+    if QBCore.Config.Server.UseOldPermissionSystem then
+        local result = MySQL.Sync.fetchAll('SELECT * FROM permissions', {})
+        if not result then return end
         for k, v in pairs(result) do
             QBCore.Config.Server.PermissionList[v.license] = {
                 license = v.license,
                 permission = v.permission,
-                optin = true,
+                optin = true
             }
+        end
+    else
+        for i = 1, #QBCore.Config.Server.AllPermissions do
+            ExecuteCommand(('add_principal group.%s group.admin'):format(QBCore.Config.Server.AllPermissions[i]))
         end
     end
 end)

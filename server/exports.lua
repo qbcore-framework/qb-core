@@ -4,7 +4,7 @@ local function AddJob(jobName, job)
         return false, "invalid_job_name"
     end
 
-    if QBCore.Shared.Jobs[jobName] ~= nil then
+    if QBCore.Shared.Jobs[jobName] then
         return false, "job_exists"
     end
 
@@ -29,7 +29,7 @@ local function AddJobs(jobs)
             break
         end
 
-        if QBCore.Shared.Jobs[key] ~= nil then
+        if QBCore.Shared.Jobs[key] then
             message = 'job_exists'
             shouldContinue = false
             errorItem = jobs[key]
@@ -52,7 +52,8 @@ local function AddItem(itemName, item)
     if type(itemName) ~= "string" then
         return false, "invalid_item_name"
     end
-    if QBCore.Shared.Items[itemName] ~= nil then
+
+    if QBCore.Shared.Items[itemName] then
         return false, "item_exists"
     end
 
@@ -77,7 +78,7 @@ local function AddItems(items)
             break
         end
 
-        if QBCore.Shared.Items[key] ~= nil then
+        if QBCore.Shared.Items[key] then
             message = "item_exists"
             shouldContinue = false
             errorItem = items[key]
@@ -96,16 +97,16 @@ QBCore.Functions.AddItems = AddItems
 exports('AddItems', AddItems)
 
 -- Single Add Gang
-local function AddGang(gangName, gang, source)
+local function AddGang(gangName, gang)
     if type(gangName) ~= "string" then
         return false, "invalid_gang_name"
     end
-    if QBCore.Shared.Gangs[gangName] ~= nil then
+    if QBCore.Shared.Gangs[gangName] then
         return false, "gang_exists"
     end
 
     QBCore.Shared.Gangs[gangName] = gang
-    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1,'Gangs', gangName, gang)
+    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Gangs', gangName, gang)
     TriggerEvent('QBCore:Server:UpdateObject')
     return true, "success"
 end
@@ -117,19 +118,18 @@ local function AddGangs(gangs)
     local shouldContinue = true
     local message = "success"
     local errorItem = nil
-    
     for key, value in pairs(gangs) do
         if type(key) ~= "string" then
             message = "invalid_gang_name"
             shouldContinue = false
-            errorItem = items[key]
+            errorItem = gangs[key]
             break
         end
 
-        if QBCore.Shared.Gangs[key] ~= nil then
+        if QBCore.Shared.Gangs[key] then
             message = "gang_exists"
             shouldContinue = false
-            errorItem = items[key]
+            errorItem = gangs[key]
             break
         end
         QBCore.Shared.Gangs[key] = value
@@ -145,8 +145,8 @@ exports('AddGangs', AddGangs)
 
 local function GetCoreVersion(InvokingResource)
     local resourceVersion = GetResourceMetadata(GetCurrentResourceName(), 'version')
-    if InvokingResource ~= nil then
-        print( ("%s called qbcore version check: %s"):format(InvokingResource, resourceVersion) )
+    if InvokingResource and InvokingResource ~= '' then
+        print(("%s called qbcore version check: %s"):format(InvokingResource or 'Unknown Resource', resourceVersion))
     end
     return resourceVersion
 end
