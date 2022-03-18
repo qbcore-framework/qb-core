@@ -7,8 +7,8 @@ local Translations = {
         no_access = 'No access to this command',
         company_too_poor = 'Your employer is broke',
         item_not_exist = 'Item does not exist',
-        too_heavy = 'Inventory too full'
-        location_not_exist = 'Location was not found'
+        too_heavy = 'Inventory too full',
+        location_not_exist = 'Location does not exist'
     },
     success = {},
     info = {
