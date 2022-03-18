@@ -38,22 +38,21 @@ end
 
 -- Teleport
 QBCore.Commands.Add('tp', 'TP To Location/Player/Coords (Admin Only)', { { name = 'location/id/x', help = 'location name, ID of player, or X position' }, { name = 'y', help = 'Y position' }, { name = 'z', help = 'Z position' } }, false, function(source, args)
-    local src = source
     if args[1] and not args[2] and not args[3] then
         if tonumber(args[1]) then
             local target = GetPlayerPed(tonumber(args[1]))
             if target ~= 0 then
                 local coords = GetEntityCoords(target)
-                TriggerClientEvent('QBCore:Command:TeleportToPlayer', src, coords)
+                TriggerClientEvent('QBCore:Command:TeleportToPlayer', source, coords)
             else
-                TriggerClientEvent('QBCore:Notify', src, Lang:t('error.not_online'), 'error')
+                TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
             end
         else
             local location = QBShared.Locations[args[1]]
             if location then
-                TriggerClientEvent('QBCore:Command:TeleportToCoords', src, location.x, location.y, location.z, location.w) 
+                TriggerClientEvent('QBCore:Command:TeleportToCoords', source, location.x, location.y, location.z, location.w) 
             else
-                TriggerClientEvent('QBCore:Notify', src, Lang:t('error.location_not_exist'), 'error')
+                TriggerClientEvent('QBCore:Notify', source, Lang:t('error.location_not_exist'), 'error')
             end
         end
     else
