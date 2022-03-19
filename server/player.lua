@@ -95,26 +95,14 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
     PlayerData.metadata['callsign'] = PlayerData.metadata['callsign'] or 'NO CALLSIGN'
     PlayerData.metadata['fingerprint'] = PlayerData.metadata['fingerprint'] or QBCore.Player.CreateFingerId()
     PlayerData.metadata['walletid'] = PlayerData.metadata['walletid'] or QBCore.Player.CreateWalletId()
-    PlayerData.metadata['criminalrecord'] = PlayerData.metadata['criminalrecord'] or {
-        ['hasRecord'] = false,
-        ['date'] = nil
-    }
+    PlayerData.metadata['criminalrecord'] = PlayerData.metadata['criminalrecord'] or { ['hasRecord'] = false, ['date'] = nil }
     PlayerData.metadata['licences'] = PlayerData.metadata['licences'] or {
         ['driver'] = true,
         ['business'] = false,
         ['weapon'] = false
     }
-    PlayerData.metadata['inside'] = PlayerData.metadata['inside'] or {
-        house = nil,
-        apartment = {
-            apartmentType = nil,
-            apartmentId = nil,
-        }
-    }
-    PlayerData.metadata['phonedata'] = PlayerData.metadata['phonedata'] or {
-        SerialNumber = QBCore.Player.CreateSerialNumber(),
-        InstalledApps = {},
-    }
+    PlayerData.metadata['inside'] = PlayerData.metadata['inside'] or { house = nil, apartment = { apartmentType = nil, apartmentId = nil, }}
+    PlayerData.metadata['phonedata'] = PlayerData.metadata['phonedata'] or { SerialNumber = QBCore.Player.CreateSerialNumber(), InstalledApps = {}, }
     -- Job
     if PlayerData.job and PlayerData.job.name and not QBCore.Shared.Jobs[PlayerData.job.name] then PlayerData.job = nil end
     PlayerData.job = PlayerData.job or {}
