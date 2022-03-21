@@ -1,0 +1,38 @@
+html::-webkit-scrollbar {
+    display: none;
+}
+
+.success {
+    background-color: rgba(23, 23, 23, 90%);
+    border-radius: 10px;
+    box-shadow: 0rem 0rem 0.1rem 0.05rem #000000;
+    border-left: 0.5rem solid #20bb44;
+}
+
+.primary {
+    background-color: rgba(23, 23, 23, 90%);
+    border-radius: 10px;
+    box-shadow: 0rem 0rem 0.1rem 0.05rem #000000;
+    border-left: 5px solid #1c75d2;
+}
+
+.error {
+    background-color: rgba(23, 23, 23, 90%);
+    border-radius: 10px;
+    box-shadow: 0rem 0rem 0.1rem 0.05rem #000000;
+    border-left: 5px solid #c10114;
+}
+
+.police {
+    background-color: rgba(23, 23, 23, 90%);
+    border-radius: 10px;
+    box-shadow: 0rem 0rem 0.1rem 0.05rem #000000;
+    border-left: 5px solid #2197f2;
+}
+
+.ambulance {
+    background-color: rgba(23, 23, 23, 90%);
+    border-radius: 10px;
+    box-shadow: 0rem 0rem 0.1rem 0.05rem #000000;
+    border-left: 5px solid #f44236;
+}
