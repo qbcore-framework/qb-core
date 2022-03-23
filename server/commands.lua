@@ -97,7 +97,7 @@ end, 'god')
 
 QBCore.Commands.Add('openserver', 'Open the server for everyone (Admin Only)', {}, false, function(source)
     if not QBCore.Config.Server.Closed then
-        TriggerClientEvent('QBCore:Notfy', source, 'The server is already open', 'error')
+        TriggerClientEvent('QBCore:Notify', source, 'The server is already open', 'error')
         return
     end
     if QBCore.Functions.HasPermission(source, 'admin') then
@@ -109,7 +109,7 @@ end, 'admin')
 
 QBCore.Commands.Add('closeserver', 'Close the server for people without permissions (Admin Only)', { { name = 'reason', help = 'Reason for closing it (optional)' } }, false, function(source, args)
     if QBCore.Config.Server.Closed then
-        TriggerClientEvent('QBCore:Notfy', source, 'The server is already closed', 'error')
+        TriggerClientEvent('QBCore:Notify', source, 'The server is already closed', 'error')
         return
     end
     if QBCore.Functions.HasPermission(source, 'admin') then
