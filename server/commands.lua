@@ -240,6 +240,7 @@ QBCore.Commands.Add('me', 'Show local message', {{name = 'message', help = 'Mess
     local pCoords = GetEntityCoords(ped)
     local msg = table.concat(args, ' ')
     if msg == '' then return end
+    if string.match(msg, "<") then TriggerClientEvent('QBCore:Notify', source, Lang:t('error.wrong_format'), 'error') return end
     for k,v in pairs(QBCore.Functions.GetPlayers()) do
         local target = GetPlayerPed(v)
         local tCoords = GetEntityCoords(target)
