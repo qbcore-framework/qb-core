@@ -1,3 +1,7 @@
+html::-webkit-scrollbar {
+    display: none;
+}
+
 .success {
     background-color: rgba(23, 23, 23, 90%);
     border-radius: 10px;

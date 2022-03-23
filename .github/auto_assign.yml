@@ -2,11 +2,11 @@
 addReviewers: true
 
 # Set to true to add assignees to pull requests
-addAssignees: false
+addAssignees: author
 
 # A list of reviewers to be added to pull requests (GitHub user name)
 reviewers: 
-  - IdrisDose
+  - /maintenance
   
 # A list of keywords to be skipped the process that add reviewers if pull requests include it 
 skipKeywords:
