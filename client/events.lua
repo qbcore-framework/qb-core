@@ -120,9 +120,9 @@ local function Draw3DText(coords, str)
 		SetTextProportional(1)
 		SetTextOutline()
 		SetTextCentre(1)
-        SetTextEntry("STRING")
-        AddTextComponentString(str)
-        DrawText(worldX, worldY)
+        BeginTextCommandDisplayText("STRING")
+        AddTextComponentSubstringPlayerName(str)
+        EndTextCommandDisplayText(worldX, worldY)
     end
 end
 
