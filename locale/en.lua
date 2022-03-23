@@ -9,7 +9,8 @@ local Translations = {
         item_not_exist = 'Item does not exist',
         too_heavy = 'Inventory too full',
         duplicate_license = 'Duplicate Rockstar License Found',
-        no_valid_license  = 'No Valid Rockstar License Found'
+        no_valid_license  = 'No Valid Rockstar License Found',
+        not_whitelisted = 'You\'re not whitelisted for this server'
     },
     success = {},
     info = {
@@ -20,8 +21,9 @@ local Translations = {
         off_duty = 'You are now off duty!',
         checking_ban = 'Hello %s. We are checking if you are banned.',
         validating_license = 'Hello %s. Validating Your Rockstar License',
-        join_server = 'Welcome %s to {Server Name}.'
- }
+        join_server = 'Welcome %s to {Server Name}.',
+        checking_whitelisted = 'Hello %s. We are checking your allowance.'
+    }
 }
 
 Lang = Locale:new({

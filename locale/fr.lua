@@ -9,7 +9,8 @@ local Translations = {
         item_not_exist = 'L\'objet n\'existe pas',
         too_heavy = 'L\'inventaire est plein',
         duplicate_license = 'License Rockstar dupliquée trouvée',
-        no_valid_license  = 'Aucune License Rockstar trouvée'
+        no_valid_license  = 'Aucune License Rockstar trouvée',
+        not_whitelisted = "Vous n'êtes pas whitelist sur ce serveur"
     },
     success = {},
     info = {
@@ -20,7 +21,8 @@ local Translations = {
         off_duty = 'Vous n\'êtes plus en service!',
         checking_ban = 'Bonjour %s. Nous vérifions si vous êtes banni.',
         validating_license = 'Bonjour %s. Nous validons votre License Rockstar.',
-        join_server = 'Bienvenue %s sur {Server Name}.'
+        join_server = 'Bienvenue %s sur {Server Name}.',
+        checking_whitelisted = 'Bonjour %s. Nous vérifions si vous êtes Whitelist.'
  }
 }
 
