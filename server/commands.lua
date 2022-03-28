@@ -4,14 +4,10 @@ QBCore.Commands.List = {}
 -- Register & Refresh Commands
 
 function QBCore.Commands.Add(name, help, arguments, argsrequired, callback, permission)
-    if type(permission) == 'string' then
-        permission = permission:lower()
-    else
-        permission = 'user'
-    end
-    QBCore.Commands.List[name:lower()] = {
+    RegisterCommand(name, callback, permission)
+    CommandList[name:lower()] = {
         name = name:lower(),
-        permission = permission,
+        permission = tostring(permission:lower()),
         help = help,
         arguments = arguments,
         argsrequired = argsrequired,
@@ -20,20 +16,22 @@ function QBCore.Commands.Add(name, help, arguments, argsrequired, callback, perm
 end
 
 function QBCore.Commands.Refresh(source)
-    local Player = QBCore.Functions.GetPlayer(source)
+    local src = source
+    local Player = GetPlayer(src)
     local suggestions = {}
-    if not Player then return end
-    for command, info in pairs(QBCore.Commands.List) do
-        local hasPerm = QBCore.Functions.HasPermission(source, QBCore.Commands.List[command].permission)
-        if hasPerm then
-            suggestions[#suggestions + 1] = {
-                name = '/' .. command,
-                help = info.help,
-                params = info.arguments
-            }
+    if Player then
+        for command, info in pairs(CommandList) do
+            local hasPerm = IsPlayerAceAllowed(tostring(src), info.permission)
+            if hasPerm then
+                suggestions[#suggestions + 1] = {
+                    name = '/' .. command,
+                    help = info.help,
+                    params = info.arguments
+                }
+            end
         end
+        TriggerClientEvent('chat:addSuggestions', tonumber(src), suggestions)
     end
-    TriggerClientEvent('chat:addSuggestions', source, suggestions)
 end
 
 -- Teleport
