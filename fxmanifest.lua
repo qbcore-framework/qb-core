@@ -5,9 +5,15 @@ description 'QB-Core'
 version '1.1.0'
 
 shared_scripts {
-	'shared/*.lua',
 	'config.lua',
-	'locale/en.lua' -- replace with desired language
+	'locale/en.lua', -- replace with desired language
+	'shared/main.lua',
+	'shared/items.lua',
+	'shared/jobs.lua',
+	'shared/vehicles.lua',
+	'shared/gangs.lua',
+	'shared/weapons.lua'
+}
 }
 
 client_scripts {
