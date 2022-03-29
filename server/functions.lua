@@ -292,6 +292,16 @@ function QBCore.Functions.HasPermission(source, permission)
     return false
 end
 
+function QBCore.Functions.GetPermission(source)
+    local src = source
+    for k,v in pairs (QBConfig.Server.Permissions) do
+        if IsPlayerAceAllowed(src, 'group.'..v) then
+           return v
+        end
+    end
+    return 'user'
+end
+
 -- Opt in or out of admin reports
 
 -- function QBCore.Functions.IsOptin(source)
