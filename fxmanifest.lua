@@ -14,7 +14,6 @@ shared_scripts {
 	'shared/gangs.lua',
 	'shared/weapons.lua'
 }
-}
 
 client_scripts {
 	'client/main.lua',
