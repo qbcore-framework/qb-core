@@ -4,8 +4,9 @@ QBCore.Commands.List = {}
 -- Register & Refresh Commands
 
 function QBCore.Commands.Add(name, help, arguments, argsrequired, callback, permission)
+    if not permission then permission = 'user' end
     RegisterCommand(name, callback, permission)
-    CommandList[name:lower()] = {
+    QBCore.Commands.List[name:lower()] = {
         name = name:lower(),
         permission = tostring(permission:lower()),
         help = help,
@@ -20,7 +21,7 @@ function QBCore.Commands.Refresh(source)
     local Player = GetPlayer(src)
     local suggestions = {}
     if Player then
-        for command, info in pairs(CommandList) do
+        for command, info in pairs(QBCore.Commands.List) do
             local hasPerm = IsPlayerAceAllowed(tostring(src), info.permission)
             if hasPerm then
                 suggestions[#suggestions + 1] = {
