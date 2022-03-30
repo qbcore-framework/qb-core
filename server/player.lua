@@ -44,6 +44,7 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
     PlayerData.name = GetPlayerName(source)
     PlayerData.cid = PlayerData.cid or 1
     PlayerData.money = PlayerData.money or {}
+    PlayerData.optin = PlayerData.optin or true
     for moneytype, startamount in pairs(QBCore.Config.Money.MoneyTypes) do
         PlayerData.money[moneytype] = PlayerData.money[moneytype] or startamount
     end

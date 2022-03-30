@@ -1,8 +1,7 @@
 QBCore.Commands = {}
 QBCore.Commands.List = {}
 QBCore.Commands.IgnoreList = { -- Ignore old perm levels while keeping backwards compatibility
-    ['god'] = true, -- We don't need to create an ace because group.admin allows all commands
-    ['admin'] = true, -- We don't need to create an ace because group.admin allows all commands
+    ['god'] = true, -- We don't need to create an ace because group.god allows all commands
     ['user'] = true -- We don't need to create an ace because builtin.everyone
 }
 
