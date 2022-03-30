@@ -1,13 +1,13 @@
 QBCore.Commands = {}
 QBCore.Commands.List = {}
 QBCore.Commands.IgnoreList = { -- Ignore old perm levels while keeping backwards compatibility
-    ['god'] = true, -- We don't need to create an ace because group.god allows all commands
+    ['god'] = true, -- We don't need to create an ace because god is allowed all commands
     ['user'] = true -- We don't need to create an ace because builtin.everyone
 }
 
-CreateThread(function() -- Add rank name to ace
+CreateThread(function() -- Add ace to node for perm checking
     for k,v in pairs(QBConfig.Server.Permissions) do
-        ExecuteCommand(('add_ace group.%s %s allow'):format(v, v))
+        ExecuteCommand(('add_ace qbcore.%s %s allow'):format(v, v))
     end
 end)
 
@@ -19,7 +19,7 @@ function QBCore.Commands.Add(name, help, arguments, argsrequired, callback, perm
     if permission == 'user' then restricted = false end -- allow all users to use command
     RegisterCommand(name, callback, restricted) -- Register command within fivem
     if not QBCore.Commands.IgnoreList[permission] then -- only create aces for extra perm levels
-        ExecuteCommand(('add_ace group.%s command.%s allow'):format(permission, name))
+        ExecuteCommand(('add_ace qbcore.%s command.%s allow'):format(permission, name))
     end
     QBCore.Commands.List[name:lower()] = {
         name = name:lower(),

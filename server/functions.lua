@@ -266,7 +266,7 @@ end
 function QBCore.Functions.AddPermission(source, permission)
     local src = source
     local license = QBCore.Functions.GetIdentifier(src, 'license')
-    ExecuteCommand(('add_principal identifier.%s group.%s'):format(license, permission))
+    ExecuteCommand(('add_principal identifier.%s qbcore.%s'):format(license, permission))
     QBCore.Commands.Refresh(src)
 end
 
@@ -275,13 +275,13 @@ function QBCore.Functions.RemovePermission(source, permission)
     local license = QBCore.Functions.GetIdentifier(src, 'license')
     if permission then
         if IsPlayerAceAllowed(src, permission) then
-            ExecuteCommand(('remove_principal identifier.%s group.%s'):format(license, permission))
+            ExecuteCommand(('remove_principal identifier.%s qbcore.%s'):format(license, permission))
             QBCore.Commands.Refresh(src)
         end
     else
         for k,v in pairs(QBCore.Config.Server.Permissions) do
             if IsPlayerAceAllowed(src, v) then
-                ExecuteCommand(('remove_principal identifier.%s group.%s'):format(license, v))
+                ExecuteCommand(('remove_principal identifier.%s qbcore.%s'):format(license, v))
                 QBCore.Commands.Refresh(src)
             end
         end
