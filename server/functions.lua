@@ -301,15 +301,16 @@ function QBCore.Functions.HasPermission(source, permission)
     return false
 end
 
-function QBCore.Functions.GetPermission(source)
+function QBCore.Functions.GetPermissions(source)
     local src = source
+    local perms = {}
     for k,v in pairs (QBCore.Config.Server.Permissions) do
         local group = ('group.%s'):format(v)
         if IsPlayerAceAllowed(src, group) then
-           return v
+            perms[v] = true
         end
     end
-    return 'user'
+    return perms
 end
 
 -- Opt in or out of admin reports

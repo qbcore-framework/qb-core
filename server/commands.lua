@@ -89,11 +89,7 @@ QBCore.Commands.Add('addpermission', 'Give Player Permissions (God Only)', { { n
     local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
     local permission = tostring(args[2]):lower()
     if Player then
-        if QBCore.Config.Server.Permissions[permission] then
-            QBCore.Functions.AddPermission(Player.PlayerData.source, permission)
-        else
-            TriggerClientEvent('QBCore:Notify', source, 'Invalid permission level', 'error')
-        end
+        QBCore.Functions.AddPermission(Player.PlayerData.source, permission)
     else
         TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
     end
@@ -101,8 +97,9 @@ end, 'god')
 
 QBCore.Commands.Add('removepermission', 'Remove Players Permissions (God Only)', { { name = 'id', help = 'ID of player' } }, true, function(source, args)
     local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
+    local permission = tostring(args[2]):lower()
     if Player then
-        QBCore.Functions.RemovePermission(Player.PlayerData.source)
+        QBCore.Functions.RemovePermission(Player.PlayerData.source, permission)
     else
         TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
     end
@@ -128,7 +125,7 @@ QBCore.Commands.Add('closeserver', 'Close the server for people without permissi
         return
     end
     if QBCore.Functions.HasPermission(source, 'admin') then
-        reason = args[1] or 'No reason specified'
+        local reason = args[1] or 'No reason specified'
         QBCore.Config.Server.Closed = true
         QBCore.Config.Server.ClosedReason = reason
         for k in pairs(QBCore.Players) do
