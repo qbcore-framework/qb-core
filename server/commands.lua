@@ -9,6 +9,7 @@ CreateThread(function() -- Add rank name to ace
     for k,v in pairs(QBConfig.Server.Permissions) do
         ExecuteCommand(('add_ace group.%s %s allow'):format(v, v))
     end
+    ExecuteCommand('add_ace group.god command allow')
 end)
 
 -- Register & Refresh Commands
@@ -100,7 +101,7 @@ QBCore.Commands.Add('addpermission', 'Give Player Permissions (God Only)', { { n
     end
 end, 'god')
 
-QBCore.Commands.Add('removepermission', 'Remove Players Permissions (God Only)', { { name = 'id', help = 'ID of player' } }, true, function(source, args)
+QBCore.Commands.Add('removepermission', 'Remove Players Permissions (God Only)', { { name = 'id', help = 'ID of player' }, { name = 'permission', help = 'Permission level' } }, true, function(source, args)
     local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
     local permission = tostring(args[2]):lower()
     if Player then
