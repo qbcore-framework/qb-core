@@ -183,7 +183,7 @@ RegisterNetEvent('QBCore:CallCommand', function(command, args)
     local Player = QBCore.Functions.GetPlayer(src)
     if not Player then return end
     local hasPerm = QBCore.Functions.HasPermission(src, QBCore.Commands.List[command].permission)
-    if (QBCore.Commands.List[command].permission == Player.PlayerData.job.name) or hasPerm then
+    if hasPerm then
         if QBCore.Commands.List[command].argsrequired and #QBCore.Commands.List[command].arguments ~= 0 and not args[#QBCore.Commands.List[command].arguments] then
             TriggerClientEvent('QBCore:Notify', src, Lang:t('error.missing_args2'), 'error')
         else
