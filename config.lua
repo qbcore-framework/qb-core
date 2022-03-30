@@ -30,11 +30,7 @@ QBConfig.Server.WhitelistPermission = 'admin' -- Permission that's able to enter
 QBConfig.Server.PVP = true -- Enable or disable pvp on the server (Ability to shoot other players)
 QBConfig.Server.Discord = "" -- Discord invite link
 QBConfig.Server.CheckDuplicateLicense = true -- Check for duplicate rockstar license on join
-QBConfig.Server.PermissionList = {} -- Permission list for old permission system
-QBConfig.Server.UseOldPermissionSystem = false -- Use old permissions system from the database
-QBConfig.Server.AllPermissions = { -- Table of permissions which have access to everything for the new permissions system
-    'god',
-}
+QBConfig.Server.Permissions = {'god', 'admin', 'mod'} -- Add as many groups as you want here after creating them in your server.cfg
 
 QBConfig.Notify = {}
 
