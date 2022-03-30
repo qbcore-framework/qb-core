@@ -454,11 +454,6 @@ function QBCore.Functions.GetVehicleProperties(vehicle)
             modLivery = GetVehicleLivery(vehicle)
         end
 
-        local neons = {}
-        for i = 0, 3 do
-            neons[i] = IsVehicleNeonLightEnabled(vehicle, i)
-        end
-
         local tireHealth = {}
         for i = 0, 3 do
             tireHealth[i] = GetVehicleWheelHealth(vehicle, i)
@@ -509,7 +504,12 @@ function QBCore.Functions.GetVehicleProperties(vehicle)
             windowStatus = windowStatus,
             doorStatus = doorStatus,
             xenonColor = GetVehicleXenonLightsColour(vehicle),
-            neonEnabled = neons,
+            neonEnabled = {
+                IsVehicleNeonLightEnabled(vehicle, 0),
+                IsVehicleNeonLightEnabled(vehicle, 1),
+                IsVehicleNeonLightEnabled(vehicle, 2),
+                IsVehicleNeonLightEnabled(vehicle, 3)
+            },
             neonColor = table.pack(GetVehicleNeonLightsColour(vehicle)),
             headlightColor = GetVehicleHeadlightsColour(vehicle),
             interiorColor = GetVehicleInteriorColour(vehicle),
@@ -677,9 +677,10 @@ function QBCore.Functions.SetVehicleProperties(vehicle, props)
             end
         end
         if props.neonEnabled then
-            for neonIndex, enableNeons in pairs(props.neonEnabled) do
-                SetVehicleNeonLightEnabled(vehicle, neonIndex, enableNeons)
-            end
+            SetVehicleNeonLightEnabled(vehicle, 0, props.neonEnabled[1])
+            SetVehicleNeonLightEnabled(vehicle, 1, props.neonEnabled[2])
+            SetVehicleNeonLightEnabled(vehicle, 2, props.neonEnabled[3])
+            SetVehicleNeonLightEnabled(vehicle, 3, props.neonEnabled[4])
         end
         if props.neonColor then
             SetVehicleNeonLightsColour(vehicle, props.neonColor[1], props.neonColor[2], props.neonColor[3])
