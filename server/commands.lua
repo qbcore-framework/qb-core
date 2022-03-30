@@ -9,7 +9,6 @@ CreateThread(function() -- Add rank name to ace
     for k,v in pairs(QBConfig.Server.Permissions) do
         ExecuteCommand(('add_ace group.%s %s allow'):format(v, v))
     end
-    ExecuteCommand('add_ace group.god command allow')
 end)
 
 -- Register & Refresh Commands
