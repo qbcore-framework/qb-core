@@ -1,11 +1,21 @@
 QBCore.Commands = {}
 QBCore.Commands.List = {}
+QBCore.Commands.IgnoreList = { -- Ignore old perm levels while keeping backwards compatibility
+    ['god'] = true, -- We don't need to create an ace because group.admin allows all commands
+    ['admin'] = true, -- We don't need to create an ace because group.admin allows all commands
+    ['user'] = true, -- We don't need to create an ace because builtin.everyone
+}
 
 -- Register & Refresh Commands
 
 function QBCore.Commands.Add(name, help, arguments, argsrequired, callback, permission)
-    if not permission then permission = 'user' end
-    RegisterCommand(name, callback, permission)
+    local restricted = true -- Default to restricted for all commands
+    if not permission then permission = 'user' end -- some commands don't pass permission level
+    if permission == 'user' then restricted = false end -- allow all users to use command
+    RegisterCommand(name, callback, restricted) -- Register command within fivem
+    if not QBCore.Commands.IgnoreList[permission] then -- only create aces for extra perm levels
+        ExecuteCommand(('add_ace group.%s command.%s allow'):format(permission, name))
+    end
     QBCore.Commands.List[name:lower()] = {
         name = name:lower(),
         permission = tostring(permission:lower()),
@@ -18,20 +28,22 @@ end
 
 function QBCore.Commands.Refresh(source)
     local src = source
-    local Player = GetPlayer(src)
+    local Player = QBCore.Functions.GetPlayer(src)
     local suggestions = {}
     if Player then
         for command, info in pairs(QBCore.Commands.List) do
-            local hasPerm = IsPlayerAceAllowed(tostring(src), info.permission)
+            local hasPerm = IsPlayerAceAllowed(tostring(src), 'command.'..command)
             if hasPerm then
                 suggestions[#suggestions + 1] = {
                     name = '/' .. command,
                     help = info.help,
                     params = info.arguments
                 }
+            else
+                TriggerClientEvent('chat:removeSuggestion', src, '/'..command)
             end
         end
-        TriggerClientEvent('chat:addSuggestions', tonumber(src), suggestions)
+        TriggerClientEvent('chat:addSuggestions', src, suggestions)
     end
 end
 
@@ -77,7 +89,11 @@ QBCore.Commands.Add('addpermission', 'Give Player Permissions (God Only)', { { n
     local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
     local permission = tostring(args[2]):lower()
     if Player then
-        QBCore.Functions.AddPermission(Player.PlayerData.source, permission)
+        if QBCore.Config.Server.Permissions[permission] then
+            QBCore.Functions.AddPermission(Player.PlayerData.source, permission)
+        else
+            TriggerClientEvent('QBCore:Notify', source, 'Invalid permission level', 'error')
+        end
     else
         TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
     end
