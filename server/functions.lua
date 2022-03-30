@@ -266,12 +266,8 @@ end
 function QBCore.Functions.AddPermission(source, permission)
     local src = source
     local license = QBCore.Functions.GetIdentifier(src, 'license')
-    for k,v in pairs(QBCore.Config.Server.Permissions) do
-        if permission == v then
-            ExecuteCommand(('add_principal identifier.%s group.%s'):format(license, permission))
-            QBCore.Commands.Refresh(src)
-        end
-    end
+    ExecuteCommand(('add_principal identifier.%s group.%s'):format(license, permission))
+    QBCore.Commands.Refresh(src)
 end
 
 function QBCore.Functions.RemovePermission(source, permission)
@@ -296,8 +292,7 @@ end
 
 function QBCore.Functions.HasPermission(source, permission)
     local src = source
-    local group = ('group.%s'):format(permission)
-    if IsPlayerAceAllowed(tostring(src), group) then return true end
+    if IsPlayerAceAllowed(src, permission) then return true end
     return false
 end
 
@@ -305,8 +300,7 @@ function QBCore.Functions.GetPermissions(source)
     local src = source
     local perms = {}
     for k,v in pairs (QBCore.Config.Server.Permissions) do
-        local group = ('group.%s'):format(v)
-        if IsPlayerAceAllowed(src, group) then
+        if IsPlayerAceAllowed(src, v) then
             perms[v] = true
         end
     end

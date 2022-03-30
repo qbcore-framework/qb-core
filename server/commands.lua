@@ -3,8 +3,14 @@ QBCore.Commands.List = {}
 QBCore.Commands.IgnoreList = { -- Ignore old perm levels while keeping backwards compatibility
     ['god'] = true, -- We don't need to create an ace because group.admin allows all commands
     ['admin'] = true, -- We don't need to create an ace because group.admin allows all commands
-    ['user'] = true, -- We don't need to create an ace because builtin.everyone
+    ['user'] = true -- We don't need to create an ace because builtin.everyone
 }
+
+CreateThread(function() -- Add rank name to ace
+    for k,v in pairs(QBConfig.Server.Permissions) do
+        ExecuteCommand(('add_ace group.%s %s allow'):format(v, v))
+    end
+end)
 
 -- Register & Refresh Commands
 
