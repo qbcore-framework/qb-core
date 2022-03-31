@@ -296,7 +296,7 @@ function QBCore.Functions.HasPermission(source, permission)
     return false
 end
 
-function QBCore.Functions.GetPermissions(source)
+function QBCore.Functions.GetPermission(source)
     local src = source
     local perms = {}
     for k,v in pairs (QBCore.Config.Server.Permissions) do
