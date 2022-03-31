@@ -10,28 +10,6 @@ AddEventHandler('playerDropped', function()
     QBCore.Players[src] = nil
 end)
 
-AddEventHandler('chatMessage', function(source, _, message)
-    local src = source
-    if string.sub(message, 1, 1) ~= '/' then return end
-    local args = QBCore.Shared.SplitStr(message, ' ')
-    local command = string.gsub(args[1]:lower(), '/', '')
-    CancelEvent()
-    if not QBCore.Commands.List[command] then return end
-    local Player = QBCore.Functions.GetPlayer(src)
-    if not Player then return end
-    local hasPerm = QBCore.Functions.HasPermission(src, QBCore.Commands.List[command].permission)
-    table.remove(args, 1)
-    if hasPerm then
-        if QBCore.Commands.List[command].argsrequired and #QBCore.Commands.List[command].arguments ~= 0 and not args[#QBCore.Commands.List[command].arguments] then
-            TriggerClientEvent('QBCore:Notify', src, Lang:t('error.missing_args2'), 'error')
-        else
-            QBCore.Commands.List[command].callback(src, args)
-        end
-    else
-        TriggerClientEvent('QBCore:Notify', src, Lang:t('error.no_access'), 'error')
-    end
-end)
-
 -- Player Connecting
 
 local function onPlayerConnecting(name, setKickReason, deferrals)
@@ -44,7 +22,9 @@ local function onPlayerConnecting(name, setKickReason, deferrals)
     Wait(0)
 
     if QBCore.Config.Server.Closed then
-        deferrals.done(QBCore.Config.Server.ClosedReason)
+        if not IsPlayerAceAllowed(src, 'qbadmin.join') then
+            deferrals.done(QBCore.Config.Server.ClosedReason)
+        end
     end
 
     deferrals.update(string.format('Hello %s. Validating Your Rockstar License', name))
@@ -203,7 +183,7 @@ RegisterNetEvent('QBCore:CallCommand', function(command, args)
     local Player = QBCore.Functions.GetPlayer(src)
     if not Player then return end
     local hasPerm = QBCore.Functions.HasPermission(src, QBCore.Commands.List[command].permission)
-    if (QBCore.Commands.List[command].permission == Player.PlayerData.job.name) or hasPerm then
+    if hasPerm then
         if QBCore.Commands.List[command].argsrequired and #QBCore.Commands.List[command].arguments ~= 0 and not args[#QBCore.Commands.List[command].arguments] then
             TriggerClientEvent('QBCore:Notify', src, Lang:t('error.missing_args2'), 'error')
         else

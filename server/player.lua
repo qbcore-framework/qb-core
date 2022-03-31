@@ -43,16 +43,8 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
     PlayerData.license = PlayerData.license or QBCore.Functions.GetIdentifier(source, 'license')
     PlayerData.name = GetPlayerName(source)
     PlayerData.cid = PlayerData.cid or 1
-    if not QBCore.Config.Server.UseOldPermissionSystem then
-        if PlayerData.permission then ExecuteCommand(('remove_principal identifier.%s group.%s'):format(PlayerData.license, PlayerData.permission)) end
-        if not PlayerData.permission and IsPlayerAceAllowed(source, 'command') then -- if both aces are allowed then the person has group.admin and is a system admin
-            PlayerData.permission = QBCore.Config.Server.AllPermissions[1] or 'god'
-        end
-        PlayerData.permission = PlayerData.permission or 'user'
-        ExecuteCommand(('add_principal identifier.%s group.%s'):format(PlayerData.license, PlayerData.permission))
-        PlayerData.optin = PlayerData.optin or true
-    end
     PlayerData.money = PlayerData.money or {}
+    PlayerData.optin = PlayerData.optin or true
     for moneytype, startamount in pairs(QBCore.Config.Money.MoneyTypes) do
         PlayerData.money[moneytype] = PlayerData.money[moneytype] or startamount
     end
@@ -165,17 +157,6 @@ function QBCore.Player.CreatePlayer(PlayerData)
         TriggerClientEvent('QBCore:Player:SetPlayerData', self.PlayerData.source, self.PlayerData)
         if not dontUpdateChat then
             QBCore.Commands.Refresh(self.PlayerData.source)
-        end
-    end
-
-    if not QBCore.Config.Server.UseOldPermissionSystem then
-        function self.Functions.SetPermission(permission)
-            permission = permission:lower()
-            ExecuteCommand(('remove_principal identifier.%s group.%s'):format(self.PlayerData.license, self.PlayerData.permission))
-            ExecuteCommand(('add_principal identifier.%s group.%s'):format(self.PlayerData.license, permission))
-            self.PlayerData.permission = permission
-            self.Functions.UpdatePlayerData()
-            TriggerClientEvent('QBCore:Client:OnPermissionUpdate', self.PlayerData.source, permission)
         end
     end
 

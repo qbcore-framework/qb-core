@@ -1,17 +1,29 @@
 QBCore.Commands = {}
 QBCore.Commands.List = {}
+QBCore.Commands.IgnoreList = { -- Ignore old perm levels while keeping backwards compatibility
+    ['god'] = true, -- We don't need to create an ace because god is allowed all commands
+    ['user'] = true -- We don't need to create an ace because builtin.everyone
+}
+
+CreateThread(function() -- Add ace to node for perm checking
+    for k,v in pairs(QBConfig.Server.Permissions) do
+        ExecuteCommand(('add_ace qbcore.%s %s allow'):format(v, v))
+    end
+end)
 
 -- Register & Refresh Commands
 
 function QBCore.Commands.Add(name, help, arguments, argsrequired, callback, permission)
-    if type(permission) == 'string' then
-        permission = permission:lower()
-    else
-        permission = 'user'
+    local restricted = true -- Default to restricted for all commands
+    if not permission then permission = 'user' end -- some commands don't pass permission level
+    if permission == 'user' then restricted = false end -- allow all users to use command
+    RegisterCommand(name, callback, restricted) -- Register command within fivem
+    if not QBCore.Commands.IgnoreList[permission] then -- only create aces for extra perm levels
+        ExecuteCommand(('add_ace qbcore.%s command.%s allow'):format(permission, name))
     end
     QBCore.Commands.List[name:lower()] = {
         name = name:lower(),
-        permission = permission,
+        permission = tostring(permission:lower()),
         help = help,
         arguments = arguments,
         argsrequired = argsrequired,
@@ -20,20 +32,24 @@ function QBCore.Commands.Add(name, help, arguments, argsrequired, callback, perm
 end
 
 function QBCore.Commands.Refresh(source)
-    local Player = QBCore.Functions.GetPlayer(source)
+    local src = source
+    local Player = QBCore.Functions.GetPlayer(src)
     local suggestions = {}
-    if not Player then return end
-    for command, info in pairs(QBCore.Commands.List) do
-        local hasPerm = QBCore.Functions.HasPermission(source, QBCore.Commands.List[command].permission)
-        if hasPerm then
-            suggestions[#suggestions + 1] = {
-                name = '/' .. command,
-                help = info.help,
-                params = info.arguments
-            }
+    if Player then
+        for command, info in pairs(QBCore.Commands.List) do
+            local hasPerm = IsPlayerAceAllowed(tostring(src), 'command.'..command)
+            if hasPerm then
+                suggestions[#suggestions + 1] = {
+                    name = '/' .. command,
+                    help = info.help,
+                    params = info.arguments
+                }
+            else
+                TriggerClientEvent('chat:removeSuggestion', src, '/'..command)
+            end
         end
+        TriggerClientEvent('chat:addSuggestions', src, suggestions)
     end
-    TriggerClientEvent('chat:addSuggestions', source, suggestions)
 end
 
 -- Teleport
@@ -84,10 +100,11 @@ QBCore.Commands.Add('addpermission', 'Give Player Permissions (God Only)', { { n
     end
 end, 'god')
 
-QBCore.Commands.Add('removepermission', 'Remove Players Permissions (God Only)', { { name = 'id', help = 'ID of player' } }, true, function(source, args)
+QBCore.Commands.Add('removepermission', 'Remove Players Permissions (God Only)', { { name = 'id', help = 'ID of player' }, { name = 'permission', help = 'Permission level' } }, true, function(source, args)
     local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
+    local permission = tostring(args[2]):lower()
     if Player then
-        QBCore.Functions.RemovePermission(Player.PlayerData.source)
+        QBCore.Functions.RemovePermission(Player.PlayerData.source, permission)
     else
         TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
     end
@@ -113,7 +130,7 @@ QBCore.Commands.Add('closeserver', 'Close the server for people without permissi
         return
     end
     if QBCore.Functions.HasPermission(source, 'admin') then
-        reason = args[1] or 'No reason specified'
+        local reason = args[1] or 'No reason specified'
         QBCore.Config.Server.Closed = true
         QBCore.Config.Server.ClosedReason = reason
         for k in pairs(QBCore.Players) do
