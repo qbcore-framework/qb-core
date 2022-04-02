@@ -11,7 +11,7 @@ local Translations = {
     },
     success = {},
     info = {
-        received_paycheck = 'Dobili ste platu od $%{value}',
+        received_paycheck = 'Dobili ste platu u iznosu od $%{value}',
         job_info = 'Posao: %{value} | Rank: %{value2} | Duznost: %{value3}',
         gang_info = 'Banda: %{value} | Rank: %{value2}',
         on_duty = 'Sada ste na duznosti!',
