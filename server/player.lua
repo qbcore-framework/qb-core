@@ -113,6 +113,7 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
     PlayerData.job.name = PlayerData.job.name or 'unemployed'
     PlayerData.job.label = PlayerData.job.label or 'Civilian'
     PlayerData.job.payment = PlayerData.job.payment or 10
+    PlayerData.job.isleo = PlayerData.job.isleo or false
     if QBCore.Shared.ForceJobDefaultDutyAtLogin or PlayerData.job.onduty == nil then
         PlayerData.job.onduty = QBCore.Shared.Jobs[PlayerData.job.name].defaultDuty
     end
@@ -167,6 +168,7 @@ function QBCore.Player.CreatePlayer(PlayerData)
         self.PlayerData.job.name = job
         self.PlayerData.job.label = QBCore.Shared.Jobs[job].label
         self.PlayerData.job.onduty = QBCore.Shared.Jobs[job].defaultDuty
+        self.PlayerData.job.isleo = QBCore.Shared.Jobs[job].isleo or false
         if QBCore.Shared.Jobs[job].grades[grade] then
             local jobgrade = QBCore.Shared.Jobs[job].grades[grade]
             self.PlayerData.job.grade = {}
