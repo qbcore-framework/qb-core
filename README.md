@@ -2,17 +2,19 @@
 
 ### [Official QBCore Documentation](https://qbcore-framework.github.io/qb-docs/)
 
-
 ## QBCore is officially partnered with Sonoran Software!
+
 Sonoran Software offers:
-* [The most advanced, integrated CAD software](https://sonorancad.com/kakarot)
-* [Complete community management software](https://sonorancms.com/kakarot)
-* [In-depth radio communications simulator](https://sonoranradio.com/kakarot)
-* [Premium server hosting](https://sonoranservers.com/kakarot)
+
+- [The most advanced, integrated CAD software](https://sonorancad.com/kakarot)
+- [Complete community management software](https://sonorancms.com/kakarot)
+- [In-depth radio communications simulator](https://sonoranradio.com/kakarot)
+- [Premium server hosting](https://sonoranservers.com/kakarot)
 
 Use code `KAKAROT` for 20% off your first month at checkout!
 
 # Sonoran Software
+
 ![Sonoran Software Partnership](https://sonoransoftware.com/assets/images/promotional/partners/qb_banner_coupon.png)
 
 # License
@@ -32,3 +34,7 @@ Use code `KAKAROT` for 20% off your first month at checkout!
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>
+
+# Reason For Fork
+
+Repository has been forked in order to be able to make updating easier for config files as well as some custom logger functions which are used on the snow8 rp server.
