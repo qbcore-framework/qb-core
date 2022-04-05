@@ -1,14 +1,10 @@
 -- Event Handler
 
 AddEventHandler('chatMessage', function(source, _, message)
-    local src = source
-    if string.sub(message, 1, 1) ~= '/' then return end
-    local args = QBCore.Shared.SplitStr(message, ' ')
-    local command = string.gsub(args[1]:lower(), '/', '')
-    CancelEvent()
-    if not QBCore.Commands.List[command] then return end
-    table.remove(args, 1)
-    QBCore.Commands.List[command].callback(src, args)
+    if string.sub(message, 1, 1) == '/' then
+        CancelEvent()
+        return
+    end
 end)
 
 AddEventHandler('playerDropped', function()
