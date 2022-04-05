@@ -8,6 +8,29 @@ QBShared.Gangs = {
             },
         },
 	},
+    ['olsenlaywod'] = {
+		label = 'Olsen-Laywod Ltd.',
+		grades = {
+            ['0'] = {
+                name = 'Associate'
+            },
+			['1'] = {
+                name = 'Senior Associate'
+            },
+			['2'] = {
+                name = 'Board Member',
+                isboss = true
+            },
+			['3'] = {
+                name = 'Chief Executive Officer',
+				isboss = true
+            },
+            ['4'] = {
+                name = 'Managing Director',
+				isboss = true
+            },
+        },
+	},
 	['lostmc'] = {
 		label = 'The Lost MC',
 		grades = {
@@ -98,22 +121,5 @@ QBShared.Gangs = {
             },
         },
 	},
-	['triads'] = {
-		label = 'Triads',
-		grades = {
-            ['0'] = {
-                name = 'Recruit'
-            },
-			['1'] = {
-                name = 'Enforcer'
-            },
-			['2'] = {
-                name = 'Shot Caller'
-            },
-			['3'] = {
-                name = 'Boss',
-				isboss = true
-            },
-        },
-	}
+
 }

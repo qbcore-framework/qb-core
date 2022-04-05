@@ -179,10 +179,13 @@ function PaycheckInterval()
                             else
                                 Player.Functions.AddMoney('bank', payment)
                                 exports['qb-management']:RemoveMoney(Player.PlayerData.job.name, payment)
+                                TriggerEvent('logs:paycheck', Player, payment)
+
                                 TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, Lang:t('info.received_paycheck', {value = payment}))
                             end
                         else
                             Player.Functions.AddMoney('bank', payment)
+                            TriggerEvent('logs:paycheck', Player, payment)
                             TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, Lang:t('info.received_paycheck', {value = payment}))
                         end
                     else
