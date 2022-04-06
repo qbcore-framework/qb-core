@@ -4,10 +4,9 @@
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     ShutdownLoadingScreenNui()
     LocalPlayer.state:set('isLoggedIn', true, false)
-    if QBConfig.Server.pvp then
-        SetCanAttackFriendly(PlayerPedId(), true, false)
-        NetworkSetFriendlyFireOption(true)
-    end
+    if not QBConfig.Server.PVP then return end
+    SetCanAttackFriendly(PlayerPedId(), true, false)
+    NetworkSetFriendlyFireOption(true)
 end)
 
 RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
@@ -121,16 +120,21 @@ end)
 RegisterNetEvent('QBCore:Command:SpawnVehicle', function(vehName)
     local ped = PlayerPedId()
     local hash = GetHashKey(vehName)
-    if not IsModelInCdimage(hash) then
-        return
-    end
+    local veh = GetVehiclePedIsUsing(ped)
+    if not IsModelInCdimage(hash) then return end
     RequestModel(hash)
     while not HasModelLoaded(hash) do
-        Wait(10)
+        Wait(0)
     end
+        
+     if IsPedInAnyVehicle(ped) then 
+        DeleteVehicle(veh)
+    end
+        
     local vehicle = CreateVehicle(hash, GetEntityCoords(ped), GetEntityHeading(ped), true, false)
     TaskWarpPedIntoVehicle(ped, vehicle, -1)
-    SetModelAsNoLongerNeeded(vehicle)
+    SetVehicleFuelLevel(vehicle, 100.0)
+    SetModelAsNoLongerNeeded(hash)
     TriggerEvent("vehiclekeys:client:SetOwner", QBCore.Functions.GetPlate(vehicle))
 end)
 
@@ -191,9 +195,9 @@ local function Draw3DText(coords, str)
 		SetTextProportional(1)
 		SetTextOutline()
 		SetTextCentre(1)
-        SetTextEntry("STRING")
-        AddTextComponentString(str)
-        DrawText(worldX, worldY)
+        BeginTextCommandDisplayText("STRING")
+        AddTextComponentSubstringPlayerName(str)
+        EndTextCommandDisplayText(worldX, worldY)
     end
 end
 
@@ -208,4 +212,17 @@ RegisterNetEvent('QBCore:Command:ShowMe3D', function(senderId, msg)
             Wait(0)
         end
     end)
+end)
+
+-- Listen to Shared being updated
+RegisterNetEvent('QBCore:Client:OnSharedUpdate', function(tableName, key, value)
+    QBCore.Shared[tableName][key] = value
+    TriggerEvent('QBCore:Client:UpdateObject')
+end)
+
+RegisterNetEvent('QBCore:Client:OnSharedUpdateMultiple', function(tableName, values)
+    for key, value in pairs(values) do
+        QBCore.Shared[tableName][key] = value
+    end
+    TriggerEvent('QBCore:Client:UpdateObject')
 end)

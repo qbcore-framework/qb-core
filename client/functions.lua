@@ -1,20 +1,14 @@
 QBCore.Functions = {}
-QBCore.RequestId = 0
 
 -- Player
 
 function QBCore.Functions.GetPlayerData(cb)
-    if cb then
-        cb(QBCore.PlayerData)
-    else
-        return QBCore.PlayerData
-    end
+    if not cb then return QBCore.PlayerData end
+    cb(QBCore.PlayerData)
 end
 
 function QBCore.Functions.GetCoords(entity)
-    local coords = GetEntityCoords(entity, false)
-    local heading = GetEntityHeading(entity)
-    return vector4(coords.x, coords.y, coords.z, heading)
+    return vector4(GetEntityCoords(entity), GetEntityHeading(entity))
 end
 
 function QBCore.Functions.HasItem(item)
@@ -58,37 +52,60 @@ function QBCore.Functions.DrawText3D(x, y, z, text)
     ClearDrawOrigin()
 end
 
-function QBCore.Functions.CreateBlip(coords, sprite, display, scale, colour, shortRange, title)
-    if not coords or not sprite or not display or not scale or not colour or shortRange == nil or not title then 
-        print("Blip failed to create, most likely missed a setting, debug log: ")
-        print("Coords: " .. coords .. " Sprite: " .. sprite .. " Display: " .. display .. " scale: " .. scale .. " shortRange: " .. shortRange .. " Title: " .. title .. " if you're attempting to use a blip without a title, use an empty string.")
-    else 
-        blip = AddBlipForCoord(coords)
-        SetBlipSprite(blip, sprite)
-        SetBlipDisplay(blip, display)
-        SetBlipScale(blip, scale)
-        SetBlipColour(blip, colour)
-        SetBlipAsShortRange(blip, shortRange)
+function QBCore.Functions.CreateBlip(coords, sprite, display, scale, colour, shortRange, title, alpha, friendly, bright, category, hiddenOnLegend, highDetail, rotation, cone, shrink, showHeight, showNumber, showOutline)
+    if not coords or (type(coords) ~= 'table' and type(coords) ~= 'vector3') then
+        print("Blip failed to create, the coords were not specified or was specified in the wrong format, coords must be a table or vector3, debug log: ")
+        print(("Coords: %s Sprite: %s Display: %s scale: %s shortRange: %s Title: %s Alpha: %s Friendly: %s Bright: %s Category: %s Hidden On Legend: %s High Detail: %s Rotation: %s Cone: %s Shrink: %s Show Heigt: %s Show Number: %s Show Outline: %s"):format(coords, sprite, display, scale, colour, shortRange, title, alpha, friendly, bright, category, hiddenOnLegend, highDetail, rotation, cone, shrink, showHeight, showNumber, showOutline))
+        return
+    end
+    coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords
+    local blip = AddBlipForCoord(coords)
+    if sprite then SetBlipSprite(blip, sprite) end
+    if display then SetBlipDisplay(blip, display) end
+    if scale then SetBlipScale(blip, scale) end
+    if colour then SetBlipColour(blip, colour) end
+    if shortRange ~= nil then SetBlipAsShortRange(blip, shortRange) end
+    if title then
         BeginTextCommandSetBlipName("STRING")
         AddTextComponentString(title)
         EndTextCommandSetBlipName(blip)
     end
+    if alpha then SetBlipAlpha(blip, alpha) end
+    if friendly ~= nil then SetBlipAsFriendly(blip, friendly) end
+    if bright ~= nil then SetBlipBright(blip, bright) end
+    if category then SetBlipCategory(blip, category) end -- categories can be found here: https://docs.fivem.net/natives/?_0x234CDD44D996FD9A
+    if hiddenOnLegend ~= nil then SetBlipHiddenOnLegend(blip, hiddenOnLegend) end
+    if highDetail ~= nil then SetBlipHighDetail(blip, highDetail) end
+    if rotation then SetBlipRotation(blip, rotation) end -- Required to be an integer
+    if cone ~= nil then SetBlipShowCone(blip, cone) end
+    if shrink ~= nil then SetBlipShrink(blip, shrink) end
+    if showHeight ~= nil then ShowHeightOnBlip(blip, showHeight) end
+    if showNumber then ShowNumberOnBlip(blip, showNumber) end
+    if showOutline ~= nil then ShowOutlineIndicatorOnBlip(blip, showOutline) end
+    return blip
 end
 
 function QBCore.Functions.RequestAnimDict(animDict)
-	if not HasAnimDictLoaded(animDict) then
-		RequestAnimDict(animDict)
-
-		while not HasAnimDictLoaded(animDict) do
-			Wait(4)
-		end
+	if HasAnimDictLoaded(animDict) then return end
+	RequestAnimDict(animDict)
+	while not HasAnimDictLoaded(animDict) do
+		Wait(0)
 	end
 end
 
-function QBCore.Functions.LoadModel(ModelName)
-	RequestModel(ModelName)
-	while not HasModelLoaded(ModelName) do
-		Wait(100)
+function QBCore.Functions.PlayAnim(animDict, animName, upperbodyOnly, duration)
+    local flags = upperbodyOnly == true and 16 or 0
+    local runTime = duration ~= nil and duration or -1
+    QBCore.Functions.RequestAnimDict(animDict)
+    TaskPlayAnim(PlayerPedId(), animDict, animName, 8.0, 1.0, runTime, flags, 0.0, false, false, true)
+    RemoveAnimDict(animDict)
+end
+
+function QBCore.Functions.LoadModel(model)
+    if HasModelLoaded(model) then return end
+	RequestModel(model)
+	while not HasModelLoaded(model) do
+		Wait(0)
 	end
 end
 
@@ -96,25 +113,25 @@ RegisterNUICallback('getNotifyConfig', function(_, cb)
     cb(QBCore.Config.Notify)
 end)
 
-function QBCore.Functions.Notify(text, textype, length)
+function QBCore.Functions.Notify(text, texttype, length)
     if type(text) == "table" then
         local ttext = text.text or 'Placeholder'
         local caption = text.caption or 'Placeholder'
-        local ttype = textype or 'primary'
-        local length = length or 5000
+        texttype = texttype or 'primary'
+        length = length or 5000
         SendNUIMessage({
             action = 'notify',
-            type = ttype,
+            type = texttype,
             length = length,
             text = ttext,
             caption = caption
         })
     else
-        local ttype = textype or 'primary'
-        local length = length or 5000
+        texttype = texttype or 'primary'
+        length = length or 5000
         SendNUIMessage({
             action = 'notify',
-            type = ttype,
+            type = texttype,
             length = length,
             text = text
         })
@@ -131,6 +148,7 @@ function QBCore.Functions.TriggerCallback(name, cb, ...)
 end
 
 function QBCore.Functions.Progressbar(name, label, duration, useWhileDead, canCancel, disableControls, animation, prop, propTwo, onFinish, onCancel)
+    if GetResourceState('progressbar') ~= 'started' then error('progressbar needs to be started in order for QBCore.Functions.Progressbar to work') end
     exports['progressbar']:Progress({
         name = name:lower(),
         duration = duration,
@@ -159,17 +177,19 @@ end
 function QBCore.Functions.GetVehicles()
     return GetGamePool('CVehicle')
 end
+
 function QBCore.Functions.GetObjects()
     return GetGamePool('CObject')
 end
+
 function QBCore.Functions.GetPlayers()
     return GetActivePlayers()
 end
 
 function QBCore.Functions.GetPeds(ignoreList)
     local pedPool = GetGamePool('CPed')
-    local ignoreList = ignoreList or {}
     local peds = {}
+    ignoreList = ignoreList or {}
     for i = 1, #pedPool, 1 do
         local found = false
         for j = 1, #ignoreList, 1 do
@@ -208,19 +228,19 @@ function QBCore.Functions.GetClosestPed(coords, ignoreList)
 end
 
 function QBCore.Functions.IsWearingGloves()
-    local armIndex = GetPedDrawableVariation(PlayerPedId(), 3)
-    local model = GetEntityModel(PlayerPedId())
-    local retval = true
+    local ped = PlayerPedId()
+    local armIndex = GetPedDrawableVariation(ped, 3)
+    local model = GetEntityModel(ped)
     if model == `mp_m_freemode_01` then
-        if QBCore.Shared.MaleNoGloves[armIndex] ~= nil and QBCore.Shared.MaleNoGloves[armIndex] then
-            retval = false
+        if QBCore.Shared.MaleNoGloves[armIndex] then
+            return false
         end
     else
-        if QBCore.Shared.FemaleNoGloves[armIndex] ~= nil and QBCore.Shared.FemaleNoGloves[armIndex] then
-            retval = false
+        if QBCore.Shared.FemaleNoGloves[armIndex] then
+            return false
         end
     end
-    return retval
+    return true
 end
 
 function QBCore.Functions.GetClosestPlayer(coords)
@@ -248,14 +268,14 @@ function QBCore.Functions.GetClosestPlayer(coords)
 end
 
 function QBCore.Functions.GetPlayersFromCoords(coords, distance)
-    local players = QBCore.Functions.GetPlayers()
+    local players = GetActivePlayers()
     local ped = PlayerPedId()
     if coords then
         coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords
     else
         coords = GetEntityCoords(ped)
     end
-    local distance = distance or 5
+    distance = distance or 5
     local closePlayers = {}
     for _, player in pairs(players) do
         local target = GetPlayerPed(player)
@@ -313,83 +333,68 @@ end
 
 function QBCore.Functions.GetClosestBone(entity, list)
     local playerCoords, bone, coords, distance = GetEntityCoords(PlayerPedId())
-
     for _, element in pairs(list) do
         local boneCoords = GetWorldPositionOfEntityBone(entity, element.id or element)
         local boneDistance = #(playerCoords - boneCoords)
-
         if not coords then
             bone, coords, distance = element, boneCoords, boneDistance
         elseif distance > boneDistance then
             bone, coords, distance = element, boneCoords, boneDistance
         end
     end
-
     if not bone then
         bone = {id = GetEntityBoneIndexByName(entity, "bodyshell"), type = "remains", name = "bodyshell"}
         coords = GetWorldPositionOfEntityBone(entity, bone.id)
         distance = #(coords - playerCoords)
     end
-
     return bone, coords, distance
 end
 
-function QBCore.Functions.GetBoneDistance(entity, Type, Bone)
+function QBCore.Functions.GetBoneDistance(entity, boneType, boneIndex)
     local bone
-
-    if Type == 1 then
-        bone = GetPedBoneIndex(entity, Bone)
+    if boneType == 1 then
+        bone = GetPedBoneIndex(entity, boneIndex)
     else
-        bone = GetEntityBoneIndexByName(entity, Bone)
+        bone = GetEntityBoneIndexByName(entity, boneIndex)
     end
-
     local boneCoords = GetWorldPositionOfEntityBone(entity, bone)
     local playerCoords = GetEntityCoords(PlayerPedId())
-
     return #(boneCoords - playerCoords)
 end
 
-function QBCore.Functions.AttachProp(ped, model, boneId, x, y, z, xR, yR, zR, Vertex)
-    local modelHash = GetHashKey(model)
+function QBCore.Functions.AttachProp(ped, model, boneId, x, y, z, xR, yR, zR, vertex)
+    local modelHash = type(model) == 'string' and GetHashKey(model) or model
     local bone = GetPedBoneIndex(ped, boneId)
-    RequestModel(modelHash)
-    while not HasModelLoaded(modelHash) do
-        Wait(0)
-    end
+    QBCore.Functions.LoadModel(modelHash)
     local prop = CreateObject(modelHash, 1.0, 1.0, 1.0, 1, 1, 0)
-    AttachEntityToEntity(prop, ped, bone, x, y, z, xR, yR, zR, 1, 1, 0, 1, not Vertex and 2 or 0, 1)
+    AttachEntityToEntity(prop, ped, bone, x, y, z, xR, yR, zR, 1, 1, 0, 1, not vertex and 2 or 0, 1)
     SetModelAsNoLongerNeeded(modelHash)
     return prop
 end
 
 -- Vehicle
 
-function QBCore.Functions.SpawnVehicle(model, cb, coords, isnetworked)
-    local model = GetHashKey(model)
+function QBCore.Functions.SpawnVehicle(model, cb, coords, isnetworked, teleportInto)
     local ped = PlayerPedId()
+    model = type(model) == 'string' and GetHashKey(model) or model
+    if not IsModelInCdimage(model) then return end
     if coords then
         coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords
     else
         coords = GetEntityCoords(ped)
     end
-    local isnetworked = isnetworked or true
-    if not IsModelInCdimage(model) then
-        return
-    end
-    RequestModel(model)
-    while not HasModelLoaded(model) do
-        Citizen.Wait(10)
-    end
+    isnetworked = isnetworked or true
+    QBCore.Functions.LoadModel(model)
     local veh = CreateVehicle(model, coords.x, coords.y, coords.z, coords.w, isnetworked, false)
     local netid = NetworkGetNetworkIdFromEntity(veh)
     SetVehicleHasBeenOwnedByPlayer(veh, true)
     SetNetworkIdCanMigrate(netid, true)
     SetVehicleNeedsToBeHotwired(veh, false)
     SetVehRadioStation(veh, 'OFF')
+    SetVehicleFuelLevel(veh, 100.0)
     SetModelAsNoLongerNeeded(model)
-    if cb then
-        cb(veh)
-    end
+    if teleportInto then TaskWarpPedIntoVehicle(PlayerPedId(), veh, -1) end
+    if cb then cb(veh) end
 end
 
 function QBCore.Functions.DeleteVehicle(vehicle)
@@ -403,9 +408,14 @@ function QBCore.Functions.GetPlate(vehicle)
 end
 
 function QBCore.Functions.SpawnClear(coords, radius)
+    if coords then
+        coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords
+    else
+        coords = GetEntityCoords(PlayerPedId())
+    end
     local vehicles = GetGamePool('CVehicle')
     local closeVeh = {}
-    for i=1, #vehicles, 1 do
+    for i = 1, #vehicles, 1 do
         local vehicleCoords = GetEntityCoords(vehicles[i])
         local distance = #(vehicleCoords - coords)
         if distance <= radius then
@@ -418,20 +428,20 @@ end
 
 function QBCore.Functions.GetVehicleProperties(vehicle)
     if DoesEntityExist(vehicle) then
-        local colorPrimary, colorSecondary = GetVehicleColours(vehicle)
         local pearlescentColor, wheelColor = GetVehicleExtraColours(vehicle)
-        local extras = {}
 
+        local colorPrimary, colorSecondary = GetVehicleColours(vehicle)
         if GetIsVehiclePrimaryColourCustom(vehicle) then
             r, g, b = GetVehicleCustomPrimaryColour(vehicle)
-            colorPrimary = { r, g, b }
+            colorPrimary = {r, g, b}
         end
 
         if GetIsVehicleSecondaryColourCustom(vehicle) then
             r, g, b = GetVehicleCustomSecondaryColour(vehicle)
-            colorSecondary = { r, g, b }
+            colorSecondary = {r, g, b}
         end
 
+        local extras = {}
         for extraId = 0, 12 do
             if DoesExtraExist(vehicle, extraId) then
                 local state = IsVehicleExtraTurnedOn(vehicle, extraId) == 1
@@ -439,10 +449,39 @@ function QBCore.Functions.GetVehicleProperties(vehicle)
             end
         end
 
-        if GetVehicleMod(vehicle, 48) == -1 and GetVehicleLivery(vehicle) ~= -1 then
+        local modLivery = GetVehicleMod(vehicle, 48)
+        if GetVehicleMod(vehicle, 48) == -1 and GetVehicleLivery(vehicle) ~= 0 then
             modLivery = GetVehicleLivery(vehicle)
-        else
-            modLivery = GetVehicleMod(vehicle, 48)
+        end
+
+        local neons = {}
+        for i = 0, 3 do
+            neons[i] = IsVehicleNeonLightEnabled(vehicle, i)
+        end
+
+        local tireHealth = {}
+        for i = 0, 3 do
+            tireHealth[i] = GetVehicleWheelHealth(vehicle, i)
+        end
+
+        local tireBurstState = {}
+        for i = 0, 5 do
+           tireBurstState[i] = IsVehicleTyreBurst(vehicle, i, false)
+        end
+
+        local tireBurstCompletely = {}
+        for i = 0, 5 do
+            tireBurstCompletely[i] = IsVehicleTyreBurst(vehicle, i, true)
+        end
+
+        local windowStatus = {}
+        for i = 0, 7 do
+            windowStatus[i] = IsVehicleWindowIntact(vehicle, i) == 1
+        end
+
+        local doorStatus = {}
+        for i = 0, 5 do
+            doorStatus[i] = IsVehicleDoorDamaged(vehicle, i) == 1
         end
 
         return {
@@ -454,22 +493,26 @@ function QBCore.Functions.GetVehicleProperties(vehicle)
             tankHealth = QBCore.Shared.Round(GetVehiclePetrolTankHealth(vehicle), 0.1),
             fuelLevel = QBCore.Shared.Round(GetVehicleFuelLevel(vehicle), 0.1),
             dirtLevel = QBCore.Shared.Round(GetVehicleDirtLevel(vehicle), 0.1),
+            oilLevel = QBCore.Shared.Round(GetVehicleOilLevel(vehicle), 0.1),
             color1 = colorPrimary,
             color2 = colorSecondary,
             pearlescentColor = pearlescentColor,
-            interiorColor = GetVehicleInteriorColor(vehicle),
             dashboardColor = GetVehicleDashboardColour(vehicle),
             wheelColor = wheelColor,
             wheels = GetVehicleWheelType(vehicle),
+            wheelSize = GetVehicleWheelSize(vehicle),
+            wheelWidth = GetVehicleWheelWidth(vehicle),
+            tireHealth = tireHealth,
+            tireBurstState = tireBurstState,
+            tireBurstCompletely = tireBurstCompletely,
             windowTint = GetVehicleWindowTint(vehicle),
+            windowStatus = windowStatus,
+            doorStatus = doorStatus,
             xenonColor = GetVehicleXenonLightsColour(vehicle),
-            neonEnabled = {
-                IsVehicleNeonLightEnabled(vehicle, 0),
-                IsVehicleNeonLightEnabled(vehicle, 1),
-                IsVehicleNeonLightEnabled(vehicle, 2),
-                IsVehicleNeonLightEnabled(vehicle, 3)
-            },
+            neonEnabled = neons,
             neonColor = table.pack(GetVehicleNeonLightsColour(vehicle)),
+            headlightColor = GetVehicleHeadlightsColour(vehicle),
+            interiorColor = GetVehicleInteriorColour(vehicle),
             extras = extras,
             tyreSmokeColor = table.pack(GetVehicleTyreSmokeColor(vehicle)),
             modSpoilers = GetVehicleMod(vehicle, 0),
@@ -489,8 +532,11 @@ function QBCore.Functions.GetVehicleProperties(vehicle)
             modHorns = GetVehicleMod(vehicle, 14),
             modSuspension = GetVehicleMod(vehicle, 15),
             modArmor = GetVehicleMod(vehicle, 16),
+            modKit17 = GetVehicleMod(vehicle, 17),
             modTurbo = IsToggleModOn(vehicle, 18),
+            modKit19 = GetVehicleMod(vehicle, 19),
             modSmokeEnabled = IsToggleModOn(vehicle, 20),
+            modKit21 = GetVehicleMod(vehicle, 21),
             modXenon = IsToggleModOn(vehicle, 22),
             modFrontWheels = GetVehicleMod(vehicle, 23),
             modBackWheels = GetVehicleMod(vehicle, 24),
@@ -518,7 +564,10 @@ function QBCore.Functions.GetVehicleProperties(vehicle)
             modTrimB = GetVehicleMod(vehicle, 44),
             modTank = GetVehicleMod(vehicle, 45),
             modWindows = GetVehicleMod(vehicle, 46),
+            modKit47 = GetVehicleMod(vehicle, 47),
             modLivery = modLivery,
+            modKit49 = GetVehicleMod(vehicle, 49),
+            liveryRoof = GetVehicleRoofLivery(vehicle),
         }
     else
         return
@@ -527,6 +576,16 @@ end
 
 function QBCore.Functions.SetVehicleProperties(vehicle, props)
     if DoesEntityExist(vehicle) then
+        if props.extras then
+            for id, enabled in pairs(props.extras) do
+                if enabled then
+                    SetVehicleExtra(vehicle, tonumber(id), 0)
+                else
+                    SetVehicleExtra(vehicle, tonumber(id), 1)
+                end
+            end
+        end
+
         local colorPrimary, colorSecondary = GetVehicleColours(vehicle)
         local pearlescentColor, wheelColor = GetVehicleExtraColours(vehicle)
         SetVehicleModKit(vehicle, 0)
@@ -542,11 +601,17 @@ function QBCore.Functions.SetVehicleProperties(vehicle, props)
         if props.engineHealth then
             SetVehicleEngineHealth(vehicle, props.engineHealth + 0.0)
         end
+        if props.tankHealth then
+            SetVehiclePetrolTankHealth(vehicle, props.tankHealth)
+        end
         if props.fuelLevel then
             SetVehicleFuelLevel(vehicle, props.fuelLevel + 0.0)
         end
         if props.dirtLevel then
             SetVehicleDirtLevel(vehicle, props.dirtLevel + 0.0)
+        end
+        if props.oilLevel then
+            SetVehicleOilLevel(vehicle, props.oilLevel)
         end
         if props.color1 then
             if type(props.color1) == "number" then
@@ -577,29 +642,59 @@ function QBCore.Functions.SetVehicleProperties(vehicle, props)
         if props.wheels then
             SetVehicleWheelType(vehicle, props.wheels)
         end
+        if props.tireHealth then
+            for wheelIndex, health in pairs(props.tireHealth) do
+                SetVehicleWheelHealth(vehicle, wheelIndex, health)
+            end
+        end
+        if props.tireBurstState then
+            for wheelIndex, burstState in pairs(props.tireBurstState) do
+                if burstState then
+                    SetVehicleTyreBurst(vehicle, tonumber(wheelIndex), false, 1000.0)
+                end
+            end
+        end
+        if props.tireBurstCompletely then
+            for wheelIndex, burstState in pairs(props.tireBurstCompletely) do
+                if burstState then
+                    SetVehicleTyreBurst(vehicle, tonumber(wheelIndex), true, 1000.0)
+                end
+            end
+        end
         if props.windowTint then
             SetVehicleWindowTint(vehicle, props.windowTint)
         end
-        if props.neonEnabled then
-            SetVehicleNeonLightEnabled(vehicle, 0, props.neonEnabled[1])
-            SetVehicleNeonLightEnabled(vehicle, 1, props.neonEnabled[2])
-            SetVehicleNeonLightEnabled(vehicle, 2, props.neonEnabled[3])
-            SetVehicleNeonLightEnabled(vehicle, 3, props.neonEnabled[4])
+        if props.windowStatus then
+            for windowIndex, smashWindow in pairs(props.windowStatus) do
+                if not smashWindow then SmashVehicleWindow(vehicle, windowIndex) end
+            end
         end
-        if props.extras then
-            for id, enabled in pairs(props.extras) do
-                if enabled then
-                    SetVehicleExtra(vehicle, tonumber(id), 0)
-                else
-                    SetVehicleExtra(vehicle, tonumber(id), 1)
+        if props.doorStatus then
+            for doorIndex, breakDoor in pairs(props.doorStatus) do
+                if breakDoor then
+                    SetVehicleDoorBroken(vehicle, doorIndex, true)
                 end
+            end
+        end
+        if props.neonEnabled then
+            for neonIndex, enableNeons in pairs(props.neonEnabled) do
+                SetVehicleNeonLightEnabled(vehicle, neonIndex, enableNeons)
             end
         end
         if props.neonColor then
             SetVehicleNeonLightsColour(vehicle, props.neonColor[1], props.neonColor[2], props.neonColor[3])
         end
-        if props.modSmokeEnabled then
-            ToggleVehicleMod(vehicle, 20, true)
+        if props.headlightColor then
+            SetVehicleHeadlightsColour(vehicle, props.headlightColor)
+        end
+        if props.interiorColor then
+            SetVehicleInteriorColour(vehicle, props.interiorColor)
+        end
+        if props.wheelSize then
+            SetVehicleWheelSize(vehicle, props.wheelSize)
+        end
+        if props.wheelWidth then
+            SetVehicleWheelWidth(vehicle, props.wheelWidth)
         end
         if props.tyreSmokeColor then
             SetVehicleTyreSmokeColor(vehicle, props.tyreSmokeColor[1], props.tyreSmokeColor[2], props.tyreSmokeColor[3])
@@ -655,8 +750,20 @@ function QBCore.Functions.SetVehicleProperties(vehicle, props)
         if props.modArmor then
             SetVehicleMod(vehicle, 16, props.modArmor, false)
         end
+        if props.modKit17 then
+            SetVehicleMod(vehicle, 17, props.modKit17, false)
+        end
         if props.modTurbo then
             ToggleVehicleMod(vehicle, 18, props.modTurbo)
+        end
+        if props.modKit19 then
+            SetVehicleMod(vehicle, 19, props.modKit19, false)
+        end
+        if props.modSmokeEnabled then
+            ToggleVehicleMod(vehicle, 20, props.modSmokeEnabled)
+        end
+        if props.modKit21 then
+            SetVehicleMod(vehicle, 21, props.modKit21, false)
         end
         if props.modXenon then
             ToggleVehicleMod(vehicle, 22, props.modXenon)
@@ -742,26 +849,39 @@ function QBCore.Functions.SetVehicleProperties(vehicle, props)
         if props.modWindows then
             SetVehicleMod(vehicle, 46, props.modWindows, false)
         end
+        if props.modKit47 then
+            SetVehicleMod(vehicle, 47, props.modKit47, false)
+        end
         if props.modLivery then
             SetVehicleMod(vehicle, 48, props.modLivery, false)
             SetVehicleLivery(vehicle, props.modLivery)
+        end
+        if props.modKit49 then
+            SetVehicleMod(vehicle, 49, props.modKit49, false)
+        end
+        if props.liveryRoof then
+            SetVehicleRoofLivery(vehicle, props.liveryRoof)
         end
     end
 end
 
 function QBCore.Functions.LoadParticleDictionary(dictionary)
-    if not HasNamedPtfxAssetLoaded(dictionary) then
-        RequestNamedPtfxAsset(dictionary)
-        while not HasNamedPtfxAssetLoaded(dictionary) do
-            Wait(0)
-        end
+    if HasNamedPtfxAssetLoaded(dictionary) then return end
+    RequestNamedPtfxAsset(dictionary)
+    while not HasNamedPtfxAssetLoaded(dictionary) do
+        Wait(0)
     end
 end
 
-function QBCore.Functions.StartParticleAtCoord(Dict, ptName, looped, coords, rot, scale, alpha, color, duration)
-    QBCore.Functions.LoadParticleDictionary(Dict)
-    UseParticleFxAssetNextCall(Dict)
-    SetPtfxAssetNextCall(Dict)
+function QBCore.Functions.StartParticleAtCoord(dict, ptName, looped, coords, rot, scale, alpha, color, duration)
+    if coords then
+        coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords
+    else
+        coords = GetEntityCoords(PlayerPedId())
+    end
+    QBCore.Functions.LoadParticleDictionary(dict)
+    UseParticleFxAssetNextCall(dict)
+    SetPtfxAssetNextCall(dict)
     local particleHandle
     if looped then
         particleHandle = StartParticleFxLoopedAtCoord(ptName, coords.x, coords.y, coords.z, rot.x, rot.y, rot.z, scale or 1.0)
@@ -780,13 +900,12 @@ function QBCore.Functions.StartParticleAtCoord(Dict, ptName, looped, coords, rot
         end
         StartParticleFxNonLoopedAtCoord(ptName, coords.x, coords.y, coords.z, rot.x, rot.y, rot.z, scale or 1.0)
     end
-
     return particleHandle
 end
 
-function QBCore.Functions.StartParticleOnEntity(Dict, ptName, looped, entity, bone, offset, rot, scale, alpha, color, evolution, duration)
-    QBCore.Functions.LoadParticleDictionary(Dict)
-    UseParticleFxAssetNextCall(Dict)
+function QBCore.Functions.StartParticleOnEntity(dict, ptName, looped, entity, bone, offset, rot, scale, alpha, color, evolution, duration)
+    QBCore.Functions.LoadParticleDictionary(dict)
+    UseParticleFxAssetNextCall(dict)
     local particleHandle, boneID
     if bone and GetEntityType(entity) == 1 then
         boneID = GetPedBoneIndex(entity, bone)
@@ -821,6 +940,5 @@ function QBCore.Functions.StartParticleOnEntity(Dict, ptName, looped, entity, bo
             StartParticleFxNonLoopedOnEntity(ptName, entity, offset.x, offset.y, offset.z, rot.x, rot.y, rot.z, scale)
         end
     end
-
     return particleHandle
 end
