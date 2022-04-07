@@ -13,7 +13,7 @@ local Translations = {
     info = {
         received_paycheck = 'Recebeste o pagamento de %{value}€',
         job_info = 'Emprego: %{value} | Grau: %{value2} | Serviço: %{value3}',
-        gang_info = 'Gang: %{value} | Grade: %{value2}',
+        gang_info = 'Gang: %{value} | Grau: %{value2}',
         on_duty = 'Agora estás de serviço!',
         off_duty = 'Agora estás fora de serviço!'
     }
