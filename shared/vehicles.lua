@@ -1,5 +1,5 @@
 QBShared = QBShared or {}
-QBShared.VehicleHashs = {}
+QBShared.VehicleHashes = {}
 
 QBShared.Vehicles = {
 	--- Compacts
@@ -4422,5 +4422,5 @@ QBShared.Vehicles = {
 }
 
 for k,v in pairs(QBShared.Vehicles) do
-	QBShared.VehicleHashs[v.hash] = v
+	QBShared.VehicleHashes[v.hash] = v
 end
