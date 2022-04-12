@@ -65,9 +65,9 @@ QBCore.Commands.Add('tp', 'TP To Player or Coords (Admin Only)', { { name = 'id/
         end
     else
         if args[1] and args[2] and args[3] then
-            local x = tonumber(args[1])
-            local y = tonumber(args[2])
-            local z = tonumber(args[3])
+            local x = tonumber((args[1]:gsub(",",""))) + .0
+            local y = tonumber((args[2]:gsub(",",""))) + .0
+            local z = tonumber((args[3]:gsub(",",""))) + .0
             if x ~= 0 and y ~= 0 and z ~= 0 then
                 TriggerClientEvent('QBCore:Command:TeleportToCoords', source, x, y, z)
             else
