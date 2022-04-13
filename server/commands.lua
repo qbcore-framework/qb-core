@@ -121,6 +121,7 @@ QBCore.Commands.Add('openserver', 'Open the server for everyone (Admin Only)', {
     end
     if QBCore.Functions.HasPermission(source, 'admin') then
         QBCore.Config.Server.Closed = false
+        TriggerClientEvent('QBCore:Notify', source, 'The server has been opened', 'success')
     else
         QBCore.Functions.Kick(source, 'You don\'t have permissions for this..', nil, nil)
     end
@@ -140,6 +141,7 @@ QBCore.Commands.Add('closeserver', 'Close the server for people without permissi
                 QBCore.Functions.Kick(k, reason, nil, nil)
             end
         end
+        TriggerClientEvent('QBCore:Notify', source, 'The server has been closed', 'success')
     else
         QBCore.Functions.Kick(source, 'You don\'t have permissions for this..', nil, nil)
     end
