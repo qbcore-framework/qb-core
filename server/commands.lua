@@ -6,8 +6,10 @@ QBCore.Commands.IgnoreList = { -- Ignore old perm levels while keeping backwards
 }
 
 CreateThread(function() -- Add ace to node for perm checking
-    for k,v in pairs(QBConfig.Server.Permissions) do
-        ExecuteCommand(('add_ace qbcore.%s %s allow'):format(v, v))
+    local permissions = QBConfig.Server.Permissions
+    for i=1, #permissions do
+        local permission = permissions[i]
+        ExecuteCommand(('add_ace qbcore.%s %s allow'):format(permission, permission))
     end
 end)
 
