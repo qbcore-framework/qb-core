@@ -253,10 +253,10 @@ end, 'user')
 -- Me command
 
 QBCore.Commands.Add('me', 'Show local message', {{name = 'message', help = 'Message to respond with'}}, false, function(source, args)
+    if #args < 1 then TriggerClientEvent('QBCore:Notify', source, Lang:t('error.missing_args2'), 'error') return end
     local ped = GetPlayerPed(source)
     local pCoords = GetEntityCoords(ped)
     local msg = table.concat(args, ' ')
-    if msg == '' then return end
     if string.match(msg, "<") then TriggerClientEvent('QBCore:Notify', source, Lang:t('error.wrong_format'), 'error') return end
     for k,v in pairs(QBCore.Functions.GetPlayers()) do
         local target = GetPlayerPed(v)
