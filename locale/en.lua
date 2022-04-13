@@ -10,7 +10,7 @@ local Translations = {
         too_heavy = 'Inventory too full',
         duplicate_license = 'Duplicate Rockstar License Found',
         no_valid_license  = 'No Valid Rockstar License Found',
-        not_whitelisted = 'You\'re not whitelisted for this server'
+        not_whitelisted = 'You\'re not whitelisted for this server',
         server_already_open = 'The server is already open',
         server_already_closed = 'The server is already closed'
     },
