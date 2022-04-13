@@ -256,8 +256,7 @@ QBCore.Commands.Add('me', 'Show local message', {{name = 'message', help = 'Mess
     if #args < 1 then TriggerClientEvent('QBCore:Notify', source, Lang:t('error.missing_args2'), 'error') return end
     local ped = GetPlayerPed(source)
     local pCoords = GetEntityCoords(ped)
-    local msg = table.concat(args, ' ')
-    if string.match(msg, "<") then TriggerClientEvent('QBCore:Notify', source, Lang:t('error.wrong_format'), 'error') return end
+    local msg = table.concat(args, ' '):gsub('[~<].-[>~]', '')
     local Players = QBCore.Functions.GetPlayers()
     for i=1, #Players do
         local Player = Players[i]
