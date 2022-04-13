@@ -1,4 +1,6 @@
 QBShared = QBShared or {}
+QBShared.VehicleHashes = {}
+
 QBShared.Vehicles = {
 	--- Compacts
 	['asbo'] = {
@@ -4021,7 +4023,80 @@ QBShared.Vehicles = {
 
 
 	--------------------------------------Addon Vehicles
-	---------------BEFORE SAVING ENSURE IT IS PERFECT AS OTHERWISE IT WILL BREAK EVERYONES GARAGES
+	---------------BEFORE SAVING ENSURE IT IS PERFECT AS OTHERWISE IT WILL BREAK EVERYONES GARAGE
+
+	['velum'] = {
+		['name'] = 'Velum',
+		['brand'] = 'Unknown',
+		['model'] = 'velum',
+		['price'] = 45000,
+		['category'] = 'planes',
+		['hash'] = `velum`,
+		['shop'] = 'air',
+	},
+	['velum2'] = {
+		['name'] = 'Velum',
+		['brand'] = 'Unknown',
+		['model'] = 'velum2',
+		['price'] = 45000,
+		['category'] = 'planes',
+		['hash'] = `velum2`,
+		['shop'] = 'air',
+	},
+	['shamal'] = { `
+		['name'] = 'Shamal',
+		['brand'] = 'Buckingham',
+		['model'] = 'shamal',
+		['price'] = 45000,
+		['category'] = 'planes',
+		['hash'] = `shamal`,
+		['shop'] = 'air',
+	},
+	['vestra'] = {
+		['name'] = 'Vestra',
+		['brand'] = 'Buckingham',
+		['model'] = 'vestra',
+		['price'] = 45000,
+		['category'] = 'planes',
+		['hash'] = `vestra`,
+		['shop'] = 'air',
+	},
+	['dodo'] = {
+		['name'] = 'Dodo',
+		['brand'] = 'Mammoth',
+		['model'] = 'dodo',
+		['price'] = 45000,
+		['category'] = 'planes',
+		['hash'] = `dodo`,
+		['shop'] = 'air',
+	},
+	['howard'] = {
+		['name'] = 'Howard NX-25',
+		['brand'] = 'Buckingham',
+		['model'] = 'howard',
+		['price'] = 45000,
+		['category'] = 'planes',
+		['hash'] = `howard`,
+		['shop'] = 'air',
+	},
+	['alphaz1'] = {
+		['name'] = 'Alpha-Z1',
+		['brand'] = 'Buckingham',
+		['model'] = 'alphaz1',
+		['price'] = 45000,
+		['category'] = 'planes',
+		['hash'] = `alphaz1`,
+		['shop'] = 'air',
+	},
+	['nimbus'] = {
+		['name'] = 'Nimbus',
+		['brand'] = 'Buckingham',
+		['model'] = 'nimbus',
+		['price'] = 45000,
+		['category'] = 'planes',
+		['hash'] = `nimbus`,
+		['shop'] = 'air',
+	},
 	['navaho'] = {							
 		['name'] = 'Navaho',
 		['brand'] = 'Western Motorcycles',
@@ -4347,3 +4422,7 @@ QBShared.Vehicles = {
 		['shop'] = 'none',
 	},
 }
+
+for k,v in pairs(QBShared.Vehicles) do
+	QBShared.VehicleHashes[v.hash] = v
+end

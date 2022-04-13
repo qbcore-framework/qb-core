@@ -7,7 +7,10 @@ local Translations = {
         no_access = 'No access to this command',
         company_too_poor = 'Your employer is broke',
         item_not_exist = 'Item does not exist',
-        too_heavy = 'Inventory too full'
+        too_heavy = 'Inventory too full',
+        duplicate_license = 'Duplicate Rockstar License Found',
+        no_valid_license  = 'No Valid Rockstar License Found',
+        not_whitelisted = 'You\'re not whitelisted for this server'
     },
     success = {},
     info = {
@@ -15,7 +18,10 @@ local Translations = {
         job_info = 'Job: %{value} | Grade: %{value2} | Duty: %{value3}',
         gang_info = 'Gang: %{value} | Grade: %{value2}',
         on_duty = 'You are now on duty!',
-        off_duty = 'You are now off duty!'
+        off_duty = 'You are now off duty!',
+        checking_ban = 'Hello %s. We are checking if you are banned.',
+        join_server = 'Welcome %s to {Server Name}.',
+        checking_whitelisted = 'Hello %s. We are checking your allowance.'
     }
 }
 
