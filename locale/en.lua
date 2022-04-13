@@ -7,9 +7,14 @@ local Translations = {
         no_access = 'No access to this command',
         company_too_poor = 'Your employer is broke',
         item_not_exist = 'Item does not exist',
-        too_heavy = 'Inventory too full'
+        too_heavy = 'Inventory too full',
+        server_already_open = 'The server is already open',
+        server_already_closed = 'The server is already closed'
     },
-    success = {},
+    success = {
+        server_opened = 'The server has been opened',
+        server_closed = 'The server has been closed'
+    },
     info = {
         received_paycheck = 'You received your paycheck of $%{value}',
         job_info = 'Job: %{value} | Grade: %{value2} | Duty: %{value3}',
