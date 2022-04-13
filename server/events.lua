@@ -54,7 +54,7 @@ local function onPlayerConnecting(name, setKickReason, deferrals)
 
     Wait(2500)
 
-    deferrals.update(Lang:t('info.join_server'), name)
+    deferrals.update(string.format(Lang:t('info.join_server'), name))
 
     if not license then
       deferrals.done(Lang:t('error.no_valid_license'))    
