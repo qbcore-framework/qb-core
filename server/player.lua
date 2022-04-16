@@ -261,7 +261,7 @@ function QBCore.Player.CreatePlayer(PlayerData)
         
         --! change !!
         for _, mtype in pairs(QBCore.Config.Money.DontAllowMinus) do
-            if mtype == moneytype then
+            if mtype == moneytype and (not QBConfig.Money.UsePhisicalCashMoney or not moneytype == "cash") then
                 if (self.PlayerData.money[moneytype] - amount) < 0 then
                     return false
                 end
@@ -269,7 +269,7 @@ function QBCore.Player.CreatePlayer(PlayerData)
         end
 
         if (QBConfig.Money.UsePhisicalCashMoney and moneytype == "cash") then
-            self.Functions.RemoveItem('cash', amount)
+            if not self.Functions.RemoveItem('cash', amount) then return false end
             TriggerClientEvent('inventory:client:ItemBox', self.PlayerData.source,  QBCore.Shared.Items["cash"], 'remove')
         else
             self.PlayerData.money[moneytype] = self.PlayerData.money[moneytype] - amount
