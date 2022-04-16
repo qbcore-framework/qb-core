@@ -14,21 +14,32 @@ end)
 -- Register & Refresh Commands
 
 function QBCore.Commands.Add(name, help, arguments, argsrequired, callback, permission)
-    local restricted = true -- Default to restricted for all commands
-    if not permission then permission = 'user' end -- some commands don't pass permission level
-    if permission == 'user' then restricted = false end -- allow all users to use command
-    RegisterCommand(name, callback, restricted) -- Register command within fivem
-    if not QBCore.Commands.IgnoreList[permission] then -- only create aces for extra perm levels
-        ExecuteCommand(('add_ace qbcore.%s command.%s allow'):format(permission, name))
+    local commandNames
+    if type(name) == "string" then
+        commandNames = {name}
+    elseif type(name) == "table" then
+        commandNames = name
+    else
+        error("COMMAND NAME -> INVALID TYPE (Must be string or table)")
     end
-    QBCore.Commands.List[name:lower()] = {
-        name = name:lower(),
-        permission = tostring(permission:lower()),
-        help = help,
-        arguments = arguments,
-        argsrequired = argsrequired,
-        callback = callback
-    }
+    
+    for _, v in pairs(commandNames) do
+        local restricted = true -- Default to restricted for all commands
+        if not permission then permission = 'user' end -- some commands don't pass permission level
+        if permission == 'user' then restricted = false end -- allow all users to use command
+        RegisterCommand(v, callback, restricted) -- Register command within fivem
+        if not QBCore.Commands.IgnoreList[permission] then -- only create aces for extra perm levels
+            ExecuteCommand(('add_ace qbcore.%s command.%s allow'):format(permission, v))
+        end
+        QBCore.Commands.List[v:lower()] = {
+            name = v:lower(),
+            permission = tostring(permission:lower()),
+            help = help,
+            arguments = arguments,
+            argsrequired = argsrequired,
+            callback = callback
+        }
+    end
 end
 
 function QBCore.Commands.Refresh(source)
