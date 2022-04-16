@@ -235,7 +235,13 @@ function QBCore.Player.CreatePlayer(PlayerData)
         amount = tonumber(amount)
         if amount < 0 then return end
         if not self.PlayerData.money[moneytype] then return false end
-        self.PlayerData.money[moneytype] = self.PlayerData.money[moneytype] + amount
+
+        if (QBConfig.Money.UsePhisicalCashMoney and moneytype == "cash") then
+            self.Functions.AddItem('cash', amount)
+            TriggerClientEvent('inventory:client:ItemBox', self.PlayerData.source,  QBCore.Shared.Items["cash"], 'add')
+        else
+            self.PlayerData.money[moneytype] = self.PlayerData.money[moneytype] + amount
+        end
         self.Functions.UpdatePlayerData()
         if amount > 100000 then
             TriggerEvent('qb-log:server:CreateLog', 'playermoney', 'AddMoney', 'lightgreen', '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')** $' .. amount .. ' (' .. moneytype .. ') added, new ' .. moneytype .. ' balance: ' .. self.PlayerData.money[moneytype], true)
@@ -252,6 +258,8 @@ function QBCore.Player.CreatePlayer(PlayerData)
         amount = tonumber(amount)
         if amount < 0 then return end
         if not self.PlayerData.money[moneytype] then return false end
+        
+        --! change !!
         for _, mtype in pairs(QBCore.Config.Money.DontAllowMinus) do
             if mtype == moneytype then
                 if (self.PlayerData.money[moneytype] - amount) < 0 then
@@ -259,7 +267,13 @@ function QBCore.Player.CreatePlayer(PlayerData)
                 end
             end
         end
-        self.PlayerData.money[moneytype] = self.PlayerData.money[moneytype] - amount
+
+        if (QBConfig.Money.UsePhisicalCashMoney and moneytype == "cash") then
+            self.Functions.RemoveItem('cash', amount)
+            TriggerClientEvent('inventory:client:ItemBox', self.PlayerData.source,  QBCore.Shared.Items["cash"], 'remove')
+        else
+            self.PlayerData.money[moneytype] = self.PlayerData.money[moneytype] - amount
+        end
         self.Functions.UpdatePlayerData()
         if amount > 100000 then
             TriggerEvent('qb-log:server:CreateLog', 'playermoney', 'RemoveMoney', 'red', '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')** $' .. amount .. ' (' .. moneytype .. ') removed, new ' .. moneytype .. ' balance: ' .. self.PlayerData.money[moneytype], true)
@@ -278,8 +292,14 @@ function QBCore.Player.CreatePlayer(PlayerData)
         moneytype = moneytype:lower()
         amount = tonumber(amount)
         if amount < 0 then return false end
-        if not self.PlayerData.money[moneytype] then return false end
-        self.PlayerData.money[moneytype] = amount
+        if (QBConfig.Money.UsePhisicalCashMoney and moneytype == "cash") then
+            actual = self.Functions.GetMoney(moneytype)
+            if actual > 0 then self.Functions.RemoveMoney(moneytype, actual) end
+            self.Functions.AddMoney(moneytype, amount)
+        else
+            if not self.PlayerData.money[moneytype] then return false end
+            self.PlayerData.money[moneytype] = amount
+        end
         self.Functions.UpdatePlayerData()
         TriggerEvent('qb-log:server:CreateLog', 'playermoney', 'SetMoney', 'green', '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')** $' .. amount .. ' (' .. moneytype .. ') set, new ' .. moneytype .. ' balance: ' .. self.PlayerData.money[moneytype])
         return true
@@ -288,6 +308,15 @@ function QBCore.Player.CreatePlayer(PlayerData)
     function self.Functions.GetMoney(moneytype)
         if not moneytype then return false end
         moneytype = moneytype:lower()
+        if (QBConfig.Money.UsePhisicalCashMoney and moneytype == "cash") then 
+            local items = self.Functions.GetItemsByName("cash")
+            local amount = 0
+            for _, slot in pairs(items) do
+                amount = amount + slot.amount
+            end
+            return amount
+        end
+
         return self.PlayerData.money[moneytype]
     end
 
