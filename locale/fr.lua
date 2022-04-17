@@ -22,7 +22,7 @@ local Translations = {
         checking_ban = 'Bonjour %s. Nous verifions si vous êtes banni.',
         validatin_license = 'Bonjour %s. Nous validons votre License Rockstar.',
         join_server = 'Bienvenue %s sur {Server Name}.',
-        checking_whitelisted = 'Bonjour %s. Nous vérifions si vous êtes dans la "Whitelist".'
+        checking_whitelisted = 'Bonjour %s. Nous vérifions si vous êtes sur la "whitelist".'
     }
 }
 
