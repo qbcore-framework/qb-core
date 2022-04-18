@@ -355,3 +355,16 @@ function QBCore.Functions.IsLicenseInUse(license)
     end
     return false
 end
+
+QBCore.Functions.CreateCallback('server:spawnvehicle', function(source, cb, model, pos, teleportInto)
+    local src = source
+    local ped = GetPlayerPed(src)
+	local veh = CreateVehicle(model, pos.x, pos.y, pos.z, pos.w, true, true)
+	while not DoesEntityExist(veh) do
+		Wait(25)
+	end
+    if DoesEntityExist(veh) then
+        Wait(500)
+        cb(NetworkGetNetworkIdFromEntity(veh))
+    end
+end)
