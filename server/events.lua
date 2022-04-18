@@ -65,10 +65,11 @@ local function onPlayerConnecting(name, setKickReason, deferrals)
     elseif isWhitelist and not whitelisted then
       deferrals.done(Lang:t('error.not_whitelisted'))    
     else
-        deferrals.done()
         if QBCore.Config.Server.UseConnectQueue then
             Wait(1000)
-            TriggerEvent('connectqueue:playerConnect', name, setKickReason, deferrals)
+            TriggerEvent('connectqueue:playerConnect', src, setKickReason, deferrals)
+        else
+            deferrals.done()
         end
     end
     -- Add any additional defferals you may need!
