@@ -65,9 +65,9 @@ QBCore.Commands.Add('tp', 'TP To Player or Coords (Admin Only)', { { name = 'id/
         end
     else
         if args[1] and args[2] and args[3] then
-            local x = tonumber(args[1])
-            local y = tonumber(args[2])
-            local z = tonumber(args[3])
+            local x = tonumber((args[1]:gsub(",",""))) + .0
+            local y = tonumber((args[2]:gsub(",",""))) + .0
+            local z = tonumber((args[3]:gsub(",",""))) + .0
             if x ~= 0 and y ~= 0 and z ~= 0 then
                 TriggerClientEvent('QBCore:Command:TeleportToCoords', source, x, y, z)
             else
@@ -253,16 +253,17 @@ end, 'user')
 -- Me command
 
 QBCore.Commands.Add('me', 'Show local message', {{name = 'message', help = 'Message to respond with'}}, false, function(source, args)
+    if #args < 1 then TriggerClientEvent('QBCore:Notify', source, Lang:t('error.missing_args2'), 'error') return end
     local ped = GetPlayerPed(source)
     local pCoords = GetEntityCoords(ped)
-    local msg = table.concat(args, ' ')
-    if msg == '' then return end
-    if string.match(msg, "<") then TriggerClientEvent('QBCore:Notify', source, Lang:t('error.wrong_format'), 'error') return end
-    for k,v in pairs(QBCore.Functions.GetPlayers()) do
-        local target = GetPlayerPed(v)
+    local msg = table.concat(args, ' '):gsub('[~<].-[>~]', '')
+    local Players = QBCore.Functions.GetPlayers()
+    for i=1, #Players do
+        local Player = Players[i]
+        local target = GetPlayerPed(Player)
         local tCoords = GetEntityCoords(target)
-        if #(pCoords - tCoords) < 20 then
-            TriggerClientEvent('QBCore:Command:ShowMe3D', v, source, msg)
+        if target == ped or #(pCoords - tCoords) < 20 then
+            TriggerClientEvent('QBCore:Command:ShowMe3D', Player, source, msg)
         end
     end
 end, 'user')
