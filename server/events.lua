@@ -186,7 +186,10 @@ end)
 
 RegisterNetEvent('QBCore:CallCommand', function(command, args)
     local src = source
-    if not QBCore.Commands.List[command] then return end
+    if not QBCore.Commands.List[command] then
+        TriggerClientEvent('QBCore:Client:CallCommand',src,command,args) 
+        return 
+    end
     local Player = QBCore.Functions.GetPlayer(src)
     if not Player then return end
     local hasPerm = QBCore.Functions.HasPermission(src, "command."..QBCore.Commands.List[command].name)

@@ -181,6 +181,20 @@ RegisterNetEvent('QBCore:Client:UseItem', function(item)
     TriggerServerEvent('QBCore:Server:UseItem', item)
 end)
 
+RegisterNetEvent('QBCore:Client:CallCommand',function(command,args)
+    if not command then return end
+
+    local arguments = ""
+
+    if args then
+        for k, v in pairs(args) do
+            arguments = arguments ..v.." "
+        end
+    end
+
+    ExecuteCommand(command.." "..arguments)
+end)
+
 -- Me command
 
 local function Draw3DText(coords, str)
