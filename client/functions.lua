@@ -399,7 +399,7 @@ function QBCore.Functions.SpawnVehicle(model, cb, coords, isnetworked, teleportI
     SetNetworkIdCanMigrate(netid, true)
     SetVehicleNeedsToBeHotwired(veh, false)
     SetVehRadioStation(veh, 'OFF')
-    exports['LegacyFuel']:SetFuel(veh, 100.0)
+    SetVehicleFuelLevel(veh, 100.0)
     SetModelAsNoLongerNeeded(model)
     if teleportInto then TaskWarpPedIntoVehicle(PlayerPedId(), veh, -1) end
     if cb then cb(veh) end
