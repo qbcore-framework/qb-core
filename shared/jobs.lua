@@ -14,7 +14,7 @@ QBShared.Jobs = {
 	},
 	['police'] = {
 		label = 'Law Enforcement',
-        isleo = true,
+        type = "leo",
 		defaultDuty = true,
 		offDutyPay = false,
 		grades = {
