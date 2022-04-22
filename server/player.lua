@@ -168,7 +168,7 @@ function QBCore.Player.CreatePlayer(PlayerData)
         self.PlayerData.job.name = job
         self.PlayerData.job.label = QBCore.Shared.Jobs[job].label
         self.PlayerData.job.onduty = QBCore.Shared.Jobs[job].defaultDuty
-        self.PlayerData.job.isleo = QBCore.Shared.Jobs[job].isleo or false
+        self.PlayerData.job.type = QBCore.Shared.Jobs[job].type or 'none'
         if QBCore.Shared.Jobs[job].grades[grade] then
             local jobgrade = QBCore.Shared.Jobs[job].grades[grade]
             self.PlayerData.job.grade = {}
