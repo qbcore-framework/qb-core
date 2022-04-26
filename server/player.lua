@@ -44,7 +44,6 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
     PlayerData.name = GetPlayerName(source)
     PlayerData.cid = PlayerData.cid or 1
     PlayerData.money = PlayerData.money or {}
-    PlayerData.optin = PlayerData.optin or true
     for moneytype, startamount in pairs(QBCore.Config.Money.MoneyTypes) do
         PlayerData.money[moneytype] = PlayerData.money[moneytype] or startamount
     end
@@ -107,6 +106,7 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
         SerialNumber = QBCore.Player.CreateSerialNumber(),
         InstalledApps = {},
     }
+    PlayerData.metadata['optin'] = PlayerData.metadata['optin'] or true
     -- Job
     if PlayerData.job and PlayerData.job.name and not QBCore.Shared.Jobs[PlayerData.job.name] then PlayerData.job = nil end
     PlayerData.job = PlayerData.job or {}

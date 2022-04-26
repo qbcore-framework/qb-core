@@ -313,15 +313,15 @@ function QBCore.Functions.IsOptin(source)
     local license = QBCore.Functions.GetIdentifier(source, 'license')
     if not license or not QBCore.Functions.HasPermission(source, 'admin') then return false end
     local Player = QBCore.Functions.GetPlayer(source)
-    return Player.PlayerData.optin
+    return Player.PlayerData.metadata['optin']
 end
 
 function QBCore.Functions.ToggleOptin(source)
     local license = QBCore.Functions.GetIdentifier(source, 'license')
     if not license or not QBCore.Functions.HasPermission(source, 'admin') then return end
     local Player = QBCore.Functions.GetPlayer(source)
-    Player.PlayerData.optin = not Player.PlayerData.optin
-    Player.Functions.SetMetaData('optin', Player.PlayerData.optin)
+    Player.PlayerData.metadata['optin'] = not Player.PlayerData.metadata['optin']
+    Player.Functions.SetMetaData('optin', Player.PlayerData.metadata['optin'])
 end
 
 -- Check if player is banned
