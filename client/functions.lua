@@ -405,6 +405,29 @@ function QBCore.Functions.SpawnVehicle(model, cb, coords, isnetworked, teleportI
     if cb then cb(veh) end
 end
 
+function QBCore.Functions.SpawnNetworkedVehicle(model, cb, coords, heading, teleportInto)
+    ped     = PlayerPedId()
+    model   = type(model) == "string" and GetHashKey(model) or model
+    coords  = (type(coords) == "vector3" and coords) or (type(coords) == 'table' and vec3(coords.x, coords.y, coords.z)) or GetOffsetFromEntityInWorldCoords(ped, 0.0, 2.0, 0.0)
+    heading = heading and heading or GetEntityHeading(ped)
+
+    if model and coords then
+        if not IsModelInCdimage(model) then return end
+
+        QBCore.Functions.TriggerCallback("QBCore:Server:SpawnNetworkedVehicle", function(vehicle)
+            vehicle = NetworkGetEntityFromNetworkId(vehicle)
+
+            SetVehicleNeedsToBeHotwired(vehicle, false)
+            SetVehRadioStation(vehicle, 'OFF')
+            SetVehicleFuelLevel(vehicle, 100.0)
+            SetModelAsNoLongerNeeded(model)
+
+            if teleportInto then TaskWarpPedIntoVehicle(ped, vehicle, -1) end
+            if cb then cb(vehicle) end
+        end, model, coords, heading)
+    end
+end
+
 function QBCore.Functions.DeleteVehicle(vehicle)
     SetEntityAsMissionEntity(vehicle, true, true)
     DeleteVehicle(vehicle)
@@ -413,6 +436,11 @@ end
 function QBCore.Functions.GetPlate(vehicle)
     if vehicle == 0 then return end
     return QBCore.Shared.Trim(GetVehicleNumberPlateText(vehicle))
+end
+
+function QBCore.Functions.GetVehicleLabel(vehicle)
+    if vehicle == 0 or vehicle == nil then return end
+    return GetLabelText(GetDisplayNameFromVehicleModel(GetEntityModel(vehicle)))
 end
 
 function QBCore.Functions.SpawnClear(coords, radius)
@@ -950,4 +978,66 @@ function QBCore.Functions.StartParticleOnEntity(dict, ptName, looped, entity, bo
         end
     end
     return particleHandle
+end
+
+function QBCore.Functions.GetStreetNametAtCoords(coords)
+    local streetname1, streetname2  	= GetStreetNameAtCoord(coords.x, coords.y, coords.z)
+    return { main = GetStreetNameFromHashKey(streetname1), cross = GetStreetNameFromHashKey(streetname2) }
+end
+
+function QBCore.Functions.GetZoneAtCoords(coords)
+    return GetLabelText(GetNameOfZone(coords))
+end
+
+function QBCore.Functions.GetCardinalDirection(entity)
+    entity = DoesEntityExist(entity) and entity or PlayerPedId()
+    if DoesEntityExist(entity) then
+        local heading = GetEntityHeading(entity)
+        if ((heading >= 0 and heading < 45) or (heading >= 315 and heading < 360)) then
+            return "North"
+        elseif (heading >= 45 and heading < 135) then
+            return "West"
+        elseif (heading >= 135 and heading < 225) then
+            return "South"
+        elseif (heading >= 225 and heading < 315) then
+            return "East"
+        end
+    else
+        return "Cardinal Direction Error"
+    end
+end
+
+function QBCore.Functions.GetCurrentTime()
+    local hour      = GetClockHours()
+    local minute    = GetClockMinutes()
+    local obj       = {}
+
+    if hour <= 12 then
+        obj.ampm = "AM"
+    elseif hour >= 13 then
+        obj.ampm = "PM"
+        hour = hour - 12
+    end
+
+    if minute <= 9 then
+        minute = "0" .. minute
+    end
+
+    obj.hour    = hour
+    obj.minute  = minute
+
+    return obj
+end
+
+function QBCore.Functions.GetGroundZCoord(coords)
+    if coords then
+        local retval, groundZ = GetGroundZFor_3dCoord(coords.x, coords.y, coords.z, 0)
+        if retval then
+            return vector3(coords.x, coords.y, groundZ)
+        else
+            print('Couldn\'t find Ground Z Coordinates given 3D Coordinates')
+            print(coords)
+            return coords
+        end
+    end
 end
