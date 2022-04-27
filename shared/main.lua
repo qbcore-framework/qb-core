@@ -43,7 +43,7 @@ end
 
 -- Debugging purposes. Prints out a supplied table in the server/f8 console.
 
-function QBCore.Functions.DumpTable(tbl, nb)
+function QBShared.DumpTable(tbl, nb)
     if nb == nil then
 		nb = 0
 	end
