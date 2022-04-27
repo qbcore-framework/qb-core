@@ -223,6 +223,7 @@ QBCore.Functions.CreateCallback('QBCore:HasItem', function(source, cb, items, am
                         end
                     end
                 end
+                retval = true
             else
                 finalcount = #items
                 local item = Player.Functions.GetItemByName(v)
@@ -241,6 +242,7 @@ QBCore.Functions.CreateCallback('QBCore:HasItem', function(source, cb, items, am
                         end
                     end
                 end
+                retval = true
             end
         end
     else
