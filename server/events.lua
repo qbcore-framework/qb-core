@@ -7,10 +7,11 @@ AddEventHandler('chatMessage', function(source, _, message)
     end
 end)
 
-AddEventHandler('playerDropped', function()
+AddEventHandler('playerDropped', function(reason)
     local src = source
     if not QBCore.Players[src] then return end
     local Player = QBCore.Players[src]
+    print("^2[qb-core]^7 " .. GetPlayerName(src) .. " - " .. Player.PlayerData.citizenid .. " has left the server - Reason: " .. reason)
     TriggerEvent('qb-log:server:CreateLog', 'joinleave', 'Dropped', 'red', '**' .. GetPlayerName(src) .. '** (' .. Player.PlayerData.license .. ') left..')
     Player.Functions.Save()
     QBCore.Player_Buckets[Player.PlayerData.license] = nil
