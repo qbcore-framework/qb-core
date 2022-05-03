@@ -17,4 +17,5 @@ jobs:
         uses: mikepenz/action-junit-report@v3
         with:
           report_paths: "**/junit.xml"
+          check_name: Generate Report
           fail_on_failure: 0
