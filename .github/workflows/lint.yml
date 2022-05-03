@@ -18,4 +18,4 @@ jobs:
         with:
           report_paths: "**/junit.xml"
           check_name: Generate Report
-          fail_on_failure: 0
+          fail_on_failure: false
