@@ -14,7 +14,7 @@ jobs:
           args: "-t --formatter JUnit"
       - name: Publish Test Report
         if: always()
-        uses: mikepenz/action-junit-report@v2
+        uses: mikepenz/action-junit-report@v3
         with:
           report_paths: "**/junit.xml"
           fail_on_failure: 0
