@@ -2,8 +2,8 @@ name: Lint
 on: [push, pull_request]
 jobs:
   lint:
-    name: Lint Lua Scripts
-    runs-on: self-hosted
+    name: Lint Resource
+    #runs-on: self-hosted
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -12,10 +12,10 @@ jobs:
         with:
           capture: "junit.xml"
           args: "-t --formatter JUnit"
-      - name: Publish Test Report
+      - name: Generate Lint Report
         if: always()
         uses: mikepenz/action-junit-report@v3
         with:
           report_paths: "**/junit.xml"
-          check_name: Generate Report
+          check_name: Linting Report
           fail_on_failure: false
