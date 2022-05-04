@@ -9,10 +9,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Lint
-        uses: iLLeniumStudios/fivem-lua-lint-action@v1.0.1
+        uses: iLLeniumStudios/fivem-lua-lint-action@v1.0.2
         with:
           capture: "junit.xml"
           args: "-t --formatter JUnit"
+          extra_libs: mysql
       - name: Generate Lint Report
         if: always()
         uses: mikepenz/action-junit-report@v3
