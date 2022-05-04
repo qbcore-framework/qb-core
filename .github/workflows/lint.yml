@@ -9,7 +9,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Lint
-        uses: iLLeniumStudios/fivem-lua-lint-action@v1.0.4
+        uses: iLLeniumStudios/fivem-lua-lint-action@v1.0.5
         with:
           capture: "junit.xml"
           args: "-t --formatter JUnit"
