@@ -226,3 +226,9 @@ RegisterNetEvent('QBCore:Client:OnSharedUpdateMultiple', function(tableName, val
     end
     TriggerEvent('QBCore:Client:UpdateObject')
 end)
+
+RegisterNetEvent('QBCore:Client:TriggerClientCallback', function(name, ...)
+    QBCore.Functions.TriggerClientCallback(name, function(...)
+        TriggerServerEvent('QBCore:Server:TriggerClientCallback', name, ...)
+    end, ...)
+end)

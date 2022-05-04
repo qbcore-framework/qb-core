@@ -112,6 +112,13 @@ RegisterNetEvent('QBCore:Server:TriggerCallback', function(name, ...)
     end, ...)
 end)
 
+RegisterNetEvent('QBCore:Server:TriggerClientCallback', function(name, ...)
+    if QBCore.ClientCallbacks[name] then
+        QBCore.ClientCallbacks[name](...)
+        QBCore.ClientCallbacks[name] = nil
+    end
+end)
+
 -- Player
 
 RegisterNetEvent('QBCore:UpdatePlayer', function()

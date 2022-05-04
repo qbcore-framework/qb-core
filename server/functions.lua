@@ -197,7 +197,9 @@ function PaycheckInterval()
 end
 
 -- Callbacks
+-- CALLBACKS --
 
+-- Server Callback
 function QBCore.Functions.CreateCallback(name, cb)
     QBCore.ServerCallbacks[name] = cb
 end
@@ -207,10 +209,22 @@ function QBCore.Functions.TriggerCallback(name, source, cb, ...)
     QBCore.ServerCallbacks[name](source, cb, ...)
 end
 
+-- Client Callback
+function QBCore.Functions.TriggerClientCallback(name, source, cb, ...)
+    QBCore.ClientCallbacks[name] = cb
+    TriggerClientEvent('QBCore:Client:TriggerClientCallback', source, name, ...)
+end
+
 -- Items
 
 function QBCore.Functions.CreateUseableItem(item, cb)
-    QBCore.UseableItems[item] = cb
+    if type(item) == "table" then
+        for _,i in ipairs(item) do
+            QBCore.UseableItems[i] = cb
+        end
+    else
+        QBCore.UseableItems[item] = cb
+    end
 end
 
 function QBCore.Functions.CanUseItem(item)
