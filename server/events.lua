@@ -1,6 +1,6 @@
 -- Event Handler
 
-AddEventHandler('chatMessage', function(source, _, message)
+AddEventHandler('chatMessage', function(_, _, message)
     if string.sub(message, 1, 1) == '/' then
         CancelEvent()
         return
@@ -57,13 +57,13 @@ local function onPlayerConnecting(name, setKickReason, deferrals)
     deferrals.update(string.format(Lang:t('info.join_server'), name))
 
     if not license then
-      deferrals.done(Lang:t('error.no_valid_license'))    
+      deferrals.done(Lang:t('error.no_valid_license'))
     elseif isBanned then
         deferrals.done(Reason)
     elseif isLicenseAlreadyInUse and QBCore.Config.Server.CheckDuplicateLicense then
         deferrals.done(Lang:t('error.duplicate_license'))
     elseif isWhitelist and not whitelisted then
-      deferrals.done(Lang:t('error.not_whitelisted'))    
+      deferrals.done(Lang:t('error.not_whitelisted'))
     else
         deferrals.done()
         if QBCore.Config.Server.UseConnectQueue then
@@ -209,15 +209,15 @@ QBCore.Functions.CreateCallback('QBCore:HasItem', function(source, cb, items, am
     if not Player then return cb(false) end
     if type(items) == 'table' then
         local count = 0
-        local finalcount = 0
+        local finalcount
         for k, v in pairs(items) do
             if type(k) == 'string' then
                 finalcount = 0
-                for i, _ in pairs(items) do finalcount += 1 end
+                for _, _ in pairs(items) do finalcount = finalcount + 1 end
                 local item = Player.Functions.GetItemByName(k)
                 if item then
                     if item.amount >= v then
-                        count += 1
+                        count = count + 1
                         if count == finalcount then
                             retval = true
                         end
@@ -229,13 +229,13 @@ QBCore.Functions.CreateCallback('QBCore:HasItem', function(source, cb, items, am
                 if item then
                     if amount then
                         if item.amount >= amount then
-                            count += 1
+                            count = count + 1
                             if count == finalcount then
                                 retval = true
                             end
                         end
                     else
-                        count += 1
+                        count = count + 1
                         if count == finalcount then
                             retval = true
                         end
