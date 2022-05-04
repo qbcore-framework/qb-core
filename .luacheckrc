@@ -99,11 +99,13 @@ stds.mysql = {
     read_globals = {
         MySQL = {
             fields = {
+                "query",
                 Sync = {
                     fields = {
                         "prepare",
                         "fetchScalar",
-                        "fetchSingle"
+                        "fetchSingle",
+                        "fetchAll"
                     }
                 },
                 Async = {
@@ -119,225 +121,10 @@ stds.mysql = {
     }
 }
 
-stds.qbcore = {
-    globals = {
-        "PaycheckInterval",
-        QBConfig = {
-            fields = {
-                --"Server",
-                Server = {
-                    fields = {
-                        "PVP",
-                        "Permissions",
-                        "CheckDuplicateLicense",
-                        "Discord",
-                        "WhitelistPermission",
-                        "Whitelist",
-                        "Uptime",
-                        "Closed",
-                        "ClosedReason",
-                        "UseConnectQueue",
-                    }
-                },
-                "MaxPlayers",
-                "DefaultSpawn",
-                "UpdateInterval",
-                "StatusInterval",
-                Notify = {
-                    fields = {
-                        "NotificationStyling",
-                        "VariantDefinitions"
-                    }
-                },
-                Player = {
-                    fields = {
-                        "Bloodtypes",
-                        "ThirstRate",
-                        "HungerRate",
-                        "MaxInvSlots",
-                        "MaxWeight"
-                    }
-                },
-                Money = {
-                    fields = {
-                        "MoneyTypes",
-                        "DontAllowMinus",
-                        "PayCheckTimeOut",
-                        "PayCheckSociety"
-                    }
-                },
-                --"Money",
-                --"Player",
-                --"Notify"
-            }
-        },
-        Lang = {
-            fields = {
-                "t"
-            }
-        },
-        Locale = {
-            fields = {
-                "extend",
-                "clear",
-                "replace",
-                "locale",
-                "t",
-                "has",
-                "delete",
-                "__index",
-                "new",
-            }
-        },
-        QBCore = {
-            fields = {
-                Player = {
-                    fields = {
-                        "CreateSerialNumber",
-                        "CreateWalletId",
-                        "CreateFingerId",
-                        "CreateCitizenId",
-                        "GetFirstSlotByItem",
-                        "GetSlotsByItem",
-                        "GetTotalWeight",
-                        "SaveInventory",
-                        "LoadInventory",
-                        "DeleteCharacter",
-                        "Save",
-                        "Logout",
-                        "CreatePlayer",
-                        "CheckPlayerData",
-                        "Login"
-                    }
-                },
-                "Entity_Buckets",
-                "Player_Buckets",
-                "Players",
-                "UseableItems",
-                "ServerCallbacks",
-                "Shared",
-                "Config",
-                "Debug",
-                "ShowError",
-                "ShowSuccess",
-                --"PlayerData"
-                Functions = {
-                    fields = {
-                        "GetCoreVersion",
-                        "AddGang",
-                        "AddGangs",
-                        "AddItem",
-                        "AddItems",
-                        "AddJob",
-                        "AddJobs",
-                        "GetPlayers",
-                        "IsOptin",
-                        "HasPermission",
-                        "GetPlayer",
-                        "Kick",
-                        "AddPermission",
-                        "RemovePermission",
-                        "LoadParticleDictionary",
-                        "StartParticleOnEntity",
-                        "StartParticleAtCoord",
-                        "SetVehicleProperties",
-                        "GetPlate",
-                        "GetVehicleProperties",
-                        "SpawnClear",
-                        "DeleteVehicle",
-                        "LoadModel",
-                        "AttachProp",
-                        "SpawnVehicle",
-                        "GetBoneDistance",
-                        "GetClosestBone",
-                        "GetClosestObject",
-                        "GetClosestVehicle",
-                        "GetPlayersFromCoords",
-                        "GetClosestPlayer",
-                        "IsWearingGloves",
-                        "GetPeds",
-                        "GetClosestPed",
-                        "GetObjects",
-                        "GetVehicles",
-                        "Progressbar",
-                        "TriggerCallback",
-                        "Notify",
-                        "RequestAnimDict",
-                        "PlayAnim",
-                        "CreateBlip",
-                        "DrawText3D",
-                        "DrawText",
-                        "HasItem",
-                        "GetCoords",
-                        "GetPlayerData",
-                        "CreatePhoneNumber",
-                        "CreateAccountNumber",
-                        "GetIdentifier",
-                        "IsLicenseInUse",
-                        "IsPlayerBanned",
-                        "ToggleOptin",
-                        "GetPermission",
-                        "IsWhitelisted",
-                        "UseItem",
-                        "CanUseItem",
-                        "CreateUseableItem",
-                        "CreateCallback",
-                        "GetEntitiesInBucket",
-                        "GetPlayersInBucket",
-                        "SetEntityBucket",
-                        "SetPlayerBucket",
-                        "GetBucketObjects",
-                        "GetDutyCount",
-                        "GetPlayersOnDuty",
-                        "GetQBPlayers",
-                        "GetPlayerByPhone",
-                        "GetPlayerByCitizenId",
-                        "GetSource",
-                        "LoadAnimSet"
-                    }
-                },
-                Commands = {
-                    fields = {
-                        "Add",
-                        "List",
-                        "Refresh",
-                        "IgnoreList"
-                    }
-                },
-                PlayerData = {
-                    fields = {
-                        metadata = {
-                            fields = {
-                                "hunger",
-                                "thirst",
-                                "isdead"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        QBShared = {
-            fields = {
-                "RandomStr",
-                "SplitStr",
-                "Trim",
-                "Round",
-                "ChangeVehicleExtra",
-                "SetDefaultVehicleExtras",
-                "StarterItems",
-                "MaleNoGloves",
-                "FemaleNoGloves",
-                "RandomInt",
-                "Vehicles",
-                "Weapons",
-                "Jobs",
-                "ForceJobDefaultDutyAtLogin",
-                "Items",
-                "Gangs",
-                "VehicleHashes"
-            }
-        }
+stds.polyzone = {
+    read_globals = {
+        "ComboZone",
+        "BoxZone"
     }
 }
 
@@ -347,18 +134,18 @@ files["**/__resource.lua"].std = "max+cfx_manifest"
 files["**/fxmanifest.lua"].ignore = {'113', '611', '111', '614'}
 files["**/__resource.lua"].ignore = {'113', '611', '111', '614'}
 -- clients
-files["**/client.lua"].std = "max+cfx+cfx_cl+qbcore"
-files["**/cl_*.lua"].std = "max+cfx+cfx_cl+qbcore"
-files["**/client/**/*.lua"].std = "max+cfx+cfx_cl+qbcore"
+files["**/client.lua"].std = "max+cfx+cfx_cl+polyzone"
+files["**/cl_*.lua"].std = "max+cfx+cfx_cl+polyzone"
+files["**/client/**/*.lua"].std = "max+cfx+cfx_cl+polyzone"
 -- server
-files["**/server.lua"].std = "max+cfx+cfx_sv+qbcore+mysql"
-files["**/sv_*.lua"].std = "max+cfx+cfx_sv+qbcore+mysql"
-files["**/server/**/*.lua"].std = "max+cfx+cfx_sv+qbcore+mysql"
+files["**/server.lua"].std = "max+cfx+cfx_sv+mysql"
+files["**/sv_*.lua"].std = "max+cfx+cfx_sv+mysql"
+files["**/server/**/*.lua"].std = "max+cfx+cfx_sv+mysql"
 -- shared
-files["**/shared.lua"].std="max+cfx+cfx_sv+cfx_cl+qbcore"
-files["**/shared/**/*.lua"].std="max+cfx+cfx_sv+cfx_cl+qbcore"
-files["**/locale/*.lua"].std="max+cfx+cfx_sv+cfx_cl+qbcore"
-files["**/config.lua"].std="max+cfx+cfx_sv+cfx_cl+qbcore"
+files["**/shared.lua"].std="max+cfx+cfx_sv+cfx_cl"
+files["**/shared/**/*.lua"].std="max+cfx+cfx_sv+cfx_cl"
+files["**/locale/*.lua"].std="max+cfx+cfx_sv+cfx_cl"
+files["**/config.lua"].std="max+cfx+cfx_sv+cfx_cl"
 
 -- default
 max_line_length = 1000
