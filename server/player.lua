@@ -232,7 +232,7 @@ function QBCore.Player.CreatePlayer(PlayerData)
     function self.Functions.AddMoney(moneytype, amount, reason)
         reason = reason or 'unknown'
         moneytype = moneytype:lower()
-        amount = tonumber(amount)
+        amount = tonumber(math.floor(amount))
         if amount < 0 then return end
         if not self.PlayerData.money[moneytype] then return false end
         self.PlayerData.money[moneytype] = self.PlayerData.money[moneytype] + amount
@@ -249,7 +249,7 @@ function QBCore.Player.CreatePlayer(PlayerData)
     function self.Functions.RemoveMoney(moneytype, amount, reason)
         reason = reason or 'unknown'
         moneytype = moneytype:lower()
-        amount = tonumber(amount)
+        amount = tonumber(math.floor(amount))
         if amount < 0 then return end
         if not self.PlayerData.money[moneytype] then return false end
         for _, mtype in pairs(QBCore.Config.Money.DontAllowMinus) do
@@ -276,7 +276,7 @@ function QBCore.Player.CreatePlayer(PlayerData)
     function self.Functions.SetMoney(moneytype, amount, reason)
         reason = reason or 'unknown'
         moneytype = moneytype:lower()
-        amount = tonumber(amount)
+        amount = tonumber(math.floor(amount))
         if amount < 0 then return false end
         if not self.PlayerData.money[moneytype] then return false end
         self.PlayerData.money[moneytype] = amount
