@@ -57,13 +57,13 @@ local function onPlayerConnecting(name, setKickReason, deferrals)
     deferrals.update(string.format(Lang:t('info.join_server'), name))
 
     if not license then
-      deferrals.done(Lang:t('error.no_valid_license'))    
+      deferrals.done(Lang:t('error.no_valid_license'))
     elseif isBanned then
         deferrals.done(Reason)
     elseif isLicenseAlreadyInUse and QBCore.Config.Server.CheckDuplicateLicense then
         deferrals.done(Lang:t('error.duplicate_license'))
     elseif isWhitelist and not whitelisted then
-      deferrals.done(Lang:t('error.not_whitelisted'))    
+      deferrals.done(Lang:t('error.not_whitelisted'))
     else
         deferrals.done()
         if QBCore.Config.Server.UseConnectQueue then
@@ -103,8 +103,17 @@ RegisterNetEvent('QBCore:Server:OpenServer', function()
     end
 end)
 
--- Callbacks
+-- Callback Events --
 
+-- Client Callback
+RegisterNetEvent('QBCore:Server:TriggerClientCallback', function(name, ...)
+    if QBCore.ClientCallbacks[name] then
+        QBCore.ClientCallbacks[name](...)
+        QBCore.ClientCallbacks[name] = nil
+    end
+end)
+
+-- Server Callback
 RegisterNetEvent('QBCore:Server:TriggerCallback', function(name, ...)
     local src = source
     QBCore.Functions.TriggerCallback(name, src, function(...)
