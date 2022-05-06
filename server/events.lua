@@ -209,39 +209,28 @@ QBCore.Functions.CreateCallback('QBCore:HasItem', function(source, cb, items, am
     if not Player then return cb(false) end
     if type(items) == 'table' then
         local count = 0
-        local finalcount
+        local finalcount = #items
         for k, v in pairs(items) do
             if type(k) == 'string' then
-                finalcount = 0
-                for _, _ in pairs(items) do finalcount += 1 end
                 local item = Player.Functions.GetItemByName(k)
-                if item then
-                    if item.amount >= v then
-                        count += 1
-                        if count == finalcount then
-                            retval = true
-                        end
-                    end
+                if item and item.amount >= v then
+                    count += 1
                 end
             else
-                finalcount = #items
                 local item = Player.Functions.GetItemByName(v)
                 if item then
                     if amount then
                         if item.amount >= amount then
                             count += 1
-                            if count == finalcount then
-                                retval = true
-                            end
                         end
                     else
                         count += 1
-                        if count == finalcount then
-                            retval = true
-                        end
                     end
                 end
             end
+        end
+        if count == finalcount then
+            retval = true
         end
     else
         local item = Player.Functions.GetItemByName(items)
