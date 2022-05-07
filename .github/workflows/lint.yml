@@ -1,0 +1,23 @@
+name: Lint
+on: [push, pull_request_target]
+jobs:
+  lint:
+    name: Lint Resource
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+      - name: Lint
+        uses: iLLeniumStudios/fivem-lua-lint-action@v1.0.11
+        with:
+          capture: "junit.xml"
+          args: "-t --formatter JUnit"
+          extra_libs: mysql
+      - name: Generate Lint Report
+        if: always()
+        uses: mikepenz/action-junit-report@v3
+        with:
+          report_paths: "**/junit.xml"
+          check_name: Linting Report
+          fail_on_failure: false
