@@ -355,3 +355,21 @@ function QBCore.Functions.IsLicenseInUse(license)
     end
     return false
 end
+
+
+-- Function that takes webhook url, title, message and sends them to the discord as a log.
+
+function QBCore.Functions.SendDiscordLog(webhook, title, message)
+    local log = {
+      {
+         ["color"] = "15158332",
+         ["title"] = title,
+         ["description"] = message,
+         ["footer"] = {
+            ["text"] = 'QBCore Discord Logs',
+            ["icon_url"] = "https://avatars.githubusercontent.com/u/81791099?s=200&v=4"
+         },
+      }
+   }
+   PerformHttpRequest(webhook, function(err, text, headers) end, 'POST', json.encode({username = "QBCore Logger", embeds = log, avatar_url = "https://avatars.githubusercontent.com/u/81791099?s=200&v=4"}), {['Content-Type'] = 'application/json'})
+end
