@@ -18,7 +18,7 @@ QBConfig.Player.HungerRate = 4.2 -- Rate at which hunger goes down.
 QBConfig.Player.ThirstRate = 3.8 -- Rate at which thirst goes down.
 QBConfig.Player.Bloodtypes = {
     "A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-",
-} 
+}
 
 QBConfig.Server = {} -- General server config
 QBConfig.Server.UseConnectQueue = true -- Use connectqueue as a queue for your server
