@@ -65,6 +65,22 @@ end
 QBCore.Functions.AddItem = AddItem
 exports('AddItem', AddItem)
 
+-- Single update item
+local function UpdateItem(itemName, item)
+    if type(itemName) ~= "string" then
+        return false, "invalid_item_name"
+    end
+    if not QBCore.Shared.Items[itemName] then
+        return false, "item_not_exists"
+    end
+    QBCore.Shared.Items[itemName] = item
+    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Items', itemName, item)
+    TriggerEvent('QBCore:Server:UpdateObject')
+    return true, "success"
+end
+QBCore.Functions.UpdateItem = UpdateItem
+exports('UpdateItem', UpdateItem)
+
 -- Multiple Add Items
 local function AddItems(items)
     local shouldContinue = true
