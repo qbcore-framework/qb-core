@@ -207,41 +207,29 @@ QBCore.Functions.CreateCallback('QBCore:HasItem', function(source, cb, items, am
     local retval = false
     local Player = QBCore.Functions.GetPlayer(source)
     if not Player then return cb(false) end
-    if type(items) == 'table' then
-        local count = 0
-        local finalcount = #items
-        for k, v in pairs(items) do
-            if type(k) == 'string' then
-                local item = Player.Functions.GetItemByName(k)
-                if item and item.amount >= v then
-                    count += 1
-                end
-            else
-                local item = Player.Functions.GetItemByName(v)
-                if item then
-                    if amount then
-                        if item.amount >= amount then
-                            count += 1
-                        end
-                    else
-                        count += 1
-                    end
-                end
+    local isTable = type(items) == 'table'
+	local isArray = isTable and table.type(items) == 'array' or false
+	local totalItems = 0
+	local count = 0
+	if isTable then for _ in pairs(items) do totalItems += 1 end else totalItems = #items end
+	local kvIndex
+	if isArray then kvIndex = 2 else kvIndex = 1 end
+    if isTable then
+		for k, v in pairs(items) do
+			local itemKV = {k, v}
+			local item = Player.Functions.GetItemByName(itemKV[kvIndex])
+            if item and (not amount or (amount and item.amount >= amount)) then
+                count += 1
             end
-        end
-        if count == finalcount then
+		end
+		if count == totalItems then
+			retval = false
+		end
+	else -- Single item as string
+		local item = Player.Functions.GetItemByName(items)
+        if item and (not amount or (amount and item.amount >= amount)) then
             retval = true
         end
-    else
-        local item = Player.Functions.GetItemByName(items)
-        if not item then return cb(false) end
-        if amount then
-            if item.amount >= amount then
-                retval = true
-            end
-        else
-            retval = true
-        end
-    end
+	end
     cb(retval)
 end)
