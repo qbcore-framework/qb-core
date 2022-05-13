@@ -256,3 +256,22 @@ QBCore.Functions.CreateCallback('QBCore:HasItem', function(source, cb, items, am
     end
     cb(retval)
 end)
+
+QBCore.Functions.CreateCallback("QBCore:Server:SpawnNetworkedVehicle", function(source, cb, model, coords, heading)
+    local vehicle       = CreateVehicle(model, coords.x, coords.y, coords.z, heading, true, true)
+    local timeOut       = 0
+    while not DoesEntityExist(vehicle) do
+        timeOut = timeOut + 1
+        if timeOut > 50 then
+            return
+        end
+        Wait(0)
+    end
+
+    local vehicleNetId  = NetworkGetNetworkIdFromEntity(vehicle)
+    Wait(1000)
+
+    SetEntityCoords(vehicle, coords.x, coords.y, coords.z)
+
+    cb(vehicleNetId)
+end)
