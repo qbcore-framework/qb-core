@@ -52,6 +52,10 @@ function QBCore.Functions.GetPlayerByCitizenId(citizenid)
     return nil
 end
 
+function QBCore.Functions.GetOfflinePlayerByCitizenId(citizenid)
+    return QBCore.Player.GetOfflineUser(citizenid)
+end
+
 function QBCore.Functions.GetPlayerByPhone(number)
     for src, _ in pairs(QBCore.Players) do
         if QBCore.Players[src].PlayerData.charinfo.phone == number then
