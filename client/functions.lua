@@ -52,39 +52,6 @@ function QBCore.Functions.DrawText3D(x, y, z, text)
     ClearDrawOrigin()
 end
 
-function QBCore.Functions.CreateBlip(coords, sprite, display, scale, colour, shortRange, title, alpha, friendly, bright, category, hiddenOnLegend, highDetail, rotation, cone, shrink, showHeight, showNumber, showOutline)
-    if not coords or (type(coords) ~= 'table' and type(coords) ~= 'vector3') then
-        print("Blip failed to create, the coords were not specified or was specified in the wrong format, coords must be a table or vector3, debug log: ")
-        print(("Coords: %s Sprite: %s Display: %s scale: %s shortRange: %s Title: %s Alpha: %s Friendly: %s Bright: %s Category: %s Hidden On Legend: %s High Detail: %s Rotation: %s Cone: %s Shrink: %s Show Heigt: %s Show Number: %s Show Outline: %s"):format(coords, sprite, display, scale, colour, shortRange, title, alpha, friendly, bright, category, hiddenOnLegend, highDetail, rotation, cone, shrink, showHeight, showNumber, showOutline))
-        return
-    end
-    coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords
-    local blip = AddBlipForCoord(coords)
-    if sprite then SetBlipSprite(blip, sprite) end
-    if display then SetBlipDisplay(blip, display) end
-    if scale then SetBlipScale(blip, scale) end
-    if colour then SetBlipColour(blip, colour) end
-    if shortRange ~= nil then SetBlipAsShortRange(blip, shortRange) end
-    if title then
-        BeginTextCommandSetBlipName("STRING")
-        AddTextComponentString(title)
-        EndTextCommandSetBlipName(blip)
-    end
-    if alpha then SetBlipAlpha(blip, alpha) end
-    if friendly ~= nil then SetBlipAsFriendly(blip, friendly) end
-    if bright ~= nil then SetBlipBright(blip, bright) end
-    if category then SetBlipCategory(blip, category) end -- categories can be found here: https://docs.fivem.net/natives/?_0x234CDD44D996FD9A
-    if hiddenOnLegend ~= nil then SetBlipHiddenOnLegend(blip, hiddenOnLegend) end
-    if highDetail ~= nil then SetBlipHighDetail(blip, highDetail) end
-    if rotation then SetBlipRotation(blip, rotation) end -- Required to be an integer
-    if cone ~= nil then SetBlipShowCone(blip, cone) end
-    if shrink ~= nil then SetBlipShrink(blip, shrink) end
-    if showHeight ~= nil then ShowHeightOnBlip(blip, showHeight) end
-    if showNumber then ShowNumberOnBlip(blip, showNumber) end
-    if showOutline ~= nil then ShowOutlineIndicatorOnBlip(blip, showOutline) end
-    return blip
-end
-
 function QBCore.Functions.RequestAnimDict(animDict)
 	if HasAnimDictLoaded(animDict) then return end
 	RequestAnimDict(animDict)
