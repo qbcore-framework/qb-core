@@ -2,6 +2,7 @@
 
 ### [Official QBCore Documentation](https://qbcore-framework.github.io/qb-docs/)
 
+## [Jet Brains Community Member](https://www.jetbrains.com/community/opensource/#support) 
 
 ## QBCore is officially partnered with Sonoran Software!
 Sonoran Software offers:
