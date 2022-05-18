@@ -1,6 +1,6 @@
 -- Event Handler
 
-AddEventHandler('chatMessage', function(source, _, message)
+AddEventHandler('chatMessage', function(_, _, message)
     if string.sub(message, 1, 1) == '/' then
         CancelEvent()
         return
@@ -57,13 +57,13 @@ local function onPlayerConnecting(name, setKickReason, deferrals)
     deferrals.update(string.format(Lang:t('info.join_server'), name))
 
     if not license then
-      deferrals.done(Lang:t('error.no_valid_license'))    
+      deferrals.done(Lang:t('error.no_valid_license'))
     elseif isBanned then
         deferrals.done(Reason)
     elseif isLicenseAlreadyInUse and QBCore.Config.Server.CheckDuplicateLicense then
         deferrals.done(Lang:t('error.duplicate_license'))
     elseif isWhitelist and not whitelisted then
-      deferrals.done(Lang:t('error.not_whitelisted'))    
+      deferrals.done(Lang:t('error.not_whitelisted'))
     else
         deferrals.done()
         if QBCore.Config.Server.UseConnectQueue then
@@ -207,52 +207,29 @@ QBCore.Functions.CreateCallback('QBCore:HasItem', function(source, cb, items, am
     local retval = false
     local Player = QBCore.Functions.GetPlayer(source)
     if not Player then return cb(false) end
-    if type(items) == 'table' then
-        local count = 0
-        local finalcount = 0
-        for k, v in pairs(items) do
-            if type(k) == 'string' then
-                finalcount = 0
-                for i, _ in pairs(items) do finalcount += 1 end
-                local item = Player.Functions.GetItemByName(k)
-                if item then
-                    if item.amount >= v then
-                        count += 1
-                        if count == finalcount then
-                            retval = true
-                        end
-                    end
-                end
-            else
-                finalcount = #items
-                local item = Player.Functions.GetItemByName(v)
-                if item then
-                    if amount then
-                        if item.amount >= amount then
-                            count += 1
-                            if count == finalcount then
-                                retval = true
-                            end
-                        end
-                    else
-                        count += 1
-                        if count == finalcount then
-                            retval = true
-                        end
-                    end
-                end
+    local isTable = type(items) == 'table'
+	local isArray = isTable and table.type(items) == 'array' or false
+	local totalItems = 0
+	local count = 0
+	if isTable then for _ in pairs(items) do totalItems += 1 end else totalItems = #items end
+	local kvIndex
+	if isArray then kvIndex = 2 else kvIndex = 1 end
+    if isTable then
+		for k, v in pairs(items) do
+			local itemKV = {k, v}
+			local item = Player.Functions.GetItemByName(itemKV[kvIndex])
+            if item and (not amount or (amount and item.amount >= amount)) then
+                count += 1
             end
-        end
-    else
-        local item = Player.Functions.GetItemByName(items)
-        if not item then return cb(false) end
-        if amount then
-            if item.amount >= amount then
-                retval = true
-            end
-        else
+		end
+		if count == totalItems then
+			retval = false
+		end
+	else -- Single item as string
+		local item = Player.Functions.GetItemByName(items)
+        if item and (not amount or (amount and item.amount >= amount)) then
             retval = true
         end
-    end
+	end
     cb(retval)
 end)
