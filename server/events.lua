@@ -209,25 +209,28 @@ QBCore.Functions.CreateCallback('QBCore:HasItem', function(source, cb, items, am
     if not Player then return cb(false) end
     local isTable = type(items) == 'table'
 	local isArray = isTable and table.type(items) == 'array' or false
-	local totalItems = 0
+	local totalItems = #items
 	local count = 0
-	if isTable then for _ in pairs(items) do totalItems += 1 end else totalItems = #items end
-	local kvIndex
-	if isArray then kvIndex = 2 else kvIndex = 1 end
+    local kvIndex = 2
+	if isTable and not isArray then
+        totalItems = 0
+        for _ in pairs(items) do totalItems += 1 end
+        kvIndex = 1
+    end
     if isTable then
 		for k, v in pairs(items) do
 			local itemKV = {k, v}
 			local item = Player.Functions.GetItemByName(itemKV[kvIndex])
-            if item and (not amount or (amount and item.amount >= amount)) then
+            if item and ((amount and item.amount >= amount) or (not amount and not isArray and item.amount >= v) or (not amount and isArray)) then
                 count += 1
             end
 		end
 		if count == totalItems then
-			retval = false
+			retval = true
 		end
 	else -- Single item as string
 		local item = Player.Functions.GetItemByName(items)
-        if item and (not amount or (amount and item.amount >= amount)) then
+        if item and not amount or (amount and item.amount >= amount) then
             retval = true
         end
 	end
