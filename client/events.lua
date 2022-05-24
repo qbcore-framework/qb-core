@@ -127,7 +127,7 @@ RegisterNetEvent('QBCore:Command:SpawnVehicle', function(vehName)
         Wait(0)
     end
         
-     if IsPedInAnyVehicle(ped) then 
+     if IsPedInAnyVehicle(ped) then
         DeleteVehicle(veh)
     end
         
@@ -147,7 +147,7 @@ RegisterNetEvent('QBCore:Command:DeleteVehicle', function()
     else
         local pcoords = GetEntityCoords(ped)
         local vehicles = GetGamePool('CVehicle')
-        for k, v in pairs(vehicles) do
+        for _, v in pairs(vehicles) do
             if #(pcoords - GetEntityCoords(v)) <= 5.0 then
                 SetEntityAsMissionEntity(v, true, true)
                 DeleteVehicle(v)
