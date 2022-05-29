@@ -228,7 +228,7 @@ QBCore.Commands.Add('ooc', 'OOC Chat Message', {}, false, function(source, args)
     local Players = QBCore.Functions.GetPlayers()
     local Player = QBCore.Functions.GetPlayer(source)
     local playerCoords = GetEntityCoords(GetPlayerPed(source))
-    for k, v in pairs(Players) do
+    for _, v in pairs(Players) do
         if v == source then
             TriggerClientEvent('chat:addMessage', v, {
                 color = { 0, 0, 255},
