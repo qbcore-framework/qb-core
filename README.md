@@ -1,23 +1,6 @@
 # qb-core
 
-### [Official QBCore Documentation](https://qbcore-framework.github.io/qb-docs/)
-
-## Jet Brains Open Source Community Member
-* [Click here for more info](https://www.jetbrains.com/community/opensource/#support)
-
-![imageedit_1_7437031978](https://user-images.githubusercontent.com/57848836/169108129-5bc5e78c-d8ae-464d-bb86-42451685ca1a.png)
-
-## QBCore is officially partnered with Sonoran Software!
-Sonoran Software offers:
-* [The most advanced, integrated CAD software](https://sonorancad.com/kakarot)
-* [Complete community management software](https://sonorancms.com/kakarot)
-* [In-depth radio communications simulator](https://sonoranradio.com/kakarot)
-* [Premium server hosting](https://sonoranservers.com/kakarot)
-
-Use code `KAKAROT` for 20% off your first month at checkout!
-
-# Sonoran Software
-![Sonoran Software Partnership](https://sonoransoftware.com/assets/images/promotional/partners/qb_banner_coupon.png)
+### [Official QBCore Documentation](https://docs.qbcore.org)
 
 # License
 
