@@ -186,7 +186,7 @@ function QBCore.Functions.GetClosestPed(coords, ignoreList)
     else
         coords = GetEntityCoords(ped)
     end
-    local ignoreList = ignoreList or {}
+    ignoreList = ignoreList or {}
     local peds = QBCore.Functions.GetPeds(ignoreList)
     local closestDistance = -1
     local closestPed = -1
@@ -407,12 +407,12 @@ function QBCore.Functions.GetVehicleProperties(vehicle)
 
         local colorPrimary, colorSecondary = GetVehicleColours(vehicle)
         if GetIsVehiclePrimaryColourCustom(vehicle) then
-            r, g, b = GetVehicleCustomPrimaryColour(vehicle)
+            local r, g, b = GetVehicleCustomPrimaryColour(vehicle)
             colorPrimary = {r, g, b}
         end
 
         if GetIsVehicleSecondaryColourCustom(vehicle) then
-            r, g, b = GetVehicleCustomSecondaryColour(vehicle)
+            local r, g, b = GetVehicleCustomSecondaryColour(vehicle)
             colorSecondary = {r, g, b}
         end
 
