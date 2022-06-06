@@ -152,3 +152,19 @@ local function GetCoreVersion(InvokingResource)
 end
 QBCore.Functions.GetCoreVersion = GetCoreVersion
 exports('GetCoreVersion', GetCoreVersion)
+
+local function ExploitBan(playerId, origin)
+    local name = GetPlayerName(playerId)
+    MySQL.insert('INSERT INTO bans (name, license, discord, ip, reason, expire, bannedby) VALUES (?, ?, ?, ?, ?, ?, ?)', {
+        name,
+        QBCore.Functions.GetIdentifier(playerId, 'license'),
+        QBCore.Functions.GetIdentifier(playerId, 'discord'),
+        QBCore.Functions.GetIdentifier(playerId, 'ip'),
+        origin,
+        2147483647,
+        'Anti Cheat'
+    })
+    DropPlayer(playerId, "You have been banned for cheating. Check our Discord for more information: " .. QBCore.Config.Server.Discord)
+    TriggerEvent("qb-log:server:CreateLog", "anticheat", "Anti-Cheat", "red", name.." has been banned for exploiting "..origin, true)
+end 
+exports('ExploitBan', ExploitBan)
