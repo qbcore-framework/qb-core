@@ -36,35 +36,35 @@ function QBCore.Player.Login(source, citizenid, newData)
     end
 end
 
-function QBCore.Player.GetOfflineUser(citizenid)
-  if citizenid then
-    local PlayerData = MySQL.Sync.prepare('SELECT * FROM players where citizenid = ?', {citizenid})
-    if PlayerData then
-      PlayerData.money = json.decode(PlayerData.money)
-      PlayerData.job = json.decode(PlayerData.job)
-      PlayerData.position = json.decode(PlayerData.position)
-      PlayerData.metadata = json.decode(PlayerData.metadata)
-      PlayerData.charinfo = json.decode(PlayerData.charinfo)
-      if PlayerData.gang then
-        PlayerData.gang = json.decode(PlayerData.gang)
-      else
-        PlayerData.gang = {}
-      end
+function QBCore.Player.GetOfflinePlayer(citizenid)
+    if citizenid then
+        local PlayerData = MySQL.Sync.prepare('SELECT * FROM players where citizenid = ?', {citizenid})
+        if PlayerData then
+            PlayerData.money = json.decode(PlayerData.money)
+            PlayerData.job = json.decode(PlayerData.job)
+            PlayerData.position = json.decode(PlayerData.position)
+            PlayerData.metadata = json.decode(PlayerData.metadata)
+            PlayerData.charinfo = json.decode(PlayerData.charinfo)
+            if PlayerData.gang then
+                PlayerData.gang = json.decode(PlayerData.gang)
+            else
+                PlayerData.gang = {}
+            end
 
-      return QBCore.Player.CheckPlayerData(nil, PlayerData)
+            return QBCore.Player.CheckPlayerData(nil, PlayerData)
+        end
     end
-  end
-  return nil
+    return nil
 end
 
 function QBCore.Player.CheckPlayerData(source, PlayerData)
     PlayerData = PlayerData or {}
     local Offline = true
     if source ~= nil then
-      PlayerData.source = source
-      PlayerData.license = PlayerData.license or QBCore.Functions.GetIdentifier(source, 'license')
-      PlayerData.name = GetPlayerName(source)
-      Offline = false
+        PlayerData.source = source
+        PlayerData.license = PlayerData.license or QBCore.Functions.GetIdentifier(source, 'license')
+        PlayerData.name = GetPlayerName(source)
+        Offline = false
     end
     
     PlayerData.citizenid = PlayerData.citizenid or QBCore.Player.CreateCitizenId()
@@ -420,22 +420,22 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
             local amountToRemove = amount
             if slots then
                 for _, _slot in pairs(slots) do
-                  if self.PlayerData.items[_slot].amount > amountToRemove then
-                      self.PlayerData.items[_slot].amount = self.PlayerData.items[_slot].amount - amountToRemove
+                    if self.PlayerData.items[_slot].amount > amountToRemove then
+                        self.PlayerData.items[_slot].amount = self.PlayerData.items[_slot].amount - amountToRemove
 
-                      if not self.Offline then
-                          self.Functions.UpdatePlayerData()
-                          TriggerEvent('qb-log:server:CreateLog', 'playerinventory', 'RemoveItem', 'red', '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')** lost item: [slot:' .. _slot .. '], itemname: ' .. self.PlayerData.items[_slot].name .. ', removed amount: ' .. amount .. ', new total amount: ' .. self.PlayerData.items[_slot].amount)
-                      end
+                        if not self.Offline then
+                            self.Functions.UpdatePlayerData()
+                            TriggerEvent('qb-log:server:CreateLog', 'playerinventory', 'RemoveItem', 'red', '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')** lost item: [slot:' .. _slot .. '], itemname: ' .. self.PlayerData.items[_slot].name .. ', removed amount: ' .. amount .. ', new total amount: ' .. self.PlayerData.items[_slot].amount)
+                        end
 
-                      return true
-                  elseif self.PlayerData.items[_slot].amount == amountToRemove then
-                      self.PlayerData.items[_slot] = nil
+                        return true
+                    elseif self.PlayerData.items[_slot].amount == amountToRemove then
+                        self.PlayerData.items[_slot] = nil
 
-                      if not self.Offline then
-                          self.Functions.UpdatePlayerData()
-                          TriggerEvent('qb-log:server:CreateLog', 'playerinventory', 'RemoveItem', 'red', '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')** lost item: [slot:' .. _slot .. '], itemname: ' .. item .. ', removed amount: ' .. amount .. ', item removed')
-                      end
+                        if not self.Offline then
+                            self.Functions.UpdatePlayerData()
+                            TriggerEvent('qb-log:server:CreateLog', 'playerinventory', 'RemoveItem', 'red', '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')** lost item: [slot:' .. _slot .. '], itemname: ' .. item .. ', removed amount: ' .. amount .. ', item removed')
+                        end
 
                         return true
                     end

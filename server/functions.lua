@@ -53,7 +53,7 @@ function QBCore.Functions.GetPlayerByCitizenId(citizenid)
 end
 
 function QBCore.Functions.GetOfflinePlayerByCitizenId(citizenid)
-    return QBCore.Player.GetOfflineUser(citizenid)
+    return QBCore.Player.GetOfflinePlayer(citizenid)
 end
 
 function QBCore.Functions.GetPlayerByPhone(number)
