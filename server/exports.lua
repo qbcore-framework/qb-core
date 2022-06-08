@@ -166,5 +166,5 @@ local function ExploitBan(playerId, origin)
     })
     DropPlayer(playerId, "You have been banned for cheating. Check our Discord for more information: " .. QBCore.Config.Server.Discord)
     TriggerEvent("qb-log:server:CreateLog", "anticheat", "Anti-Cheat", "red", name.." has been banned for exploiting "..origin, true)
-end 
+end
 exports('ExploitBan', ExploitBan)
