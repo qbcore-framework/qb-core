@@ -1,7 +1,6 @@
 # qb-core
 
-### [Official QBCore Documentation](https://qbcore-framework.github.io/qb-docs/)
-
+### [Official QBCore Documentation](https://docs.qbcore.org)
 
 # License
 
