@@ -202,8 +202,9 @@ function QBCore.Functions.GetPeds(ignoreList)
     for i = 1, #pedPool, 1 do
         local found = false
         for j = 1, #ignoreList, 1 do
-            if ignoreList[j] == pedPool[i] then
+            if ignoreList[j] == GetEntityModel(pedPool[i]) then                
                 found = true
+                break
             end
         end
         if not found then
