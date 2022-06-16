@@ -173,25 +173,6 @@ end
 QBCore.Functions.RemoveItem = RemoveItem
 exports('RemoveItem', RemoveItem)
 
--- Single Update Item
-local function UpdateItem(itemName, item)
-    if type(itemName) ~= "string" then
-        return false, "invalid_item_name"
-    end
-
-    if not QBCore.Shared.Items[itemName] then
-        return false, "item_not_exists"
-    end
-
-    QBCore.Shared.Items[itemName] = item
-
-    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Items', itemName, item)
-    TriggerEvent('QBCore:Server:UpdateObject')
-    return true, "success"
-end
-QBCore.Functions.UpdateItem = UpdateItem
-exports('UpdateItem', UpdateItem)
-
 -- Single Add Gang
 local function AddGang(gangName, gang)
     if type(gangName) ~= "string" then
@@ -244,7 +225,7 @@ QBCore.Functions.AddGangs = AddGangs
 exports('AddGangs', AddGangs)
 
 -- Single Remove Gang
-local function RemoveGang(gangName, gang)
+local function RemoveGang(gangName)
     if type(gangName) ~= "string" then
         return false, "invalid_gang_name"
     end
