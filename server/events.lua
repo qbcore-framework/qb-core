@@ -103,8 +103,17 @@ RegisterNetEvent('QBCore:Server:OpenServer', function()
     end
 end)
 
--- Callbacks
+-- Callback Events --
 
+-- Client Callback
+RegisterNetEvent('QBCore:Server:TriggerClientCallback', function(name, ...)
+    if QBCore.ClientCallbacks[name] then
+        QBCore.ClientCallbacks[name](...)
+        QBCore.ClientCallbacks[name] = nil
+    end
+end)
+
+-- Server Callback
 RegisterNetEvent('QBCore:Server:TriggerCallback', function(name, ...)
     local src = source
     QBCore.Functions.TriggerCallback(name, src, function(...)
@@ -204,7 +213,6 @@ end)
 
 QBCore.Functions.CreateCallback('QBCore:HasItem', function(source, cb, items, amount)
     local retval = false
-    if items == nil then return cb(true) end
     local Player = QBCore.Functions.GetPlayer(source)
     if not Player then return cb(false) end
     local isTable = type(items) == 'table'
