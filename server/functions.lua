@@ -52,6 +52,10 @@ function QBCore.Functions.GetPlayerByCitizenId(citizenid)
     return nil
 end
 
+function QBCore.Functions.GetOfflinePlayerByCitizenId(citizenid)
+    return QBCore.Player.GetOfflinePlayer(citizenid)
+end
+
 function QBCore.Functions.GetPlayerByPhone(number)
     for src, _ in pairs(QBCore.Players) do
         if QBCore.Players[src].PlayerData.charinfo.phone == number then
@@ -63,7 +67,7 @@ end
 
 function QBCore.Functions.GetPlayers()
     local sources = {}
-    for k, v in pairs(QBCore.Players) do
+    for k, _ in pairs(QBCore.Players) do
         sources[#sources+1] = k
     end
     return sources
@@ -137,7 +141,7 @@ end
 function QBCore.Functions.GetPlayersInBucket(bucket --[[ int ]])
     local curr_bucket_pool = {}
     if QBCore.Player_Buckets and next(QBCore.Player_Buckets) then
-        for k, v in pairs(QBCore.Player_Buckets) do
+        for _, v in pairs(QBCore.Player_Buckets) do
             if v.bucket == bucket then
                 curr_bucket_pool[#curr_bucket_pool + 1] = v.id
             end
@@ -152,7 +156,7 @@ end
 function QBCore.Functions.GetEntitiesInBucket(bucket --[[ int ]])
     local curr_bucket_pool = {}
     if QBCore.Entity_Buckets and next(QBCore.Entity_Buckets) then
-        for k, v in pairs(QBCore.Entity_Buckets) do
+        for _, v in pairs(QBCore.Entity_Buckets) do
             if v.bucket == bucket then
                 curr_bucket_pool[#curr_bucket_pool + 1] = v.id
             end
@@ -196,8 +200,15 @@ function PaycheckInterval()
     SetTimeout(QBCore.Config.Money.PayCheckTimeOut * (60 * 1000), PaycheckInterval)
 end
 
--- Callbacks
+-- Callback Functions --
 
+-- Client Callback
+function QBCore.Functions.TriggerClientCallback(name, source, cb, ...)
+    QBCore.ClientCallbacks[name] = cb
+    TriggerClientEvent('QBCore:Client:TriggerClientCallback', source, name, ...)
+end
+
+-- Server Callback
 function QBCore.Functions.CreateCallback(name, cb)
     QBCore.ServerCallbacks[name] = cb
 end
@@ -236,7 +247,7 @@ function QBCore.Functions.Kick(source, reason, setKickReason, deferrals)
         if source then
             DropPlayer(source, reason)
         end
-        for i = 0, 4 do
+        for _ = 0, 4 do
             while true do
                 if source then
                     if GetPlayerPing(source) >= 0 then
@@ -279,7 +290,7 @@ function QBCore.Functions.RemovePermission(source, permission)
             QBCore.Commands.Refresh(src)
         end
     else
-        for k,v in pairs(QBCore.Config.Server.Permissions) do
+        for _, v in pairs(QBCore.Config.Server.Permissions) do
             if IsPlayerAceAllowed(src, v) then
                 ExecuteCommand(('remove_principal identifier.%s qbcore.%s'):format(license, v))
                 QBCore.Commands.Refresh(src)
@@ -299,7 +310,7 @@ end
 function QBCore.Functions.GetPermission(source)
     local src = source
     local perms = {}
-    for k,v in pairs (QBCore.Config.Server.Permissions) do
+    for _, v in pairs (QBCore.Config.Server.Permissions) do
         if IsPlayerAceAllowed(src, v) then
             perms[v] = true
         end
@@ -328,13 +339,13 @@ end
 
 function QBCore.Functions.IsPlayerBanned(source)
     local plicense = QBCore.Functions.GetIdentifier(source, 'license')
-    local result = MySQL.Sync.fetchSingle('SELECT * FROM bans WHERE license = ?', { plicense })
+    local result = MySQL.single.await('SELECT * FROM bans WHERE license = ?', { plicense })
     if not result then return false end
     if os.time() < result.expire then
         local timeTable = os.date('*t', tonumber(result.expire))
         return true, 'You have been banned from the server:\n' .. result.reason .. '\nYour ban expires ' .. timeTable.day .. '/' .. timeTable.month .. '/' .. timeTable.year .. ' ' .. timeTable.hour .. ':' .. timeTable.min .. '\n'
     else
-        MySQL.Async.execute('DELETE FROM bans WHERE id = ?', { result.id })
+        MySQL.query('DELETE FROM bans WHERE id = ?', { result.id })
     end
     return false
 end
