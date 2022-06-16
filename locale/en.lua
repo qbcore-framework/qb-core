@@ -31,9 +31,9 @@ if not Lang then            --This test is only needed in locale en, please comm
         phrases = Translations,
         warnOnMissing = true,
         locale = "en"
-    }) 
+    })
     if templocale then
         Lang = templocale
     end
-    
+
 end                         --Comment this line also
