@@ -25,9 +25,9 @@ local Translations = {
         phrases = Translations,
         warnOnMissing = true,
         locale = "in"
-    }) 
+    })
     if templocale then
         Lang = templocale
     end
-    
+
 --end                         --Comment this line also
