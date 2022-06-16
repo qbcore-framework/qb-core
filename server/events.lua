@@ -1,10 +1,17 @@
 -- Event Handler
 
-AddEventHandler('playerDropped', function()
+AddEventHandler('chatMessage', function(_, _, message)
+    if string.sub(message, 1, 1) == '/' then
+        CancelEvent()
+        return
+    end
+end)
+
+AddEventHandler('playerDropped', function(reason)
     local src = source
     if not QBCore.Players[src] then return end
     local Player = QBCore.Players[src]
-    TriggerEvent('qb-log:server:CreateLog', 'joinleave', 'Dropped', 'red', '**' .. GetPlayerName(src) .. '** (' .. Player.PlayerData.license .. ') left..')
+    TriggerEvent('qb-log:server:CreateLog', 'joinleave', 'Dropped', 'red', '**' .. GetPlayerName(src) .. '** (' .. Player.PlayerData.license .. ') left..' ..'\n **Reason:** ' .. reason)
     Player.Functions.Save()
     QBCore.Player_Buckets[Player.PlayerData.license] = nil
     QBCore.Players[src] = nil
@@ -27,7 +34,7 @@ local function onPlayerConnecting(name, setKickReason, deferrals)
         end
     end
 
-    deferrals.update(string.format('Hello %s. Validating Your Rockstar License', name))
+    deferrals.update(string.format(Lang:t('info.checking_ban'), name))
 
     for _, v in pairs(identifiers) do
         if string.find(v, 'license') then
@@ -39,7 +46,7 @@ local function onPlayerConnecting(name, setKickReason, deferrals)
     -- Mandatory wait
     Wait(2500)
 
-    deferrals.update(string.format('Hello %s. We are checking your allowance.', name))
+    deferrals.update(string.format(Lang:t('info.checking_whitelisted'), name))
 
     local isBanned, Reason = QBCore.Functions.IsPlayerBanned(src)
     local isLicenseAlreadyInUse = QBCore.Functions.IsLicenseInUse(license)
@@ -47,16 +54,16 @@ local function onPlayerConnecting(name, setKickReason, deferrals)
 
     Wait(2500)
 
-    deferrals.update(string.format('Welcome %s to {Server Name}.', name))
+    deferrals.update(string.format(Lang:t('info.join_server'), name))
 
     if not license then
-        deferrals.done('No Valid Rockstar License Found')
+      deferrals.done(Lang:t('error.no_valid_license'))
     elseif isBanned then
         deferrals.done(Reason)
     elseif isLicenseAlreadyInUse and QBCore.Config.Server.CheckDuplicateLicense then
-        deferrals.done('Duplicate Rockstar License Found')
+        deferrals.done(Lang:t('error.duplicate_license'))
     elseif isWhitelist and not whitelisted then
-        deferrals.done('You\'re not whitelisted for this server')
+      deferrals.done(Lang:t('error.not_whitelisted'))
     else
         deferrals.done()
         if QBCore.Config.Server.UseConnectQueue then
@@ -128,14 +135,13 @@ end)
 RegisterNetEvent('QBCore:Server:SetMetaData', function(meta, data)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
+    if not Player then return end
     if meta == 'hunger' or meta == 'thirst' then
         if data > 100 then
             data = 100
         end
     end
-    if Player then
-        Player.Functions.SetMetaData(meta, data)
-    end
+    Player.Functions.SetMetaData(meta, data)
     TriggerClientEvent('hud:client:UpdateNeeds', src, Player.PlayerData.metadata['hunger'], Player.PlayerData.metadata['thirst'])
 end)
 
@@ -182,7 +188,7 @@ RegisterNetEvent('QBCore:CallCommand', function(command, args)
     if not QBCore.Commands.List[command] then return end
     local Player = QBCore.Functions.GetPlayer(src)
     if not Player then return end
-    local hasPerm = QBCore.Functions.HasPermission(src, QBCore.Commands.List[command].permission)
+    local hasPerm = QBCore.Functions.HasPermission(src, "command."..QBCore.Commands.List[command].name)
     if hasPerm then
         if QBCore.Commands.List[command].argsrequired and #QBCore.Commands.List[command].arguments ~= 0 and not args[#QBCore.Commands.List[command].arguments] then
             TriggerClientEvent('QBCore:Notify', src, Lang:t('error.missing_args2'), 'error')
@@ -200,52 +206,32 @@ QBCore.Functions.CreateCallback('QBCore:HasItem', function(source, cb, items, am
     local retval = false
     local Player = QBCore.Functions.GetPlayer(source)
     if not Player then return cb(false) end
-    if type(items) == 'table' then
-        local count = 0
-        local finalcount = 0
-        for k, v in pairs(items) do
-            if type(k) == 'string' then
-                finalcount = 0
-                for i, _ in pairs(items) do finalcount += 1 end
-                local item = Player.Functions.GetItemByName(k)
-                if item then
-                    if item.amount >= v then
-                        count += 1
-                        if count == finalcount then
-                            retval = true
-                        end
-                    end
-                end
-            else
-                finalcount = #items
-                local item = Player.Functions.GetItemByName(v)
-                if item then
-                    if amount then
-                        if item.amount >= amount then
-                            count += 1
-                            if count == finalcount then
-                                retval = true
-                            end
-                        end
-                    else
-                        count += 1
-                        if count == finalcount then
-                            retval = true
-                        end
-                    end
-                end
+    local isTable = type(items) == 'table'
+	local isArray = isTable and table.type(items) == 'array' or false
+	local totalItems = #items
+	local count = 0
+    local kvIndex = 2
+	if isTable and not isArray then
+        totalItems = 0
+        for _ in pairs(items) do totalItems += 1 end
+        kvIndex = 1
+    end
+    if isTable then
+		for k, v in pairs(items) do
+			local itemKV = {k, v}
+			local item = Player.Functions.GetItemByName(itemKV[kvIndex])
+            if item and ((amount and item.amount >= amount) or (not amount and not isArray and item.amount >= v) or (not amount and isArray)) then
+                count += 1
             end
-        end
-    else
-        local item = Player.Functions.GetItemByName(items)
-        if not item then return cb(false) end
-        if amount then
-            if item.amount >= amount then
-                retval = true
-            end
-        else
+		end
+		if count == totalItems then
+			retval = true
+		end
+	else -- Single item as string
+		local item = Player.Functions.GetItemByName(items)
+        if item and not amount or (amount and item.amount >= amount) then
             retval = true
         end
-    end
+	end
     cb(retval)
 end)
