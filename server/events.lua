@@ -204,6 +204,7 @@ end)
 
 QBCore.Functions.CreateCallback('QBCore:HasItem', function(source, cb, items, amount)
     local retval = false
+    if items == nil then return cb(true) end
     local Player = QBCore.Functions.GetPlayer(source)
     if not Player then return cb(false) end
     local isTable = type(items) == 'table'
