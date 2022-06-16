@@ -65,6 +65,22 @@ end
 QBCore.Functions.AddItem = AddItem
 exports('AddItem', AddItem)
 
+-- Single update item
+local function UpdateItem(itemName, item)
+    if type(itemName) ~= "string" then
+        return false, "invalid_item_name"
+    end
+    if not QBCore.Shared.Items[itemName] then
+        return false, "item_not_exists"
+    end
+    QBCore.Shared.Items[itemName] = item
+    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Items', itemName, item)
+    TriggerEvent('QBCore:Server:UpdateObject')
+    return true, "success"
+end
+QBCore.Functions.UpdateItem = UpdateItem
+exports('UpdateItem', UpdateItem)
+
 -- Multiple Add Items
 local function AddItems(items)
     local shouldContinue = true
@@ -152,3 +168,19 @@ local function GetCoreVersion(InvokingResource)
 end
 QBCore.Functions.GetCoreVersion = GetCoreVersion
 exports('GetCoreVersion', GetCoreVersion)
+
+local function ExploitBan(playerId, origin)
+    local name = GetPlayerName(playerId)
+    MySQL.insert('INSERT INTO bans (name, license, discord, ip, reason, expire, bannedby) VALUES (?, ?, ?, ?, ?, ?, ?)', {
+        name,
+        QBCore.Functions.GetIdentifier(playerId, 'license'),
+        QBCore.Functions.GetIdentifier(playerId, 'discord'),
+        QBCore.Functions.GetIdentifier(playerId, 'ip'),
+        origin,
+        2147483647,
+        'Anti Cheat'
+    })
+    DropPlayer(playerId, "You have been banned for cheating. Check our Discord for more information: " .. QBCore.Config.Server.Discord)
+    TriggerEvent("qb-log:server:CreateLog", "anticheat", "Anti-Cheat", "red", name.." has been banned for exploiting "..origin, true)
+end
+exports('ExploitBan', ExploitBan)

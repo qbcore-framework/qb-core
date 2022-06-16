@@ -5,7 +5,7 @@ local function hideText()
 end
 
 local function drawText(text, position)
-    if not type(position) == "string" then position = "left" end
+    if type(position) ~= "string" then position = "left" end
 
     SendNUIMessage({
         action = 'DRAW_TEXT',
@@ -17,7 +17,7 @@ local function drawText(text, position)
 end
 
 local function changeText(text, position)
-    if not type(position) == "string" then position = "left" end
+    if type(position) ~= "string" then position = "left" end
 
     SendNUIMessage({
         action = 'CHANGE_TEXT',
