@@ -103,8 +103,17 @@ RegisterNetEvent('QBCore:Server:OpenServer', function()
     end
 end)
 
--- Callbacks
+-- Callback Events --
 
+-- Client Callback
+RegisterNetEvent('QBCore:Server:TriggerClientCallback', function(name, ...)
+    if QBCore.ClientCallbacks[name] then
+        QBCore.ClientCallbacks[name](...)
+        QBCore.ClientCallbacks[name] = nil
+    end
+end)
+
+-- Server Callback
 RegisterNetEvent('QBCore:Server:TriggerCallback', function(name, ...)
     local src = source
     QBCore.Functions.TriggerCallback(name, src, function(...)

@@ -52,6 +52,10 @@ function QBCore.Functions.GetPlayerByCitizenId(citizenid)
     return nil
 end
 
+function QBCore.Functions.GetOfflinePlayerByCitizenId(citizenid)
+    return QBCore.Player.GetOfflinePlayer(citizenid)
+end
+
 function QBCore.Functions.GetPlayerByPhone(number)
     for src, _ in pairs(QBCore.Players) do
         if QBCore.Players[src].PlayerData.charinfo.phone == number then
@@ -196,8 +200,15 @@ function PaycheckInterval()
     SetTimeout(QBCore.Config.Money.PayCheckTimeOut * (60 * 1000), PaycheckInterval)
 end
 
--- Callbacks
+-- Callback Functions --
 
+-- Client Callback
+function QBCore.Functions.TriggerClientCallback(name, source, cb, ...)
+    QBCore.ClientCallbacks[name] = cb
+    TriggerClientEvent('QBCore:Client:TriggerClientCallback', source, name, ...)
+end
+
+-- Server Callback
 function QBCore.Functions.CreateCallback(name, cb)
     QBCore.ServerCallbacks[name] = cb
 end
