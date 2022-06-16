@@ -25,6 +25,20 @@
     box-shadow: 0rem 0rem 0.1rem 0.05rem #000000;
 }
 
+@media (width: 3840px) and (height: 2160px) {
+    #drawtext-container {
+        display: none;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        padding: 0;
+        margin: 0;
+        font-family: "Poppins", sans-serif !important;
+        font-weight: 300;
+        font-size: 1.5vh;
+    }
+}
+
 .text.pressed {
     background: var(--active-bg);
 }

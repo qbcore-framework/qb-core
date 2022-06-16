@@ -2,6 +2,49 @@ html::-webkit-scrollbar {
     display: none;
 }
 
+@media (width: 3840px) and (height: 2160px) {
+    .success {
+        background-color: rgba(23, 23, 23, 90%);
+        border-radius: 10px;
+        box-shadow: 0rem 0rem 0.1rem 0.05rem #000000;
+        border-left: 0.5rem solid #20bb44;
+        font-size: 1.5vh;
+    }
+    
+    .primary {
+        background-color: rgba(23, 23, 23, 90%);
+        border-radius: 10px;
+        box-shadow: 0rem 0rem 0.1rem 0.05rem #000000;
+        border-left: 5px solid #1c75d2;
+        font-size: 1.5vh;
+    }
+    
+    .error {
+        background-color: rgba(23, 23, 23, 90%);
+        border-radius: 10px;
+        box-shadow: 0rem 0rem 0.1rem 0.05rem #000000;
+        border-left: 5px solid #c10114;
+        font-size: 1.5vh;
+    }
+    
+    .police {
+        background-color: rgba(23, 23, 23, 90%);
+        border-radius: 10px;
+        box-shadow: 0rem 0rem 0.1rem 0.05rem #000000;
+        border-left: 5px solid #2197f2;
+        font-size: 1.5vh;
+    }
+    
+    .ambulance {
+        background-color: rgba(23, 23, 23, 90%);
+        border-radius: 10px;
+        box-shadow: 0rem 0rem 0.1rem 0.05rem #000000;
+        border-left: 5px solid #f44236;
+        font-size: 1.5vh;
+    }
+    
+}
+
 .success {
     background-color: rgba(23, 23, 23, 90%);
     border-radius: 10px;
