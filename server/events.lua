@@ -135,14 +135,13 @@ end)
 RegisterNetEvent('QBCore:Server:SetMetaData', function(meta, data)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
+    if not Player then return end
     if meta == 'hunger' or meta == 'thirst' then
         if data > 100 then
             data = 100
         end
     end
-    if Player then
-        Player.Functions.SetMetaData(meta, data)
-    end
+    Player.Functions.SetMetaData(meta, data)
     TriggerClientEvent('hud:client:UpdateNeeds', src, Player.PlayerData.metadata['hunger'], Player.PlayerData.metadata['thirst'])
 end)
 
