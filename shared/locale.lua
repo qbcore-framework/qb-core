@@ -45,7 +45,7 @@ function Locale:new(opts)
         --Return only if server language
         if conflocale == opts.locale then
             return self
-        end        
+        end
     end
 end
 
