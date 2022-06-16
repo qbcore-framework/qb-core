@@ -29,5 +29,5 @@ local Translations = {
     if templocale then
         Lang = templocale
     end
-    
+
 --end                         --Comment this line also
