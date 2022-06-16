@@ -6,7 +6,7 @@ QBCore.Commands.IgnoreList = { -- Ignore old perm levels while keeping backwards
 }
 
 CreateThread(function() -- Add ace to node for perm checking
-    for k,v in pairs(QBConfig.Server.Permissions) do
+    for _, v in pairs(QBConfig.Server.Permissions) do
         ExecuteCommand(('add_ace qbcore.%s %s allow'):format(v, v))
     end
 end)
@@ -224,7 +224,7 @@ QBCore.Commands.Add('ooc', 'OOC Chat Message', {}, false, function(source, args)
     local Players = QBCore.Functions.GetPlayers()
     local Player = QBCore.Functions.GetPlayer(source)
     local playerCoords = GetEntityCoords(GetPlayerPed(source))
-    for k, v in pairs(Players) do
+    for _, v in pairs(Players) do
         if v == source then
             TriggerClientEvent('chat:addMessage', v, {
                 color = { 0, 0, 255},
