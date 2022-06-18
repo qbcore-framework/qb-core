@@ -662,7 +662,7 @@ function QBCore.Functions.SetVehicleProperties(vehicle, props)
         if props.doorStatus then
             for doorIndex, breakDoor in pairs(props.doorStatus) do
                 if breakDoor then
-                    SetVehicleDoorBroken(vehicle, doorIndex, true)
+                    SetVehicleDoorBroken(vehicle, tonumber(doorIndex), true)
                 end
             end
         end
