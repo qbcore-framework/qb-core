@@ -463,7 +463,7 @@ function QBCore.Functions.GetVehicleProperties(vehicle)
         end
 
         local modLivery = GetVehicleMod(vehicle, 48)
-        if GetVehicleMod(vehicle, 48) == -1 and GetVehicleLivery(vehicle) ~= 0 then
+        if GetVehicleMod(vehicle, 48) == -1 then
             modLivery = GetVehicleLivery(vehicle)
         end
 
