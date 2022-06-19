@@ -126,15 +126,14 @@ RegisterNetEvent('QBCore:Command:SpawnVehicle', function(vehName)
     while not HasModelLoaded(hash) do
         Wait(0)
     end
-
-    if IsPedInAnyVehicle(ped) then
+        
+     if IsPedInAnyVehicle(ped) then 
         DeleteVehicle(veh)
     end
-
+        
     local vehicle = CreateVehicle(hash, GetEntityCoords(ped), GetEntityHeading(ped), true, false)
     TaskWarpPedIntoVehicle(ped, vehicle, -1)
     SetVehicleFuelLevel(vehicle, 100.0)
-    SetVehicleDirtLevel(vehicle, 0.0)
     SetModelAsNoLongerNeeded(hash)
     TriggerEvent("vehiclekeys:client:SetOwner", QBCore.Functions.GetPlate(vehicle))
 end)
@@ -148,7 +147,7 @@ RegisterNetEvent('QBCore:Command:DeleteVehicle', function()
     else
         local pcoords = GetEntityCoords(ped)
         local vehicles = GetGamePool('CVehicle')
-        for _, v in pairs(vehicles) do
+        for k, v in pairs(vehicles) do
             if #(pcoords - GetEntityCoords(v)) <= 5.0 then
                 SetEntityAsMissionEntity(v, true, true)
                 DeleteVehicle(v)
@@ -171,25 +170,15 @@ RegisterNetEvent('QBCore:Notify', function(text, type, length)
     QBCore.Functions.Notify(text, type, length)
 end)
 
-RegisterNetEvent('QBCore:Client:UseItem', function(item)
-    TriggerServerEvent('QBCore:Server:UseItem', item)
-end)
-
--- Callback Events --
-
--- Client Callback
-RegisterNetEvent('QBCore:Client:TriggerClientCallback', function(name, ...)
-    QBCore.Functions.TriggerClientCallback(name, function(...)
-        TriggerServerEvent('QBCore:Server:TriggerClientCallback', name, ...)
-    end, ...)
-end)
-
--- Server Callback
 RegisterNetEvent('QBCore:Client:TriggerCallback', function(name, ...)
     if QBCore.ServerCallbacks[name] then
         QBCore.ServerCallbacks[name](...)
         QBCore.ServerCallbacks[name] = nil
     end
+end)
+
+RegisterNetEvent('QBCore:Client:UseItem', function(item)
+    TriggerServerEvent('QBCore:Server:UseItem', item)
 end)
 
 -- Me command

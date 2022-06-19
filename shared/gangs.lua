@@ -26,6 +26,18 @@ QBShared.Gangs = {
             },
         },
 	},
+    ['gunplug'] = {
+		label = 'Gun Plug',
+		grades = {
+            ['0'] = {
+                name = 'Gunrunner'
+            },
+            ['1'] = {
+                name = 'The Plug',
+                isboss = true
+            },
+        },
+	},
 	['ballas'] = {
 		label = 'Ballas',
 		grades = {

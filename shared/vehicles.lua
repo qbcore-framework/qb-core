@@ -4421,6 +4421,6 @@ QBShared.Vehicles = {
 	},
 }
 
-for _, v in pairs(QBShared.Vehicles) do
+for k,v in pairs(QBShared.Vehicles) do
 	QBShared.VehicleHashes[v.hash] = v
 end

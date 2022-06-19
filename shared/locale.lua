@@ -31,6 +31,7 @@ end
 --- @param opts table<string, any> - Constructor opts param
 --- @return Locale
 function Locale:new(opts)
+    local self = {}
     setmetatable(self, Locale)
     self.warnOnMissing = opts.warnOnMissing or true
 
