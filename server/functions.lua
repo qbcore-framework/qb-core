@@ -58,7 +58,7 @@ end
 
 function QBCore.Functions.GetPlayerByPhone(number)
     for src, _ in pairs(QBCore.Players) do
-        if QBCore.Players[src].PlayerData.charinfo.phone == number then
+        if QBCore.Players[src].PlayerData.charinfo.phone == tonumber(number) then
             return QBCore.Players[src]
         end
     end
