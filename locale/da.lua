@@ -1,27 +1,27 @@
 local Translations = {
     error = {
-        not_online = 'Spiller ikke online',
+        not_online = 'Spiller er ikke i byen',
         wrong_format = 'Forkert format',
-        missing_args = 'Ikke alle argumenter er blevet indtastet (x, y, z)',
-        missing_args2 = 'Alle argumenter skal udfyldes!',
-        no_access = 'Ingen adgang til denne kommando',
-        company_too_poor = 'Din arbejdsgiver er i stykker',
-        item_not_exist = 'Ting findes',
-        too_heavy = 'Dit Inventory er fuldt',
-        duplicate_license = 'Duplikeret rockstar licens er fundet',
-        no_valid_license  = 'Ingen gyldig Rockstar-licens fundet',
-        not_whitelisted = 'Du er ikke allowlistet til at spille på denne server'
+        missing_args = 'Du mangler nogle argumenter (x, y, z)',
+        missing_args2 = 'Alle argumenter skal skrives ind!',
+        no_access = 'Du har ikke adgang til denne kommando',
+        company_too_poor = 'Din chef er fattig',
+        item_not_exist = 'Ting findes ikke',
+        too_heavy = 'Tasken er fyldt',
+        duplicate_license = 'Duplicate Rockstar License Found',
+        no_valid_license  = 'Intet gyldig Rockstar-licens fundet',
+        not_whitelisted = 'Du er ikke allowlistet på denne server'
     },
     success = {},
     info = {
-        received_paycheck = 'Du har modtaget din lønseddel på $%{value}',
-        job_info = 'Arbejde: %{value} | Grad: %{value2} | Job: %{value3}',
+        received_paycheck = 'You received your paycheck of DKK%{value}',
+        job_info = 'Job: %{value} | Grad: %{value2} | Duty: %{value3}',
         gang_info = 'Bande: %{value} | Grad: %{value2}',
-        on_duty = 'Du er nu på arbejde, god arbejdslyst!',
-        off_duty = 'Du er ikke længere på arbejde!'
-        checking_ban = 'Hej %s. Vi ser om du er bannet på denne server.',
-        join_server = 'Velkommen til %s til {Server Name}.',
-        checking_whitelisted = 'Hej %s. Vi ser om du er allowlistet!.'
+        on_duty = 'Du er nu på vagt!',
+        off_duty = 'Du har nu fri!',
+        checking_ban = 'Hej %s. Vi kontrollerer, om du er bannet.',
+        join_server = 'Velkommen %s til {Server Name}.',
+        checking_whitelisted = 'Hej %s. Vi tjekker om du er allowlistet.'
     }
 }
 
