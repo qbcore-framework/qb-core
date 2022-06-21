@@ -58,7 +58,7 @@ end
 
 function QBCore.Functions.GetPlayerByPhone(number)
     for src, _ in pairs(QBCore.Players) do
-        if QBCore.Players[src].PlayerData.charinfo.phone == number then
+        if QBCore.Players[src].PlayerData.charinfo.phone == tonumber(number) then
             return QBCore.Players[src]
         end
     end
@@ -173,7 +173,8 @@ function PaycheckInterval()
     if next(QBCore.Players) then
         for _, Player in pairs(QBCore.Players) do
             if Player then
-                local payment = Player.PlayerData.job.payment
+                local payment = QBShared.Jobs[Player.PlayerData.job.name]['grades'][tostring(Player.PlayerData.job.grade.level)].payment
+                if not payment then payment = Player.PlayerData.job.payment end
                 if Player.PlayerData.job and payment > 0 and (QBShared.Jobs[Player.PlayerData.job.name].offDutyPay or Player.PlayerData.job.onduty) then
                     if QBCore.Config.Money.PayCheckSociety then
                         local account = exports['qb-management']:GetAccount(Player.PlayerData.job.name)
@@ -362,6 +363,41 @@ function QBCore.Functions.IsLicenseInUse(license)
                     return true
                 end
             end
+        end
+    end
+    return false
+end
+
+-- Utility functions
+
+function QBCore.Functions.HasItem(source, items, amount)
+    local Player = QBCore.Functions.GetPlayer(source)
+    if not Player then return false end
+    local isTable = type(items) == 'table'
+	local isArray = isTable and table.type(items) == 'array' or false
+	local totalItems = #items
+    local count = 0
+    local kvIndex = 2
+	if isTable and not isArray then
+        totalItems = 0
+        for _ in pairs(items) do totalItems += 1 end
+        kvIndex = 1
+    end
+    if isTable then
+        for k, v in pairs(items) do
+            local itemKV = {k, v}
+            local item = Player.Functions.GetItemByName(itemKV[kvIndex])
+            if item and ((not amount and not isArray and item.amount >= v) or (isArray and amount and item.amount >= amount) or (not amount and isArray)) then
+                count += 1
+            end
+        end
+        if count == totalItems then
+            return true
+        end
+    else -- Single item as string
+        local item = Player.Functions.GetItemByName(items)
+        if item and (not amount or (amount and item.amount >= amount)) then
+            return true
         end
     end
     return false

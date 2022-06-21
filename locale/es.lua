@@ -17,11 +17,11 @@ local Translations = {
         received_paycheck = 'Has recibido tu salario de $%{value}',
         job_info = 'Trabajo: %{value} | Puesto: %{value2} | Estado: %{value3}',
         gang_info = 'Pandilla: %{value} | Puesto: %{value2}',
-        on_duty = '¡Estás en servicio!',
-        off_duty = '¡Estás fuera de servicio!',
-        checking_ban = 'Hola %s. Estámos revisando si has sido baneado.',
+        on_duty = 'Estás en servicio',
+        off_duty = 'Estás fuera de servicio',
+        checking_ban = 'Hola %s. Estamos revisando si has sido baneado.',
         join_server = 'Bienvenido %s a {Server Name}.',
-        checking_whitelisted = 'Hola %s. Estámos revisando si estás en nuestra lista blanca.'
+        checking_whitelisted = 'Hola %s. Estamos revisando si estás en nuestra lista blanca.'
     }
 }
 
