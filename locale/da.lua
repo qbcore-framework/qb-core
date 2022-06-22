@@ -1,21 +1,27 @@
 local Translations = {
     error = {
-        not_online = 'Spiller ikke online',
-        wrong_format = 'ugyldigt format',
-        missing_args = 'Alle argumenter er ikke udfyldt (x, y, z)',
-        missing_args2 = 'Alle argumenter skal være udfyldt!',
-        no_access = 'Ingen adgang til denne command',
-        company_too_poor = 'Arbejdsgiveren er for fattig',
-        item_not_exist = 'Enheden eksistere ikke',
-        too_heavy = 'Dit inventory er for fyldt'
+        not_online = 'Spiller er ikke i byen',
+        wrong_format = 'Forkert format',
+        missing_args = 'Du mangler nogle argumenter (x, y, z)',
+        missing_args2 = 'Alle argumenter skal skrives ind!',
+        no_access = 'Du har ikke adgang til denne kommando',
+        company_too_poor = 'Din chef er fattig',
+        item_not_exist = 'Ting findes ikke',
+        too_heavy = 'Tasken er fyldt',
+        duplicate_license = 'Duplicate Rockstar License Found',
+        no_valid_license  = 'Intet gyldig Rockstar-licens fundet',
+        not_whitelisted = 'Du er ikke allowlistet på denne server'
     },
     success = {},
     info = {
-        received_paycheck = 'Du modtog din lønseddel på %{value} DKK',
-        job_info = 'Arbejde: %{value} | Grad: %{value2} | Job: %{value3}',
+        received_paycheck = 'You received your paycheck of DKK%{value}',
+        job_info = 'Job: %{value} | Grad: %{value2} | Duty: %{value3}',
         gang_info = 'Bande: %{value} | Grad: %{value2}',
-        on_duty = 'Du er nu på arbejde, god arbejdslyst!',
-        off_duty = 'Du er ikke længere på arbejde!'
+        on_duty = 'Du er nu på vagt!',
+        off_duty = 'Du har nu fri!',
+        checking_ban = 'Hej %s. Vi kontrollerer, om du er bannet.',
+        join_server = 'Velkommen %s til {Server Name}.',
+        checking_whitelisted = 'Hej %s. Vi tjekker om du er allowlistet.'
     }
 }
 
