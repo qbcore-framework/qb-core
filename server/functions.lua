@@ -387,7 +387,7 @@ function QBCore.Functions.HasItem(source, items, amount)
         for k, v in pairs(items) do
             local itemKV = {k, v}
             local item = Player.Functions.GetItemByName(itemKV[kvIndex])
-            if item and ((not amount and not isArray and item.amount >= v) or (isArray and amount and item.amount >= amount) or (not amount and isArray)) then
+            if item and ((amount and item.amount >= amount) or (not isArray and item.amount >= v) or (not amount and isArray)) then
                 count += 1
             end
         end
