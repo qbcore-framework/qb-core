@@ -26,7 +26,7 @@ function QBCore.Functions.HasItem(items, amount)
         if isTable then
             for k, v in pairs(items) do
                 local itemKV = {k, v}
-                if itemData and itemData.name == itemKV[kvIndex] and ((not amount and not isArray and itemData.amount >= v) or (isArray and amount and itemData.amount >= amount) or (not amount and isArray)) then
+                if itemData and itemData.name == itemKV[kvIndex] and ((amount and itemData.amount >= amount) or (not isArray and itemData.amount >= v) or (not amount and isArray)) then
                     count += 1
                 end
             end
