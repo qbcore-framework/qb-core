@@ -66,7 +66,7 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
         PlayerData.name = GetPlayerName(source)
         Offline = false
     end
-    
+
     PlayerData.citizenid = PlayerData.citizenid or QBCore.Player.CreateCitizenId()
     PlayerData.cid = PlayerData.cid or 1
     PlayerData.money = PlayerData.money or {}
@@ -82,7 +82,7 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
     PlayerData.charinfo.gender = PlayerData.charinfo.gender or 0
     PlayerData.charinfo.backstory = PlayerData.charinfo.backstory or 'placeholder backstory'
     PlayerData.charinfo.nationality = PlayerData.charinfo.nationality or 'USA'
-    PlayerData.charinfo.phone = tonumber(PlayerData.charinfo.phone) or QBCore.Functions.CreatePhoneNumber()
+    PlayerData.charinfo.phone = PlayerData.charinfo.phone or QBCore.Functions.CreatePhoneNumber()
     PlayerData.charinfo.account = PlayerData.charinfo.account or QBCore.Functions.CreateAccountNumber()
     -- Metadata
     PlayerData.metadata = PlayerData.metadata or {}
@@ -315,7 +315,7 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
                 TriggerClientEvent('qb-phone:client:RemoveBankMoney', self.PlayerData.source, amount)
             end
         end
-        
+
         return true
     end
 
@@ -524,7 +524,7 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
     else
         QBCore.Players[self.PlayerData.source] = self
         QBCore.Player.Save(self.PlayerData.source)
-    
+
         -- At this point we are safe to emit new instance to third party resource for load handling
         TriggerEvent('QBCore:Server:PlayerLoaded', self)
         self.Functions.UpdatePlayerData()
@@ -769,7 +769,7 @@ function QBCore.Functions.CreatePhoneNumber()
     local UniqueFound = false
     local PhoneNumber = nil
     while not UniqueFound do
-        PhoneNumber = tonumber(math.random(100,999) .. math.random(1000000,9999999))
+        PhoneNumber = math.random(100,999) .. math.random(1000000,9999999)
         local query = '%' .. PhoneNumber .. '%'
         local result = MySQL.prepare.await('SELECT COUNT(*) as count FROM players WHERE charinfo LIKE ?', { query })
         if result == 0 then
