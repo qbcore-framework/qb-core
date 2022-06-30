@@ -396,7 +396,7 @@ function QBCore.Functions.HasItem(source, items, amount)
         end
     else -- Single item as string
         local item = Player.Functions.GetItemByName(items)
-        if item and (not amount or (amount and item.amount >= amount)) then
+        if item and (not amount or (item and amount and item.amount >= amount)) then
             return true
         end
     end
