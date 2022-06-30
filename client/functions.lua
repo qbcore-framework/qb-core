@@ -34,7 +34,7 @@ function QBCore.Functions.HasItem(items, amount)
                 return true
             end
         else -- Single item as string
-            if itemData and itemData.name == items and (not amount or (amount and itemData.amount >= amount)) then
+            if itemData and itemData.name == items and (not amount or (itemData and amount and itemData.amount >= amount)) then
                 return true
             end
         end
