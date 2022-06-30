@@ -238,7 +238,7 @@ QBCore.Functions.CreateCallback('QBCore:HasItem', function(source, cb, items, am
 		end
 	else -- Single item as string
 		local item = Player.Functions.GetItemByName(items)
-        if item and not amount or (amount and item.amount >= amount) then
+        if item and not amount or (item and amount and item.amount >= amount) then
             retval = true
         end
 	end
