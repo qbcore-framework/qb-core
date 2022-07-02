@@ -456,14 +456,17 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         end
     end
 
-    function self.Functions.ClearInventory()
-        self.PlayerData.items = {}
-
+function self.Functions.ClearInventory()
+        for k, v in pairs(self.PlayerData.items) do
+            if v and not QBCore.Config.Player.WhitelistItems[v.name] then
+                self.PlayerData.items[k] = nil
+            end
+        end
         if not self.Offline then
             self.Functions.UpdatePlayerData()
             TriggerEvent('qb-log:server:CreateLog', 'playerinventory', 'ClearInventory', 'red', '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')** inventory cleared')
-        end
     end
+end
 
     function self.Functions.GetItemByName(item)
         item = tostring(item):lower()
