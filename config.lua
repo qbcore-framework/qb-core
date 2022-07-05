@@ -1,4 +1,5 @@
 QBConfig = {}
+QBConfig.OkOkNotify = true
 
 QBConfig.MaxPlayers = GetConvarInt('sv_maxclients', 48) -- Gets max players from config file, default 48
 QBConfig.DefaultSpawn = vector4(-1035.71, -2731.87, 12.86, 0.0)
