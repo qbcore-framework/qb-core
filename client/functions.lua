@@ -110,7 +110,8 @@ end
 RegisterNUICallback('getNotifyConfig', function(_, cb)
     cb(QBCore.Config.Notify)
 end)
-
+------update----
+---------------
 if QBCore.Config.OkOkNotify == true then
     function QBCore.Functions.Notify(text, textype, length)
         if type(text) == "table" then
