@@ -126,6 +126,21 @@ if QBCore.Config.OkOkNotify == true then
         end
     end 
 else
+if QBCore.Config.OkOkNotify == true then
+    function QBCore.Functions.Notify(text, textype, length)
+        if type(text) == "table" then
+            local ttext = text.text or 'Placeholder'
+            local caption = text.caption or 'Placeholder'
+            local ttype = textype or 'info'
+            local length = length or 8500
+            exports['okokNotify']:Alert(ttext, caption, length, ttype)
+        else
+            local ttype = textype or 'info'
+            local length = length or 8500
+            exports['okokNotify']:Alert(text, "", length, ttype)
+        end
+    end 
+else
     function QBCore.Functions.Notify(text, texttype, length)
         if type(text) == "table" then
             local ttext = text.text or 'Placeholder'
