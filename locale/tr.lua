@@ -8,8 +8,8 @@ local Translations = {
         company_too_poor = 'Şirketin hiç parası yok.',
         item_not_exist = 'Eşya mevcut değil.',
         too_heavy = 'Envanter çok dolu',
-        duplicate_license = 'Çoğaltılan Rockstar lisans bulundu!',
-        no_valid_license  = 'Rockstar lisans bulunamadı.',
+        duplicate_license = 'Aynı rockstar lisansı şu an sunucuda!',
+        no_valid_license  = 'Geçerli rockstar lisans bulunamadı.',
         not_whitelisted = 'Bu sunucuda whitelistin yok.'
     },
     success = {},
