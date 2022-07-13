@@ -210,7 +210,7 @@ end
 
 function QBCore.Functions.CreateUseableItem(item, cb)
     if type(item) == "table" then
-        for _,i in ipairs(item) do
+        for i = 1, #item do
             QBCore.UseableItems[i] = cb
         end
     else 
