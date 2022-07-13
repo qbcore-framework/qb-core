@@ -27,7 +27,7 @@ end)
 RegisterNetEvent('QBCore:Command:TeleportToCoords', function(x, y, z, h)
     local ped = PlayerPedId()
     SetPedCoordsKeepVehicle(ped, x, y, z)
-    if h then SetEntityHeading(ped, h) end
+    SetEntityHeading(ped, h or GetEntityHeading(ped))
 end)
 
 RegisterNetEvent('QBCore:Command:GoToMarker', function()
