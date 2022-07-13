@@ -213,10 +213,9 @@ function QBCore.Functions.CreateUseableItem(item, cb)
         for i = 1, #item do
             QBCore.UseableItems[i] = cb
         end
-    else 
+    else
         QBCore.UseableItems[item] = cb
     end
-    QBCore.UseableItems[item] = cb
 end
 
 function QBCore.Functions.CanUseItem(item)
