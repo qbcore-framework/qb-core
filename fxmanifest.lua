@@ -5,9 +5,9 @@ description 'QB-Core'
 version '1.1.0'
 
 shared_scripts {
+	'shared/locale.lua',
+	'locale/*.lua',
 	'config.lua',
-    'shared/locale.lua',
-	'locale/en.lua', -- replace with desired language
 	'shared/main.lua',
 	'shared/items.lua',
 	'shared/jobs.lua',
