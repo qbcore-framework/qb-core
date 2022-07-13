@@ -224,7 +224,7 @@ function QBCore.Player.CreatePlayer(PlayerData)
     end
 
     function self.Functions.GetMetaData(meta)
-        local meta = meta:lower()
+        meta = meta:lower()
         if meta ~= nil then
             return self.PlayerData.metadata[meta]
         end

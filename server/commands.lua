@@ -66,7 +66,7 @@ QBCore.Commands.Add('tp', 'TP To Location/Player/Coords (Admin Only)', { { name 
         else
             local location = QBShared.Locations[args[1]]
             if location then
-                TriggerClientEvent('QBCore:Command:TeleportToCoords', source, location.x, location.y, location.z, location.w) 
+                TriggerClientEvent('QBCore:Command:TeleportToCoords', source, location.x, location.y, location.z, location.w)
             else
                 TriggerClientEvent('QBCore:Notify', source, Lang:t('error.location_not_exist'), 'error')
             end
