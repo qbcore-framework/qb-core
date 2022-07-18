@@ -10,7 +10,7 @@ local function AddJob(jobName, job)
 
     QBCore.Shared.Jobs[jobName] = job
 
-    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1,'Jobs', jobName, job)
+    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Jobs', jobName, job)
     TriggerEvent('QBCore:Server:UpdateObject')
     return true, "success"
 end
@@ -284,6 +284,6 @@ local function ExploitBan(playerId, origin)
         'Anti Cheat'
     })
     DropPlayer(playerId, "You have been banned for cheating. Check our Discord for more information: " .. QBCore.Config.Server.Discord)
-    TriggerEvent("qb-log:server:CreateLog", "anticheat", "Anti-Cheat", "red", name.." has been banned for exploiting "..origin, true)
+    TriggerEvent("qb-log:server:CreateLog", "anticheat", "Anti-Cheat", "red", name .. " has been banned for exploiting " .. origin, true)
 end
 exports('ExploitBan', ExploitBan)
