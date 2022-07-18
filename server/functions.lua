@@ -374,11 +374,11 @@ function QBCore.Functions.HasItem(source, items, amount)
     local Player = QBCore.Functions.GetPlayer(source)
     if not Player then return false end
     local isTable = type(items) == 'table'
-	local isArray = isTable and table.type(items) == 'array' or false
-	local totalItems = #items
+    local isArray = isTable and table.type(items) == 'array' or false
+    local totalItems = #items
     local count = 0
     local kvIndex = 2
-	if isTable and not isArray then
+    if isTable and not isArray then
         totalItems = 0
         for _ in pairs(items) do totalItems += 1 end
         kvIndex = 1
