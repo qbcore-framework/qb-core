@@ -253,6 +253,12 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         self.Functions.UpdatePlayerData()
     end
 
+    function self.Functions.SetPlayerData(key, val)
+        if not key then return end
+        self.PlayerData[key] = val
+        self.Functions.UpdatePlayerData()
+    end
+
     function self.Functions.SetMetaData(meta, val)
         if not meta then return end
         meta = meta:lower()
