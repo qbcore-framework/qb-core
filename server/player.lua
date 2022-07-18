@@ -600,19 +600,19 @@ function QBCore.Player.DeleteCharacter(source, citizenid)
     local result = MySQL.scalar.await('SELECT license FROM players where citizenid = ?', { citizenid })
     if license == result then
         local query = "DELETE FROM %s WHERE citizenid = ?"
-		local tableCount = #playertables
-		local queries = table.create(tableCount, 0)
+        local tableCount = #playertables
+        local queries = table.create(tableCount, 0)
 
-		for i = 1, tableCount do
-			local v = playertables[i]
-			queries[i] = {query = query:format(v.table), values = { citizenid }}
-		end
+        for i = 1, tableCount do
+            local v = playertables[i]
+            queries[i] = {query = query:format(v.table), values = { citizenid }}
+        end
 
         MySQL.transaction(queries, function(result2)
-			if result2 then
-				TriggerEvent('qb-log:server:CreateLog', 'joinleave', 'Character Deleted', 'red', '**' .. GetPlayerName(source) .. '** ' .. license .. ' deleted **' .. citizenid .. '**..')
+            if result2 then
+                TriggerEvent('qb-log:server:CreateLog', 'joinleave', 'Character Deleted', 'red', '**' .. GetPlayerName(source) .. '** ' .. license .. ' deleted **' .. citizenid .. '**..')
             end
-		end)
+        end)
     else
         DropPlayer(source, 'You Have Been Kicked For Exploitation')
         TriggerEvent('qb-log:server:CreateLog', 'anticheat', 'Anti-Cheat', 'white', GetPlayerName(source) .. ' Has Been Dropped For Character Deletion Exploit', true)
