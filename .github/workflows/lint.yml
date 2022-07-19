@@ -13,7 +13,7 @@ jobs:
         with:
           capture: "junit.xml"
           args: "-t --formatter JUnit"
-          extra_libs: mysql
+          extra_libs: mysql+qbapartments
       - name: Generate Lint Report
         if: always()
         uses: mikepenz/action-junit-report@v3
