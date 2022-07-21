@@ -19,7 +19,7 @@ export let NOTIFY_CONFIG = null;
 /**
  * Pure function taking a notification type and returning an object
  * with style details
- * @param variant {string}
+ * @param {string} variant
  * @returns NotiVariantData
  **/
 export const determineStyleFromVariant = (variant) => {
