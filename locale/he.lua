@@ -10,18 +10,18 @@ local Translations = {
         too_heavy = 'אינבנטורי מלא',
         duplicate_license = 'Rockstar נמצא שכפול רישיון',
         no_valid_license = 'תקף Rockstar לא נמצא רישיון',
-        not_whitelisted = 'אתם לא ברשימת המותרים בשרת הזה'
+        not_whitelisted = 'את/ה לא ברשימת המותרים בשרת הזה'
     },
     success = {},
     info = {
         received_paycheck = '$%{value} קיבלת תלוש שכר על סך',
         job_info = '%{value3} :בתפקיד | %{value2} :דרגה | %{value} :עבודה',
         gang_info = '%{value2} :דרגה | %{value} :גאנג',
-        on_duty = '!אתם עכשיו בתפקיד',
+        on_duty = '!עלית בתפקיד',
         off_duty = '!ירדת מהתפקיד',
-        checking_ban = '.אנחנו בודקים אם אתם חסומים בשרת הזה .%s שלום',
-        join_server = '.{Server Name}-ל %s ברוכים הבאים',
-        checking_whitelisted = '.אנחנו בודקים אם אתם ברשימת המותרים .%s שלום'
+        checking_ban = '.אנחנו בודקים אם את/ה חסומ/ה בשרת הזה .%s שלום',
+        join_server = '.{Server Name}-ל %s ברוכ/ה הבא/ה',
+        checking_whitelisted = '.אנחנו בודקים אם את/ה ברשימת המותרים .%s שלום'
     }
 }
 
