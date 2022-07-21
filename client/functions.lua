@@ -244,7 +244,7 @@ function QBCore.Functions.IsWearingGloves()
     local ped = PlayerPedId()
     local armIndex = GetPedDrawableVariation(ped, 3)
     local model = GetEntityModel(ped)
-    if model == 'mp_m_freemode_01' then
+    if model == `mp_m_freemode_01` then
         if QBCore.Shared.MaleNoGloves[armIndex] then
             return false
         end
