@@ -57,7 +57,6 @@ function Locale:extend(phrases, prefix)
     end
 end
 
-
 --- Clear locale instance phrases
 --- Might be useful for memory management of large phrase maps.
 --- @return void

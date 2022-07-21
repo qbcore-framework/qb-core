@@ -13,7 +13,7 @@ export const DEV_MODE = false;
  * Will hold config statically outside of Vue state
  * @property {Record<string, NotiVariantData>} VariantDefinitions
  * @property {Record<string, any>} NotificationStyling
- * */
+ **/
 export let NOTIFY_CONFIG = null;
 
 /**
