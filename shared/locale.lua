@@ -68,8 +68,8 @@ end
 --- @param phrases table<string, any>
 function Locale:replace(phrases)
     phrases = phrases or {}
-    self.clear()
-    self.extend(phrases)
+    self:clear()
+    self:extend(phrases)
 end
 
 --- Gets & Sets a locale depending on if an argument is passed
