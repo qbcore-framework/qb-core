@@ -168,7 +168,7 @@ RegisterNetEvent('QBCore:Server:UseItem', function(item)
     QBCore.Functions.UseItem(src, item)
 end)
 
--- This event is exploitable and should not be used. Will be deprecated soon. function(itemName, amount, slot)
+-- This event is exploitable and should not be used. It has been deprecated, and will be removed soon. function(itemName, amount, slot)
 RegisterNetEvent('QBCore:Server:RemoveItem', function(itemName, amount)
     local src = source
     print(string.format("%s triggered QBCore:Server:RemoveItem by ID %s for %s %s. This event is being deprecated because of exploitation. Adjust your events accordingly to do this server side with player functions.", GetInvokingResource(), src, amount, itemName))
