@@ -10,10 +10,11 @@ local function AddJob(jobName, job)
 
     QBCore.Shared.Jobs[jobName] = job
 
-    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1,'Jobs', jobName, job)
+    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Jobs', jobName, job)
     TriggerEvent('QBCore:Server:UpdateObject')
     return true, "success"
 end
+
 QBCore.Functions.AddJob = AddJob
 exports('AddJob', AddJob)
 
@@ -46,6 +47,7 @@ local function AddJobs(jobs)
     TriggerEvent('QBCore:Server:UpdateObject')
     return true, message, nil
 end
+
 QBCore.Functions.AddJobs = AddJobs
 exports('AddJobs', AddJobs)
 
@@ -65,6 +67,7 @@ local function RemoveJob(jobName)
     TriggerEvent('QBCore:Server:UpdateObject')
     return true, "success"
 end
+
 QBCore.Functions.RemoveJob = RemoveJob
 exports('RemoveJob', RemoveJob)
 
@@ -84,6 +87,7 @@ local function UpdateJob(jobName, job)
     TriggerEvent('QBCore:Server:UpdateObject')
     return true, "success"
 end
+
 QBCore.Functions.UpdateJob = UpdateJob
 exports('UpdateJob', UpdateJob)
 
@@ -103,6 +107,7 @@ local function AddItem(itemName, item)
     TriggerEvent('QBCore:Server:UpdateObject')
     return true, "success"
 end
+
 QBCore.Functions.AddItem = AddItem
 exports('AddItem', AddItem)
 
@@ -119,6 +124,7 @@ local function UpdateItem(itemName, item)
     TriggerEvent('QBCore:Server:UpdateObject')
     return true, "success"
 end
+
 QBCore.Functions.UpdateItem = UpdateItem
 exports('UpdateItem', UpdateItem)
 
@@ -151,6 +157,7 @@ local function AddItems(items)
     TriggerEvent('QBCore:Server:UpdateObject')
     return true, message, nil
 end
+
 QBCore.Functions.AddItems = AddItems
 exports('AddItems', AddItems)
 
@@ -170,6 +177,7 @@ local function RemoveItem(itemName)
     TriggerEvent('QBCore:Server:UpdateObject')
     return true, "success"
 end
+
 QBCore.Functions.RemoveItem = RemoveItem
 exports('RemoveItem', RemoveItem)
 
@@ -189,6 +197,7 @@ local function AddGang(gangName, gang)
     TriggerEvent('QBCore:Server:UpdateObject')
     return true, "success"
 end
+
 QBCore.Functions.AddGang = AddGang
 exports('AddGang', AddGang)
 
@@ -221,6 +230,7 @@ local function AddGangs(gangs)
     TriggerEvent('QBCore:Server:UpdateObject')
     return true, message, nil
 end
+
 QBCore.Functions.AddGangs = AddGangs
 exports('AddGangs', AddGangs)
 
@@ -240,6 +250,7 @@ local function RemoveGang(gangName)
     TriggerEvent('QBCore:Server:UpdateObject')
     return true, "success"
 end
+
 QBCore.Functions.RemoveGang = RemoveGang
 exports('RemoveGang', RemoveGang)
 
@@ -259,6 +270,7 @@ local function UpdateGang(gangName, gang)
     TriggerEvent('QBCore:Server:UpdateObject')
     return true, "success"
 end
+
 QBCore.Functions.UpdateGang = UpdateGang
 exports('UpdateGang', UpdateGang)
 
@@ -269,6 +281,7 @@ local function GetCoreVersion(InvokingResource)
     end
     return resourceVersion
 end
+
 QBCore.Functions.GetCoreVersion = GetCoreVersion
 exports('GetCoreVersion', GetCoreVersion)
 
@@ -284,6 +297,7 @@ local function ExploitBan(playerId, origin)
         'Anti Cheat'
     })
     DropPlayer(playerId, "You have been banned for cheating. Check our Discord for more information: " .. QBCore.Config.Server.Discord)
-    TriggerEvent("qb-log:server:CreateLog", "anticheat", "Anti-Cheat", "red", name.." has been banned for exploiting "..origin, true)
+    TriggerEvent("qb-log:server:CreateLog", "anticheat", "Anti-Cheat", "red", name .. " has been banned for exploiting " .. origin, true)
 end
+
 exports('ExploitBan', ExploitBan)

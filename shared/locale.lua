@@ -44,7 +44,7 @@ end
 --- internally for initial population of phrases field.
 --- @param phrases table<string, string> - Table of phrase definitions
 --- @param prefix string | nil - Optional prefix used for recursive calls
---- @return void
+--- @return nil
 function Locale:extend(phrases, prefix)
     for key, phrase in pairs(phrases) do
         local prefixKey = prefix and ('%s.%s'):format(prefix, key) or key
@@ -57,10 +57,9 @@ function Locale:extend(phrases, prefix)
     end
 end
 
-
 --- Clear locale instance phrases
 --- Might be useful for memory management of large phrase maps.
---- @return void
+--- @return nil
 function Locale:clear()
     self.phrases = {}
 end
@@ -69,8 +68,8 @@ end
 --- @param phrases table<string, any>
 function Locale:replace(phrases)
     phrases = phrases or {}
-    self.clear()
-    self.extend(phrases)
+    self:clear()
+    self:extend(phrases)
 end
 
 --- Gets & Sets a locale depending on if an argument is passed
@@ -85,7 +84,7 @@ end
 
 --- Primary translation method for a phrase of given key
 --- @param key string - The phrase key to target
---- @param subs table<string, string>
+--- @param subs table<string, any> | nil
 --- @return string
 function Locale:t(key, subs)
     local phrase, result

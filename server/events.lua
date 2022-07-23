@@ -216,31 +216,43 @@ QBCore.Functions.CreateCallback('QBCore:HasItem', function(source, cb, items, am
     local Player = QBCore.Functions.GetPlayer(source)
     if not Player then return cb(false) end
     local isTable = type(items) == 'table'
-	local isArray = isTable and table.type(items) == 'array' or false
-	local totalItems = #items
-	local count = 0
+    local isArray = isTable and table.type(items) == 'array' or false
+    local totalItems = #items
+    local count = 0
     local kvIndex = 2
-	if isTable and not isArray then
+    if isTable and not isArray then
         totalItems = 0
         for _ in pairs(items) do totalItems += 1 end
         kvIndex = 1
     end
     if isTable then
-		for k, v in pairs(items) do
-			local itemKV = {k, v}
-			local item = Player.Functions.GetItemByName(itemKV[kvIndex])
+        for k, v in pairs(items) do
+            local itemKV = {k, v}
+            local item = Player.Functions.GetItemByName(itemKV[kvIndex])
             if item and ((amount and item.amount >= amount) or (not amount and not isArray and item.amount >= v) or (not amount and isArray)) then
                 count += 1
             end
-		end
-		if count == totalItems then
-			retval = true
-		end
-	else -- Single item as string
-		local item = Player.Functions.GetItemByName(items)
+        end
+        if count == totalItems then
+            retval = true
+        end
+    else -- Single item as string
+        local item = Player.Functions.GetItemByName(items)
         if item and not amount or (item and amount and item.amount >= amount) then
             retval = true
         end
-	end
+    end
     cb(retval)
+end)
+
+-- Vehicle server-side spawning callback (netId)
+-- use the netid on the client with the NetworkGetEntityFromNetworkId native
+-- convert it to a vehicle via the NetToVeh native
+QBCore.Functions.CreateCallback('QBCore:Server:SpawnVehicle', function(source, cb, model, coords, warp)
+    model = type(model) == 'string' and GetHashKey(model) or model
+    if not coords then coords = GetEntityCoords(GetPlayerPed(source)) end
+    local veh = CreateVehicle(model, coords.x, coords.y, coords.z, coords.w, true, true)
+    while not DoesEntityExist(veh) do Wait(0) end
+    if warp then TaskWarpPedIntoVehicle(GetPlayerPed(source), veh, -1) end
+    cb(NetworkGetNetworkIdFromEntity(veh))
 end)
