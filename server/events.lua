@@ -19,7 +19,7 @@ end)
 
 -- Player Connecting
 
-local function onPlayerConnecting(name, setKickReason, deferrals)
+local function onPlayerConnecting(name, _, deferrals)
     local src = source
     local license
     local identifiers = GetPlayerIdentifiers(src)
