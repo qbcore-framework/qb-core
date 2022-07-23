@@ -177,7 +177,7 @@ end)
 -- This event is exploitable and should not be used. It has been deprecated. function(itemName, amount, slot, info)
 RegisterNetEvent('QBCore:Server:AddItem', function(itemName, amount)
     local src = source
-    print(string.format("%s triggered QBCore:Server:AddItem by ID %s for %s %s. This event is being deprecated because of exploitation. Adjust your events accordingly to do this server side with player functions.", GetInvokingResource(), src, amount, itemName))
+    print(string.format("%s triggered QBCore:Server:AddItem by ID %s for %s %s. This event is deprecated due to exploitation, and will be removed soon. Adjust your events accordingly to do this server side with player functions.", GetInvokingResource(), src, amount, itemName))
 end)
 
 -- Non-Chat Command Calling (ex: qb-adminmenu)
