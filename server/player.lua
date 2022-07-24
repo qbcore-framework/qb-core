@@ -224,10 +224,9 @@ function QBCore.Player.CreatePlayer(PlayerData)
     end
 
     function self.Functions.GetMetaData(meta)
+        if not meta or type(meta) ~= 'string' then return end
         meta = meta:lower()
-        if meta ~= nil then
-            return self.PlayerData.metadata[meta]
-        end
+        return self.PlayerData.metadata[meta]
     end
 
     function self.Functions.AddJobReputation(amount)
