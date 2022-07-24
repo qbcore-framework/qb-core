@@ -19,8 +19,8 @@ local Translations = {
         gang_info = '%{value2} :דרגה | %{value} :גאנג',
         on_duty = '!עלית לתפקיד',
         off_duty = '!ירדת מהתפקיד',
-        checking_ban = '.אנחנו בודקים אם את/ה חסומ/ה בשרת הזה .%s שלום',
-        join_server = '.{Server Name}-ל %s ברוכ/ה הבא/ה',
+        checking_ban = '.אנחנו בודקים אם את/ה חסום/ה בשרת הזה .%s שלום',
+        join_server = '.{Server Name}-ל %s ברוך/ה הבא/ה',
         checking_whitelisted = '.אנחנו בודקים אם את/ה ברשימת המותרים .%s שלום'
     }
 }
