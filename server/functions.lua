@@ -164,7 +164,6 @@ function QBCore.Functions.GetEntitiesInBucket(bucket --[[ int ]])
 end
 
 -- Paychecks (standalone - don't touch)
-
 function PaycheckInterval()
     if next(QBCore.Players) then
         for _, Player in pairs(QBCore.Players) do
@@ -210,7 +209,13 @@ end
 -- Items
 
 function QBCore.Functions.CreateUseableItem(item, cb)
-    QBCore.UseableItems[item] = cb
+    if type(item) == "table" then
+        for i = 1, #item do
+            QBCore.UseableItems[item[i]] = cb
+        end
+    else
+        QBCore.UseableItems[item] = cb
+    end
 end
 
 function QBCore.Functions.CanUseItem(item)
