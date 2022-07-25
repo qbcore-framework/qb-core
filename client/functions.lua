@@ -396,7 +396,7 @@ function QBCore.Functions.SpawnVehicle(model, cb, coords, isnetworked, teleportI
     else
         coords = GetEntityCoords(ped)
     end
-    isnetworked = isnetworked or true
+    isnetworked = isnetworked == nil or isnetworked
     QBCore.Functions.LoadModel(model)
     local veh = CreateVehicle(model, coords.x, coords.y, coords.z, coords.w, isnetworked, false)
     local netid = NetworkGetNetworkIdFromEntity(veh)
