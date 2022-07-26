@@ -245,6 +245,7 @@ QBCore.Functions.CreateCallback('QBCore:HasItem', function(source, cb, items, am
     cb(retval)
 end)
 
+-- Use this for player vehicle spawning
 -- Vehicle server-side spawning callback (netId)
 -- use the netid on the client with the NetworkGetEntityFromNetworkId native
 -- convert it to a vehicle via the NetToVeh native
@@ -252,6 +253,20 @@ QBCore.Functions.CreateCallback('QBCore:Server:SpawnVehicle', function(source, c
     model = type(model) == 'string' and GetHashKey(model) or model
     if not coords then coords = GetEntityCoords(GetPlayerPed(source)) end
     local veh = CreateVehicle(model, coords.x, coords.y, coords.z, coords.w, true, true)
+    while not DoesEntityExist(veh) do Wait(0) end
+    if warp then TaskWarpPedIntoVehicle(GetPlayerPed(source), veh, -1) end
+    cb(NetworkGetNetworkIdFromEntity(veh))
+end)
+
+-- Use this for long distance vehicle spawning
+-- vehicle server-side spawning callback (netId)
+-- use the netid on the client with the NetworkGetEntityFromNetworkId native
+-- convert it to a vehicle via the NetToVeh native
+QBCore.Functions.CreateCallback('QBCore:Server:CreateVehicle', function(source, cb, model, coords, warp)
+    model = type(model) == 'string' and GetHashKey(model) or model
+    if not coords then coords = GetEntityCoords(GetPlayerPed(source)) end
+    local CreateAutomobile = GetHashKey("CREATE_AUTOMOBILE")
+    local veh = Citizen.InvokeNative(CreateAutomobile, model, coords, coords.w, true, true)
     while not DoesEntityExist(veh) do Wait(0) end
     if warp then TaskWarpPedIntoVehicle(GetPlayerPed(source), veh, -1) end
     cb(NetworkGetNetworkIdFromEntity(veh))
