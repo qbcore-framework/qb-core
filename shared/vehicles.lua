@@ -4419,13 +4419,13 @@ QBShared.Vehicles = {
 		['hash'] = `nimbus`,
 		['shop'] = 'air',
 	},
-	['brisos3'] = {          --DLC +set sv_enforceGameBuild 2699 (and below)
+	['brioso3'] = {          --DLC +set sv_enforceGameBuild 2699 (and below)
         ['name'] = 'Brioso 300 Widebody',
         ['brand'] = 'Grotti',
-        ['model'] = 'brisos3',
+        ['model'] = 'brioso3',
         ['price'] = 125000,
         ['category'] = 'compacts',
-        ['hash'] = `brisos3`,
+        ['hash'] = `brioso3`,
         ['shop'] = 'pdm',
     },
     ['conada'] = {
@@ -4437,13 +4437,13 @@ QBShared.Vehicles = {
         ['hash'] = `conada`,
         ['shop'] = 'air',
     },
-    ['corista'] = {
+    ['corsita'] = {
         ['name'] = 'Corsita',
         ['brand'] = 'Lampadati',
-        ['model'] = 'corista',
+        ['model'] = 'corsita',
         ['price'] = 90000,
         ['category'] = 'sports',
-        ['hash'] = `corista`,
+        ['hash'] = `corsita`,
         ['shop'] = 'luxury',
     },
     ['draugur'] = {
