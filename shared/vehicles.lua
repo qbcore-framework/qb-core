@@ -4425,7 +4425,7 @@ QBShared.Vehicles = {
         ['model'] = 'brisos3',
         ['price'] = 125000,
         ['category'] = 'compacts',
-        ['hash'] = 'brisos3',
+        ['hash'] = `brisos3`,
         ['shop'] = 'pdm',
     },
     ['conada'] = {
@@ -4434,7 +4434,7 @@ QBShared.Vehicles = {
         ['model'] = 'conada',
         ['price'] = 115000,
         ['category'] = 'helicopters',
-        ['hash'] = 'conada',
+        ['hash'] = `conada`,
         ['shop'] = 'air',
     },
     ['corista'] = {
@@ -4443,7 +4443,7 @@ QBShared.Vehicles = {
         ['model'] = 'corista',
         ['price'] = 90000,
         ['category'] = 'sports',
-        ['hash'] = 'corista',
+        ['hash'] = `corista`,
         ['shop'] = 'luxury',
     },
     ['draugur'] = {
@@ -4452,7 +4452,7 @@ QBShared.Vehicles = {
         ['model'] = 'draugur',
         ['price'] = 99000,
         ['category'] = 'offroad',
-        ['hash'] = 'draugur',
+        ['hash'] = `draugur`,
         ['shop'] = 'pdm',
     },
     ['greenwood'] = {
@@ -4461,7 +4461,7 @@ QBShared.Vehicles = {
         ['model'] = 'greenwood',
         ['price'] = 105000,
         ['category'] = 'muscle',
-        ['hash'] = 'greenwood',
+        ['hash'] = `greenwood`,
         ['shop'] = 'pdm',
     },
     ['kanjosj'] = {
@@ -4470,7 +4470,7 @@ QBShared.Vehicles = {
         ['model'] = 'kanjosj',
         ['price'] = 143000,
         ['category'] = 'coupes',
-        ['hash'] = 'kanjosj',
+        ['hash'] = `kanjosj`,
         ['shop'] = 'pdm',
     },
     ['lm87'] = {
@@ -4479,7 +4479,7 @@ QBShared.Vehicles = {
         ['model'] = 'lm87',
         ['price'] = 155000,
         ['category'] = 'super',
-        ['hash'] = 'lm87',
+        ['hash'] = `lm87`,
         ['shop'] = 'luxury',
     },
     ['omnisegt'] = {
@@ -4488,7 +4488,7 @@ QBShared.Vehicles = {
         ['model'] = 'omnisegt',
         ['price'] = 185000,
         ['category'] = 'sports',
-        ['hash'] = 'omnisegt',
+        ['hash'] = `omnisegt`,
         ['shop'] = 'luxury',
     },
     ['postlude'] = {
@@ -4497,7 +4497,7 @@ QBShared.Vehicles = {
         ['model'] = 'postlude',
         ['price'] = 90000,
         ['category'] = 'coupes',
-        ['hash'] = 'postlude',
+        ['hash'] = `postlude`,
         ['shop'] = 'pdm',
     },
     ['rhinehart'] = {
@@ -4506,7 +4506,7 @@ QBShared.Vehicles = {
         ['model'] = 'rhinehart ',
         ['price'] = 105000,
         ['category'] = 'sedans',
-        ['hash'] = 'rhinehart',
+        ['hash'] = `rhinehart`,
         ['shop'] = 'pdm',
     },
     ['ruiner4'] = {
@@ -4515,7 +4515,7 @@ QBShared.Vehicles = {
         ['model'] = 'ruiner4',
         ['price'] = 85000,
         ['category'] = 'muscle',
-        ['hash'] = 'ruiner4',
+        ['hash'] = `ruiner4`,
         ['shop'] = 'pdm',
     },
     ['sentinel4'] = {
@@ -4524,7 +4524,7 @@ QBShared.Vehicles = {
         ['model'] = 'sentinel4',
         ['price'] = 140000,
         ['category'] = 'sports',
-        ['hash'] = 'sentinel4',
+        ['hash'] = `sentinel4`,
         ['shop'] = 'luxury',
     },
     ['sm722'] = {
@@ -4533,7 +4533,7 @@ QBShared.Vehicles = {
         ['model'] = 'sm722',
         ['price'] = 125000,
         ['category'] = 'sports',
-        ['hash'] = 'sm722',
+        ['hash'] = `sm722`,
         ['shop'] = 'luxury',
     },
 	['tenf'] = {
@@ -4542,7 +4542,7 @@ QBShared.Vehicles = {
         ['model'] = 'tenf',
         ['price'] = 185000,
         ['category'] = 'sports',
-        ['hash'] = 'tenf',
+        ['hash'] = `tenf`,
         ['shop'] = 'luxury',
     },
     ['tenf2'] = {
@@ -4551,7 +4551,7 @@ QBShared.Vehicles = {
         ['model'] = 'tenf2',
         ['price'] = 215000,
         ['category'] = 'sports',
-        ['hash'] = 'tenf2',
+        ['hash'] = `tenf2`,
         ['shop'] = 'luxury',
     },
     ['torero2'] = {
@@ -4560,7 +4560,7 @@ QBShared.Vehicles = {
         ['model'] = 'torero2',
         ['price'] = 245000,
         ['category'] = 'super',
-        ['hash'] = 'torero2',
+        ['hash'] = `torero2`,
         ['shop'] = 'luxury',
     },
     ['vigero2'] = {
@@ -4569,7 +4569,7 @@ QBShared.Vehicles = {
         ['model'] = 'vigero2',
         ['price'] = 105000,
         ['category'] = 'muscle',
-        ['hash'] = 'vigero2',
+        ['hash'] = `vigero2`,
         ['shop'] = 'pdm',
     },
     ['weevil2'] = {
@@ -4578,7 +4578,7 @@ QBShared.Vehicles = {
         ['model'] = 'weevil2',
         ['price'] = 95000,
         ['category'] = 'muscle',
-        ['hash'] = 'weevil2',
+        ['hash'] = `weevil2`,
         ['shop'] = 'pdm',
     },
 }
