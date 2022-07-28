@@ -4452,7 +4452,7 @@ QBShared.Vehicles = {
         ['model'] = 'draugur',
         ['price'] = 99000,
         ['category'] = 'offroad',
-        ['hash'] = 'DRAUGUR',
+        ['hash'] = 'draugur',
         ['shop'] = 'pdm',
     },
     ['greenwood'] = {
