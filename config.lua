@@ -64,3 +64,8 @@ QBConfig.Notify.VariantDefinitions = {
         icon = 'fas fa-ambulance'
     }
 }
+
+-- Whitelist items/weapons so players don't loose everything on player death
+QBConfig.Player.WhitelistItems = {
+   -- ['phone'] = true,
+}
