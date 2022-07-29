@@ -19,7 +19,7 @@ end)
 
 -- Player Connecting
 
-local function onPlayerConnecting(name, setKickReason, deferrals)
+local function onPlayerConnecting(name, _, deferrals)
     local src = source
     local license
     local identifiers = GetPlayerIdentifiers(src)
@@ -64,13 +64,10 @@ local function onPlayerConnecting(name, setKickReason, deferrals)
         deferrals.done(Lang:t('error.duplicate_license'))
     elseif isWhitelist and not whitelisted then
       deferrals.done(Lang:t('error.not_whitelisted'))
-    else
-        deferrals.done()
-        if QBCore.Config.Server.UseConnectQueue then
-            Wait(1000)
-            TriggerEvent('connectqueue:playerConnect', name, setKickReason, deferrals)
-        end
     end
+
+    deferrals.done()
+
     -- Add any additional defferals you may need!
 end
 
