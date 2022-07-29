@@ -44,7 +44,7 @@ function QBCore.Functions.GetPlayer(source)
 end
 
 function QBCore.Functions.GetPlayerByCitizenId(citizenid)
-    for src, _ in pairs(QBCore.Players) do
+    for src in pairs(QBCore.Players) do
         if QBCore.Players[src].PlayerData.citizenid == citizenid then
             return QBCore.Players[src]
         end
@@ -57,7 +57,7 @@ function QBCore.Functions.GetOfflinePlayerByCitizenId(citizenid)
 end
 
 function QBCore.Functions.GetPlayerByPhone(number)
-    for src, _ in pairs(QBCore.Players) do
+    for src in pairs(QBCore.Players) do
         if QBCore.Players[src].PlayerData.charinfo.phone == number then
             return QBCore.Players[src]
         end
@@ -67,7 +67,7 @@ end
 
 function QBCore.Functions.GetPlayers()
     local sources = {}
-    for k, _ in pairs(QBCore.Players) do
+    for k in pairs(QBCore.Players) do
         sources[#sources+1] = k
     end
     return sources
@@ -169,26 +169,26 @@ end
 
 -- Server side vehicle creation with optional callback
 -- the CreateVehicle RPC still uses the client for creation so players must be near
-function QBCore.Functions.SpawnVehicle(model, cb, coords, warp)
-    model = type(model) == 'string' and GetHashKey(model) or model
+function QBCore.Functions.SpawnVehicle(source, model, coords, warp)
+    model = type(model) == 'string' and joaat(model) or model
     if not coords then coords = GetEntityCoords(GetPlayerPed(source)) end
     local veh = CreateVehicle(model, coords.x, coords.y, coords.z, coords.w, true, true)
     while not DoesEntityExist(veh) do Wait(0) end
     if warp then TaskWarpPedIntoVehicle(GetPlayerPed(source), veh, -1) end
-    if cb then cb(veh) end
+    return veh
 end
 
 -- Server side vehicle creation with optional callback
 -- the CreateAutomobile native is still experimental but doesn't use client for creation
 -- doesn't work for all vehicles!
-function QBCore.Functions.CreateVehicle(model, cb, coords, warp)
-    model = type(model) == 'string' and GetHashKey(model) or model
+function QBCore.Functions.CreateVehicle(source, model, coords, warp)
+    model = type(model) == 'string' and joaat(model) or model
     if not coords then coords = GetEntityCoords(GetPlayerPed(source)) end
-    local CreateAutomobile = GetHashKey("CREATE_AUTOMOBILE")
+    local CreateAutomobile = `CREATE_AUTOMOBILE`
     local veh = Citizen.InvokeNative(CreateAutomobile, model, coords, coords.w, true, true)
     while not DoesEntityExist(veh) do Wait(0) end
     if warp then TaskWarpPedIntoVehicle(GetPlayerPed(source), veh, -1) end
-    if cb then cb(veh) end
+    return veh
 end
 
 -- Paychecks (standalone - don't touch)
@@ -357,7 +357,7 @@ function QBCore.Functions.ToggleOptin(source)
     if not license or not QBCore.Functions.HasPermission(source, 'admin') then return end
     local Player = QBCore.Functions.GetPlayer(source)
     Player.PlayerData.optin = not Player.PlayerData.optin
-    Player.Functions.SetMetaData('optin', Player.PlayerData.optin)
+    Player.Functions.SetPlayerData('optin', Player.PlayerData.optin)
 end
 
 -- Check if player is banned
