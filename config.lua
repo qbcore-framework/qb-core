@@ -21,7 +21,6 @@ QBConfig.Player.Bloodtypes = {
 }
 
 QBConfig.Server = {} -- General server config
-QBConfig.Server.UseConnectQueue = true -- Use connectqueue as a queue for your server
 QBConfig.Server.Closed = false -- Set server closed (no one can join except people with ace permission 'qbadmin.join')
 QBConfig.Server.ClosedReason = "Server Closed" -- Reason message to display when people can't join the server
 QBConfig.Server.Uptime = 0 -- Time the server has been up.
