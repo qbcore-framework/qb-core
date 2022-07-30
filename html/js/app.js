@@ -8,7 +8,6 @@ import {
 } from "./config.js";
 
 const { useQuasar } = Quasar;
-
 const { onMounted, onUnmounted } = Vue;
 
 const app = Vue.createApp({
