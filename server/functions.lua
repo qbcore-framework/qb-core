@@ -426,3 +426,7 @@ function QBCore.Functions.HasItem(source, items, amount)
     end
     return false
 end
+
+function QBCore.Functions.Notify(source, text, type, length)
+    TriggerClientEvent('QBCore:Notify', source, text, type, length)
+end
