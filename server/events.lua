@@ -247,11 +247,18 @@ end)
 -- use the netid on the client with the NetworkGetEntityFromNetworkId native
 -- convert it to a vehicle via the NetToVeh native
 QBCore.Functions.CreateCallback('QBCore:Server:SpawnVehicle', function(source, cb, model, coords, warp)
-    model = type(model) == 'string' and GetHashKey(model) or model
-    if not coords then coords = GetEntityCoords(GetPlayerPed(source)) end
+    local ped = GetPlayerPed(source)
+    model = type(model) == 'string' and joaat(model) or model
+    if not coords then coords = GetEntityCoords(ped) end
     local veh = CreateVehicle(model, coords.x, coords.y, coords.z, coords.w, true, true)
     while not DoesEntityExist(veh) do Wait(0) end
-    if warp then TaskWarpPedIntoVehicle(GetPlayerPed(source), veh, -1) end
+    if warp then
+        while GetVehiclePedIsIn(ped) ~= veh do
+            Wait(0)
+            TaskWarpPedIntoVehicle(ped, veh, -1)
+        end
+    end
+    while NetworkGetEntityOwner(veh) ~= source do Wait(0) end
     cb(NetworkGetNetworkIdFromEntity(veh))
 end)
 
