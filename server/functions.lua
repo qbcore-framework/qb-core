@@ -170,11 +170,18 @@ end
 -- Server side vehicle creation with optional callback
 -- the CreateVehicle RPC still uses the client for creation so players must be near
 function QBCore.Functions.SpawnVehicle(source, model, coords, warp)
+    local ped = GetPlayerPed(source)
     model = type(model) == 'string' and joaat(model) or model
-    if not coords then coords = GetEntityCoords(GetPlayerPed(source)) end
+    if not coords then coords = GetEntityCoords(ped) end
     local veh = CreateVehicle(model, coords.x, coords.y, coords.z, coords.w, true, true)
     while not DoesEntityExist(veh) do Wait(0) end
-    if warp then TaskWarpPedIntoVehicle(GetPlayerPed(source), veh, -1) end
+    if warp then
+        while GetVehiclePedIsIn(ped) ~= veh do
+            Wait(0)
+            TaskWarpPedIntoVehicle(ped, veh, -1)
+        end
+    end
+    while NetworkGetEntityOwner(veh) ~= source do Wait(0) end
     return veh
 end
 
@@ -425,4 +432,8 @@ function QBCore.Functions.HasItem(source, items, amount)
         end
     end
     return false
+end
+
+function QBCore.Functions.Notify(source, text, type, length)
+    TriggerClientEvent('QBCore:Notify', source, text, type, length)
 end
