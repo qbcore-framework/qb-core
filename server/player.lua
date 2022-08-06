@@ -453,6 +453,15 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         return false
     end
 
+    function self.Functions.SetItemData(itemName, dataKey, dataVal)
+        if not itemName or not dataKey then return end
+        local item = self.Functions.GetItemByName(itemName)
+        if not item then return end
+        item[dataKey] = dataVal
+        self.PlayerData.items[item.slot] = item
+        self.Functions.UpdatePlayerData()
+    end
+
     function self.Functions.SetInventory(items, dontUpdateChat)
         self.PlayerData.items = items
 
