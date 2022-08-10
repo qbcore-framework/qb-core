@@ -42,7 +42,11 @@ local function onPlayerConnecting(name, _, deferrals)
             break
         end
     end
-
+    
+    if GetConvarInt("sv_fxdkMode", false) then
+        license = 'license:AAAAAAAAAAAAAAAA' -- Dummy License
+    end
+    
     -- Mandatory wait
     Wait(2500)
 
