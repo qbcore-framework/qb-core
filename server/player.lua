@@ -545,7 +545,7 @@ end
 -- Use-case:
 --[[
     AddEventHandler('QBCore:Server:PlayerLoaded', function(player)
-        QBCore.Functions.AddPlayerMethod(player.source, "functionName", function(oneArg, orMore)
+        QBCore.Functions.AddPlayerMethod(player.PlayerData.source, "functionName", function(oneArg, orMore)
             -- do something here
         end)
     end)
