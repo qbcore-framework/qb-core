@@ -553,7 +553,7 @@ end
 
 function QBCore.Functions.AddPlayerMethod(ids, methodName, handler)
     local idType = type(ids)
-    if idType == "string" then
+    if idType == "number" then
         if ids == -1 then
             for _, v in pairs(QBCore.Players) do
                 v.Functions.AddMethod(methodName, handler)
