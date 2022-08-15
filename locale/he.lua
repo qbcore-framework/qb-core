@@ -10,9 +10,14 @@ local Translations = {
         too_heavy = 'אינבנטורי מלא',
         duplicate_license = 'Rockstar נמצא שכפול רישיון',
         no_valid_license = 'תקף Rockstar לא נמצא רישיון',
-        not_whitelisted = 'את/ה לא ברשימת המותרים בשרת הזה'
+        not_whitelisted = 'את/ה לא ברשימת המותרים בשרת הזה',
+        server_already_open = 'השרת כבר פתוח',
+        server_already_closed = 'השרת כבר סגור'
     },
-    success = {},
+    success = {
+        server_opened = 'השרת נפתח',
+        server_closed = 'השרת נסגר'
+    },
     info = {
         received_paycheck = '$%{value} קיבלת תלוש שכר על סך',
         job_info = '%{value3} :בתפקיד | %{value2} :דרגה | %{value} :עבודה',
