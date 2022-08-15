@@ -443,8 +443,8 @@ function QBCore.Functions.GetVehicleProperties(vehicle)
     if DoesEntityExist(vehicle) then
         local pearlescentColor, wheelColor = GetVehicleExtraColours(vehicle)
 
-        local colorPrimaryType, _, _ = GetVehicleModColor_1(vehicle)
-        local colorSecondaryType, _ = GetVehicleModColor_2(vehicle)
+        local colorPrimaryType = GetVehicleModColor_1(vehicle)
+        local colorSecondaryType = GetVehicleModColor_2(vehicle)
         local colorPrimary, colorSecondary = GetVehicleColours(vehicle)
         if GetIsVehiclePrimaryColourCustom(vehicle) then
             local r, g, b = GetVehicleCustomPrimaryColour(vehicle)
