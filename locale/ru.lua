@@ -10,9 +10,14 @@ local Translations = {
         too_heavy = 'Инвентарь слишком полный',
         duplicate_license = 'Найден дубликат лицензии Rockstar',
         no_valid_license = 'Не найдена действующая лицензия Rockstar',
-        not_whitelisted = 'Вы не в белом списке этого сервера'
+        not_whitelisted = 'Вы не в белом списке этого сервера',
+        server_already_open = 'Этот сервер уже открыт',
+        server_already_closed = 'Этот сервер уже закрыт'
     },
-    success = {},
+    success = {
+        server_opened = 'Сервер открыт',
+        server_closed = 'Сервер закрыт'
+    },
     info = {
         received_paycheck = 'Вы получили зарплату в размере $%{value}',
         job_info = 'Задание: %{value} | Оценка: %{value2} | Дежурство: %{value3}',
