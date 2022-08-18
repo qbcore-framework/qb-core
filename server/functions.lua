@@ -253,14 +253,27 @@ end
 -- Items
 
 function QBCore.Functions.CreateUseableItem(item, cb)
-    exports['qb-inventory']:CreateUsableItem(item, cb)
+    if GetResourceState('qb-inventory') == 'missing' then return end
+
+    if GetResourceState('qb-inventory') ~= 'started' then
+        CreateThread(function()
+            repeat
+                Wait(1000)
+            until GetResourceState('qb-inventory') == 'started'
+            exports['qb-inventory']:CreateUsableItem(item, cb)
+        end)
+    else
+        exports['qb-inventory']:CreateUsableItem(item, cb)
+    end
 end
 
 function QBCore.Functions.CanUseItem(item)
+    if GetResourceState('qb-inventory') == 'missing' then return end
     return exports['qb-inventory']:GetUsableItem(item)
 end
 
 function QBCore.Functions.UseItem(source, item)
+    if GetResourceState('qb-inventory') == 'missing' then return end
     exports['qb-inventory']:UseItem(source, item)
 end
 
@@ -402,6 +415,7 @@ end
 -- Utility functions
 
 function QBCore.Functions.HasItem(source, items, amount)
+    if GetResourceState('qb-inventory') == 'missing' then return end
     return exports['qb-inventory']:HasItem(source, items, amount)
 end
 
