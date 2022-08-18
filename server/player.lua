@@ -514,7 +514,32 @@ function QBCore.Player.DeleteCharacter(source, citizenid)
     end
 end
 
+function QBCore.Player.SaveInventory(source)
+    if GetResourceState('qb-inventory') == 'missing' then return end
+    exports['qb-inventory']:SaveInventory(source, false)
+end
+
+function QBCore.Player.SaveOfflineInventory(PlayerData)
+    if GetResourceState('qb-inventory') == 'missing' then return end
+    exports['qb-inventory']:SaveInventory(PlayerData, true)
+end
+
 -- Util Functions
+
+function QBCore.Player.GetTotalWeight(items)
+    if GetResourceState('qb-inventory') == 'missing' then return end
+    return exports['qb-inventory']:GetTotalWeight(items)
+end
+
+function QBCore.Player.GetSlotsByItem(items, itemName)
+    if GetResourceState('qb-inventory') == 'missing' then return end
+    return exports['qb-inventory']:GetSlotsByItem(items, itemName)
+end
+
+function QBCore.Player.GetFirstSlotByItem(items, itemName)
+    if GetResourceState('qb-inventory') == 'missing' then return end
+    return exports['qb-inventory']:GetFirstSlotByItem(items, itemName)
+end
 
 function QBCore.Player.CreateCitizenId()
     local UniqueFound = false
