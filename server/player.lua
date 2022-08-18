@@ -384,6 +384,10 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
     function self.Functions.AddMethod(methodName, handler)
         self.Functions[methodName] = handler
     end
+    
+    function self.Functions.AddField(fieldName, data)
+        self[fieldName] = data
+    end
 
     if self.Offline then
         return self
@@ -422,6 +426,33 @@ function QBCore.Functions.AddPlayerMethod(ids, methodName, handler)
     elseif idType == "table" and table.type(ids) == "array" then
         for i = 1, #ids do
             QBCore.Functions.AddPlayerMethod(ids[i], methodName, handler)
+        end
+    end
+end
+
+-- Add a new field table of the player class
+-- Use-case:
+--[[
+    AddEventHandler('QBCore:Server:PlayerLoaded', function(Player)
+        QBCore.Functions.AddPlayerField(Player.PlayerData.source, "fieldName", "fieldData")
+    end)
+]]
+
+function QBCore.Functions.AddPlayerField(ids, fieldName, data)
+    local idType = type(ids)
+    if idType == "number" then
+        if ids == -1 then
+            for _, v in pairs(QBCore.Players) do
+                v.Functions.AddField(fieldName, data)
+            end
+        else
+            if not QBCore.Players[ids] then return end
+
+            QBCore.Players[ids].Functions.AddField(fieldName, data)
+        end
+    elseif idType == "table" and table.type(ids) == "array" then
+        for i = 1, #ids do
+            QBCore.Functions.AddPlayerField(ids[i], fieldName, data)
         end
     end
 end
@@ -514,6 +545,8 @@ function QBCore.Player.DeleteCharacter(source, citizenid)
     end
 end
 
+-- Inventory Backwards Compatibility
+
 function QBCore.Player.SaveInventory(source)
     if GetResourceState('qb-inventory') == 'missing' then return end
     exports['qb-inventory']:SaveInventory(source, false)
@@ -523,8 +556,6 @@ function QBCore.Player.SaveOfflineInventory(PlayerData)
     if GetResourceState('qb-inventory') == 'missing' then return end
     exports['qb-inventory']:SaveInventory(PlayerData, true)
 end
-
--- Util Functions
 
 function QBCore.Player.GetTotalWeight(items)
     if GetResourceState('qb-inventory') == 'missing' then return end
@@ -540,6 +571,8 @@ function QBCore.Player.GetFirstSlotByItem(items, itemName)
     if GetResourceState('qb-inventory') == 'missing' then return end
     return exports['qb-inventory']:GetFirstSlotByItem(items, itemName)
 end
+
+-- Util Functions
 
 function QBCore.Player.CreateCitizenId()
     local UniqueFound = false
