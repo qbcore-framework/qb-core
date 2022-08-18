@@ -512,6 +512,10 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         return self.PlayerData.items[slot]
     end
 
+    function self.Functions.AddMethod(methodName, handler)
+        self.Functions[methodName] = handler
+    end
+
     function self.Functions.Save()
         if self.Offline then
             QBCore.Player.SaveOffline(self.PlayerData)
@@ -534,6 +538,35 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         -- At this point we are safe to emit new instance to third party resource for load handling
         TriggerEvent('QBCore:Server:PlayerLoaded', self)
         self.Functions.UpdatePlayerData()
+    end
+end
+
+-- Add a new function to the Functions table of the player class
+-- Use-case:
+--[[
+    AddEventHandler('QBCore:Server:PlayerLoaded', function(player)
+        QBCore.Functions.AddPlayerMethod(player.PlayerData.source, "functionName", function(oneArg, orMore)
+            -- do something here
+        end)
+    end)
+]]
+
+function QBCore.Functions.AddPlayerMethod(ids, methodName, handler)
+    local idType = type(ids)
+    if idType == "number" then
+        if ids == -1 then
+            for _, v in pairs(QBCore.Players) do
+                v.Functions.AddMethod(methodName, handler)
+            end
+        else
+            if not QBCore.Players[ids] then return end
+
+            QBCore.Players[ids].Functions.AddMethod(methodName, handler)
+        end
+    elseif idType == "table" and table.type(ids) == "array" then
+        for i = 1, #ids do
+            QBCore.Functions.AddPlayerMethod(ids[i], methodName, handler)
+        end
     end
 end
 
