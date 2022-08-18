@@ -167,10 +167,10 @@ end)
 
 -- Items
 
+-- This event is exploitable and should not be used. It has been deprecated, and will be removed soon.
 RegisterNetEvent('QBCore:Server:UseItem', function(item)
-    local src = source
-    if not item or item.amount <= 0 or not QBCore.Functions.CanUseItem(item.name) then return end
-    QBCore.Functions.UseItem(src, item)
+    print(string.format("%s triggered QBCore:Server:UseItem by ID %s with the following data. This event is deprecated due to exploitation, and will be removed soon. Check qb-inventory for the right use on this event.", GetInvokingResource(), source))
+    QBCore.Debug(item)
 end)
 
 RegisterNetEvent('QBCore:Server:RemoveItem', function(itemName, amount, slot)
