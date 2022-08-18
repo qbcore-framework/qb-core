@@ -167,7 +167,6 @@ end
 
 function QBCore.Player.Logout(source)
     TriggerClientEvent('QBCore:Client:OnPlayerUnload', source)
-    TriggerEvent('QBCore:Server:PlayerUnloaded', source)
     TriggerClientEvent('QBCore:Player:UpdatePlayerData', source)
     Wait(200)
     QBCore.Players[source] = nil
@@ -185,6 +184,7 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
 
     function self.Functions.UpdatePlayerData(dontUpdateChat)
         if self.Offline then return end -- Unsupported for Offline Players
+        TriggerEvent('QBCore:Player:SetPlayerData', self.PlayerData)
         TriggerClientEvent('QBCore:Player:SetPlayerData', self.PlayerData.source, self.PlayerData)
         if not dontUpdateChat then
             QBCore.Commands.Refresh(self.PlayerData.source)
