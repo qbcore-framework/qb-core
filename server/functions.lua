@@ -44,7 +44,7 @@ function QBCore.Functions.GetPlayer(source)
 end
 
 function QBCore.Functions.GetPlayerByCitizenId(citizenid)
-    for src, _ in pairs(QBCore.Players) do
+    for src in pairs(QBCore.Players) do
         if QBCore.Players[src].PlayerData.citizenid == citizenid then
             return QBCore.Players[src]
         end
@@ -57,7 +57,7 @@ function QBCore.Functions.GetOfflinePlayerByCitizenId(citizenid)
 end
 
 function QBCore.Functions.GetPlayerByPhone(number)
-    for src, _ in pairs(QBCore.Players) do
+    for src in pairs(QBCore.Players) do
         if QBCore.Players[src].PlayerData.charinfo.phone == number then
             return QBCore.Players[src]
         end
@@ -67,7 +67,7 @@ end
 
 function QBCore.Functions.GetPlayers()
     local sources = {}
-    for k, _ in pairs(QBCore.Players) do
+    for k in pairs(QBCore.Players) do
         sources[#sources+1] = k
     end
     return sources
@@ -167,8 +167,38 @@ function QBCore.Functions.GetEntitiesInBucket(bucket --[[ int ]])
     end
 end
 
--- Paychecks (standalone - don't touch)
+-- Server side vehicle creation with optional callback
+-- the CreateVehicle RPC still uses the client for creation so players must be near
+function QBCore.Functions.SpawnVehicle(source, model, coords, warp)
+    local ped = GetPlayerPed(source)
+    model = type(model) == 'string' and joaat(model) or model
+    if not coords then coords = GetEntityCoords(ped) end
+    local veh = CreateVehicle(model, coords.x, coords.y, coords.z, coords.w, true, true)
+    while not DoesEntityExist(veh) do Wait(0) end
+    if warp then
+        while GetVehiclePedIsIn(ped) ~= veh do
+            Wait(0)
+            TaskWarpPedIntoVehicle(ped, veh, -1)
+        end
+    end
+    while NetworkGetEntityOwner(veh) ~= source do Wait(0) end
+    return veh
+end
 
+-- Server side vehicle creation with optional callback
+-- the CreateAutomobile native is still experimental but doesn't use client for creation
+-- doesn't work for all vehicles!
+function QBCore.Functions.CreateVehicle(source, model, coords, warp)
+    model = type(model) == 'string' and joaat(model) or model
+    if not coords then coords = GetEntityCoords(GetPlayerPed(source)) end
+    local CreateAutomobile = `CREATE_AUTOMOBILE`
+    local veh = Citizen.InvokeNative(CreateAutomobile, model, coords, coords.w, true, true)
+    while not DoesEntityExist(veh) do Wait(0) end
+    if warp then TaskWarpPedIntoVehicle(GetPlayerPed(source), veh, -1) end
+    return veh
+end
+
+-- Paychecks (standalone - don't touch)
 function PaycheckInterval()
     if next(QBCore.Players) then
         for _, Player in pairs(QBCore.Players) do
@@ -222,15 +252,28 @@ end
 -- Items
 
 function QBCore.Functions.CreateUseableItem(item, cb)
-    QBCore.UseableItems[item] = cb
+    if GetResourceState('qb-inventory') == 'missing' then return end
+
+    if GetResourceState('qb-inventory') ~= 'started' then
+        CreateThread(function()
+            repeat
+                Wait(1000)
+            until GetResourceState('qb-inventory') == 'started'
+            exports['qb-inventory']:CreateUsableItem(item, cb)
+        end)
+    else
+        exports['qb-inventory']:CreateUsableItem(item, cb)
+    end
 end
 
 function QBCore.Functions.CanUseItem(item)
-    return QBCore.UseableItems[item]
+    if GetResourceState('qb-inventory') == 'missing' then return end
+    return exports['qb-inventory']:GetUsableItem(item)
 end
 
 function QBCore.Functions.UseItem(source, item)
-    QBCore.UseableItems[item.name](source, item)
+    if GetResourceState('qb-inventory') == 'missing' then return end
+    exports['qb-inventory']:UseItem(source, item)
 end
 
 -- Kick Player
@@ -333,7 +376,7 @@ function QBCore.Functions.ToggleOptin(source)
     if not license or not QBCore.Functions.HasPermission(source, 'admin') then return end
     local Player = QBCore.Functions.GetPlayer(source)
     Player.PlayerData.optin = not Player.PlayerData.optin
-    Player.Functions.SetMetaData('optin', Player.PlayerData.optin)
+    Player.Functions.SetPlayerData('optin', Player.PlayerData.optin)
 end
 
 -- Check if player is banned
@@ -366,4 +409,15 @@ function QBCore.Functions.IsLicenseInUse(license)
         end
     end
     return false
+end
+
+-- Utility functions
+
+function QBCore.Functions.HasItem(source, items, amount)
+    if GetResourceState('qb-inventory') == 'missing' then return end
+    return exports['qb-inventory']:HasItem(source, items, amount)
+end
+
+function QBCore.Functions.Notify(source, text, type, length)
+    TriggerClientEvent('QBCore:Notify', source, text, type, length)
 end

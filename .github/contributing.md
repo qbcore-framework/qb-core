@@ -197,5 +197,5 @@ All lua code should be done using all the best practices of proper lua using the
 
 ### JavaScript Styleguide
 
-- Use 4 Space indentation
+- Use 2 Space indentation
 - Don't repeat yourself.. if you're using the same operations in many different places convert them into a function with flexible variables.
