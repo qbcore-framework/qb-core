@@ -6,8 +6,10 @@ QBCore.Commands.IgnoreList = { -- Ignore old perm levels while keeping backwards
 }
 
 CreateThread(function() -- Add ace to node for perm checking
-    for _, v in pairs(QBConfig.Server.Permissions) do
-        ExecuteCommand(('add_ace qbcore.%s %s allow'):format(v, v))
+    local permissions = QBConfig.Server.Permissions
+    for i=1, #permissions do
+        local permission = permissions[i]
+        ExecuteCommand(('add_ace qbcore.%s %s allow'):format(permission, permission))
     end
 end)
 
@@ -79,15 +81,23 @@ function QBCore.Commands.Refresh(source)
 end
 
 -- Teleport
-
-QBCore.Commands.Add('tp', 'TP To Player or Coords (Admin Only)', { { name = 'id/x', help = 'ID of player or X position' }, { name = 'y', help = 'Y position' }, { name = 'z', help = 'Z position' } }, false, function(source, args)
+QBCore.Commands.Add('tp', 'TP To Location/Player/Coords (Admin Only)', { { name = 'location/id/x', help = 'location name, ID of player, or X position' }, { name = 'y', help = 'Y position' }, { name = 'z', help = 'Z position' } }, false, function(source, args)
     if args[1] and not args[2] and not args[3] then
-        local target = GetPlayerPed(tonumber(args[1]))
-        if target ~= 0 then
-            local coords = GetEntityCoords(target)
-            TriggerClientEvent('QBCore:Command:TeleportToPlayer', source, coords)
+        if tonumber(args[1]) then
+            local target = GetPlayerPed(tonumber(args[1]))
+            if target ~= 0 then
+                local coords = GetEntityCoords(target)
+                TriggerClientEvent('QBCore:Command:TeleportToPlayer', source, coords)
+            else
+                TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
+            end
         else
-            TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
+            local location = QBShared.Locations[args[1]]
+            if location then
+                TriggerClientEvent('QBCore:Command:TeleportToCoords', source, location.x, location.y, location.z, location.w)
+            else
+                TriggerClientEvent('QBCore:Notify', source, Lang:t('error.location_not_exist'), 'error')
+            end
         end
     else
         if args[1] and args[2] and args[3] then
@@ -140,11 +150,12 @@ end, 'god')
 
 QBCore.Commands.Add('openserver', 'Open the server for everyone (Admin Only)', {}, false, function(source)
     if not QBCore.Config.Server.Closed then
-        TriggerClientEvent('QBCore:Notify', source, 'The server is already open', 'error')
+        TriggerClientEvent('QBCore:Notify', source, Lang:t('error.server_already_open'), 'error')
         return
     end
     if QBCore.Functions.HasPermission(source, 'admin') then
         QBCore.Config.Server.Closed = false
+        TriggerClientEvent('QBCore:Notify', source, Lang:t('success.server_opened'), 'success')
     else
         QBCore.Functions.Kick(source, 'You don\'t have permissions for this..', nil, nil)
     end
@@ -152,7 +163,7 @@ end, 'admin')
 
 QBCore.Commands.Add('closeserver', 'Close the server for people without permissions (Admin Only)', { { name = 'reason', help = 'Reason for closing it (optional)' } }, false, function(source, args)
     if QBCore.Config.Server.Closed then
-        TriggerClientEvent('QBCore:Notify', source, 'The server is already closed', 'error')
+        TriggerClientEvent('QBCore:Notify', source, Lang:t('error.server_already_closed'), 'error')
         return
     end
     if QBCore.Functions.HasPermission(source, 'admin') then
@@ -164,6 +175,7 @@ QBCore.Commands.Add('closeserver', 'Close the server for people without permissi
                 QBCore.Functions.Kick(k, reason, nil, nil)
             end
         end
+        TriggerClientEvent('QBCore:Notify', source, Lang:t('success.server_closed'), 'success')
     else
         QBCore.Functions.Kick(source, 'You don\'t have permissions for this..', nil, nil)
     end
@@ -226,18 +238,6 @@ QBCore.Commands.Add('setgang', 'Set A Players Gang (Admin Only)', { { name = 'id
     local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
     if Player then
         Player.Functions.SetGang(tostring(args[2]), tonumber(args[3]))
-    else
-        TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
-    end
-end, 'admin')
-
--- Inventory (should be in qb-inventory?)
-
-QBCore.Commands.Add('clearinv', 'Clear Players Inventory (Admin Only)', { { name = 'id', help = 'Player ID' } }, false, function(source, args)
-    local playerId = args[1] ~= '' and args[1] or source
-    local Player = QBCore.Functions.GetPlayer(tonumber(playerId))
-    if Player then
-        Player.Functions.ClearInventory()
     else
         TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
     end

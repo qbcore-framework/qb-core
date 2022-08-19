@@ -167,24 +167,22 @@ end)
 
 -- Items
 
+-- This event is exploitable and should not be used. It has been deprecated, and will be removed soon.
 RegisterNetEvent('QBCore:Server:UseItem', function(item)
-    local src = source
-    if not item or item.amount <= 0 or not QBCore.Functions.CanUseItem(item.name) then return end
-    QBCore.Functions.UseItem(src, item)
+    print(string.format("%s triggered QBCore:Server:UseItem by ID %s with the following data. This event is deprecated due to exploitation, and will be removed soon. Check qb-inventory for the right use on this event.", GetInvokingResource(), source))
+    QBCore.Debug(item)
 end)
 
-RegisterNetEvent('QBCore:Server:RemoveItem', function(itemName, amount, slot)
+-- This event is exploitable and should not be used. It has been deprecated, and will be removed soon. function(itemName, amount, slot)
+RegisterNetEvent('QBCore:Server:RemoveItem', function(itemName, amount)
     local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    if not Player then return end
-    Player.Functions.RemoveItem(itemName, amount, slot)
+    print(string.format("%s triggered QBCore:Server:RemoveItem by ID %s for %s %s. This event is deprecated due to exploitation, and will be removed soon. Adjust your events accordingly to do this server side with player functions.", GetInvokingResource(), src, amount, itemName))
 end)
 
-RegisterNetEvent('QBCore:Server:AddItem', function(itemName, amount, slot, info)
+-- This event is exploitable and should not be used. It has been deprecated, and will be removed soon. function(itemName, amount, slot, info)
+RegisterNetEvent('QBCore:Server:AddItem', function(itemName, amount)
     local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    if not Player then return end
-    Player.Functions.AddItem(itemName, amount, slot, info)
+    print(string.format("%s triggered QBCore:Server:AddItem by ID %s for %s %s. This event is deprecated due to exploitation, and will be removed soon. Adjust your events accordingly to do this server side with player functions.", GetInvokingResource(), src, amount, itemName))
 end)
 
 -- Non-Chat Command Calling (ex: qb-adminmenu)
@@ -206,52 +204,23 @@ RegisterNetEvent('QBCore:CallCommand', function(command, args)
     end
 end)
 
--- Has Item Callback (can also use client function - QBCore.Functions.HasItem(item))
-
-QBCore.Functions.CreateCallback('QBCore:HasItem', function(source, cb, items, amount)
-    local retval = false
-    local Player = QBCore.Functions.GetPlayer(source)
-    if not Player then return cb(false) end
-    local isTable = type(items) == 'table'
-    local isArray = isTable and table.type(items) == 'array' or false
-    local totalItems = #items
-    local count = 0
-    local kvIndex = 2
-    if isTable and not isArray then
-        totalItems = 0
-        for _ in pairs(items) do totalItems += 1 end
-        kvIndex = 1
-    end
-    if isTable then
-        for k, v in pairs(items) do
-            local itemKV = {k, v}
-            local item = Player.Functions.GetItemByName(itemKV[kvIndex])
-            if item and ((amount and item.amount >= amount) or (not amount and not isArray and item.amount >= v) or (not amount and isArray)) then
-                count += 1
-            end
-        end
-        if count == totalItems then
-            retval = true
-        end
-    else -- Single item as string
-        local item = Player.Functions.GetItemByName(items)
-        if item and not amount or (item and amount and item.amount >= amount) then
-            retval = true
-        end
-    end
-    cb(retval)
-end)
-
 -- Use this for player vehicle spawning
 -- Vehicle server-side spawning callback (netId)
 -- use the netid on the client with the NetworkGetEntityFromNetworkId native
 -- convert it to a vehicle via the NetToVeh native
 QBCore.Functions.CreateCallback('QBCore:Server:SpawnVehicle', function(source, cb, model, coords, warp)
-    model = type(model) == 'string' and GetHashKey(model) or model
-    if not coords then coords = GetEntityCoords(GetPlayerPed(source)) end
+    local ped = GetPlayerPed(source)
+    model = type(model) == 'string' and joaat(model) or model
+    if not coords then coords = GetEntityCoords(ped) end
     local veh = CreateVehicle(model, coords.x, coords.y, coords.z, coords.w, true, true)
     while not DoesEntityExist(veh) do Wait(0) end
-    if warp then TaskWarpPedIntoVehicle(GetPlayerPed(source), veh, -1) end
+    if warp then
+        while GetVehiclePedIsIn(ped) ~= veh do
+            Wait(0)
+            TaskWarpPedIntoVehicle(ped, veh, -1)
+        end
+    end
+    while NetworkGetEntityOwner(veh) ~= source do Wait(0) end
     cb(NetworkGetNetworkIdFromEntity(veh))
 end)
 

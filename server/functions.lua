@@ -170,11 +170,18 @@ end
 -- Server side vehicle creation with optional callback
 -- the CreateVehicle RPC still uses the client for creation so players must be near
 function QBCore.Functions.SpawnVehicle(source, model, coords, warp)
+    local ped = GetPlayerPed(source)
     model = type(model) == 'string' and joaat(model) or model
-    if not coords then coords = GetEntityCoords(GetPlayerPed(source)) end
+    if not coords then coords = GetEntityCoords(ped) end
     local veh = CreateVehicle(model, coords.x, coords.y, coords.z, coords.w, true, true)
     while not DoesEntityExist(veh) do Wait(0) end
-    if warp then TaskWarpPedIntoVehicle(GetPlayerPed(source), veh, -1) end
+    if warp then
+        while GetVehiclePedIsIn(ped) ~= veh do
+            Wait(0)
+            TaskWarpPedIntoVehicle(ped, veh, -1)
+        end
+    end
+    while NetworkGetEntityOwner(veh) ~= source do Wait(0) end
     return veh
 end
 
@@ -192,7 +199,6 @@ function QBCore.Functions.CreateVehicle(source, model, coords, warp)
 end
 
 -- Paychecks (standalone - don't touch)
-
 function PaycheckInterval()
     if next(QBCore.Players) then
         for _, Player in pairs(QBCore.Players) do
@@ -246,15 +252,28 @@ end
 -- Items
 
 function QBCore.Functions.CreateUseableItem(item, cb)
-    QBCore.UseableItems[item] = cb
+    if GetResourceState('qb-inventory') == 'missing' then return end
+
+    if GetResourceState('qb-inventory') ~= 'started' then
+        CreateThread(function()
+            repeat
+                Wait(1000)
+            until GetResourceState('qb-inventory') == 'started'
+            exports['qb-inventory']:CreateUsableItem(item, cb)
+        end)
+    else
+        exports['qb-inventory']:CreateUsableItem(item, cb)
+    end
 end
 
 function QBCore.Functions.CanUseItem(item)
-    return QBCore.UseableItems[item]
+    if GetResourceState('qb-inventory') == 'missing' then return end
+    return exports['qb-inventory']:GetUsableItem(item)
 end
 
 function QBCore.Functions.UseItem(source, item)
-    QBCore.UseableItems[item.name](source, item)
+    if GetResourceState('qb-inventory') == 'missing' then return end
+    exports['qb-inventory']:UseItem(source, item)
 end
 
 -- Kick Player
@@ -395,34 +414,10 @@ end
 -- Utility functions
 
 function QBCore.Functions.HasItem(source, items, amount)
-    local Player = QBCore.Functions.GetPlayer(source)
-    if not Player then return false end
-    local isTable = type(items) == 'table'
-    local isArray = isTable and table.type(items) == 'array' or false
-    local totalItems = #items
-    local count = 0
-    local kvIndex = 2
-    if isTable and not isArray then
-        totalItems = 0
-        for _ in pairs(items) do totalItems += 1 end
-        kvIndex = 1
-    end
-    if isTable then
-        for k, v in pairs(items) do
-            local itemKV = {k, v}
-            local item = Player.Functions.GetItemByName(itemKV[kvIndex])
-            if item and ((amount and item.amount >= amount) or (not isArray and item.amount >= v) or (not amount and isArray)) then
-                count += 1
-            end
-        end
-        if count == totalItems then
-            return true
-        end
-    else -- Single item as string
-        local item = Player.Functions.GetItemByName(items)
-        if item and (not amount or (item and amount and item.amount >= amount)) then
-            return true
-        end
-    end
-    return false
+    if GetResourceState('qb-inventory') == 'missing' then return end
+    return exports['qb-inventory']:HasItem(source, items, amount)
+end
+
+function QBCore.Functions.Notify(source, text, type, length)
+    TriggerClientEvent('QBCore:Notify', source, text, type, length)
 end
