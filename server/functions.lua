@@ -209,12 +209,17 @@ end
 -- Items
 
 function QBCore.Functions.CreateUseableItem(item, cb)
-    if type(item) == "table" then
-        for i = 1, #item do
-            QBCore.UseableItems[item[i]] = cb
-        end
+    if GetResourceState('qb-inventory') == 'missing' then return end
+
+    if GetResourceState('qb-inventory') ~= 'started' then
+        CreateThread(function()
+            repeat
+                Wait(1000)
+            until GetResourceState('qb-inventory') == 'started'
+            exports['qb-inventory']:CreateUsableItem(item, cb)
+        end)
     else
-        QBCore.UseableItems[item] = cb
+        exports['qb-inventory']:CreateUsableItem(item, cb)
     end
 end
 
