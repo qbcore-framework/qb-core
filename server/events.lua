@@ -19,7 +19,7 @@ end)
 
 -- Player Connecting
 
-local function onPlayerConnecting(name, setKickReason, deferrals)
+local function onPlayerConnecting(name, _, deferrals)
     local src = source
     local license
     local identifiers = GetPlayerIdentifiers(src)
@@ -64,13 +64,10 @@ local function onPlayerConnecting(name, setKickReason, deferrals)
         deferrals.done(Lang:t('error.duplicate_license'))
     elseif isWhitelist and not whitelisted then
       deferrals.done(Lang:t('error.not_whitelisted'))
-    else
-        deferrals.done()
-        if QBCore.Config.Server.UseConnectQueue then
-            Wait(1000)
-            TriggerEvent('connectqueue:playerConnect', name, setKickReason, deferrals)
-        end
     end
+
+    deferrals.done()
+
     -- Add any additional defferals you may need!
 end
 
@@ -103,8 +100,17 @@ RegisterNetEvent('QBCore:Server:OpenServer', function()
     end
 end)
 
--- Callbacks
+-- Callback Events --
 
+-- Client Callback
+RegisterNetEvent('QBCore:Server:TriggerClientCallback', function(name, ...)
+    if QBCore.ClientCallbacks[name] then
+        QBCore.ClientCallbacks[name](...)
+        QBCore.ClientCallbacks[name] = nil
+    end
+end)
+
+-- Server Callback
 RegisterNetEvent('QBCore:Server:TriggerCallback', function(name, ...)
     local src = source
     QBCore.Functions.TriggerCallback(name, src, function(...)
@@ -135,14 +141,13 @@ end)
 RegisterNetEvent('QBCore:Server:SetMetaData', function(meta, data)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
+    if not Player then return end
     if meta == 'hunger' or meta == 'thirst' then
         if data > 100 then
             data = 100
         end
     end
-    if Player then
-        Player.Functions.SetMetaData(meta, data)
-    end
+    Player.Functions.SetMetaData(meta, data)
     TriggerClientEvent('hud:client:UpdateNeeds', src, Player.PlayerData.metadata['hunger'], Player.PlayerData.metadata['thirst'])
 end)
 
@@ -162,10 +167,10 @@ end)
 
 -- Items
 
+-- This event is exploitable and should not be used. It has been deprecated, and will be removed soon.
 RegisterNetEvent('QBCore:Server:UseItem', function(item)
-    local src = source
-    if not item or item.amount <= 0 or not QBCore.Functions.CanUseItem(item.name) then return end
-    QBCore.Functions.UseItem(src, item)
+    print(string.format("%s triggered QBCore:Server:UseItem by ID %s with the following data. This event is deprecated due to exploitation, and will be removed soon. Check qb-inventory for the right use on this event.", GetInvokingResource(), source))
+    QBCore.Debug(item)
 end)
 
 -- This event is exploitable and should not be used. It has been deprecated, and will be removed soon. function(itemName, amount, slot)
@@ -199,38 +204,36 @@ RegisterNetEvent('QBCore:CallCommand', function(command, args)
     end
 end)
 
--- Has Item Callback (can also use client function - QBCore.Functions.HasItem(item))
-
-QBCore.Functions.CreateCallback('QBCore:HasItem', function(source, cb, items, amount)
-    local retval = false
-    local Player = QBCore.Functions.GetPlayer(source)
-    if not Player then return cb(false) end
-    local isTable = type(items) == 'table'
-	local isArray = isTable and table.type(items) == 'array' or false
-	local totalItems = #items
-	local count = 0
-    local kvIndex = 2
-	if isTable and not isArray then
-        totalItems = 0
-        for _ in pairs(items) do totalItems += 1 end
-        kvIndex = 1
-    end
-    if isTable then
-		for k, v in pairs(items) do
-			local itemKV = {k, v}
-			local item = Player.Functions.GetItemByName(itemKV[kvIndex])
-            if item and ((amount and item.amount >= amount) or (not amount and not isArray and item.amount >= v) or (not amount and isArray)) then
-                count += 1
-            end
-		end
-		if count == totalItems then
-			retval = true
-		end
-	else -- Single item as string
-		local item = Player.Functions.GetItemByName(items)
-        if item and not amount or (amount and item.amount >= amount) then
-            retval = true
+-- Use this for player vehicle spawning
+-- Vehicle server-side spawning callback (netId)
+-- use the netid on the client with the NetworkGetEntityFromNetworkId native
+-- convert it to a vehicle via the NetToVeh native
+QBCore.Functions.CreateCallback('QBCore:Server:SpawnVehicle', function(source, cb, model, coords, warp)
+    local ped = GetPlayerPed(source)
+    model = type(model) == 'string' and joaat(model) or model
+    if not coords then coords = GetEntityCoords(ped) end
+    local veh = CreateVehicle(model, coords.x, coords.y, coords.z, coords.w, true, true)
+    while not DoesEntityExist(veh) do Wait(0) end
+    if warp then
+        while GetVehiclePedIsIn(ped) ~= veh do
+            Wait(0)
+            TaskWarpPedIntoVehicle(ped, veh, -1)
         end
-	end
-    cb(retval)
+    end
+    while NetworkGetEntityOwner(veh) ~= source do Wait(0) end
+    cb(NetworkGetNetworkIdFromEntity(veh))
+end)
+
+-- Use this for long distance vehicle spawning
+-- vehicle server-side spawning callback (netId)
+-- use the netid on the client with the NetworkGetEntityFromNetworkId native
+-- convert it to a vehicle via the NetToVeh native
+QBCore.Functions.CreateCallback('QBCore:Server:CreateVehicle', function(source, cb, model, coords, warp)
+    model = type(model) == 'string' and GetHashKey(model) or model
+    if not coords then coords = GetEntityCoords(GetPlayerPed(source)) end
+    local CreateAutomobile = GetHashKey("CREATE_AUTOMOBILE")
+    local veh = Citizen.InvokeNative(CreateAutomobile, model, coords, coords.w, true, true)
+    while not DoesEntityExist(veh) do Wait(0) end
+    if warp then TaskWarpPedIntoVehicle(GetPlayerPed(source), veh, -1) end
+    cb(NetworkGetNetworkIdFromEntity(veh))
 end)

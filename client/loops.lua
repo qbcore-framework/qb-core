@@ -15,8 +15,8 @@ CreateThread(function()
             if (QBCore.PlayerData.metadata['hunger'] <= 0 or QBCore.PlayerData.metadata['thirst'] <= 0) and not QBCore.PlayerData.metadata['isdead'] then
                 local ped = PlayerPedId()
                 local currentHealth = GetEntityHealth(ped)
-                local decreaseTreshold = math.random(5, 10)
-                SetEntityHealth(ped, currentHealth - decreaseTreshold)
+                local decreaseThreshold = math.random(5, 10)
+                SetEntityHealth(ped, currentHealth - decreaseThreshold)
             end
         end
         Wait(QBCore.Config.StatusInterval)
