@@ -8,6 +8,7 @@ local Translations = {
         company_too_poor = 'Your employer is broke',
         item_not_exist = 'Item does not exist',
         too_heavy = 'Inventory too full',
+        location_not_exist = 'Location does not exist',
         duplicate_license = 'Duplicate Rockstar License Found',
         no_valid_license  = 'No Valid Rockstar License Found',
         not_whitelisted = 'You\'re not whitelisted for this server',
@@ -26,7 +27,7 @@ local Translations = {
         off_duty = 'You are now off duty!',
         checking_ban = 'Hello %s. We are checking if you are banned.',
         join_server = 'Welcome %s to {Server Name}.',
-        checking_whitelisted = 'Hello %s. We are checking your allowance.'
+        checking_whitelisted = 'Hello %s. We are checking your allowance.',
     }
 }
 
