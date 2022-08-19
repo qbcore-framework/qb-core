@@ -1,3 +1,35 @@
+-- Add or change (a) method(s) in the QBCore.Functions table
+local function SetMethod(methodName, handler)
+    if type(methodName) ~= "string" then
+        return false, "invalid_method_name"
+    end
+
+    QBCore.Functions[methodName] = handler
+
+    TriggerEvent('QBCore:Server:UpdateObject')
+
+    return true, "success"
+end
+
+QBCore.Functions.SetMethod = SetMethod
+exports("SetMethod", SetMethod)
+
+-- Add or change (a) field(s) in the QBCore table
+local function SetField(fieldName, data)
+    if type(fieldName) ~= "string" then
+        return false, "invalid_field_name"
+    end
+
+    QBCore[fieldName] = data
+
+    TriggerEvent('QBCore:Server:UpdateObject')
+
+    return true, "success"
+end
+
+QBCore.Functions.SetField = SetField
+exports("SetField", SetField)
+
 -- Single add job function which should only be used if you planning on adding a single job
 local function AddJob(jobName, job)
     if type(jobName) ~= "string" then
