@@ -257,25 +257,17 @@ function QBCore.Player.CreatePlayer(PlayerData)
         reason = reason or 'unknown'
         moneytype = moneytype:lower()
         amount = tonumber(amount)
-
         if amount < 0 then return end
         if not self.PlayerData.money[moneytype] then return false end
-
         for _, mtype in pairs(QBCore.Config.Money.DontAllowMinus) do
-            if mtype == moneytype and (self.PlayerData.money[moneytype] - amount) < 0 then
-                return false
+            if mtype == moneytype then
+                if (self.PlayerData.money[moneytype] - amount) < 0 then
+                    return false
+                end
             end
         end
-
         self.PlayerData.money[moneytype] = self.PlayerData.money[moneytype] - amount
-        self.Functions.UpdatePlayerData()
 
-        TriggerEvent('qb-log:server:CreateLog', 'playermoney', 'RemoveMoney', 'red', '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')** $' .. amount .. ' (' .. moneytype .. ') removed, new ' .. moneytype .. ' balance: ' .. self.PlayerData.money[moneytype]..' | Reason: '..reason, (amount > 100000))
-        TriggerClientEvent('hud:client:OnMoneyChange', self.PlayerData.source, moneytype, amount, true)
-        if moneytype == 'bank' then
-            TriggerClientEvent('qb-phone:client:RemoveBankMoney', self.PlayerData.source, amount)
-        end
-        
         if not self.Offline then
             self.Functions.UpdatePlayerData()
             if amount > 100000 then
