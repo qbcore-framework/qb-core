@@ -10,9 +10,14 @@ local Translations = {
         too_heavy = 'L\'inventaire est plein',
         duplicate_license = 'License Rockstar Dupliquée trouvée',
         no_valid_license  = 'Aucune License Rockstar trouvée',
-        not_whitelisted = 'Vous n\'êtes pas sur la "whitelist" de ce serveur'
+        not_whitelisted = 'Vous n\'êtes pas Whitelisté sur ce serveur',
+        server_already_open = 'Le serveur est déjà ouvert',
+        server_already_closed = 'Le serveur est déjà fermé'
     },
-    success = {},
+    success = {
+        server_opened = 'Le serveur a été ouvert',
+        server_closed = 'Le serveur a été fermé'
+    },
     info = {
         received_paycheck = 'Vous avez reçu votre salaire de : $%{value}',
         job_info = 'Emplois: %{value} | Grade: %{value2} | Service: %{value3}',
