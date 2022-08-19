@@ -168,18 +168,16 @@ RegisterNetEvent('QBCore:Server:UseItem', function(item)
     QBCore.Functions.UseItem(src, item)
 end)
 
-RegisterNetEvent('QBCore:Server:RemoveItem', function(itemName, amount, slot)
+-- This event is exploitable and should not be used. It has been deprecated, and will be removed soon. function(itemName, amount, slot)
+RegisterNetEvent('QBCore:Server:RemoveItem', function(itemName, amount)
     local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    if not Player then return end
-    Player.Functions.RemoveItem(itemName, amount, slot)
+    print(string.format("%s triggered QBCore:Server:RemoveItem by ID %s for %s %s. This event is deprecated due to exploitation, and will be removed soon. Adjust your events accordingly to do this server side with player functions.", GetInvokingResource(), src, amount, itemName))
 end)
 
-RegisterNetEvent('QBCore:Server:AddItem', function(itemName, amount, slot, info)
+-- This event is exploitable and should not be used. It has been deprecated, and will be removed soon. function(itemName, amount, slot, info)
+RegisterNetEvent('QBCore:Server:AddItem', function(itemName, amount)
     local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    if not Player then return end
-    Player.Functions.AddItem(itemName, amount, slot, info)
+    print(string.format("%s triggered QBCore:Server:AddItem by ID %s for %s %s. This event is deprecated due to exploitation, and will be removed soon. Adjust your events accordingly to do this server side with player functions.", GetInvokingResource(), src, amount, itemName))
 end)
 
 -- Non-Chat Command Calling (ex: qb-adminmenu)
