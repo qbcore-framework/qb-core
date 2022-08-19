@@ -167,6 +167,7 @@ end
 
 function QBCore.Player.Logout(source)
     TriggerClientEvent('QBCore:Client:OnPlayerUnload', source)
+    TriggerEvent('QBCore:Server:OnPlayerUnload', source)
     TriggerClientEvent('QBCore:Player:UpdatePlayerData', source)
     Wait(200)
     QBCore.Players[source] = nil
@@ -267,6 +268,12 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         meta = meta:lower()
         self.PlayerData.metadata[meta] = val
         self.Functions.UpdatePlayerData()
+    end
+
+    function self.Functions.GetMetaData(meta)
+        if not meta or type(meta) ~= 'string' then return end
+        meta = meta:lower()
+        return self.PlayerData.metadata[meta]
     end
 
     function self.Functions.AddJobReputation(amount)

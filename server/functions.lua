@@ -199,7 +199,6 @@ function QBCore.Functions.CreateVehicle(source, model, coords, warp)
 end
 
 -- Paychecks (standalone - don't touch)
-
 function PaycheckInterval()
     if next(QBCore.Players) then
         for _, Player in pairs(QBCore.Players) do
