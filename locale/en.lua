@@ -8,11 +8,17 @@ local Translations = {
         company_too_poor = 'Your employer is broke',
         item_not_exist = 'Item does not exist',
         too_heavy = 'Inventory too full',
+        location_not_exist = 'Location does not exist',
         duplicate_license = 'Duplicate Rockstar License Found',
         no_valid_license  = 'No Valid Rockstar License Found',
-        not_whitelisted = 'You\'re not whitelisted for this server'
+        not_whitelisted = 'You\'re not whitelisted for this server',
+        server_already_open = 'The server is already open',
+        server_already_closed = 'The server is already closed'
     },
-    success = {},
+    success = {
+        server_opened = 'The server has been opened',
+        server_closed = 'The server has been closed'
+    },
     info = {
         received_paycheck = 'You received your paycheck of $%{value}',
         job_info = 'Job: %{value} | Grade: %{value2} | Duty: %{value3}',
@@ -21,7 +27,7 @@ local Translations = {
         off_duty = 'You are now off duty!',
         checking_ban = 'Hello %s. We are checking if you are banned.',
         join_server = 'Welcome %s to {Server Name}.',
-        checking_whitelisted = 'Hello %s. We are checking your allowance.'
+        checking_whitelisted = 'Hello %s. We are checking your allowance.',
     }
 }
 
