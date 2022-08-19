@@ -8,6 +8,7 @@ local Translations = {
         company_too_poor = 'Ваш работодатель без денег',
         item_not_exist = 'Вещь не существует',
         too_heavy = 'Инвентарь слишком полный',
+        location_not_exist = 'Локация не существует',
         duplicate_license = 'Найден дубликат лицензии Rockstar',
         no_valid_license = 'Не найдена действующая лицензия Rockstar',
         not_whitelisted = 'Вы не в белом списке этого сервера',
