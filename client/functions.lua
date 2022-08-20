@@ -964,7 +964,7 @@ end
 function QBCore.Functions.GetCurrentTime()
     local obj = {}
     obj.min = GetClockMinutes()
-    obj.hour = GetClockHours()    
+    obj.hour = GetClockHours()  
 
     if obj.hour <= 12 then
         obj.ampm = "AM"
