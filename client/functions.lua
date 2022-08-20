@@ -406,7 +406,7 @@ function QBCore.Functions.GetPlate(vehicle)
 end
 
 function QBCore.Functions.GetVehicleLabel(vehicle)
-    if vehicle == 0 or vehicle == nil then return end
+    if vehicle == nil or vehicle == 0 then return end
     return GetLabelText(GetDisplayNameFromVehicleModel(GetEntityModel(vehicle)))
 end
 
@@ -948,7 +948,7 @@ function QBCore.Functions.StartParticleOnEntity(dict, ptName, looped, entity, bo
 end
 
 function QBCore.Functions.GetStreetNametAtCoords(coords)
-    local streetname1, streetname2  	= GetStreetNameAtCoord(coords.x, coords.y, coords.z)
+    local streetname1, streetname2 = GetStreetNameAtCoord(coords.x, coords.y, coords.z)
     return { main = GetStreetNameFromHashKey(streetname1), cross = GetStreetNameFromHashKey(streetname2) }
 end
 
@@ -975,36 +975,33 @@ function QBCore.Functions.GetCardinalDirection(entity)
 end
 
 function QBCore.Functions.GetCurrentTime()
-    local hour      = GetClockHours()
-    local minute    = GetClockMinutes()
-    local obj       = {}
+    local obj = {}
+    local obj.min = GetClockMinutes()
+    local obj.hour = GetClockHours()    
 
-    if hour <= 12 then
+    if obj.hour <= 12 then
         obj.ampm = "AM"
-    elseif hour >= 13 then
+    elseif obj.hour >= 13 then
         obj.ampm = "PM"
-        hour = hour - 12
+        obj.formattedHour = obj.hour - 12
     end
 
-    if minute <= 9 then
-        minute = "0" .. minute
+    if obj.min <= 9 then
+        obj.formattedMin = "0" .. obj.min
     end
-
-    obj.hour    = hour
-    obj.minute  = minute
 
     return obj
 end
 
 function QBCore.Functions.GetGroundZCoord(coords)
-    if coords then
-        local retval, groundZ = GetGroundZFor_3dCoord(coords.x, coords.y, coords.z, 0)
-        if retval then
-            return vector3(coords.x, coords.y, groundZ)
-        else
-            print('Couldn\'t find Ground Z Coordinates given 3D Coordinates')
-            print(coords)
-            return coords
-        end
+    if not coords then return end
+    
+    local retval, groundZ = GetGroundZFor_3dCoord(coords.x, coords.y, coords.z, 0)
+    if retval then
+        return vector3(coords.x, coords.y, groundZ)
+    else
+        print('Couldn\'t find Ground Z Coordinates given 3D Coordinates')
+        print(coords)
+        return coords
     end
 end
