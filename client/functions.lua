@@ -8,15 +8,12 @@ function QBCore.Functions.GetPlayerData(cb)
 end
 
 function QBCore.Functions.GetCoords(entity)
-    return vector4(GetEntityCoords(entity), GetEntityHeading(entity))
+    local coords = GetEntityCoords(entity)
+    return vector4(coords.x, coords.y, coords.z, GetEntityHeading(entity))
 end
 
-function QBCore.Functions.HasItem(item)
-    local p = promise.new()
-    QBCore.Functions.TriggerCallback('QBCore:HasItem', function(result)
-        p:resolve(result)
-    end, item)
-    return Citizen.Await(p)
+function QBCore.Functions.HasItem(items, amount)
+    return exports['qb-inventory']:HasItem(items, amount)
 end
 
 -- Utility
@@ -61,8 +58,8 @@ function QBCore.Functions.RequestAnimDict(animDict)
 end
 
 function QBCore.Functions.PlayAnim(animDict, animName, upperbodyOnly, duration)
-    local flags = upperbodyOnly == true and 16 or 0
-    local runTime = duration ~= nil and duration or -1
+    local flags = upperbodyOnly and 16 or 0
+    local runTime = duration or -1
     QBCore.Functions.RequestAnimDict(animDict)
     TaskPlayAnim(PlayerPedId(), animDict, animName, 8.0, 1.0, runTime, flags, 0.0, false, false, true)
     RemoveAnimDict(animDict)
@@ -117,6 +114,19 @@ function QBCore.Debug(resource, obj, depth)
     TriggerServerEvent('QBCore:DebugSomething', resource, obj, depth)
 end
 
+-- Callback Functions --
+
+-- Client Callback
+function QBCore.Functions.CreateClientCallback(name, cb)
+    QBCore.ClientCallbacks[name] = cb
+end
+
+function QBCore.Functions.TriggerClientCallback(name, cb, ...)
+    if not QBCore.ClientCallbacks[name] then return end
+    QBCore.ClientCallbacks[name](cb, ...)
+end
+
+-- Server Callback
 function QBCore.Functions.TriggerCallback(name, cb, ...)
     QBCore.ServerCallbacks[name] = cb
     TriggerServerEvent('QBCore:Server:TriggerCallback', name, ...)
@@ -186,7 +196,7 @@ function QBCore.Functions.GetClosestPed(coords, ignoreList)
     else
         coords = GetEntityCoords(ped)
     end
-    local ignoreList = ignoreList or {}
+    ignoreList = ignoreList or {}
     local peds = QBCore.Functions.GetPeds(ignoreList)
     local closestDistance = -1
     local closestPed = -1
@@ -358,7 +368,7 @@ function QBCore.Functions.SpawnVehicle(model, cb, coords, isnetworked, teleportI
     else
         coords = GetEntityCoords(ped)
     end
-    isnetworked = isnetworked or true
+    isnetworked = isnetworked == nil or isnetworked
     QBCore.Functions.LoadModel(model)
     local veh = CreateVehicle(model, coords.x, coords.y, coords.z, coords.w, isnetworked, false)
     local netid = NetworkGetNetworkIdFromEntity(veh)
@@ -435,12 +445,12 @@ function QBCore.Functions.GetVehicleProperties(vehicle)
 
         local colorPrimary, colorSecondary = GetVehicleColours(vehicle)
         if GetIsVehiclePrimaryColourCustom(vehicle) then
-            r, g, b = GetVehicleCustomPrimaryColour(vehicle)
+            local r, g, b = GetVehicleCustomPrimaryColour(vehicle)
             colorPrimary = {r, g, b}
         end
 
         if GetIsVehicleSecondaryColourCustom(vehicle) then
-            r, g, b = GetVehicleCustomSecondaryColour(vehicle)
+            local r, g, b = GetVehicleCustomSecondaryColour(vehicle)
             colorSecondary = {r, g, b}
         end
 
@@ -675,7 +685,7 @@ function QBCore.Functions.SetVehicleProperties(vehicle, props)
         if props.doorStatus then
             for doorIndex, breakDoor in pairs(props.doorStatus) do
                 if breakDoor then
-                    SetVehicleDoorBroken(vehicle, doorIndex, true)
+                    SetVehicleDoorBroken(vehicle, tonumber(doorIndex), true)
                 end
             end
         end

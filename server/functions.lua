@@ -44,7 +44,7 @@ function QBCore.Functions.GetPlayer(source)
 end
 
 function QBCore.Functions.GetPlayerByCitizenId(citizenid)
-    for src, _ in pairs(QBCore.Players) do
+    for src in pairs(QBCore.Players) do
         if QBCore.Players[src].PlayerData.citizenid == citizenid then
             return QBCore.Players[src]
         end
@@ -52,8 +52,12 @@ function QBCore.Functions.GetPlayerByCitizenId(citizenid)
     return nil
 end
 
+function QBCore.Functions.GetOfflinePlayerByCitizenId(citizenid)
+    return QBCore.Player.GetOfflinePlayer(citizenid)
+end
+
 function QBCore.Functions.GetPlayerByPhone(number)
-    for src, _ in pairs(QBCore.Players) do
+    for src in pairs(QBCore.Players) do
         if QBCore.Players[src].PlayerData.charinfo.phone == number then
             return QBCore.Players[src]
         end
@@ -63,7 +67,7 @@ end
 
 function QBCore.Functions.GetPlayers()
     local sources = {}
-    for k, v in pairs(QBCore.Players) do
+    for k in pairs(QBCore.Players) do
         sources[#sources+1] = k
     end
     return sources
@@ -137,7 +141,7 @@ end
 function QBCore.Functions.GetPlayersInBucket(bucket --[[ int ]])
     local curr_bucket_pool = {}
     if QBCore.Player_Buckets and next(QBCore.Player_Buckets) then
-        for k, v in pairs(QBCore.Player_Buckets) do
+        for _, v in pairs(QBCore.Player_Buckets) do
             if v.bucket == bucket then
                 curr_bucket_pool[#curr_bucket_pool + 1] = v.id
             end
@@ -152,7 +156,7 @@ end
 function QBCore.Functions.GetEntitiesInBucket(bucket --[[ int ]])
     local curr_bucket_pool = {}
     if QBCore.Entity_Buckets and next(QBCore.Entity_Buckets) then
-        for k, v in pairs(QBCore.Entity_Buckets) do
+        for _, v in pairs(QBCore.Entity_Buckets) do
             if v.bucket == bucket then
                 curr_bucket_pool[#curr_bucket_pool + 1] = v.id
             end
@@ -163,13 +167,44 @@ function QBCore.Functions.GetEntitiesInBucket(bucket --[[ int ]])
     end
 end
 
--- Paychecks (standalone - don't touch)
+-- Server side vehicle creation with optional callback
+-- the CreateVehicle RPC still uses the client for creation so players must be near
+function QBCore.Functions.SpawnVehicle(source, model, coords, warp)
+    local ped = GetPlayerPed(source)
+    model = type(model) == 'string' and joaat(model) or model
+    if not coords then coords = GetEntityCoords(ped) end
+    local veh = CreateVehicle(model, coords.x, coords.y, coords.z, coords.w, true, true)
+    while not DoesEntityExist(veh) do Wait(0) end
+    if warp then
+        while GetVehiclePedIsIn(ped) ~= veh do
+            Wait(0)
+            TaskWarpPedIntoVehicle(ped, veh, -1)
+        end
+    end
+    while NetworkGetEntityOwner(veh) ~= source do Wait(0) end
+    return veh
+end
 
+-- Server side vehicle creation with optional callback
+-- the CreateAutomobile native is still experimental but doesn't use client for creation
+-- doesn't work for all vehicles!
+function QBCore.Functions.CreateVehicle(source, model, coords, warp)
+    model = type(model) == 'string' and joaat(model) or model
+    if not coords then coords = GetEntityCoords(GetPlayerPed(source)) end
+    local CreateAutomobile = `CREATE_AUTOMOBILE`
+    local veh = Citizen.InvokeNative(CreateAutomobile, model, coords, coords.w, true, true)
+    while not DoesEntityExist(veh) do Wait(0) end
+    if warp then TaskWarpPedIntoVehicle(GetPlayerPed(source), veh, -1) end
+    return veh
+end
+
+-- Paychecks (standalone - don't touch)
 function PaycheckInterval()
     if next(QBCore.Players) then
         for _, Player in pairs(QBCore.Players) do
             if Player then
-                local payment = Player.PlayerData.job.payment
+                local payment = QBShared.Jobs[Player.PlayerData.job.name]['grades'][tostring(Player.PlayerData.job.grade.level)].payment
+                if not payment then payment = Player.PlayerData.job.payment end
                 if Player.PlayerData.job and payment > 0 and (QBShared.Jobs[Player.PlayerData.job.name].offDutyPay or Player.PlayerData.job.onduty) then
                     if QBCore.Config.Money.PayCheckSociety then
                         local account = exports['qb-management']:GetAccount(Player.PlayerData.job.name)
@@ -196,8 +231,15 @@ function PaycheckInterval()
     SetTimeout(QBCore.Config.Money.PayCheckTimeOut * (60 * 1000), PaycheckInterval)
 end
 
--- Callbacks
+-- Callback Functions --
 
+-- Client Callback
+function QBCore.Functions.TriggerClientCallback(name, source, cb, ...)
+    QBCore.ClientCallbacks[name] = cb
+    TriggerClientEvent('QBCore:Client:TriggerClientCallback', source, name, ...)
+end
+
+-- Server Callback
 function QBCore.Functions.CreateCallback(name, cb)
     QBCore.ServerCallbacks[name] = cb
 end
@@ -210,15 +252,28 @@ end
 -- Items
 
 function QBCore.Functions.CreateUseableItem(item, cb)
-    QBCore.UseableItems[item] = cb
+    if GetResourceState('qb-inventory') == 'missing' then return end
+
+    if GetResourceState('qb-inventory') ~= 'started' then
+        CreateThread(function()
+            repeat
+                Wait(1000)
+            until GetResourceState('qb-inventory') == 'started'
+            exports['qb-inventory']:CreateUsableItem(item, cb)
+        end)
+    else
+        exports['qb-inventory']:CreateUsableItem(item, cb)
+    end
 end
 
 function QBCore.Functions.CanUseItem(item)
-    return QBCore.UseableItems[item]
+    if GetResourceState('qb-inventory') == 'missing' then return end
+    return exports['qb-inventory']:GetUsableItem(item)
 end
 
 function QBCore.Functions.UseItem(source, item)
-    QBCore.UseableItems[item.name](source, item)
+    if GetResourceState('qb-inventory') == 'missing' then return end
+    exports['qb-inventory']:UseItem(source, item)
 end
 
 -- Kick Player
@@ -236,7 +291,7 @@ function QBCore.Functions.Kick(source, reason, setKickReason, deferrals)
         if source then
             DropPlayer(source, reason)
         end
-        for i = 0, 4 do
+        for _ = 0, 4 do
             while true do
                 if source then
                     if GetPlayerPing(source) >= 0 then
@@ -279,7 +334,7 @@ function QBCore.Functions.RemovePermission(source, permission)
             QBCore.Commands.Refresh(src)
         end
     else
-        for k,v in pairs(QBCore.Config.Server.Permissions) do
+        for _, v in pairs(QBCore.Config.Server.Permissions) do
             if IsPlayerAceAllowed(src, v) then
                 ExecuteCommand(('remove_principal identifier.%s qbcore.%s'):format(license, v))
                 QBCore.Commands.Refresh(src)
@@ -299,7 +354,7 @@ end
 function QBCore.Functions.GetPermission(source)
     local src = source
     local perms = {}
-    for k,v in pairs (QBCore.Config.Server.Permissions) do
+    for _, v in pairs (QBCore.Config.Server.Permissions) do
         if IsPlayerAceAllowed(src, v) then
             perms[v] = true
         end
@@ -321,20 +376,20 @@ function QBCore.Functions.ToggleOptin(source)
     if not license or not QBCore.Functions.HasPermission(source, 'admin') then return end
     local Player = QBCore.Functions.GetPlayer(source)
     Player.PlayerData.optin = not Player.PlayerData.optin
-    Player.Functions.SetMetaData('optin', Player.PlayerData.optin)
+    Player.Functions.SetPlayerData('optin', Player.PlayerData.optin)
 end
 
 -- Check if player is banned
 
 function QBCore.Functions.IsPlayerBanned(source)
     local plicense = QBCore.Functions.GetIdentifier(source, 'license')
-    local result = MySQL.Sync.fetchSingle('SELECT * FROM bans WHERE license = ?', { plicense })
+    local result = MySQL.single.await('SELECT * FROM bans WHERE license = ?', { plicense })
     if not result then return false end
     if os.time() < result.expire then
         local timeTable = os.date('*t', tonumber(result.expire))
         return true, 'You have been banned from the server:\n' .. result.reason .. '\nYour ban expires ' .. timeTable.day .. '/' .. timeTable.month .. '/' .. timeTable.year .. ' ' .. timeTable.hour .. ':' .. timeTable.min .. '\n'
     else
-        MySQL.Async.execute('DELETE FROM bans WHERE id = ?', { result.id })
+        MySQL.query('DELETE FROM bans WHERE id = ?', { result.id })
     end
     return false
 end
@@ -354,4 +409,15 @@ function QBCore.Functions.IsLicenseInUse(license)
         end
     end
     return false
+end
+
+-- Utility functions
+
+function QBCore.Functions.HasItem(source, items, amount)
+    if GetResourceState('qb-inventory') == 'missing' then return end
+    return exports['qb-inventory']:HasItem(source, items, amount)
+end
+
+function QBCore.Functions.Notify(source, text, type, length)
+    TriggerClientEvent('QBCore:Notify', source, text, type, length)
 end
