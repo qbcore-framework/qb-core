@@ -250,7 +250,7 @@ QBCore.Functions.CreateCallback("QBCore:Server:SpawnNetworkedVehicle", function(
         Wait(0)
     end
 
-    local vehicleNetId  = NetworkGetNetworkIdFromEntity(vehicle)
+    local vehicleNetId = NetworkGetNetworkIdFromEntity(vehicle)
     Wait(1000)
 
     SetEntityCoords(vehicle, coords.x, coords.y, coords.z)
