@@ -382,29 +382,6 @@ function QBCore.Functions.SpawnVehicle(model, cb, coords, isnetworked, teleportI
     if cb then cb(veh) end
 end
 
-function QBCore.Functions.SpawnNetworkedVehicle(model, cb, coords, heading, teleportInto)
-    ped     = PlayerPedId()
-    model   = type(model) == "string" and GetHashKey(model) or model
-    coords  = (type(coords) == "vector3" and coords) or (type(coords) == 'table' and vec3(coords.x, coords.y, coords.z)) or GetOffsetFromEntityInWorldCoords(ped, 0.0, 2.0, 0.0)
-    heading = heading and heading or GetEntityHeading(ped)
-
-    if model and coords then
-        if not IsModelInCdimage(model) then return end
-
-        QBCore.Functions.TriggerCallback("QBCore:Server:SpawnNetworkedVehicle", function(vehicle)
-            vehicle = NetworkGetEntityFromNetworkId(vehicle)
-
-            SetVehicleNeedsToBeHotwired(vehicle, false)
-            SetVehRadioStation(vehicle, 'OFF')
-            SetVehicleFuelLevel(vehicle, 100.0)
-            SetModelAsNoLongerNeeded(model)
-
-            if teleportInto then TaskWarpPedIntoVehicle(ped, vehicle, -1) end
-            if cb then cb(vehicle) end
-        end, model, coords, heading)
-    end
-end
-
 function QBCore.Functions.DeleteVehicle(vehicle)
     SetEntityAsMissionEntity(vehicle, true, true)
     DeleteVehicle(vehicle)
