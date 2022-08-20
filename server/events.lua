@@ -237,23 +237,3 @@ QBCore.Functions.CreateCallback('QBCore:Server:CreateVehicle', function(source, 
     if warp then TaskWarpPedIntoVehicle(GetPlayerPed(source), veh, -1) end
     cb(NetworkGetNetworkIdFromEntity(veh))
 end)
-
-QBCore.Functions.CreateCallback("QBCore:Server:SpawnNetworkedVehicle", function(source, cb, model, coords, heading)
-    if not coords then coords = GetEntityCoords(GetPlayerPed(source)) end
-    local vehicle = CreateVehicle(model, coords.x, coords.y, coords.z, heading, true, true)
-    local timeOut = 0
-    while not DoesEntityExist(vehicle) do
-        timeOut = timeOut + 1
-        if timeOut > 50 then
-            return
-        end
-        Wait(0)
-    end
-
-    local vehicleNetId = NetworkGetNetworkIdFromEntity(vehicle)
-    Wait(1000)
-
-    SetEntityCoords(vehicle, coords.x, coords.y, coords.z)
-
-    cb(vehicleNetId)
-end)
