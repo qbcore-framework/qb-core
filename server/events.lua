@@ -240,8 +240,8 @@ end)
 
 QBCore.Functions.CreateCallback("QBCore:Server:SpawnNetworkedVehicle", function(source, cb, model, coords, heading)
     if not coords then coords = GetEntityCoords(GetPlayerPed(source)) end
-    local vehicle       = CreateVehicle(model, coords.x, coords.y, coords.z, heading, true, true)
-    local timeOut       = 0
+    local vehicle = CreateVehicle(model, coords.x, coords.y, coords.z, heading, true, true)
+    local timeOut = 0
     while not DoesEntityExist(vehicle) do
         timeOut = timeOut + 1
         if timeOut > 50 then
