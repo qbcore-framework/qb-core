@@ -276,6 +276,16 @@ function QBCore.Functions.UseItem(source, item)
     exports['qb-inventory']:UseItem(source, item)
 end
 
+exports('SetUseableItems', function(val)
+    QBCore.UseableItems = val
+end)
+
+exports('SetUseableItem', function(item, cb)
+    QBCore.UseableItems[item] = cb
+end)
+
+exports('GetUseableItems', function() return QBCore.UseableItems end)
+
 -- Kick Player
 
 function QBCore.Functions.Kick(source, reason, setKickReason, deferrals)
