@@ -238,7 +238,7 @@ QBCore.Functions.CreateCallback('QBCore:Server:CreateVehicle', function(source, 
     cb(NetworkGetNetworkIdFromEntity(veh))
 end)
 
-QBCore.Functions.CreateCallback("QBCore:Server:SpawnNetworkedVehicle", function(source, cb, model, coords, heading)
+QBCore.Functions.CreateCallback("QBCore:Server:SpawnNetworkedVehicle", function(..., cb, model, coords, heading)
     local vehicle       = CreateVehicle(model, coords.x, coords.y, coords.z, heading, true, true)
     local timeOut       = 0
     while not DoesEntityExist(vehicle) do
