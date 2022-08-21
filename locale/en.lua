@@ -13,19 +13,17 @@ local Translations = {
         no_valid_license  = 'No Valid Rockstar License Found',
         not_whitelisted = 'You\'re not whitelisted for this server',
         server_already_open = 'The server is already open',
-        server_already_closed = 'The server is already closed'
+        server_already_closed = 'The server is already closed',
         noperm = 'You don\'t have permissions for this..',
     },
     success = {
         server_opened = 'The server has been opened',
-        server_closed = 'The server has been closed'
+        server_closed = 'The server has been closed',
     },
     notify = {
         nowp = 'No Waypoint Set.',
         ewtp = 'Error While Teleporting.',
         tptw = 'Teleported To Waypoint.',
-        ops_open = 'The server is already open',
-        ops_closed = 'The server is already closed',
     },
     comm ={
         tp = 'TP To Player or Coords (Admin Only)',
