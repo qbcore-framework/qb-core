@@ -14,16 +14,14 @@ local Translations = {
         not_whitelisted = 'You\'re not whitelisted for this server',
         server_already_open = 'The server is already open',
         server_already_closed = 'The server is already closed',
-        noperm = 'You don\'t have permissions for this..',
+        no_permission = 'You don\'t have permissions for this..',
+        no_waypoint = 'No Waypoint Set.',
+        tp_error = 'Error While Teleporting.',
     },
     success = {
         server_opened = 'The server has been opened',
         server_closed = 'The server has been closed',
-    },
-    notify = {
-        nowp = 'No Waypoint Set.',
-        ewtp = 'Error While Teleporting.',
-        tptw = 'Teleported To Waypoint.',
+        teleported_waypoint = 'Teleported To Waypoint.',
     },
     comm ={
         tp = 'TP To Player or Coords (Admin Only)',
@@ -98,8 +96,8 @@ local Translations = {
         checking_ban = 'Hello %s. We are checking if you are banned.',
         join_server = 'Welcome %s to {Server Name}.',
         checking_whitelisted = 'Hello %s. We are checking your allowance.',
-        skick = 'You have been banned for cheating. Check our Discord for more information: %{discord}',
-        pdexp = 'You Have Been Kicked For Exploitation',
+        exploit_banned = 'You have been banned for cheating. Check our Discord for more information: %{discord}',
+        exploit_dropped = 'You Have Been Kicked For Exploitation',
     }
 }
 

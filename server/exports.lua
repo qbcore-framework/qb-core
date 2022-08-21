@@ -328,7 +328,7 @@ local function ExploitBan(playerId, origin)
         2147483647,
         'Anti Cheat'
     })
-    DropPlayer(playerId, Lang:t('info.skick', {discord = QBCore.Config.Server.Discord}))
+    DropPlayer(playerId, Lang:t('info.exploit_banned', {discord = QBCore.Config.Server.Discord}))
     TriggerEvent("qb-log:server:CreateLog", "anticheat", "Anti-Cheat", "red", name .. " has been banned for exploiting " .. origin, true)
 end
 

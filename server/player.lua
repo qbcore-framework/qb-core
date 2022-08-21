@@ -23,7 +23,7 @@ function QBCore.Player.Login(source, citizenid, newData)
                 end
                 QBCore.Player.CheckPlayerData(source, PlayerData)
             else
-                DropPlayer(source, Lang:t("info.pdexp"))
+                DropPlayer(source, Lang:t("info.exploit_dropped"))
                 TriggerEvent('qb-log:server:CreateLog', 'anticheat', 'Anti-Cheat', 'white', GetPlayerName(source) .. ' Has Been Dropped For Character Joining Exploit', false)
             end
         else
@@ -553,7 +553,7 @@ function QBCore.Player.DeleteCharacter(source, citizenid)
             end
         end)
     else
-        DropPlayer(source, Lang:t("info.pdexp"))
+        DropPlayer(source, Lang:t("info.exploit_dropped"))
         TriggerEvent('qb-log:server:CreateLog', 'anticheat', 'Anti-Cheat', 'white', GetPlayerName(source) .. ' Has Been Dropped For Character Deletion Exploit', true)
     end
 end

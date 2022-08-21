@@ -157,7 +157,7 @@ QBCore.Commands.Add('openserver', Lang:t("comm.opserv"), {}, false, function(sou
         QBCore.Config.Server.Closed = false
         TriggerClientEvent('QBCore:Notify', source, Lang:t('success.server_opened'), 'success')
     else
-        QBCore.Functions.Kick(source, Lang:t("error.noperm"), nil, nil)
+        QBCore.Functions.Kick(source, Lang:t("error.no_permission"), nil, nil)
     end
 end, 'admin')
 
@@ -177,7 +177,7 @@ QBCore.Commands.Add('closeserver', Lang:t("comm.cserv"), {{ name = Lang:t("comm.
         end
         TriggerClientEvent('QBCore:Notify', source, Lang:t('success.server_closed'), 'success')
     else
-        QBCore.Functions.Kick(source, Lang:t("error.noperm"), nil, nil)
+        QBCore.Functions.Kick(source, Lang:t("error.no_permission"), nil, nil)
     end
 end, 'admin')
 

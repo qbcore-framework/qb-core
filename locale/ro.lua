@@ -15,15 +15,12 @@ local Translations = {
         duplicate_license = 'Duplicat de licenta RockStar detectata',
         no_valid_license  = 'Nu s-a gasit nicio licenta valida RockStar',
         not_whitelisted = 'Nu ai statut de whitelist pe acest server',
-        noperm = 'Din pacate nu ai permisiunile necesare pentru asa ceva..',
+        no_permission = 'Din pacate nu ai permisiunile necesare pentru asa ceva..',
+        no_waypoint = 'Niciun punct de referinta setat.',
+        tp_error = 'A aparut o eroare la teleportare.',
     },
-    success = {},
-    notify = {
-        nowp = 'Niciun punct de referinta setat.',
-        ewtp = 'A aparut o eroare la teleportare.',
-        tptw = 'Ai fost teleportat la punctul de referinta.',
-        ops_open = 'Serverul este deja deschis publicului',
-        ops_closed = 'Serverul este inchis publicului',
+    success = {
+        teleported_waypoint = 'Ai fost teleportat la punctul de referinta.',
     },
     comm ={
         tp = 'TP catre un jucator sau catre anumite coordonate (Admin Only)',
@@ -98,8 +95,8 @@ local Translations = {
         checking_ban = 'Salutari %s. Verificam daca ai primit ban la noi :)',
         join_server = 'Bun venit %s pe {Server Name}.',
         checking_whitelisted = 'Salutari %s. Iti facem o verificare scurta.',
-        skick = 'Ai fost banat pentru cheating. Informatii suplimentare pe serverul nostru de Discord: ',
-        pdexp = 'Ai primit KICK pentru ca ai incercat un exploit!',
+        exploit_banned = 'Ai fost banat pentru cheating. Informatii suplimentare pe serverul nostru de Discord: ',
+        exploit_dropped = 'Ai primit KICK pentru ca ai incercat un exploit!',
     }
 }
 
