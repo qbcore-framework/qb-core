@@ -98,7 +98,7 @@ local Translations = {
         checking_ban = 'Hello %s. We are checking if you are banned.',
         join_server = 'Welcome %s to {Server Name}.',
         checking_whitelisted = 'Hello %s. We are checking your allowance.',
-        skick = 'You have been banned for cheating. Check our Discord for more information: ',
+        skick = 'You have been banned for cheating. Check our Discord for more information: %{discord}',
         pdexp = 'You Have Been Kicked For Exploitation',
     }
 }
