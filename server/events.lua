@@ -87,7 +87,7 @@ RegisterNetEvent('QBCore:Server:CloseServer', function(reason)
             end
         end
     else
-        QBCore.Functions.Kick(src, Lang:t("error.noperm"), nil, nil)
+        QBCore.Functions.Kick(src, Lang:t("error.no_permission"), nil, nil)
     end
 end)
 
@@ -96,7 +96,7 @@ RegisterNetEvent('QBCore:Server:OpenServer', function()
     if QBCore.Functions.HasPermission(src, 'admin') then
         QBCore.Config.Server.Closed = false
     else
-        QBCore.Functions.Kick(src, Lang:t("error.noperm"), nil, nil)
+        QBCore.Functions.Kick(src, Lang:t("error.no_permission"), nil, nil)
     end
 end)
 

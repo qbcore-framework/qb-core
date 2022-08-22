@@ -37,7 +37,7 @@ RegisterNetEvent('QBCore:Command:GoToMarker', function()
 
     local blipMarker <const> = GetFirstBlipInfoId(8)
     if not DoesBlipExist(blipMarker) then
-        QBCore.Functions.Notify(Lang:t("notify.nowp"), "error", 5000)
+        QBCore.Functions.Notify(Lang:t("error.no_waypoint"), "error", 5000)
         return 'marker'
     end
 
@@ -108,12 +108,12 @@ RegisterNetEvent('QBCore:Command:GoToMarker', function()
         -- If we can't find the coords, set the coords to the old ones.
         -- We don't unpack them before since they aren't in a loop and only called once.
         SetPedCoordsKeepVehicle(ped, oldCoords['x'], oldCoords['y'], oldCoords['z'] - 1.0)
-        QBCore.Functions.Notify(Lang:t("notify.ewtp"), "error", 5000)
+        QBCore.Functions.Notify(Lang:t("error.tp_error"), "error", 5000)
     end
 
     -- If Z coord was found, set coords in found coords.
     SetPedCoordsKeepVehicle(ped, x, y, groundZ)
-    QBCore.Functions.Notify(Lang:t("notify.tptw"), "success", 5000)
+    QBCore.Functions.Notify(Lang:t("success.teleported_waypoint"), "success", 5000)
 end)
 
 -- Vehicle Commands
