@@ -23,7 +23,7 @@ function QBCore.Player.Login(source, citizenid, newData)
                 end
                 QBCore.Player.CheckPlayerData(source, PlayerData)
             else
-                DropPlayer(source, 'You Have Been Kicked For Exploitation')
+                DropPlayer(source, Lang:t("info.exploit_dropped"))
                 TriggerEvent('qb-log:server:CreateLog', 'anticheat', 'Anti-Cheat', 'white', GetPlayerName(source) .. ' Has Been Dropped For Character Joining Exploit', false)
             end
         else
@@ -83,7 +83,7 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
     PlayerData.charinfo.gender = PlayerData.charinfo.gender or 0
     PlayerData.charinfo.backstory = PlayerData.charinfo.backstory or 'placeholder backstory'
     PlayerData.charinfo.nationality = PlayerData.charinfo.nationality or 'USA'
-    PlayerData.charinfo.phone = tostring(PlayerData.charinfo.phone) or QBCore.Functions.CreatePhoneNumber()
+    PlayerData.charinfo.phone = PlayerData.charinfo.phone or QBCore.Functions.CreatePhoneNumber()
     PlayerData.charinfo.account = PlayerData.charinfo.account or QBCore.Functions.CreateAccountNumber()
     -- Metadata
     PlayerData.metadata = PlayerData.metadata or {}
@@ -253,26 +253,27 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
     end
 
     function self.Functions.SetJobDuty(onDuty)
-        self.PlayerData.job.onduty = onDuty
+        self.PlayerData.job.onduty = not not onDuty -- Make sure the value is a boolean if nil is sent
         self.Functions.UpdatePlayerData()
     end
 
     function self.Functions.SetPlayerData(key, val)
-        if not key then return end
+        if not key or type(key) ~= 'string' then return end
         self.PlayerData[key] = val
         self.Functions.UpdatePlayerData()
     end
 
     function self.Functions.SetMetaData(meta, val)
-        if not meta then return end
-        meta = meta:lower()
+        if not meta or type(meta) ~= 'string' then return end
+        if meta == 'hunger' or meta == 'thirst' then
+            val = val > 100 and 100 or val
+        end
         self.PlayerData.metadata[meta] = val
         self.Functions.UpdatePlayerData()
     end
 
     function self.Functions.GetMetaData(meta)
         if not meta or type(meta) ~= 'string' then return end
-        meta = meta:lower()
         return self.PlayerData.metadata[meta]
     end
 
@@ -299,6 +300,8 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
                 TriggerEvent('qb-log:server:CreateLog', 'playermoney', 'AddMoney', 'lightgreen', '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')** $' .. amount .. ' (' .. moneytype .. ') added, new ' .. moneytype .. ' balance: ' .. self.PlayerData.money[moneytype] .. ' reason: ' .. reason)
             end
             TriggerClientEvent('hud:client:OnMoneyChange', self.PlayerData.source, moneytype, amount, false)
+            TriggerClientEvent('QBCore:Client:OnMoneyChange', self.PlayerData.source, moneytype, amount, "add")
+            TriggerEvent('QBCore:Server:OnMoneyChange', self.PlayerData.source, moneytype, amount, "add")
         end
 
         return true
@@ -330,6 +333,8 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
             if moneytype == 'bank' then
                 TriggerClientEvent('qb-phone:client:RemoveBankMoney', self.PlayerData.source, amount)
             end
+            TriggerClientEvent('QBCore:Client:OnMoneyChange', self.PlayerData.source, moneytype, amount, "remove")
+            TriggerEvent('QBCore:Server:OnMoneyChange', self.PlayerData.source, moneytype, amount, "remove")
         end
 
         return true
@@ -346,6 +351,8 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         if not self.Offline then
             self.Functions.UpdatePlayerData()
             TriggerEvent('qb-log:server:CreateLog', 'playermoney', 'SetMoney', 'green', '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')** $' .. amount .. ' (' .. moneytype .. ') set, new ' .. moneytype .. ' balance: ' .. self.PlayerData.money[moneytype] .. ' reason: ' .. reason)
+            TriggerClientEvent('QBCore:Client:OnMoneyChange', self.PlayerData.source, moneytype, amount, "set")
+            TriggerEvent('QBCore:Server:OnMoneyChange', self.PlayerData.source, moneytype, amount, "set")
         end
 
         return true
@@ -391,7 +398,7 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
     function self.Functions.AddMethod(methodName, handler)
         self.Functions[methodName] = handler
     end
-    
+
     function self.Functions.AddField(fieldName, data)
         self[fieldName] = data
     end
@@ -547,7 +554,7 @@ function QBCore.Player.DeleteCharacter(source, citizenid)
             end
         end)
     else
-        DropPlayer(source, 'You Have Been Kicked For Exploitation')
+        DropPlayer(source, Lang:t("info.exploit_dropped"))
         TriggerEvent('qb-log:server:CreateLog', 'anticheat', 'Anti-Cheat', 'white', GetPlayerName(source) .. ' Has Been Dropped For Character Deletion Exploit', true)
     end
 end
