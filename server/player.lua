@@ -346,6 +346,7 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         amount = tonumber(amount)
         if amount < 0 then return false end
         if not self.PlayerData.money[moneytype] then return false end
+        local difference = amount - self.PlayerData.money[moneytype]
         self.PlayerData.money[moneytype] = amount
 
         if not self.Offline then
