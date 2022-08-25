@@ -357,7 +357,14 @@ end
 
 function QBCore.Functions.HasPermission(source, permission)
     local src = source
-    if IsPlayerAceAllowed(src, permission) then return true end
+    if type(permission) == "string" then
+        if IsPlayerAceAllowed(src, permission) then return true end
+    elseif type(permission) == "table" then
+        for _, permLevel in pairs(permission) do
+            if IsPlayerAceAllowed(src, permLevel) then return true end
+        end
+    end
+
     return false
 end
 

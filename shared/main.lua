@@ -35,6 +35,11 @@ function QBShared.Trim(value)
     return (string.gsub(value, '^%s*(.-)%s*$', '%1'))
 end
 
+function QBShared.FirstToUpper(value)
+    if not value then return nil end
+    return (value:gsub("^%l", string.upper))
+end
+
 function QBShared.Round(value, numDecimalPlaces)
     if not numDecimalPlaces then return math.floor(value + 0.5) end
     local power = 10 ^ numDecimalPlaces
