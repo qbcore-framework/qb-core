@@ -76,7 +76,7 @@ local function onPlayerConnecting(name, _, deferrals)
     -- Add any additional defferals you may need here!
 
     if QBCore.Config.Server.Password.Required and not allowed then
-        local function PasswordDefferal(data, rawData)
+        local function PasswordDefferal(data)
             local match = false
 
             if data then
