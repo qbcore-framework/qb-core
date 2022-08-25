@@ -17,6 +17,7 @@ local Translations = {
         no_permission  = 'Vous n\'avez pas les permissions pour cela',
         no_waypoint = 'Pas de marqueur défini.',
         tp_error = 'Erreur lors de la téléportation.',
+        password_error = "Error: Too many incorrect password attempts",
     },
     success = {
         server_opened = 'Le serveur a été ouvert',

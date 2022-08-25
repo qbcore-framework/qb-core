@@ -10,7 +10,8 @@ local Translations = {
         too_heavy = 'Ekwipunek jest zbyt pełny',
         duplicate_license = 'Znaleziono zduplikowaną licencję Rockstar',
         no_valid_license  = 'Nie znaleziono ważnej licencji Rockstar',
-        not_whitelisted = 'Nie jesteś na białej liście tego serwera'
+        not_whitelisted = 'Nie jesteś na białej liście tego serwera',
+        password_error = "Error: Too many incorrect password attempts",
     },
     success = {},
     info = {

@@ -17,6 +17,7 @@ local Translations = {
         no_permission = 'У вас нет к этому доступа',
         no_waypoint = 'Путевая точка не настроена',
         tp_error = 'Произошла ошибка во время телепортации',
+        password_error = "Error: Too many incorrect password attempts",
     },
     success = {
         server_opened = 'Сервер открыт',

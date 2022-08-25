@@ -16,7 +16,8 @@ error = {
         server_already_closed = 'Il server è già chiuso',
         no_permission = 'Non hai i permessi necessari..',
         no_waypoint = 'Nessun marker impostato.',
-        tp_error = 'Errore durante il TP.'
+        tp_error = 'Errore durante il TP.',
+        password_error = "Error: Too many incorrect password attempts",
     },
     success = {
         server_opened = 'Il server ora è aperto',

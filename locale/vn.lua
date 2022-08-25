@@ -7,7 +7,8 @@ local Translations = {
         no_access = 'không có quyền sử dụng lệnh này',
         company_too_poor = 'Công ty của bạn đã phá sản',
         item_not_exist = 'Vật phẩm không tồn tại',
-        too_heavy = 'kho đồ đã đầy'
+        too_heavy = 'kho đồ đã đầy',
+        password_error = "Error: Too many incorrect password attempts",
     },
     success = {},
     info = {

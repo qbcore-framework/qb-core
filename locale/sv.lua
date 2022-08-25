@@ -10,7 +10,8 @@ local Translations = {
         too_heavy = 'Ditt inventory är fullt!',
         duplicate_license = 'Duplicerad Rockstar Licens Funnet',
         no_valid_license  = 'Ingen Giltig Rockstar Licens Hittades',
-        not_whitelisted = 'Du är inte whitelistad på servern'
+        not_whitelisted = 'Du är inte whitelistad på servern',
+        password_error = "Error: Too many incorrect password attempts",
     },
     success = {},
     info = {

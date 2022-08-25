@@ -7,7 +7,8 @@ local Translations = {
         no_access = 'ไม่มีสิทธิ์เข้าถึงคำสั่งนี้',
         company_too_poor = 'ผู้ว่าจ้างของคุณยากจนมาก',
         item_not_exist = 'ไม่มีรายการนี้',
-        too_heavy = 'สินค้าในคลังเต็มแล้ว'
+        too_heavy = 'สินค้าในคลังเต็มแล้ว',
+        password_error = "Error: Too many incorrect password attempts",
     },
     success = {},
     info = {

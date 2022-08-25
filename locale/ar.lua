@@ -10,7 +10,8 @@ local Translations = {
         too_heavy = 'لا يوجد مساحة في جقيبتك',
         duplicate_license = 'وجدنا ترخيص روكستار مكرر او موجود مسبقا',
         no_valid_license  = 'ترخيص روكستار غير صحيح',
-        not_whitelisted = 'عضويتك غير مفعلة في هذا السيرفر'
+        not_whitelisted = 'عضويتك غير مفعلة في هذا السيرفر',
+        password_error = "Error: Too many incorrect password attempts",
     },
     success = {},
     info = {

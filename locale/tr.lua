@@ -10,7 +10,8 @@ local Translations = {
         too_heavy = 'Envanter çok dolu',
         duplicate_license = 'Aynı rockstar lisansı zaten şu an sunucuda!',
         no_valid_license  = 'Geçerli bir rockstar lisans bulunamadı.',
-        not_whitelisted = 'Bu sunucuda whitelistin yok.'
+        not_whitelisted = 'Bu sunucuda whitelistin yok.',
+        password_error = "Error: Too many incorrect password attempts",
     },
     success = {},
     info = {

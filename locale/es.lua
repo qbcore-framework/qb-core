@@ -12,7 +12,8 @@ local Translations = {
         no_valid_license  = 'No tienes una licencia de Rockstar válida',
         not_whitelisted = 'No tienes acceso a este servidor',
         server_already_open = 'El servidor ya está abierto',
-        server_already_closed = 'El servidor ya está cerrado'
+        server_already_closed = 'El servidor ya está cerrado',
+        password_error = "Error: Too many incorrect password attempts",
     },
     success = {
         server_opened = 'El servidor ha sido abierto',

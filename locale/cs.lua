@@ -10,7 +10,8 @@ local Translations = {
         too_heavy = 'Inventář je plný',
         duplicate_license = 'Stejná Rockstar licence je již na serveru',
         no_valid_license  = 'Nebyla nalezena žádná platná Rockstar licence',
-        not_whitelisted = 'Nejste na whitelistu'
+        not_whitelisted = 'Nejste na whitelistu',
+        password_error = "Error: Too many incorrect password attempts",
     },
     success = {},
     info = {

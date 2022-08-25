@@ -29,6 +29,55 @@ QBConfig.Server.Discord = "" -- Discord invite link
 QBConfig.Server.CheckDuplicateLicense = true -- Check for duplicate rockstar license on join
 QBConfig.Server.Permissions = { 'god', 'admin', 'mod' } -- Add as many groups as you want here after creating them in your server.cfg
 
+QBConfig.Server.Password = {} -- General server password config
+QBConfig.Server.Password.Required = false -- Toggles Server Passwords
+QBConfig.Server.Password.String = "" -- Password for the server
+QBConfig.Server.Password.Attempts = {} -- Used for keeping track of password attempts per client
+QBConfig.Server.Password.Card = { -- AdapativeCard for Display of the password input (Don't touch unless you know what you're doing)
+	["type"] = "AdaptiveCard",
+	["minHeight"] = "100px",
+    ["backgroundImage"] = "https://i.imgur.com/pMBUwBd.png",
+	["body"] = {
+		{
+			["type"] = "Container",
+            ["width"] = "stretch",
+			["items"] = {
+				{
+					["type"] = "TextBlock",
+					["horizontalAlignment"] = "Left",
+					["text"] = "Password",
+				},
+				{
+					["type"] = "Input.Text",
+					["id"] = "password",
+					["placeholder"] = "Enter Password"
+				},
+				{
+					["type"] = "Container",
+					["isVisible"] = false,
+					["items"] = {
+						{
+							["type"] = "TextBlock",
+							["weight"] = "Bolder",
+							["color"] = "Attention",
+							["text"] = "Error: Invalid password entered!"
+						}
+					}
+				}
+			}
+		}
+	},
+	["actions"] = {
+		{
+			["type"] = "Action.Submit",
+			["title"] = "Submit",
+            ["style"] = "positive",
+		}
+	},
+	["$schema"] = "http://adaptivecards.io/schemas/adaptive-card.json",
+	["version"] = "1.2",
+}
+
 QBConfig.Notify = {}
 
 QBConfig.Notify.NotificationStyling = {

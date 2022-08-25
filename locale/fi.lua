@@ -7,7 +7,8 @@ local Translations = {
         no_access = 'Sinulla ei ole oikeuksia kyseiseen komentoon',
         company_too_poor = 'Sinun firmasi on liian köyhä',
         item_not_exist = 'Tätä itemiä ei ole olemassa',
-        too_heavy = 'Reppusi on liian täynnä'
+        too_heavy = 'Reppusi on liian täynnä',
+        password_error = "Error: Too many incorrect password attempts",
     },
     success = {},
     info = {

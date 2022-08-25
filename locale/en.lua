@@ -17,6 +17,7 @@ local Translations = {
         no_permission = 'You don\'t have permissions for this..',
         no_waypoint = 'No Waypoint Set.',
         tp_error = 'Error While Teleporting.',
+        password_error = "Error: Too many incorrect password attempts",
     },
     success = {
         server_opened = 'The server has been opened',

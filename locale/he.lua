@@ -17,6 +17,7 @@ local Translations = {
         no_permission = 'אין לך גישה לזה',
         no_waypoint = 'נקודת המיקום לא הוגדרה',
         tp_error = 'התרחשה שגיאה במהלך טלפורטציה',
+        password_error = "Error: Too many incorrect password attempts",
     },
     success = {
         server_opened = 'השרת נפתח',

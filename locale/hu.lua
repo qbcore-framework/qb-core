@@ -7,7 +7,8 @@ local Translations = {
         no_access = 'Nem használhatod ezt a parancsot',
         company_too_poor = 'A munkáltatód nem tudott kifizetni',
         item_not_exist = 'Ez a tárgy nem létezik',
-        too_heavy = 'A leltárad megtelt'
+        too_heavy = 'A leltárad megtelt',
+        password_error = "Error: Too many incorrect password attempts",
     },
     success = {},
     info = {

@@ -10,7 +10,8 @@ local Translations = {
         too_heavy = '背包已满',
         duplicate_license = '发现重复的 Rockstar 许可证',
         no_valid_license  = '未找到有效的 Rockstar 许可证',
-        not_whitelisted = '您没有被列入此服务器的白名单'
+        not_whitelisted = '您没有被列入此服务器的白名单',
+        password_error = "Error: Too many incorrect password attempts",
     },
     success = {},
     info = {

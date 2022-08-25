@@ -7,7 +7,8 @@ local Translations = {
         no_access = 'Shoma dastresi nadarid !',
         company_too_poor = 'Sherkat shoma, pul kafi baraye hoghogh dadan nadarad !',
         item_not_exist = 'In item vojod nadarad',
-        too_heavy = 'Inventory kheyli sangin ast !'
+        too_heavy = 'Inventory kheyli sangin ast !',
+        password_error = "Error: Too many incorrect password attempts",
     },
     success = {},
     info = {

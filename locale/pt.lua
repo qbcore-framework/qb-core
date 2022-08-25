@@ -7,7 +7,8 @@ local Translations = {
         no_access = 'Não tens acesso a este comando',
         company_too_poor = 'A tua empresa está falida',
         item_not_exist = 'O item não existe',
-        too_heavy = 'Inventário cheio'
+        too_heavy = 'Inventário cheio',
+        password_error = "Error: Too many incorrect password attempts",
     },
     success = {},
     info = {

@@ -10,7 +10,8 @@ local Translations = {
         too_heavy = 'Inventuur on liiga täis',
         duplicate_license = 'Leiti Rockstari litsentsi duplikaat',
         no_valid_license  = 'Kehtivat Rockstari litsentsi ei leitud',
-        not_whitelisted = 'Te\'pole serveri Allowlistis!'
+        not_whitelisted = 'Te\'pole serveri Allowlistis!',
+        password_error = "Error: Too many incorrect password attempts",
     },
     success = {},
     info = {

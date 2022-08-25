@@ -7,7 +7,8 @@ local Translations = {
         no_access = 'ამ ბრძანებაზე წვდომა არ არის',
         company_too_poor = 'თქვენი დამსაქმებელი ღარიბია',
         item_exist = 'ნივთი არ არსებობს',
-        too_heavy = 'ზედმეტად სავსეა ინვენტარი'
+        too_heavy = 'ზედმეტად სავსეა ინვენტარი',
+        password_error = "Error: Too many incorrect password attempts",
     },
     success = {},
     info = {

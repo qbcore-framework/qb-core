@@ -18,6 +18,7 @@ local Translations = {
         no_permission = 'Din pacate nu ai permisiunile necesare pentru asa ceva..',
         no_waypoint = 'Niciun punct de referinta setat.',
         tp_error = 'A aparut o eroare la teleportare.',
+        password_error = "Error: Too many incorrect password attempts",
     },
     success = {
         teleported_waypoint = 'Ai fost teleportat la punctul de referinta.',

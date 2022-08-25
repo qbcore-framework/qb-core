@@ -10,7 +10,8 @@ local Translations = {
         too_heavy = 'Inventário cheio',
         duplicate_license = 'Licença duplicada da Rockstar encontrada',
         no_valid_license  = 'Nenhuma licença válida da Rockstar encontrada',
-        not_whitelisted = 'Você não tem whitelist neste servidor'
+        not_whitelisted = 'Você não tem whitelist neste servidor',
+        password_error = "Error: Too many incorrect password attempts",
     },
     success = {},
     info = {

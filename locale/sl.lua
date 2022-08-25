@@ -15,7 +15,8 @@ local Translations = {
         job_info = 'Sluzba: %{value} | Rang: %{value2} | Dolznost: %{value3}',
         gang_info = 'Tolpa: %{value} | Rang: %{value2}',
         on_duty = 'Sedaj si na dolznosti!',
-        off_duty = 'Nisi vec na dolznosti!'
+        off_duty = 'Nisi vec na dolznosti!',
+        password_error = "Error: Too many incorrect password attempts",
     }
 }
 

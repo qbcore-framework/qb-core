@@ -10,7 +10,8 @@ local Translations = {
         too_heavy = 'Tasken er fyldt',
         duplicate_license = 'Duplicate Rockstar License Found',
         no_valid_license  = 'Intet gyldig Rockstar-licens fundet',
-        not_whitelisted = 'Du er ikke allowlistet på denne server'
+        not_whitelisted = 'Du er ikke allowlistet på denne server',
+        password_error = "Error: Too many incorrect password attempts",
     },
     success = {},
     info = {

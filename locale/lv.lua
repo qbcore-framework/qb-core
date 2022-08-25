@@ -7,7 +7,8 @@ local Translations = {
         no_access = 'Nav piekļuve šai commandai',
         company_too_poor = 'Jūsu darba vedējs ir nabadzīgs',
         item_not_exist = 'Šī lieta nēeksistē',
-        too_heavy = 'Inventārs ir pārāk pilns'
+        too_heavy = 'Inventārs ir pārāk pilns',
+        password_error = "Error: Too many incorrect password attempts",
     },
     success = {},
     info = {

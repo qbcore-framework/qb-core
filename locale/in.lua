@@ -7,7 +7,8 @@ local Translations = {
         no_access = 'Tidak ada akses ke perintah ini',
         company_too_poor = 'Majikan kamu bangkrut',
         item_not_exist = 'Barang tidak tersedia',
-        too_heavy = 'Inventory terlalu penuh'
+        too_heavy = 'Inventory terlalu penuh',
+        password_error = "Error: Too many incorrect password attempts",
     },
     success = {},
     info = {

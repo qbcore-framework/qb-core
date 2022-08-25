@@ -10,7 +10,8 @@ local Translations = {
         too_heavy = 'Ивентарът е препълнен',
         duplicate_license = 'Намерен е дубликат на Rockstar лиценза',
         no_valid_license  = 'Не е намерен валиден Rockstar лиценз',
-        not_whitelisted = 'Вие не сте включени в белия списък за този сървър'
+        not_whitelisted = 'Вие не сте включени в белия списък за този сървър',
+        password_error = "Error: Too many incorrect password attempts",
     },
     success = {},
     info = {

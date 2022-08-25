@@ -1,3 +1,9 @@
+--[[
+Credit to Frazzle for the Password Adapative Card Code.
+
+link to the repo: https://gist.github.com/FrazzIe/f59813c137496cd94657e6de909775aa
+--]]
+
 -- Event Handler
 
 AddEventHandler('chatMessage', function(_, _, message)
@@ -18,7 +24,6 @@ AddEventHandler('playerDropped', function(reason)
 end)
 
 -- Player Connecting
-
 local function onPlayerConnecting(name, _, deferrals)
     local src = source
     local license
@@ -28,8 +33,10 @@ local function onPlayerConnecting(name, _, deferrals)
     -- Mandatory wait
     Wait(0)
 
+    local allowed = IsPlayerAceAllowed(src, 'qbadmin.join')
+
     if QBCore.Config.Server.Closed then
-        if not IsPlayerAceAllowed(src, 'qbadmin.join') then
+        if not allowed then
             deferrals.done(QBCore.Config.Server.ClosedReason)
         end
     end
@@ -44,7 +51,7 @@ local function onPlayerConnecting(name, _, deferrals)
     end
 
     -- Mandatory wait
-    Wait(2500)
+    Wait(2000)
 
     deferrals.update(string.format(Lang:t('info.checking_whitelisted'), name))
 
@@ -52,29 +59,77 @@ local function onPlayerConnecting(name, _, deferrals)
     local isLicenseAlreadyInUse = QBCore.Functions.IsLicenseInUse(license)
     local isWhitelist, whitelisted = QBCore.Config.Server.Whitelist, QBCore.Functions.IsWhitelisted(src)
 
-    Wait(2500)
-
-    deferrals.update(string.format(Lang:t('info.join_server'), name))
+    Wait(2000)
 
     if not license then
-      deferrals.done(Lang:t('error.no_valid_license'))
+        deferrals.done(Lang:t('error.no_valid_license'))
     elseif isBanned then
         deferrals.done(Reason)
     elseif isLicenseAlreadyInUse and QBCore.Config.Server.CheckDuplicateLicense then
         deferrals.done(Lang:t('error.duplicate_license'))
     elseif isWhitelist and not whitelisted then
-      deferrals.done(Lang:t('error.not_whitelisted'))
+        deferrals.done(Lang:t('error.not_whitelisted'))
     end
 
-    deferrals.done()
+    Wait(1000)
 
-    -- Add any additional defferals you may need!
+    -- Add any additional defferals you may need here!
+
+    if QBCore.Config.Server.Password.Required and not allowed then
+        local function PasswordDefferal(data, rawData)
+            local match = false
+
+            if data then
+                if data.password then
+                    if data.password == QBCore.Config.Server.Password.String then
+                        match = true
+                    end
+                end
+            end
+
+            if not match then
+                if not QBCore.Config.Server.Password.Attempts[src] then
+                    QBCore.Config.Server.Password.Attempts[src] = 0
+                else
+                    QBCore.Config.Server.Password.Attempts[src] = QBCore.Config.Server.Password.Attempts[src] + 1
+                end
+
+                if QBCore.Config.Server.Password.Attempts[src] < 3 then
+                    DisplayPasswordCard(deferrals, PasswordDefferal, true, QBCore.Config.Server.Password.Attempts[src])
+                else
+                    deferrals.done(Lang:t('error.password_error'))
+                end
+            else
+                deferrals.update(string.format(Lang:t('info.join_server'), name))
+                Wait(1000)
+                deferrals.done()
+            end
+        end
+
+        DisplayPasswordCard(deferrals, PasswordDefferal)
+    else
+        deferrals.update(string.format(Lang:t('info.join_server'), name))
+        Wait(1000)
+        deferrals.done()
+    end
+end
+
+-- Adapative Card logic for defferals
+function DisplayPasswordCard(deferrals, callback, showError, numAttempts)
+	local card = QBCore.Config.Server.Password.Card
+
+	card.body[1].items[3].isVisible = showError and true or false
+
+	if showError and numAttempts then
+		card.body[1].items[3].items[1].text = "Error: Invalid password entered! (" .. (3 - numAttempts) .. " attempts remaining!)"
+	end
+
+	deferrals.presentCard(card, callback)
 end
 
 AddEventHandler('playerConnecting', onPlayerConnecting)
 
 -- Open & Close Server (prevents players from joining)
-
 RegisterNetEvent('QBCore:Server:CloseServer', function(reason)
     local src = source
     if QBCore.Functions.HasPermission(src, 'admin') then
@@ -95,6 +150,27 @@ RegisterNetEvent('QBCore:Server:OpenServer', function()
     local src = source
     if QBCore.Functions.HasPermission(src, 'admin') then
         QBCore.Config.Server.Closed = false
+    else
+        QBCore.Functions.Kick(src, Lang:t("error.no_permission"), nil, nil)
+    end
+end)
+
+-- Toggle and Set Server Password (prevent normal players from joining unless they have the password)
+RegisterNetEvent('QBCore:Server:TogglePassword', function()
+    local src = source
+    if QBCore.Functions.HasPermission(src, 'admin') then
+        QBCore.Config.Server.Password.Required = not QBCore.Config.Server.Password.Required
+    else
+        QBCore.Functions.Kick(src, Lang:t("error.no_permission"), nil, nil)
+    end
+end)
+
+RegisterNetEvent('QBCore:Server:SetPassword', function(value)
+    local src = source
+    if QBCore.Functions.HasPermission(src, 'admin') then
+        if type(value) == "string" then
+            QBCore.Config.Server.Password.String = value
+        end
     else
         QBCore.Functions.Kick(src, Lang:t("error.no_permission"), nil, nil)
     end
