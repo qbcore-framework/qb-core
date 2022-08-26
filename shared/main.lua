@@ -46,6 +46,45 @@ function QBShared.Round(value, numDecimalPlaces)
     return math.floor((value * power) + 0.5) / (power)
 end
 
+function QBShared.CopyTable(t)
+    local u = { }
+    for k, v in pairs(t) do u[k] = v end
+    return setmetatable(u, getmetatable(t))
+end
+
+function QBShared.CopyTableStrict(t)
+    local u = { }
+    for k, v in ipairs(t) do u[k] = v end
+    return setmetatable(u, getmetatable(t))
+end
+
+function QBShared.ConcatenateTable(tab, template)
+    template = template or '%s '
+    local tt = {}
+    for k,v in ipairs(tab) do
+        tt[#tt+1]=template:format(v)
+    end
+    return table.concat(tt)
+end
+
+function QBShared.TableContains(tbl, val)
+    for k, v in ipairs(tbl) do
+        if val == v then
+            return k
+        end
+    end
+    return false
+end
+
+function QBShared.GroupDigits(value, currency)
+	local left,num,right = string.match(value,'^([^%d]*%d)(%d*)(.-)$')
+    if currency then
+        return '$'..left..(num:reverse():gsub('(%d%d%d)','%1' .. ','):reverse())..right
+    else
+        return left..(num:reverse():gsub('(%d%d%d)','%1' .. ','):reverse())..right
+    end
+end
+
 function QBShared.ChangeVehicleExtra(vehicle, extra, enable)
     if DoesExtraExist(vehicle, extra) then
         if enable then
