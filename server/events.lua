@@ -238,38 +238,6 @@ QBCore.Functions.CreateCallback('QBCore:Server:CreateVehicle', function(source, 
     cb(NetworkGetNetworkIdFromEntity(veh))
 end)
 
--- Callback (maintain backwards compatibility)
-
-QBCore.Functions.CreateCallback('QBCore:HasItem', function(source, cb, items, amount)
-    local retval = false
-    local Player = QBCore.Functions.GetPlayer(source)
-    if not Player then return cb(false) end
-    local isTable = type(items) == 'table'
-	local isArray = isTable and table.type(items) == 'array' or false
-	local totalItems = #items
-	local count = 0
-    local kvIndex = 2
-	if isTable and not isArray then
-        totalItems = 0
-        for _ in pairs(items) do totalItems += 1 end
-        kvIndex = 1
-    end
-    if isTable then
-		for k, v in pairs(items) do
-			local itemKV = {k, v}
-			local item = Player.Functions.GetItemByName(itemKV[kvIndex])
-            if item and ((amount and item.amount >= amount) or (not amount and not isArray and item.amount >= v) or (not amount and isArray)) then
-                count += 1
-            end
-		end
-		if count == totalItems then
-			retval = true
-		end
-	else -- Single item as string
-		local item = Player.Functions.GetItemByName(items)
-        if item and not amount or (amount and item.amount >= amount) then
-            retval = true
-        end
-	end
-    cb(retval)
-end)
+--QBCore.Functions.CreateCallback('QBCore:HasItem', function(source, cb, items, amount)
+-- https://github.com/qbcore-framework/qb-inventory/blob/e4ef156d93dd1727234d388c3f25110c350b3bcf/server/main.lua#L2066
+--end)
