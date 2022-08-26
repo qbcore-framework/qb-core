@@ -33,7 +33,7 @@ local function onPlayerConnecting(name, _, deferrals)
     -- Mandatory wait
     Wait(0)
 
-    local allowed = IsPlayerAceAllowed(src, 'qbadmin.join')
+    local allowed = QBCore.Functions.HasPermission(src, QBCore.Config.Server.ClosedWhitelist)
 
     if QBCore.Config.Server.Closed and not QBCore.Config.Server.MaintenanceMode then
         if not allowed then
@@ -142,15 +142,6 @@ function DisplayPasswordCard(deferrals, callback, showError, numAttempts)
 
 	deferrals.presentCard(card, callback)
 end
-
---[[
-        error.password_header_normal = 'Input server password to join',
-        error.password_header_maintenance = 'Server is currently under maitenance. Input Password to join.',
-        info.password_prompt = 'Enter Password',
-        info.password_submit = 'Submit',
-        info.password_error = "Error: Too many incorrect password attempts",
-        info.password_error_attempts = "Error: Invalid pasword entered (%{attempts} attempt(s) remaining!)",
-]]
 
 AddEventHandler('playerConnecting', onPlayerConnecting)
 

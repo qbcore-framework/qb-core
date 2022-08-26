@@ -19,7 +19,8 @@ QBConfig.Player.Bloodtypes = {
 }
 
 QBConfig.Server = {} -- General server config
-QBConfig.Server.Closed = true -- Set server closed (no one can join except people with ace permission 'qbadmin.join')
+QBConfig.Server.Closed = true -- Set server closed (no one can join except people with the QBConfig.Server.ClosedWhiteList permissions)
+QBConfig.Server.ClosedWhitelist = { 'god', 'admin', 'mod' }
 QBConfig.Server.MaintenanceMode = false -- Used for entering maitenance mode, which is different from server closure.
 QBConfig.Server.MaintenanceModePassword = "" -- Password for the server if in maintenance mode
 QBConfig.Server.Uptime = 0 -- Time the server has been up.
