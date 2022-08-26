@@ -8,7 +8,9 @@ local Translations = {
         company_too_poor = 'Sinun firmasi on liian köyhä',
         item_not_exist = 'Tätä itemiä ei ole olemassa',
         too_heavy = 'Reppusi on liian täynnä',
+        server_currently_closed = 'Server is currently closed.',
         password_error = "Error: Too many incorrect password attempts",
+        password_error_attempts = "Error: Invalid pasword entered (%{attempts} attempt(s) remaining!)",
     },
     success = {},
     info = {
@@ -16,7 +18,11 @@ local Translations = {
         job_info = 'Työ: %{value} | Arvo: %{value2} | Vuorossa: %{value3}',
         gang_info = 'Jengi: %{value} | Arvo: %{value2}',
         on_duty = 'Sinä olet nyt vuorossa!',
-        off_duty = 'Sinä poistuit vuorosta!'
+        off_duty = 'Sinä poistuit vuorosta!',
+        password_header_normal = 'Input server password to join',
+        password_header_maintenance = 'Server is currently under maitenance. Input Password to join.',
+        password_prompt = 'Enter Password',
+        password_submit = 'Submit',
     }
 }
 

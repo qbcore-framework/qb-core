@@ -11,7 +11,9 @@ local Translations = {
         duplicate_license = 'Znaleziono zduplikowaną licencję Rockstar',
         no_valid_license  = 'Nie znaleziono ważnej licencji Rockstar',
         not_whitelisted = 'Nie jesteś na białej liście tego serwera',
+        server_currently_closed = 'Server is currently closed.',
         password_error = "Error: Too many incorrect password attempts",
+        password_error_attempts = "Error: Invalid pasword entered (%{attempts} attempt(s) remaining!)",
     },
     success = {},
     info = {
@@ -22,7 +24,11 @@ local Translations = {
         off_duty = 'Jesteś teraz po służbie!',
         checking_ban = 'Witaj %s. Sprawdzamy, czy jesteś zbanowany.',
         join_server = 'Witaj %s na {Server Name}.',
-        checking_whitelisted = 'Witaj %s. Sprawdzamy Twoje kieszonkowe.'
+        checking_whitelisted = 'Witaj %s. Sprawdzamy Twoje kieszonkowe.',
+        password_header_normal = 'Input server password to join',
+        password_header_maintenance = 'Server is currently under maitenance. Input Password to join.',
+        password_prompt = 'Enter Password',
+        password_submit = 'Submit',
     }
 }
 

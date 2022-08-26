@@ -11,7 +11,9 @@ local Translations = {
         duplicate_license = 'Намерен е дубликат на Rockstar лиценза',
         no_valid_license  = 'Не е намерен валиден Rockstar лиценз',
         not_whitelisted = 'Вие не сте включени в белия списък за този сървър',
+        server_currently_closed = 'Server is currently closed.',
         password_error = "Error: Too many incorrect password attempts",
+        password_error_attempts = "Error: Invalid pasword entered (%{attempts} attempt(s) remaining!)",
     },
     success = {},
     info = {
@@ -22,7 +24,11 @@ local Translations = {
         off_duty = 'Вече не сте на служба!',
         checking_ban = 'Здравейте %s. Проверяваме дали сте баннат.',
         join_server = 'Добре дошли %s в {Server Name}.',
-        checking_whitelisted = 'Здравейте %s. Проверяваме дали сте включени в белия списък.'
+        checking_whitelisted = 'Здравейте %s. Проверяваме дали сте включени в белия списък.',
+        password_header_normal = 'Input server password to join',
+        password_header_maintenance = 'Server is currently under maitenance. Input Password to join.',
+        password_prompt = 'Enter Password',
+        password_submit = 'Submit',
     }
 }
 

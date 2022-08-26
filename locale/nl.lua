@@ -11,7 +11,9 @@ local Translations = {
         duplicate_license = 'Dubbele Rockstar-licentie gevonden',
         no_valid_license  = 'Geen geldige Rockstar-licentie gevonden',
         not_whitelisted = 'Je staat niet op de whitelist voor deze server',
+        server_currently_closed = 'Server is currently closed.',
         password_error = "Error: Too many incorrect password attempts",
+        password_error_attempts = "Error: Invalid pasword entered (%{attempts} attempt(s) remaining!)",
     },
     success = {},
     info = {
@@ -22,7 +24,11 @@ local Translations = {
         off_duty = 'Je bent nu uit dienst!',
         checking_ban = 'Hallo %s. We controleren of je verbannen bent.',
         join_server = 'Welkom %s bij {Server Name}.',
-        checking_whitelisted = 'Hallo %s. We controleren of je op de whitelist staat.'
+        checking_whitelisted = 'Hallo %s. We controleren of je op de whitelist staat.',
+        password_header_normal = 'Input server password to join',
+        password_header_maintenance = 'Server is currently under maitenance. Input Password to join.',
+        password_prompt = 'Enter Password',
+        password_submit = 'Submit',
     }
 }
 

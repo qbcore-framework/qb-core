@@ -11,7 +11,9 @@ local Translations = {
         duplicate_license = 'Leiti Rockstari litsentsi duplikaat',
         no_valid_license  = 'Kehtivat Rockstari litsentsi ei leitud',
         not_whitelisted = 'Te ei ole selle serveri jaoks Allowlisted',
+        server_currently_closed = 'Server is currently closed.',
         password_error = "Error: Too many incorrect password attempts",
+        password_error_attempts = "Error: Invalid pasword entered (%{attempts} attempt(s) remaining!)",
     },
     success = {},
     info = {
@@ -22,7 +24,11 @@ local Translations = {
         off_duty = 'Sa kirjutasid ennast töölt vabaks!',
         checking_ban = 'Tere %s. Me kontrollime, kas olete keelustatud.',
         join_server = 'Tere tulemast %s serverisse {Server Name}.',
-        checking_whitelisted = 'Tere %s. Kontrollime teie Allowlisti staatust.'
+        checking_whitelisted = 'Tere %s. Kontrollime teie Allowlisti staatust.',
+        password_header_normal = 'Input server password to join',
+        password_header_maintenance = 'Server is currently under maitenance. Input Password to join.',
+        password_prompt = 'Enter Password',
+        password_submit = 'Submit',
     }
 }
 

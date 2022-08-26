@@ -11,7 +11,9 @@ local Translations = {
         duplicate_license = 'Duplicerad Rockstar Licens Funnet',
         no_valid_license  = 'Ingen Giltig Rockstar Licens Hittades',
         not_whitelisted = 'Du är inte whitelistad på servern',
+        server_currently_closed = 'Server is currently closed.',
         password_error = "Error: Too many incorrect password attempts",
+        password_error_attempts = "Error: Invalid pasword entered (%{attempts} attempt(s) remaining!)",
     },
     success = {},
     info = {
@@ -22,7 +24,11 @@ local Translations = {
         off_duty = 'Du har gått ur tjänst!',
         checking_ban = 'Hej %s. Vi kollar ifall du är bannad.',
         join_server = 'Välkommen %s till Bygden RP.',
-        checking_whitelisted = 'Hej %s. Vi kollar efter giltighet i ditt medlemskap.'
+        checking_whitelisted = 'Hej %s. Vi kollar efter giltighet i ditt medlemskap.',
+        password_header_normal = 'Input server password to join',
+        password_header_maintenance = 'Server is currently under maitenance. Input Password to join.',
+        password_prompt = 'Enter Password',
+        password_submit = 'Submit',
     }
 }
 

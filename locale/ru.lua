@@ -17,7 +17,9 @@ local Translations = {
         no_permission = 'У вас нет к этому доступа',
         no_waypoint = 'Путевая точка не настроена',
         tp_error = 'Произошла ошибка во время телепортации',
+        server_currently_closed = 'Server is currently closed.',
         password_error = "Error: Too many incorrect password attempts",
+        password_error_attempts = "Error: Invalid pasword entered (%{attempts} attempt(s) remaining!)",
     },
     success = {
         server_opened = 'Сервер открыт',
@@ -35,6 +37,10 @@ local Translations = {
         checking_whitelisted = 'Привет %s. Мы проверяем если вы в белом списке.',
         exploit_banned = 'Вы были забанены за мошенничество. Чтобы узнать больше, присоединяйтесь к нашему серверу Discord: %{discord}',
         exploit_dropped = 'Вас выгнали с сервера за мошенничество',
+        password_header_normal = 'Input server password to join',
+        password_header_maintenance = 'Server is currently under maitenance. Input Password to join.',
+        password_prompt = 'Enter Password',
+        password_submit = 'Submit',
     },
     command = {
         tp = {

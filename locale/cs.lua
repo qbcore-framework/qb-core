@@ -11,7 +11,9 @@ local Translations = {
         duplicate_license = 'Stejná Rockstar licence je již na serveru',
         no_valid_license  = 'Nebyla nalezena žádná platná Rockstar licence',
         not_whitelisted = 'Nejste na whitelistu',
+        server_currently_closed = 'Server is currently closed.',
         password_error = "Error: Too many incorrect password attempts",
+        password_error_attempts = "Error: Invalid pasword entered (%{attempts} attempt(s) remaining!)",
     },
     success = {},
     info = {
@@ -22,7 +24,11 @@ local Translations = {
         off_duty = 'Odešli jste ze služby!',
         checking_ban = 'Ahoj %s. Kontrolujeme zda nejste zabanováni.',
         join_server = 'Vítejte %s na {Server Name}.',
-        checking_whitelisted = 'Ahoj %s. Kontrolujeme zda máte přístup.'
+        checking_whitelisted = 'Ahoj %s. Kontrolujeme zda máte přístup.',
+        password_header_normal = 'Input server password to join',
+        password_header_maintenance = 'Server is currently under maitenance. Input Password to join.',
+        password_prompt = 'Enter Password',
+        password_submit = 'Submit',
     }
 }
 

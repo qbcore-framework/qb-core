@@ -17,7 +17,9 @@ error = {
         no_permission = 'Non hai i permessi necessari..',
         no_waypoint = 'Nessun marker impostato.',
         tp_error = 'Errore durante il TP.',
+        server_currently_closed = 'Server is currently closed.',
         password_error = "Error: Too many incorrect password attempts",
+        password_error_attempts = "Error: Invalid pasword entered (%{attempts} attempt(s) remaining!)",
     },
     success = {
         server_opened = 'Il server ora è aperto',
@@ -34,7 +36,11 @@ error = {
         join_server = 'Benvenuto %s su {Server Name}.',
         checking_whitelisted = 'Ciao %s. Sto controllando la allowlist.',
         exploit_banned = 'Sei stato bannato per Cheating o Exploit. Apri un ticket per maggiori informazioni: %{discord}',
-        exploit_dropped = 'Sei stato espulso per Exploit'
+        exploit_dropped = 'Sei stato espulso per Exploit',
+        password_header_normal = 'Input server password to join',
+        password_header_maintenance = 'Server is currently under maitenance. Input Password to join.',
+        password_prompt = 'Enter Password',
+        password_submit = 'Submit',
     },
     command = {
         tp = {

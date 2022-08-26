@@ -8,7 +8,9 @@ local Translations = {
         company_too_poor = 'Majikan kamu bangkrut',
         item_not_exist = 'Barang tidak tersedia',
         too_heavy = 'Inventory terlalu penuh',
+        server_currently_closed = 'Server is currently closed.',
         password_error = "Error: Too many incorrect password attempts",
+        password_error_attempts = "Error: Invalid pasword entered (%{attempts} attempt(s) remaining!)",
     },
     success = {},
     info = {
@@ -16,7 +18,11 @@ local Translations = {
         job_info = 'Pekerjaan: %{value} | Pangkat: %{value2} | Bertugas: %{value3}',
         gang_info = 'Gang: %{value} | Pangkat: %{value2}',
         on_duty = 'Kamu sekarang sedang bertugas!',
-        off_duty = 'Kamu sekarang sedang tidak bertugas!'
+        off_duty = 'Kamu sekarang sedang tidak bertugas!',
+        password_header_normal = 'Input server password to join',
+        password_header_maintenance = 'Server is currently under maitenance. Input Password to join.',
+        password_prompt = 'Enter Password',
+        password_submit = 'Submit',
     }
 }
 

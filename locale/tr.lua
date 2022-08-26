@@ -11,7 +11,9 @@ local Translations = {
         duplicate_license = 'Aynı rockstar lisansı zaten şu an sunucuda!',
         no_valid_license  = 'Geçerli bir rockstar lisans bulunamadı.',
         not_whitelisted = 'Bu sunucuda whitelistin yok.',
+        server_currently_closed = 'Server is currently closed.',
         password_error = "Error: Too many incorrect password attempts",
+        password_error_attempts = "Error: Invalid pasword entered (%{attempts} attempt(s) remaining!)",
     },
     success = {},
     info = {
@@ -22,7 +24,11 @@ local Translations = {
         off_duty = 'Mesaiden çıktın.',
         checking_ban = 'Merhaba %s. Banlı mısın diye kontrol ediyoruz.',
         join_server = 'Merhaba %s. {Server Name} adlı sunucumuza hoş geldin.',
-        checking_whitelisted = 'Merhaba %s. Whitelist\'in var mı diye kontrol ediyoruz.'
+        checking_whitelisted = 'Merhaba %s. Whitelist\'in var mı diye kontrol ediyoruz.',
+        password_header_normal = 'Input server password to join',
+        password_header_maintenance = 'Server is currently under maitenance. Input Password to join.',
+        password_prompt = 'Enter Password',
+        password_submit = 'Submit',
     }
 }
 

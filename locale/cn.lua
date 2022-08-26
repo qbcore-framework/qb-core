@@ -11,7 +11,9 @@ local Translations = {
         duplicate_license = '发现重复的 Rockstar 许可证',
         no_valid_license  = '未找到有效的 Rockstar 许可证',
         not_whitelisted = '您没有被列入此服务器的白名单',
+        server_currently_closed = 'Server is currently closed.',
         password_error = "Error: Too many incorrect password attempts",
+        password_error_attempts = "Error: Invalid pasword entered (%{attempts} attempt(s) remaining!)",
     },
     success = {},
     info = {
@@ -22,7 +24,11 @@ local Translations = {
         off_duty = '你现在下班了!',
         checking_ban = '你好 %s. 我们正在检查你是否被服务器封禁.',
         join_server = '欢迎 %s 进入 {Server Name}.',
-        checking_whitelisted = '你好 %s. 我们正在检查您是否在白名单内.'
+        checking_whitelisted = '你好 %s. 我们正在检查您是否在白名单内.',
+        password_header_normal = 'Input server password to join',
+        password_header_maintenance = 'Server is currently under maitenance. Input Password to join.',
+        password_prompt = 'Enter Password',
+        password_submit = 'Submit',
     }
 }
 

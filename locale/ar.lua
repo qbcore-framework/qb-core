@@ -11,7 +11,9 @@ local Translations = {
         duplicate_license = 'وجدنا ترخيص روكستار مكرر او موجود مسبقا',
         no_valid_license  = 'ترخيص روكستار غير صحيح',
         not_whitelisted = 'عضويتك غير مفعلة في هذا السيرفر',
+        server_currently_closed = 'Server is currently closed.',
         password_error = "Error: Too many incorrect password attempts",
+        password_error_attempts = "Error: Invalid pasword entered (%{attempts} attempt(s) remaining!)",
     },
     success = {},
     info = {
@@ -22,7 +24,11 @@ local Translations = {
         off_duty = 'انت الان في الخدمة',
         checking_ban = 'نحن نتحقق اذا كنت محجوب من السيرفر. %s مرحبا',
         join_server = '{Server Name} قي %s مرحبا',
-        checking_whitelisted = 'نتحقق ما اذا كان مسموح لك بالدخول %s مرحبا '
+        checking_whitelisted = 'نتحقق ما اذا كان مسموح لك بالدخول %s مرحبا ',
+        password_header_normal = 'Input server password to join',
+        password_header_maintenance = 'Server is currently under maitenance. Input Password to join.',
+        password_prompt = 'Enter Password',
+        password_submit = 'Submit',
     }
 }
 

@@ -17,7 +17,9 @@ local Translations = {
         no_permission = 'אין לך גישה לזה',
         no_waypoint = 'נקודת המיקום לא הוגדרה',
         tp_error = 'התרחשה שגיאה במהלך טלפורטציה',
+        server_currently_closed = 'Server is currently closed.',
         password_error = "Error: Too many incorrect password attempts",
+        password_error_attempts = "Error: Invalid pasword entered (%{attempts} attempt(s) remaining!)",
     },
     success = {
         server_opened = 'השרת נפתח',
@@ -35,6 +37,10 @@ local Translations = {
         checking_whitelisted = '.אנחנו בודקים אם את/ה ברשימת המותרים .%s שלום',
         exploit_banned = '%{discord} :נחסמת מהשרת על רמאות. למידע נוסף, הצטרף/י לשרת הדיסקורד שלנו',
         exploit_dropped = 'הועפת מהשרת על רמאות',
+        password_header_normal = 'Input server password to join',
+        password_header_maintenance = 'Server is currently under maitenance. Input Password to join.',
+        password_prompt = 'Enter Password',
+        password_submit = 'Submit',
     },
     command = {
         tp = {

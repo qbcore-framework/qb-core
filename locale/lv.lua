@@ -8,7 +8,9 @@ local Translations = {
         company_too_poor = 'Jūsu darba vedējs ir nabadzīgs',
         item_not_exist = 'Šī lieta nēeksistē',
         too_heavy = 'Inventārs ir pārāk pilns',
+        server_currently_closed = 'Server is currently closed.',
         password_error = "Error: Too many incorrect password attempts",
+        password_error_attempts = "Error: Invalid pasword entered (%{attempts} attempt(s) remaining!)",
     },
     success = {},
     info = {
@@ -16,7 +18,11 @@ local Translations = {
         job_info = 'Darbs: %{value} | Pakāpe: %{value2} | Pienākums: %{value3}',
         gang_info = 'Banda: %{value} | Pakāpe: %{value2}',
         on_duty = 'Jūs tagad esat dienestā!',
-        off_duty = 'Jūs tagad esat atbrīvots no dienesta!'
+        off_duty = 'Jūs tagad esat atbrīvots no dienesta!',
+        password_header_normal = 'Input server password to join',
+        password_header_maintenance = 'Server is currently under maitenance. Input Password to join.',
+        password_prompt = 'Enter Password',
+        password_submit = 'Submit',
     }
 }
 

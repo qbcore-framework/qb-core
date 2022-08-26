@@ -8,7 +8,9 @@ local Translations = {
         company_too_poor = 'თქვენი დამსაქმებელი ღარიბია',
         item_exist = 'ნივთი არ არსებობს',
         too_heavy = 'ზედმეტად სავსეა ინვენტარი',
+        server_currently_closed = 'Server is currently closed.',
         password_error = "Error: Too many incorrect password attempts",
+        password_error_attempts = "Error: Invalid pasword entered (%{attempts} attempt(s) remaining!)",
     },
     success = {},
     info = {
@@ -16,7 +18,11 @@ local Translations = {
         job_info = 'სამუშაო: %{value} | შეფასება: %{value2} | მოვალეობა: %{value3}',
         gang_info = 'ჯგუფი: %{value} | შეფასება: %{value2}',
         on_duty = 'ახლა მორიგე ხარ!',
-        off_duty = 'ახლა სამსახურიდან გასული ხარ!'
+        off_duty = 'ახლა სამსახურიდან გასული ხარ!',
+        password_header_normal = 'Input server password to join',
+        password_header_maintenance = 'Server is currently under maitenance. Input Password to join.',
+        password_prompt = 'Enter Password',
+        password_submit = 'Submit',
     }
 }
 
