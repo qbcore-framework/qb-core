@@ -106,7 +106,7 @@ local function onPlayerConnecting(name, _, deferrals)
                     deferrals.done(Lang:t('error.password_error'))
                 end
             else
-                deferrals.update(string.format(Lang:t('info.join_server'), QBCore.Config.ServerName))
+                deferrals.update(string.format(Lang:t('info.join_server'), QBCore.Config.Server.Name))
                 Wait(1000)
                 deferrals.done()
             end
@@ -114,7 +114,7 @@ local function onPlayerConnecting(name, _, deferrals)
 
         DisplayPasswordCard(deferrals, PasswordDefferal)
     else
-        deferrals.update(string.format(Lang:t('info.join_server'), QBCore.Config.ServerName))
+        deferrals.update(string.format(Lang:t('info.join_server'), QBCore.Config.Server.Name))
         Wait(1000)
         deferrals.done()
     end
