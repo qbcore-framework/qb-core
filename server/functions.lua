@@ -1,6 +1,7 @@
 QBCore.Functions = {}
 QBCore.Player_Buckets = {}
 QBCore.Entity_Buckets = {}
+QBCore.UsableItems = {}
 
 -- Getters
 -- Get your player first and then trigger a function on them
@@ -251,40 +252,18 @@ end
 
 -- Items
 
-function QBCore.Functions.CreateUseableItem(item, cb)
-    if GetResourceState('qb-inventory') == 'missing' then return end
-
-    if GetResourceState('qb-inventory') ~= 'started' then
-        CreateThread(function()
-            repeat
-                Wait(1000)
-            until GetResourceState('qb-inventory') == 'started'
-            exports['qb-inventory']:CreateUsableItem(item, cb)
-        end)
-    else
-        exports['qb-inventory']:CreateUsableItem(item, cb)
-    end
+function QBCore.Functions.CreateUseableItem(item, data)
+    QBCore.UsableItems[item] = data
 end
 
 function QBCore.Functions.CanUseItem(item)
-    if GetResourceState('qb-inventory') == 'missing' then return end
-    return exports['qb-inventory']:GetUsableItem(item)
+    return QBCore.UsableItems[item]
 end
 
 function QBCore.Functions.UseItem(source, item)
     if GetResourceState('qb-inventory') == 'missing' then return end
     exports['qb-inventory']:UseItem(source, item)
 end
-
-exports('SetUseableItems', function(val)
-    QBCore.UseableItems = val
-end)
-
-exports('SetUseableItem', function(item, cb)
-    QBCore.UseableItems[item] = cb
-end)
-
-exports('GetUseableItems', function() return QBCore.UseableItems end)
 
 -- Kick Player
 
@@ -357,7 +336,14 @@ end
 
 function QBCore.Functions.HasPermission(source, permission)
     local src = source
-    if IsPlayerAceAllowed(src, permission) then return true end
+    if type(permission) == "string" then
+        if IsPlayerAceAllowed(src, permission) then return true end
+    elseif type(permission) == "table" then
+        for _, permLevel in pairs(permission) do
+            if IsPlayerAceAllowed(src, permLevel) then return true end
+        end
+    end
+
     return false
 end
 
