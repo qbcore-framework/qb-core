@@ -19,8 +19,9 @@ QBConfig.Player.Bloodtypes = {
 }
 
 QBConfig.Server = {} -- General server config
-QBConfig.Server.Closed = false -- Set server closed (no one can join except people with ace permission 'qbadmin.join')
-QBConfig.Server.ClosedReason = "Server Closed" -- Reason message to display when people can't join the server
+QBConfig.Server.Closed = true -- Set server closed (no one can join except people with ace permission 'qbadmin.join')
+QBConfig.Server.MaintenanceMode = false -- Used for entering maitenance mode, which is different from server closure.
+QBConfig.Server.MaintenanceModePassword = "" -- Password for the server if in maintenance mode
 QBConfig.Server.Uptime = 0 -- Time the server has been up.
 QBConfig.Server.Whitelist = false -- Enable or disable whitelist on the server
 QBConfig.Server.WhitelistPermission = 'admin' -- Permission that's able to enter the server when the whitelist is on
@@ -30,52 +31,52 @@ QBConfig.Server.CheckDuplicateLicense = true -- Check for duplicate rockstar lic
 QBConfig.Server.Permissions = { 'god', 'admin', 'mod' } -- Add as many groups as you want here after creating them in your server.cfg
 
 QBConfig.Server.Password = {} -- General server password config
-QBConfig.Server.Password.Required = false -- Toggles Server Passwords
-QBConfig.Server.Password.String = "" -- Password for the server
+QBConfig.Server.Password.Required = true -- Toggles Server Passwords
+QBConfig.Server.Password.String = "" -- Password for the server by default
 QBConfig.Server.Password.Attempts = {} -- Used for keeping track of password attempts per client
 QBConfig.Server.Password.Card = { -- AdapativeCard for Display of the password input (Don't touch unless you know what you're doing)
-	["type"] = "AdaptiveCard",
-	["minHeight"] = "100px",
+    ["type"] = "AdaptiveCard",
+    ["minHeight"] = "100px",
     ["backgroundImage"] = "https://i.imgur.com/pMBUwBd.png",
-	["body"] = {
-		{
-			["type"] = "Container",
+    ["body"] = {
+        {
+            ["type"] = "Container",
             ["width"] = "stretch",
-			["items"] = {
-				{
-					["type"] = "TextBlock",
-					["horizontalAlignment"] = "Left",
-					["text"] = "Password",
-				},
-				{
-					["type"] = "Input.Text",
-					["id"] = "password",
-					["placeholder"] = "Enter Password"
-				},
-				{
-					["type"] = "Container",
-					["isVisible"] = false,
-					["items"] = {
-						{
-							["type"] = "TextBlock",
-							["weight"] = "Bolder",
-							["color"] = "Attention",
-							["text"] = "Error: Invalid password entered!"
-						}
-					}
-				}
-			}
-		}
-	},
-	["actions"] = {
-		{
-			["type"] = "Action.Submit",
-			["title"] = "Submit",
-            ["style"] = "positive",
-		}
-	},
-	["$schema"] = "http://adaptivecards.io/schemas/adaptive-card.json",
-	["version"] = "1.2",
+            ["items"] = {
+                {
+                    ["type"] = "TextBlock",
+                    ["horizontalAlignment"] = "left",
+                    ["text"] = "" -- password_header_normal or password_header_maintenance
+                },
+                {
+                    ["type"] = "Input.Text",
+                    ["id"] = "password",
+                    ["placeholder"] = "" -- password_prompt
+                },
+                {
+                    ["type"] = "Container",
+                    ["isVisible"] = false,
+                    ["items"] = {
+                        {
+                            ["type"] = "TextBlock",
+                            ["weight"] = "Bolder",
+                            ["color"] = "Attention",
+                            ["text"] = "" -- password_error_attempts
+                        }
+                    }
+                }
+            }
+        }
+    },
+    ["actions"] = {
+        {
+            ["type"] = "Action.Submit",
+            ["title"] = "", -- password_submit
+            ["style"] = "positive"
+        }
+    },
+    ["$schema"] = "http://adaptivecards.io/schemas/adaptive-card.json",
+    ["version"] = "1.2"
 }
 
 QBConfig.Notify = {}

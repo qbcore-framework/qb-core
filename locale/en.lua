@@ -17,7 +17,9 @@ local Translations = {
         no_permission = 'You don\'t have permissions for this..',
         no_waypoint = 'No Waypoint Set.',
         tp_error = 'Error While Teleporting.',
+        server_currently_closed = 'Server is currently closed.',
         password_error = "Error: Too many incorrect password attempts",
+        password_error_attempts = "Error: Invalid pasword entered (%{attempts} attempt(s) remaining!)",
     },
     success = {
         server_opened = 'The server has been opened',
@@ -31,10 +33,14 @@ local Translations = {
         on_duty = 'You are now on duty!',
         off_duty = 'You are now off duty!',
         checking_ban = 'Hello %s. We are checking if you are banned.',
-        join_server = 'Welcome %s to {Server Name}.',
+        join_server = 'Welcome %s to %{Server Name}.',
         checking_whitelisted = 'Hello %s. We are checking your allowance.',
         exploit_banned = 'You have been banned for cheating. Check our Discord for more information: %{discord}',
         exploit_dropped = 'You Have Been Kicked For Exploitation',
+        password_header_normal = 'Input server password to join',
+        password_header_maintenance = 'Server is currently under maitenance. Input Password to join.',
+        password_prompt = 'Enter Password',
+        password_submit = 'Submit',
     },
     command = {
         tp = {

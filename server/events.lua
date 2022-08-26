@@ -35,9 +35,9 @@ local function onPlayerConnecting(name, _, deferrals)
 
     local allowed = IsPlayerAceAllowed(src, 'qbadmin.join')
 
-    if QBCore.Config.Server.Closed then
+    if QBCore.Config.Server.Closed and not QBCore.Config.Server.MaintenanceMode then
         if not allowed then
-            deferrals.done(QBCore.Config.Server.ClosedReason)
+            deferrals.done(Lang:t('error.server_currently_closed'))
         end
     end
 
@@ -81,8 +81,14 @@ local function onPlayerConnecting(name, _, deferrals)
 
             if data then
                 if data.password then
-                    if data.password == QBCore.Config.Server.Password.String then
-                        match = true
+                    if not QBCore.Config.Server.MaintenanceMode then
+                        if data.password == QBCore.Config.Server.Password.String then
+                            match = true
+                        end
+                    else
+                        if data.password == QBCore.Config.Server.MaintenanceModePassword then
+                            match = true
+                        end
                     end
                 end
             end
@@ -119,13 +125,32 @@ function DisplayPasswordCard(deferrals, callback, showError, numAttempts)
 	local card = QBCore.Config.Server.Password.Card
 
 	card.body[1].items[3].isVisible = showError and true or false
+    card.actions[1].title = string.format(Lang:t('info.password_submit'))
+    card.body[1].items[2].text = string.format(Lang:t('info.password_prompt'))
+
+    if QBCore.Config.Server.MaintenanceMode then
+        card.body[1].items[1].text = string.format(Lang:t('info.password_header_maintenance'))
+    else
+        card.body[1].items[1].text = string.format(Lang:t('info.password_header_normal'))
+    end
+
+
 
 	if showError and numAttempts then
-		card.body[1].items[3].items[1].text = "Error: Invalid password entered! (" .. (3 - numAttempts) .. " attempts remaining!)"
+		card.body[1].items[3].items[1].text = string.format(Lang:t('error.password_error_attempts', {attempts = (3 - numAttempts)}))
 	end
 
 	deferrals.presentCard(card, callback)
 end
+
+--[[
+        error.password_header_normal = 'Input server password to join',
+        error.password_header_maintenance = 'Server is currently under maitenance. Input Password to join.',
+        info.password_prompt = 'Enter Password',
+        info.password_submit = 'Submit',
+        info.password_error = "Error: Too many incorrect password attempts",
+        info.password_error_attempts = "Error: Invalid pasword entered (%{attempts} attempt(s) remaining!)",
+]]
 
 AddEventHandler('playerConnecting', onPlayerConnecting)
 
@@ -170,6 +195,34 @@ RegisterNetEvent('QBCore:Server:SetPassword', function(value)
     if QBCore.Functions.HasPermission(src, 'admin') then
         if type(value) == "string" then
             QBCore.Config.Server.Password.String = value
+        end
+    else
+        QBCore.Functions.Kick(src, Lang:t("error.no_permission"), nil, nil)
+    end
+end)
+
+RegisterNetEvent('QBCore:Server:GetMaintenanceMode', function(value)
+    local src = source
+    if QBCore.Functions.HasPermission(src, 'admin') then
+            return QBCore.Config.Server.MaintenanceMode
+    else
+        QBCore.Functions.Kick(src, Lang:t("error.no_permission"), nil, nil)
+    end
+end)
+
+RegisterNetEvent('QBCore:Server:ToggleMaintenanceMode', function(value)
+    local src = source
+    if QBCore.Functions.HasPermission(src, 'admin') then
+        if QBCore.Config.Server.MaintenanceMode then
+            if type(value) == "string" then
+                QBCore.Config.Server.MaintenanceMode = true
+                QBCore.Config.Server.MaintenanceModePassword = value
+            else
+                QBCore.Config.Server.MaintenanceMode = false
+                QBCore.Config.Server.MaintenanceModePassword = ""
+            end
+        else
+            QBCore.Config.Server.MaintenanceModePassword = ""
         end
     else
         QBCore.Functions.Kick(src, Lang:t("error.no_permission"), nil, nil)
