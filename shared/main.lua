@@ -61,7 +61,7 @@ end
 function QBShared.ConcatenateTable(tab, template)
     template = template or '%s '
     local tt = {}
-    for k,v in ipairs(tab) do
+    for _,v in ipairs(tab) do
         tt[#tt+1]=template:format(v)
     end
     return table.concat(tt)
