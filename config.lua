@@ -1,6 +1,7 @@
 QBConfig = {}
 
 QBConfig.MaxPlayers = GetConvarInt('sv_maxclients', 48) -- Gets max players from config file, default 48
+QBConfig.ServerName = GetConvar('sv_hostname')
 QBConfig.DefaultSpawn = vector4(-1035.71, -2731.87, 12.86, 0.0)
 QBConfig.UpdateInterval = 5 -- how often to update player data in minutes
 QBConfig.StatusInterval = 5000 -- how often to check hunger/thirst status in milliseconds
@@ -19,7 +20,7 @@ QBConfig.Player.Bloodtypes = {
 }
 
 QBConfig.Server = {} -- General server config
-QBConfig.Server.Closed = true -- Set server closed (no one can join except people with the QBConfig.Server.ClosedWhiteList permissions)
+QBConfig.Server.Closed = false -- Set server closed (no one can join except people with the QBConfig.Server.ClosedWhiteList permissions)
 QBConfig.Server.ClosedWhitelist = { 'god', 'admin', 'mod' }
 QBConfig.Server.MaintenanceMode = false -- Used for entering maitenance mode, which is different from server closure.
 QBConfig.Server.MaintenanceModePassword = "" -- Password for the server if in maintenance mode
@@ -32,7 +33,7 @@ QBConfig.Server.CheckDuplicateLicense = true -- Check for duplicate rockstar lic
 QBConfig.Server.Permissions = { 'god', 'admin', 'mod' } -- Add as many groups as you want here after creating them in your server.cfg
 
 QBConfig.Server.Password = {} -- General server password config
-QBConfig.Server.Password.Required = true -- Toggles Server Passwords
+QBConfig.Server.Password.Required = false -- Toggles Server Passwords
 QBConfig.Server.Password.String = "" -- Password for the server by default
 QBConfig.Server.Password.Attempts = {} -- Used for keeping track of password attempts per client
 QBConfig.Server.Password.Card = { -- AdapativeCard for Display of the password input (Don't touch unless you know what you're doing)
