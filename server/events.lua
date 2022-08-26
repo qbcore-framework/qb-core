@@ -201,7 +201,7 @@ RegisterNetEvent('QBCore:Server:SetPassword', function(value)
     end
 end)
 
-RegisterNetEvent('QBCore:Server:GetMaintenanceMode', function(value)
+RegisterNetEvent('QBCore:Server:GetMaintenanceMode', function()
     local src = source
     if QBCore.Functions.HasPermission(src, 'admin') then
             return QBCore.Config.Server.MaintenanceMode
