@@ -146,17 +146,21 @@ end
 AddEventHandler('playerConnecting', onPlayerConnecting)
 
 -- Open & Close Server (prevents players from joining)
+function KickAllPlayers(reason)
+    for player in pairs(QBCore.Players) do
+        if not QBCore.Functions.HasPermission(player, QBCore.Config.Server.ClosedWhitelist) then
+            QBCore.Functions.Kick(player, reason, nil, nil)
+        end
+    end
+end
+
 RegisterNetEvent('QBCore:Server:CloseServer', function(reason)
     local src = source
     if QBCore.Functions.HasPermission(src, 'admin') then
         reason = reason or 'No reason specified'
         QBCore.Config.Server.Closed = true
         QBCore.Config.Server.ClosedReason = reason
-        for k in pairs(QBCore.Players) do
-            if not QBCore.Functions.HasPermission(k, QBCore.Config.Server.WhitelistPermission) then
-                QBCore.Functions.Kick(k, reason, nil, nil)
-            end
-        end
+        KickAllPlayers(reason)
     else
         QBCore.Functions.Kick(src, Lang:t("error.no_permission"), nil, nil)
     end
@@ -208,6 +212,7 @@ RegisterNetEvent('QBCore:Server:ToggleMaintenanceMode', function(value)
             if type(value) == "string" then
                 QBCore.Config.Server.MaintenanceMode = true
                 QBCore.Config.Server.MaintenanceModePassword = value
+                KickAllPlayers(Lang:t("info.enter_maintenance_mode"))
             else
                 QBCore.Config.Server.MaintenanceMode = false
                 QBCore.Config.Server.MaintenanceModePassword = ""

@@ -34,6 +34,7 @@ local Translations = {
         password_header_maintenance = 'Server is currently under maitenance. Input Password to join.',
         password_prompt = 'Enter Password',
         password_submit = 'Submit',
+        enter_maintenance_mode = "Entering Server Maintenance Mode",
     }
 }
 
