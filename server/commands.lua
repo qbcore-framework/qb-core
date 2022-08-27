@@ -15,7 +15,7 @@ end)
 
 -- Register & Refresh Commands
 
-function QBCore.Commands.Add(name, help, arguments, argsrequired, callback, permission, ...)
+function QBCore.Commands.Add(name, help, arguments, argsrequired, callback, permission)
     local restricted = true -- Default to restricted for all commands
     if not permission then permission = 'user' end -- some commands don't pass permission level
     if permission == 'user' then restricted = false end -- allow all users to use command
@@ -31,18 +31,13 @@ function QBCore.Commands.Add(name, help, arguments, argsrequired, callback, perm
         callback(source, args, rawCommand)
     end, restricted)
 
-    local extraPerms = ... and table.pack(...) or nil
-    if extraPerms then
-        extraPerms[extraPerms.n + 1] = permission -- The `n` field is the number of arguments in the packed table
-        extraPerms.n += 1
-        permission = extraPerms
-        for i = 1, permission.n do
-            if not QBCore.Commands.IgnoreList[permission[i]] then -- only create aces for extra perm levels
-                ExecuteCommand(('add_ace qbcore.%s command.%s allow'):format(permission[i], name))
+    if type(permission) == "table" then
+        for _, perm in ipairs(permission) do
+            if not QBCore.Commands.IgnoreList[perm] then -- only create aces for extra perm levels
+                ExecuteCommand(('add_ace qbcore.%s command.%s allow'):format(perm, name))
             end
         end
-        permission.n = nil
-    else
+    elseif type(permission) == 'string' then
         permission = tostring(permission:lower())
         if not QBCore.Commands.IgnoreList[permission] then -- only create aces for extra perm levels
             ExecuteCommand(('add_ace qbcore.%s command.%s allow'):format(permission, name))
