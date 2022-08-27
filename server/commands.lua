@@ -18,7 +18,9 @@ end)
 function QBCore.Commands.Add(name, help, arguments, argsrequired, callback, permission)
     local restricted = true -- Default to restricted for all commands
     if not permission then permission = 'user' end -- some commands don't pass permission level
-    if permission == 'user' then restricted = false end -- allow all users to use command
+    if type(permission) == "string" then
+        if permission == 'user' then restricted = false end -- allow all users to use command
+    end
 
     RegisterCommand(name, function(source, args, rawCommand) -- Register command within fivem
         if argsrequired and #args < #arguments then
