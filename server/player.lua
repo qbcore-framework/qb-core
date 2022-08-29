@@ -567,7 +567,11 @@ function QBCore.Player.ForceDeleteCharacter(citizenid)
         local query = "DELETE FROM %s WHERE citizenid = ?"
         local tableCount = #playertables
         local queries = table.create(tableCount, 0)
+        local Player = QBCore.Functions.GetPlayerByCitizenId(citizenid)
 
+        if Player then
+            DropPlayer(Player.PlayerData.source, "An admin deleted the character which you are currently using")
+        end
         for i = 1, tableCount do
             local v = playertables[i]
             queries[i] = {query = query:format(v.table), values = { citizenid }}
