@@ -183,13 +183,10 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
     self.PlayerData = PlayerData
     self.Offline = Offline
 
-    function self.Functions.UpdatePlayerData(dontUpdateChat)
+    function self.Functions.UpdatePlayerData()
         if self.Offline then return end -- Unsupported for Offline Players
         TriggerEvent('QBCore:Player:SetPlayerData', self.PlayerData)
         TriggerClientEvent('QBCore:Player:SetPlayerData', self.PlayerData.source, self.PlayerData)
-        if not dontUpdateChat then
-            QBCore.Commands.Refresh(self.PlayerData.source)
-        end
     end
 
     function self.Functions.SetJob(job, grade)
