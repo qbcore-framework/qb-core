@@ -87,7 +87,7 @@ RegisterNetEvent('QBCore:Server:CloseServer', function(reason)
             end
         end
     else
-        QBCore.Functions.Kick(src, 'You don\'t have permissions for this..', nil, nil)
+        QBCore.Functions.Kick(src, Lang:t("error.no_permission"), nil, nil)
     end
 end)
 
@@ -96,7 +96,7 @@ RegisterNetEvent('QBCore:Server:OpenServer', function()
     if QBCore.Functions.HasPermission(src, 'admin') then
         QBCore.Config.Server.Closed = false
     else
-        QBCore.Functions.Kick(src, 'You don\'t have permissions for this..', nil, nil)
+        QBCore.Functions.Kick(src, Lang:t("error.no_permission"), nil, nil)
     end
 end)
 
@@ -237,3 +237,7 @@ QBCore.Functions.CreateCallback('QBCore:Server:CreateVehicle', function(source, 
     if warp then TaskWarpPedIntoVehicle(GetPlayerPed(source), veh, -1) end
     cb(NetworkGetNetworkIdFromEntity(veh))
 end)
+
+--QBCore.Functions.CreateCallback('QBCore:HasItem', function(source, cb, items, amount)
+-- https://github.com/qbcore-framework/qb-inventory/blob/e4ef156d93dd1727234d388c3f25110c350b3bcf/server/main.lua#L2066
+--end)
