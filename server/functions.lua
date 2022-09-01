@@ -308,25 +308,23 @@ end
 -- Setting & Removing Permissions
 
 function QBCore.Functions.AddPermission(source, permission)
-    local src = source
-    local license = QBCore.Functions.GetIdentifier(src, 'license')
-    ExecuteCommand(('add_principal identifier.%s qbcore.%s'):format(license, permission))
-    QBCore.Commands.Refresh(src)
+    if not IsPlayerAceAllowed(source, permission) then
+        ExecuteCommand(('add_principal player.%s qbcore.%s'):format(source, permission))
+        QBCore.Commands.Refresh(source)
+    end
 end
 
 function QBCore.Functions.RemovePermission(source, permission)
-    local src = source
-    local license = QBCore.Functions.GetIdentifier(src, 'license')
     if permission then
-        if IsPlayerAceAllowed(src, permission) then
-            ExecuteCommand(('remove_principal identifier.%s qbcore.%s'):format(license, permission))
-            QBCore.Commands.Refresh(src)
+        if IsPlayerAceAllowed(source, permission) then
+            ExecuteCommand(('remove_principal player.%s qbcore.%s'):format(source, permission))
+            QBCore.Commands.Refresh(source)
         end
     else
         for _, v in pairs(QBCore.Config.Server.Permissions) do
-            if IsPlayerAceAllowed(src, v) then
-                ExecuteCommand(('remove_principal identifier.%s qbcore.%s'):format(license, v))
-                QBCore.Commands.Refresh(src)
+            if IsPlayerAceAllowed(source, v) then
+                ExecuteCommand(('remove_principal player.%s qbcore.%s'):format(source, v))
+                QBCore.Commands.Refresh(source)
             end
         end
     end
@@ -335,12 +333,11 @@ end
 -- Checking for Permission Level
 
 function QBCore.Functions.HasPermission(source, permission)
-    local src = source
     if type(permission) == "string" then
-        if IsPlayerAceAllowed(src, permission) then return true end
+        if IsPlayerAceAllowed(source, permission) then return true end
     elseif type(permission) == "table" then
         for _, permLevel in pairs(permission) do
-            if IsPlayerAceAllowed(src, permLevel) then return true end
+            if IsPlayerAceAllowed(source, permLevel) then return true end
         end
     end
 
