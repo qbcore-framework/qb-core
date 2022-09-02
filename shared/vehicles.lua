@@ -690,15 +690,6 @@ QBShared.Vehicles = {
 		['hash'] = `nightblade`,
 		['shop'] = 'pdm',
 	},
-	['oppressor'] = {
-		['name'] = 'Oppressor',
-		['brand'] = 'Pegassi',
-		['model'] = 'oppressor',
-		['price'] = 9999999,
-		['category'] = 'super',
-		['hash'] = `oppressor`,
-		['shop'] = 'luxury',
-	},
 	['pcj'] = {
 		['name'] = 'PCJ-600',
 		['brand'] = 'Shitzu',
@@ -1274,15 +1265,6 @@ QBShared.Vehicles = {
 		['price'] = 29000,
 		['category'] = 'muscle',
 		['hash'] = `ruiner`,
-		['shop'] = 'pdm',
-	},
-	['ruiner2'] = {
-		['name'] = 'Ruiner 2000',
-		['brand'] = 'Imponte',
-		['model'] = 'ruiner2',
-		['price'] = 50000,
-		['category'] = 'muscle',
-		['hash'] = `ruiner2`,
 		['shop'] = 'pdm',
 	},
 	['sabregt'] = {
@@ -3090,15 +3072,6 @@ QBShared.Vehicles = {
 		['hash'] = `cheetah2`,
 		['shop'] = 'luxury',
 	},
-	['deluxo'] = {
-		['name'] = 'Deluxo',
-		['brand'] = 'Imponte',
-		['model'] = 'deluxo',
-		['price'] = 55000,
-		['category'] = 'sportsclassics',
-		['hash'] = `deluxo`,
-		['shop'] = 'pdm',
-	},
 	['dynasty'] = {							--DLC
 		['name'] = 'Dynasty',
 		['brand'] = 'Weeny',
@@ -3295,15 +3268,6 @@ QBShared.Vehicles = {
 		['price'] = 70000,
 		['category'] = 'sportsclassics',
 		['hash'] = `stingergt`,
-		['shop'] = 'pdm',
-	},
-	['stromberg'] = {
-		['name'] = 'Stromberg',
-		['brand'] = 'Ocelot',
-		['model'] = 'stromberg',
-		['price'] = 80000,
-		['category'] = 'sportsclassics',
-		['hash'] = `stromberg`,
 		['shop'] = 'pdm',
 	},
 	['swinger'] = {							--DLC
