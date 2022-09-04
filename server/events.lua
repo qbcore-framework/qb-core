@@ -57,13 +57,13 @@ local function onPlayerConnecting(name, _, deferrals)
     deferrals.update(string.format(Lang:t('info.join_server'), name))
 
     if not license then
-      deferrals.done(Lang:t('error.no_valid_license'))
+        deferrals.done(Lang:t('error.no_valid_license'))
     elseif isBanned then
         deferrals.done(Reason)
     elseif isLicenseAlreadyInUse and QBCore.Config.Server.CheckDuplicateLicense then
         deferrals.done(Lang:t('error.duplicate_license'))
     elseif isWhitelist and not whitelisted then
-      deferrals.done(Lang:t('error.not_whitelisted'))
+        deferrals.done(Lang:t('error.not_whitelisted'))
     end
 
     deferrals.done()
@@ -118,24 +118,31 @@ RegisterNetEvent('QBCore:Server:TriggerCallback', function(name, ...)
     end, ...)
 end)
 
--- Player
+local DisableHungerAndThirst = false
+RegisterNetEvent('QBCore:ToggleHungerAndThirst', function()
+    DisableHungerAndThirst = not DisableHungerAndThirst
+end)
 
+-- Player
 RegisterNetEvent('QBCore:UpdatePlayer', function()
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     if not Player then return end
-    local newHunger = Player.PlayerData.metadata['hunger'] - QBCore.Config.Player.HungerRate
-    local newThirst = Player.PlayerData.metadata['thirst'] - QBCore.Config.Player.ThirstRate
-    if newHunger <= 0 then
-        newHunger = 0
+
+    if not DisableHungerAndThirst then
+        local newHunger = Player.PlayerData.metadata['hunger'] - QBCore.Config.Player.HungerRate
+        local newThirst = Player.PlayerData.metadata['thirst'] - QBCore.Config.Player.ThirstRate
+        if newHunger <= 0 then
+            newHunger = 0
+        end
+        if newThirst <= 0 then
+            newThirst = 0
+        end
+        Player.Functions.SetMetaData('thirst', newThirst)
+        Player.Functions.SetMetaData('hunger', newHunger)
+        TriggerClientEvent('hud:client:UpdateNeeds', src, newHunger, newThirst)
+        Player.Functions.Save()
     end
-    if newThirst <= 0 then
-        newThirst = 0
-    end
-    Player.Functions.SetMetaData('thirst', newThirst)
-    Player.Functions.SetMetaData('hunger', newHunger)
-    TriggerClientEvent('hud:client:UpdateNeeds', src, newHunger, newThirst)
-    Player.Functions.Save()
 end)
 
 RegisterNetEvent('QBCore:Server:SetMetaData', function(meta, data)
