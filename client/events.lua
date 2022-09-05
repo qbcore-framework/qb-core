@@ -118,11 +118,12 @@ end)
 
 -- Vehicle Commands
 RegisterNetEvent('QBCore:Client:VehicleInfo', function(info)
+    local plate = QBCore.Functions.GetPlate(info.vehicle)
     local data = {
         vehicle = NetToVeh(info.netid),
         seat = info.seat,
         name = info.modelName,
-        plate = QBCore.Functions.GetPlate(info.vehicle),
+        plate = plate,
         driver = GetPedInVehicleSeat(info.vehicle, -1),
         inseat = GetPedInVehicleSeat(info.vehicle, info.seat),
         haskeys = exports['qb-vehiclekeys']:HasKeys(plate)
