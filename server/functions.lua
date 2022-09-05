@@ -1,6 +1,7 @@
 QBCore.Functions = {}
 QBCore.Player_Buckets = {}
 QBCore.Entity_Buckets = {}
+QBCore.UsableItems = {}
 
 -- Getters
 -- Get your player first and then trigger a function on them
@@ -251,40 +252,18 @@ end
 
 -- Items
 
-function QBCore.Functions.CreateUseableItem(item, cb)
-    if GetResourceState('qb-inventory') == 'missing' then return end
-
-    if GetResourceState('qb-inventory') ~= 'started' then
-        CreateThread(function()
-            repeat
-                Wait(1000)
-            until GetResourceState('qb-inventory') == 'started'
-            exports['qb-inventory']:CreateUsableItem(item, cb)
-        end)
-    else
-        exports['qb-inventory']:CreateUsableItem(item, cb)
-    end
+function QBCore.Functions.CreateUseableItem(item, data)
+    QBCore.UsableItems[item] = data
 end
 
 function QBCore.Functions.CanUseItem(item)
-    if GetResourceState('qb-inventory') == 'missing' then return end
-    return exports['qb-inventory']:GetUsableItem(item)
+    return QBCore.UsableItems[item]
 end
 
 function QBCore.Functions.UseItem(source, item)
     if GetResourceState('qb-inventory') == 'missing' then return end
     exports['qb-inventory']:UseItem(source, item)
 end
-
-exports('SetUseableItems', function(val)
-    QBCore.UseableItems = val
-end)
-
-exports('SetUseableItem', function(item, cb)
-    QBCore.UseableItems[item] = cb
-end)
-
-exports('GetUseableItems', function() return QBCore.UseableItems end)
 
 -- Kick Player
 
@@ -329,25 +308,23 @@ end
 -- Setting & Removing Permissions
 
 function QBCore.Functions.AddPermission(source, permission)
-    local src = source
-    local license = QBCore.Functions.GetIdentifier(src, 'license')
-    ExecuteCommand(('add_principal identifier.%s qbcore.%s'):format(license, permission))
-    QBCore.Commands.Refresh(src)
+    if not IsPlayerAceAllowed(source, permission) then
+        ExecuteCommand(('add_principal player.%s qbcore.%s'):format(source, permission))
+        QBCore.Commands.Refresh(source)
+    end
 end
 
 function QBCore.Functions.RemovePermission(source, permission)
-    local src = source
-    local license = QBCore.Functions.GetIdentifier(src, 'license')
     if permission then
-        if IsPlayerAceAllowed(src, permission) then
-            ExecuteCommand(('remove_principal identifier.%s qbcore.%s'):format(license, permission))
-            QBCore.Commands.Refresh(src)
+        if IsPlayerAceAllowed(source, permission) then
+            ExecuteCommand(('remove_principal player.%s qbcore.%s'):format(source, permission))
+            QBCore.Commands.Refresh(source)
         end
     else
         for _, v in pairs(QBCore.Config.Server.Permissions) do
-            if IsPlayerAceAllowed(src, v) then
-                ExecuteCommand(('remove_principal identifier.%s qbcore.%s'):format(license, v))
-                QBCore.Commands.Refresh(src)
+            if IsPlayerAceAllowed(source, v) then
+                ExecuteCommand(('remove_principal player.%s qbcore.%s'):format(source, v))
+                QBCore.Commands.Refresh(source)
             end
         end
     end
@@ -356,8 +333,14 @@ end
 -- Checking for Permission Level
 
 function QBCore.Functions.HasPermission(source, permission)
-    local src = source
-    if IsPlayerAceAllowed(src, permission) then return true end
+    if type(permission) == "string" then
+        if IsPlayerAceAllowed(source, permission) then return true end
+    elseif type(permission) == "table" then
+        for _, permLevel in pairs(permission) do
+            if IsPlayerAceAllowed(source, permLevel) then return true end
+        end
+    end
+
     return false
 end
 
