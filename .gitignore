@@ -1,3 +1,5 @@
 # Ignore any IDE derived project configs
 .idea
-.vscode
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
