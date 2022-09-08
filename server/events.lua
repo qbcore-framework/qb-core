@@ -33,16 +33,6 @@ local function onPlayerConnecting(name, _, deferrals)
     -- Mandatory wait
     Wait(0)
 
-    local allowed = QBCore.Functions.HasPermission(src, QBCore.Config.Server.ClosedWhitelist)
-
-    if QBCore.Config.Server.Closed and not QBCore.Config.Server.MaintenanceMode then
-        if not allowed then
-            deferrals.done(Lang:t('error.server_currently_closed'))
-        end
-    end
-
-    deferrals.update(string.format(Lang:t('info.checking_ban'), name))
-
     for _, v in pairs(identifiers) do
         if string.find(v, 'license') then
             license = v
@@ -50,72 +40,111 @@ local function onPlayerConnecting(name, _, deferrals)
         end
     end
 
-    -- Mandatory wait
-    Wait(2000)
-
-    deferrals.update(string.format(Lang:t('info.checking_whitelisted'), name))
-
+    local isPassword = QBCore.Config.Server.Password.Required
+    local isMaintenance = QBCore.Config.Server.MaintenanceMode
+    local isClosed, isClosedAllow = QBCore.Config.Server.Closed, QBCore.Functions.HasPermission(src, QBCore.Config.Server.ClosedWhitelist)
     local isBanned, Reason = QBCore.Functions.IsPlayerBanned(src)
     local isLicenseAlreadyInUse = QBCore.Functions.IsLicenseInUse(license)
     local isWhitelist, whitelisted = QBCore.Config.Server.Whitelist, QBCore.Functions.IsWhitelisted(src)
 
-    Wait(2000)
-
-    if not license then
-        deferrals.done(Lang:t('error.no_valid_license'))
-    elseif isBanned then
-        deferrals.done(Reason)
-    elseif isLicenseAlreadyInUse and QBCore.Config.Server.CheckDuplicateLicense then
-        deferrals.done(Lang:t('error.duplicate_license'))
-    elseif isWhitelist and not whitelisted then
-        deferrals.done(Lang:t('error.not_whitelisted'))
+    if isClosed and not isMaintenance then
+        if not isClosedAllow then
+            deferrals.done(Lang:t('error.server_currently_closed'))
+        end
     end
 
-    Wait(1000)
+    deferrals.update(string.format(Lang:t('info.checking_ban'), name))
 
-    -- Add any additional defferals you may need here!
+    Wait(2000)
 
-    if QBCore.Config.Server.Password.Required and not allowed then
+    if isBanned then deferrals.done(Reason) end
+
+    deferrals.update(string.format(Lang:t('info.checking_license_credentials')))
+
+    Wait(2000)
+
+    if not license then deferrals.done(Lang:t('error.no_valid_license')) end
+
+    if QBCore.Config.Server.CheckDuplicateLicense then
+        deferrals.update(string.format(Lang:t('info.checking_license_duplicate')))
+        Wait(2000)
+        if isLicenseAlreadyInUse then
+            deferrals.done(Lang:t('error.duplicate_license'))
+        end
+    end
+
+    if isMaintenance or isPassword then
+        local function CheckPasswordAttempts(deferrals)
+            local PasswordAttempts = QBCore.Config.Server.Password.Attempts[license]
+            if PasswordAttempts then
+                if PasswordAttempts['failedAttempts'] == QBCore.Config.Server.Password.AttemptsFailureMaxBan then
+                    exports['qb-core']:BanClient(src, "Too many password attempts...", "default", "Password Attempts", "red")
+                end
+
+                local minTimeUntilNextAttempt = (QBCore.Config.Server.Password.AttemptsFailureTime*60)*PasswordAttempts['failedAttempts']
+                local timeSinceLastAttempt = (os.time()-PasswordAttempts['failedTime'])
+
+                if timeSinceLastAttempt < minTimeUntilNextAttempt then
+                    deferrals.done(Lang:t('error.password_error_time', {time = QBCore.Shared.Round((minTimeUntilNextAttempt-timeSinceLastAttempt)/60, 0)}))
+                else
+                    PasswordAttempts['failedTime'] = os.time()
+                end
+            end
+        end
+
+        local function ResetPasswordAttempts()
+            QBCore.Config.Server.Password.Attempts[license] = {
+                failedTime = os.time(),
+                failedAttempts = 0,
+                currentAttempts = 0
+            }
+        end
+
         local function PasswordDefferal(data)
             local match = false
-
-            if data then
-                if data.password then
-                    if not QBCore.Config.Server.MaintenanceMode then
-                        if data.password == QBCore.Config.Server.Password.String then
-                            match = true
-                        end
-                    else
-                        if data.password == QBCore.Config.Server.MaintenanceModePassword then
-                            match = true
-                        end
-                    end
+            if data and data.password then
+                if isMaintenance then
+                    match = (QBCore.Config.Server.MaintenanceModePassword == data.password)
+                else
+                    match = (QBCore.Config.Server.Password.String == data.password)
                 end
             end
 
             if not match then
-                if not QBCore.Config.Server.Password.Attempts[src] then
-                    QBCore.Config.Server.Password.Attempts[src] = 0
+                if not QBCore.Config.Server.Password.Attempts[license] then
+                    ResetPasswordAttempts()
                 else
-                    QBCore.Config.Server.Password.Attempts[src] = QBCore.Config.Server.Password.Attempts[src] + 1
+                    QBCore.Config.Server.Password.Attempts[license]['currentAttempts'] = QBCore.Config.Server.Password.Attempts[license]['currentAttempts'] + 1
                 end
 
-                if QBCore.Config.Server.Password.Attempts[src] < 3 then
-                    DisplayPasswordCard(deferrals, PasswordDefferal, true, QBCore.Config.Server.Password.Attempts[src])
+                if QBCore.Config.Server.Password.Attempts[license]['currentAttempts'] < 3 then
+                    DisplayPasswordCard(deferrals, PasswordDefferal, true, QBCore.Config.Server.Password.Attempts[license]['currentAttempts'])
                 else
-                    deferrals.done(Lang:t('error.password_error'))
+                    QBCore.Config.Server.Password.Attempts[license] = {
+                        failedTime = os.time(),
+                        failedAttempts = QBCore.Config.Server.Password.Attempts[license]['failedAttempts'] + 1,
+                        currentAttempts = 0
+                    }
+                    deferrals.done(Lang:t('error.password_error_time', {time = QBCore.Config.Server.Password.AttemptsFailureTime}))
                 end
             else
+                ResetPasswordAttempts()
                 deferrals.update(string.format(Lang:t('info.join_server'), QBCore.Config.Server.Name))
-                Wait(1000)
+                Wait(2000)
                 deferrals.done()
             end
         end
 
+        CheckPasswordAttempts(deferrals)
         DisplayPasswordCard(deferrals, PasswordDefferal)
     else
+        if isWhitelist then
+            deferrals.update(string.format(Lang:t('info.checking_whitelisted')))
+            Wait(2000)
+            if not whitelisted then deferrals.done(Lang:t('error.not_whitelisted')) end
+        end
         deferrals.update(string.format(Lang:t('info.join_server'), QBCore.Config.Server.Name))
-        Wait(1000)
+        Wait(2000)
         deferrals.done()
     end
 end

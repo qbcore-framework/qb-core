@@ -333,3 +333,21 @@ local function ExploitBan(playerId, origin)
 end
 
 exports('ExploitBan', ExploitBan)
+
+local function BanClient(playerId, reason, discordLogType, discordTitle, discordColour)
+    if playerId then
+        local name = GetPlayerName(playerId)
+        MySQL.insert('INSERT INTO bans (name, license, discord, ip, reason, expire, bannedby) VALUES (?, ?, ?, ?, ?, ?, ?)', {
+            name,
+            QBCore.Functions.GetIdentifier(playerId, 'license'),
+            QBCore.Functions.GetIdentifier(playerId, 'discord'),
+            QBCore.Functions.GetIdentifier(playerId, 'ip'),
+            reason or "No reason specified",
+            2147483647,
+            'Password Attempts'
+        })
+        DropPlayer(playerId, reason)
+        TriggerEvent("qb-log:server:CreateLog", discordLogType or "default", discordTitle or "No title specified", discordColour or "red", reason or "No reason specified", true)
+    end
+end
+exports('BanClient', BanClient)
