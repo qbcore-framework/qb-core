@@ -1,0 +1,71 @@
+name: Bug report
+description: Create a report to help us improve or fix something
+title: "[BUG]"
+labels: bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to fill out a bug report!
+        Please use our Discord Server to ask questions and receive support: https://discord.gg/qbcore
+  - type: input
+    id: summary
+    attributes:
+      label: Summary
+      description: Write a short and concise description of your bug.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Reproduction
+      description: What did you do to make this happen?
+      placeholder: |
+        1. Using ...
+        2. Do ...
+        3. Then use ...
+        4. See error
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: What did you expect to happen?
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+      description: What actually happened?
+    validations:
+      required: true
+  - type: textarea
+    id: additional
+    attributes:
+      label: Additional context
+      description: If you have any other context about the problem such as screenshots or videos, add them here.
+  - type: input
+    id: updated
+    attributes:
+      label: Last Updated
+      description: When have you last updated?
+      placeholder: e.g. last week, today
+    validations:
+      required: true
+  - type: input
+    id: custom
+    attributes:
+      label: Custom Resources
+      description: Are you using custom resources? Which ones?
+      placeholder: e.g. zdiscord, qb-target
+    validations:
+      required: true
+  - type: input
+    id: renamed
+    attributes:
+      label: Resource Rename
+      description: Have you renamed this resource from `qb-` to something custom?
+    validations:
+      required: true
