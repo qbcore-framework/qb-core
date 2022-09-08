@@ -74,7 +74,7 @@ local function onPlayerConnecting(name, _, deferrals)
     end
 
     if isMaintenance or isPassword then
-        local function CheckPasswordAttempts(deferrals)
+        local function CheckPasswordAttempts()
             local PasswordAttempts = QBCore.Config.Server.Password.Attempts[license]
             if PasswordAttempts then
                 if PasswordAttempts['failedAttempts'] == QBCore.Config.Server.Password.AttemptsFailureMaxBan then
