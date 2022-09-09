@@ -50,27 +50,27 @@ local Translations = {
             help = 'Dar permisos al jugador (sólo modo Dios)',
             params = {
                 id = { name = 'id', help = 'ID del jugador' },
-                permission = { name = 'Permiso', help = 'Nivel de permiso' },
+                permission = { name = 'permission', help = 'Nivel de permiso' },
             },
         },
         removepermission = {
             help = 'Eliminar los permisos de los jugadores (sólo modo Dios)',
             params = {
                 id = { name = 'id', help = 'ID del jugador' },
-                permission = { name = 'permiso', help = 'Nivel de permiso' },
+                permission = { name = 'permission', help = 'Nivel de permiso' },
             },
         },
         openserver = { help = 'Abrir el servidor para todo el mundo (sólo para admin)' },
         closeserver = {
             help = 'Cerrar el servidor para personas sin permisos (sólo para admin)',
             params = {
-                reason = { name = 'razón', help = 'Motivo del cierre (opcional)' },
+                reason = { name = 'reason', help = 'Motivo del cierre (opcional)' },
             },
         },
         car = {
-            help = 'Vehículo de desove (sólo para admin)',
+            help = 'Crear Vehículo (sólo para admin)',
             params = {
-                model = { name = 'modelo', help = 'Nombre del modelo del vehículo' },
+                model = { name = 'model', help = 'Nombre del modelo del vehículo' },
             },
         },
         dv = { help = 'Borrar vehículo (sólo para admin)' },
@@ -78,7 +78,7 @@ local Translations = {
             help = 'Dar dinero a un jugador (sólo para admin)',
             params = {
                 id = { name = 'id', help = 'ID del jugador' },
-                moneytype = { name = 'tipo de dinero', help = 'Tipo de dinero (efectivo, banco, cripto)' },
+                moneytype = { name = 'moneytype', help = 'Tipo de dinero (efectivo, banco, cripto)' },
                 amount = { name = 'amount', help = 'Cantidad de dinero' },
             },
         },
@@ -86,8 +86,8 @@ local Translations = {
             help = 'Establecer la cantidad de dinero de los jugadores (sólo para admin)',
             params = {
                 id = { name = 'id', help = 'ID del jugador' },
-                moneytype = { name = 'tipo de dinero', help = 'Tipo de dinero (efectivo, banco, cripto)' },
-                amount = { name = 'cantidad', help = 'Cantidad de dinero' },
+                moneytype = { name = 'moneytype', help = 'Tipo de dinero (efectivo, banco, cripto)' },
+                amount = { name = 'amount', help = 'Cantidad de dinero' },
             },
         },
         job = { help = 'Compruebe su trabajo' },
@@ -95,8 +95,8 @@ local Translations = {
             help = 'Establecer un trabajo de jugador (sólo para admin)',
             params = {
                 id = { name = 'id', help = 'ID del jugador' },
-                job = { name = 'trabajo', help = 'Nombre del trabajo' },
-                grade = { name = 'grado', help = 'Grado de trabajo' },
+                job = { name = 'job', help = 'Nombre del trabajo' },
+                grade = { name = 'grade', help = 'Grado de trabajo' },
             },
         },
         gang = { help = 'Comprueba tu banda' },
@@ -104,15 +104,15 @@ local Translations = {
             help = 'Establecer una banda de jugadores (sólo para admin)',
             params = {
                 id = { name = 'id', help = 'ID del jugador' },
-                gang = { name = 'banda', help = 'Nombre de la banda' },
-                grade = { name = 'grado', help = 'Grado de banda' },
+                gang = { name = 'gang', help = 'Nombre de la banda' },
+                grade = { name = 'grade', help = 'Grado de banda' },
             },
         },
         ooc = { help = 'Mensaje del chat OOC' },
         me = {
             help = 'Mostrar mensaje local',
             params = {
-                message = { name = 'mensaje', help = 'Mensaje a enviar' }
+                message = { name = 'message', help = 'Mensaje a enviar' }
             },
         },
     },
