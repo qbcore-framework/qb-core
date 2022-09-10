@@ -10,7 +10,7 @@ QBShared.Vehicles = {
 		['price'] = 4000,
 		['category'] = 'compacts',
 		['hash'] = `asbo`,
-		['shop'] = 'pdm',
+		['shop'] = {'pdm','luxury'},
 	},
 	['blista'] = {
 		['name'] = 'Blista',
