@@ -43,8 +43,9 @@ function QBCore.Commands.Add(name, help, arguments, argsrequired, callback, perm
     end
 
     for i = 1, #permission do
-        if not QBCore.Commands.IgnoreList[permission[i]] then -- only create aces for extra perm levels
-            ExecuteCommand(('add_ace qbcore.%s command.%s allow'):format(permission[i], name))
+        local perm = tostring(permission[i]:lower())
+        if not QBCore.Commands.IgnoreList[perm] then -- only create aces for extra perm levels
+            ExecuteCommand(('add_ace qbcore.%s command.%s allow'):format(perm, name))
         end
     end
 
