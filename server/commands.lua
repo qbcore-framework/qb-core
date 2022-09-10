@@ -15,11 +15,13 @@ end)
 
 -- Register & Refresh Commands
 
-function QBCore.Commands.Add(name, help, arguments, argsrequired, callback, permission)
+function QBCore.Commands.Add(name, help, arguments, argsrequired, callback, permission, ...)
     local restricted = true -- Default to restricted for all commands
-    if not permission then permission = 'user' end -- some commands don't pass permission level
-    if type(permission) == "string" then
-        if permission == 'user' then restricted = false end -- allow all users to use command
+
+    -- Test for no permission argument, or string, otherwise use table
+    permission = not permission and { 'user' } or type(permission) == "string" and { permission } or permission
+    if QBCore.Shared.TableContains(permission, 'user') then
+        restricted = false -- allow all users to use command
     end
 
     RegisterCommand(name, function(source, args, rawCommand) -- Register command within fivem
@@ -33,16 +35,16 @@ function QBCore.Commands.Add(name, help, arguments, argsrequired, callback, perm
         callback(source, args, rawCommand)
     end, restricted)
 
-    if type(permission) == "table" then
-        for _, perm in ipairs(permission) do
-            if not QBCore.Commands.IgnoreList[perm] then -- only create aces for extra perm levels
-                ExecuteCommand(('add_ace qbcore.%s command.%s allow'):format(perm, name))
-            end
+    local extraperms = ... and table.pack(...) or nil
+    if extraperms then
+        for i = 1, #extraperms do
+            permission[#permission+1] = extraperms[i]
         end
-    elseif type(permission) == 'string' then
-        permission = tostring(permission:lower())
-        if not QBCore.Commands.IgnoreList[permission] then -- only create aces for extra perm levels
-            ExecuteCommand(('add_ace qbcore.%s command.%s allow'):format(permission, name))
+    end
+
+    for i = 1, #permission do
+        if not QBCore.Commands.IgnoreList[permission[i]] then -- only create aces for extra perm levels
+            ExecuteCommand(('add_ace qbcore.%s command.%s allow'):format(permission[i], name))
         end
     end
 
