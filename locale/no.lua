@@ -50,7 +50,7 @@ local Translations = {
             help = 'Gi spillertillatelser (Kun gud)',
             params = {
                 id = { name = 'id', help = 'ID på spiller' },
-                permission = { name = 'permission', help = 'Tillatelsesnivå },
+                permission = { name = 'permission', help = 'Tillatelsesnivå '},
             },
         },
         removepermission = {
