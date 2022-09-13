@@ -31,7 +31,7 @@ local Translations = {
         tp = {
             help = 'Teleport k hráči nebo na souřadnice (Pouze Admin)',
             params = {
-                x = { name = 'id/x', help = 'ID hráče or X pozice'},
+                x = { name = 'id/x', help = 'ID hráče nebo X pozice'},
                 y = { name = 'y', help = 'Y pozice'},
                 z = { name = 'z', help = 'Z pozice'},
             },
@@ -39,14 +39,14 @@ local Translations = {
         tpm = { help = 'TP Na Marker (pouze Admin)' },
         togglepvp = { help = 'Přepnutí PVP na serveru (Pouze Admin)' },
         addpermission = {
-            help = 'Dej hráči oprávnění (God Pouze)',
+            help = 'Udělení hráči oprávnění (God Pouze)',
             params = {
-                id = { name = 'id', help = 'ID hráčer' },
+                id = { name = 'id', help = 'ID hráče' },
                 permission = { name = 'permission', help = 'Úroveň oprávnění' },
             },
         },
         removepermission = {
-            help = 'Odstraň hráči oprávnění (God Pouze)',
+            help = 'Odeber hráči oprávnění (God Pouze)',
             params = {
                 id = { name = 'id', help = 'ID hráče' },
                 permission = { name = 'permission', help = 'Úroveň oprávnění' },
