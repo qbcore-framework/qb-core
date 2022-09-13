@@ -34,6 +34,7 @@ local Translations = {
         checking_whitelisted = '.אנחנו בודקים אם את/ה ברשימת המותרים .%s שלום',
         exploit_banned = '%{discord} :נחסמת מהשרת על רמאות. למידע נוסף, הצטרף/י לשרת הדיסקורד שלנו',
         exploit_dropped = 'הועפת מהשרת על רמאות',
+        food_hunger_status = 'You have %{status} food and hunger draining',
     },
     command = {
         tp = {

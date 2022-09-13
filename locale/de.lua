@@ -34,6 +34,7 @@ local Translations = {
         checking_whitelisted = 'Hallo %s. Wir checken deine Erlaubnis.',
         exploit_banned = 'Du wurdest fürs Cheaten gebannt. Meld dich auf dem Discord: %{discord}',
         exploit_dropped = 'Du wurdest gekickt für das Ausnutzen von Fehlern',
+        food_hunger_status = 'You have %{status} food and hunger draining',
     },
     command = {
         tp = {

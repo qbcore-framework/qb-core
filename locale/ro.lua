@@ -33,6 +33,7 @@ local Translations = {
         checking_whitelisted = 'Salutari %s. Iti facem o verificare scurta.',
         exploit_banned = 'Ai fost banat pentru cheating. Informatii suplimentare pe serverul nostru de Discord: ',
         exploit_dropped = 'Ai primit KICK pentru ca ai incercat un exploit!',
+        food_hunger_status = 'You have %{status} food and hunger draining',
     },
     command = {
         tp = {

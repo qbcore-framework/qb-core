@@ -15,7 +15,8 @@ local Translations = {
         job_info = 'სამუშაო: %{value} | შეფასება: %{value2} | მოვალეობა: %{value3}',
         gang_info = 'ჯგუფი: %{value} | შეფასება: %{value2}',
         on_duty = 'ახლა მორიგე ხარ!',
-        off_duty = 'ახლა სამსახურიდან გასული ხარ!'
+        off_duty = 'ახლა სამსახურიდან გასული ხარ!',
+        food_hunger_status = 'You have %{status} food and hunger draining',
     }
 }
 

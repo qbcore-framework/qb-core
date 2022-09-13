@@ -15,7 +15,8 @@ local Translations = {
         job_info = 'Posao: %{value} | Rank: %{value2} | Duznost: %{value3}',
         gang_info = 'Banda: %{value} | Rank: %{value2}',
         on_duty = 'Sada ste na duznosti!',
-        off_duty = 'Sada ste van duznosti!'
+        off_duty = 'Sada ste van duznosti!',
+        food_hunger_status = 'You have %{status} food and hunger draining',
     }
 }
 

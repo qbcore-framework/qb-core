@@ -15,7 +15,8 @@ local Translations = {
         job_info = 'Darbs: %{value} | Pakāpe: %{value2} | Pienākums: %{value3}',
         gang_info = 'Banda: %{value} | Pakāpe: %{value2}',
         on_duty = 'Jūs tagad esat dienestā!',
-        off_duty = 'Jūs tagad esat atbrīvots no dienesta!'
+        off_duty = 'Jūs tagad esat atbrīvots no dienesta!',
+        food_hunger_status = 'You have %{status} food and hunger draining',
     }
 }
 

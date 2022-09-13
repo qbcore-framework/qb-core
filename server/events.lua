@@ -119,17 +119,18 @@ RegisterNetEvent('QBCore:Server:TriggerCallback', function(name, ...)
 end)
 
 local DisableHungerAndThirst = false
-RegisterNetEvent('QBCore:ToggleHungerAndThirst', function()
-    DisableHungerAndThirst = not DisableHungerAndThirst
+AddEventHandler('QBCore:SetHungerAndThirst', function(source, value)
+    DisableHungerAndThirst = value
+    TriggerClientEvent('QBCore:Notify', source, Lang:t('info.food_hunger_status', {status = (DisableHungerAndThirst and 'disabled' or 'enabled')}))
 end)
 
 -- Player
 RegisterNetEvent('QBCore:UpdatePlayer', function()
-    local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    if not Player then return end
-
     if not DisableHungerAndThirst then
+        local src = source
+        local Player = QBCore.Functions.GetPlayer(src)
+        if not Player then return end
+
         local newHunger = Player.PlayerData.metadata['hunger'] - QBCore.Config.Player.HungerRate
         local newThirst = Player.PlayerData.metadata['thirst'] - QBCore.Config.Player.ThirstRate
         if newHunger <= 0 then

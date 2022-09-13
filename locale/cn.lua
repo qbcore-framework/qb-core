@@ -21,7 +21,8 @@ local Translations = {
         off_duty = '你现在下班了!',
         checking_ban = '你好 %s. 我们正在检查你是否被服务器封禁.',
         join_server = '欢迎 %s 进入 {Server Name}.',
-        checking_whitelisted = '你好 %s. 我们正在检查您是否在白名单内.'
+        checking_whitelisted = '你好 %s. 我们正在检查您是否在白名单内.',
+        food_hunger_status = 'You have %{status} food and hunger draining',
     }
 }
 

@@ -15,7 +15,8 @@ local Translations = {
         job_info = 'Emprego: %{value} | Grau: %{value2} | Serviço: %{value3}',
         gang_info = 'Gang: %{value} | Grau: %{value2}',
         on_duty = 'Agora estás de serviço!',
-        off_duty = 'Agora estás fora de serviço!'
+        off_duty = 'Agora estás fora de serviço!',
+        food_hunger_status = 'You have %{status} food and hunger draining',
     }
 }
 

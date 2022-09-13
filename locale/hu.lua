@@ -15,7 +15,8 @@ local Translations = {
         job_info = 'Munka: %{value} | Szint: %{value2} | Szolgálatban: %{value3}',
         gang_info = 'Banda: %{value} | Szint: %{value2}',
         on_duty = 'Mostantól szolgálatban vagy!',
-        off_duty = 'Mostantól nem vagy szolgálatban!'
+        off_duty = 'Mostantól nem vagy szolgálatban!',
+        food_hunger_status = 'You have %{status} food and hunger draining',
     }
 }
 

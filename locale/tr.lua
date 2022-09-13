@@ -21,7 +21,8 @@ local Translations = {
         off_duty = 'Mesaiden çıktın.',
         checking_ban = 'Merhaba %s. Banlı mısın diye kontrol ediyoruz.',
         join_server = 'Merhaba %s. {Server Name} adlı sunucumuza hoş geldin.',
-        checking_whitelisted = 'Merhaba %s. Whitelist\'in var mı diye kontrol ediyoruz.'
+        checking_whitelisted = 'Merhaba %s. Whitelist\'in var mı diye kontrol ediyoruz.',
+        food_hunger_status = 'You have %{status} food and hunger draining',
     }
 }
 

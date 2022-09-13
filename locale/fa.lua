@@ -15,7 +15,8 @@ local Translations = {
         job_info = 'Shoghl: %{value} | Daraje: %{value2} | Dar hal kar: %{value3}',
         gang_info = 'Gang: %{value} | Daraje: %{value2}',
         on_duty = 'Shoma dar hal kar hastid (on-duty)!',
-        off_duty = 'Shoma az kar kharej shodid (off-duty)!'
+        off_duty = 'Shoma az kar kharej shodid (off-duty)!',
+        food_hunger_status = 'You have %{status} food and hunger draining',
     }
 }
 

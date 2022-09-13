@@ -34,6 +34,7 @@ local Translations = {
         checking_whitelisted = 'Halló %s. Við erum að athuga vasapeningana þína.',
         exploit_banned = 'Þú hefur verið bannaður fyrir svindl. Athugaðu Discord okkar til að fá frekari upplýsingar: %{discord}',
         exploit_dropped = 'Þér hefur verið sparkað fyrir arðrán',
+        food_hunger_status = 'You have %{status} food and hunger draining',
     },
     command = {
         tp = {

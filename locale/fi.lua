@@ -15,7 +15,8 @@ local Translations = {
         job_info = 'Työ: %{value} | Arvo: %{value2} | Vuorossa: %{value3}',
         gang_info = 'Jengi: %{value} | Arvo: %{value2}',
         on_duty = 'Sinä olet nyt vuorossa!',
-        off_duty = 'Sinä poistuit vuorosta!'
+        off_duty = 'Sinä poistuit vuorosta!',
+        food_hunger_status = 'You have %{status} food and hunger draining',
     }
 }
 

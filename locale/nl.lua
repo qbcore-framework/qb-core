@@ -21,7 +21,8 @@ local Translations = {
         off_duty = 'Je bent nu uit dienst!',
         checking_ban = 'Hallo %s. We controleren of je verbannen bent.',
         join_server = 'Welkom %s bij {Server Name}.',
-        checking_whitelisted = 'Hallo %s. We controleren of je op de whitelist staat.'
+        checking_whitelisted = 'Hallo %s. We controleren of je op de whitelist staat.',
+        food_hunger_status = 'You have %{status} food and hunger draining',
     }
 }
 

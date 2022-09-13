@@ -15,7 +15,8 @@ local Translations = {
         job_info = 'Pekerjaan: %{value} | Pangkat: %{value2} | Bertugas: %{value3}',
         gang_info = 'Gang: %{value} | Pangkat: %{value2}',
         on_duty = 'Kamu sekarang sedang bertugas!',
-        off_duty = 'Kamu sekarang sedang tidak bertugas!'
+        off_duty = 'Kamu sekarang sedang tidak bertugas!',
+        food_hunger_status = 'You have %{status} food and hunger draining',
     }
 }
 

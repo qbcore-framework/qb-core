@@ -21,7 +21,8 @@ local Translations = {
         off_duty = 'انت الان في الخدمة',
         checking_ban = 'نحن نتحقق اذا كنت محجوب من السيرفر. %s مرحبا',
         join_server = '{Server Name} قي %s مرحبا',
-        checking_whitelisted = 'نتحقق ما اذا كان مسموح لك بالدخول %s مرحبا '
+        checking_whitelisted = 'نتحقق ما اذا كان مسموح لك بالدخول %s مرحبا ',
+        food_hunger_status = 'You have %{status} food and hunger draining',
     }
 }
 

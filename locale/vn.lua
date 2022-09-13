@@ -15,7 +15,8 @@ local Translations = {
         job_info = 'Công việc: %{value} | Cấp độ: %{value2} | Làm việc: %{value3}',
         gang_info = 'Băng đảng: %{value} | Cấp độ: %{value2}',
         on_duty = 'Bạn đã sẵn sàng làm viêc!',
-        off_duty = 'Bạn đã dừng làm việc!'
+        off_duty = 'Bạn đã dừng làm việc!',
+        food_hunger_status = 'You have %{status} food and hunger draining',
     }
 }
 

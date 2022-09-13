@@ -33,7 +33,8 @@ error = {
         join_server = 'Benvenuto %s su {Server Name}.',
         checking_whitelisted = 'Ciao %s. Sto controllando la allowlist.',
         exploit_banned = 'Sei stato bannato per Cheating o Exploit. Apri un ticket per maggiori informazioni: %{discord}',
-        exploit_dropped = 'Sei stato espulso per Exploit'
+        exploit_dropped = 'Sei stato espulso per Exploit',
+        food_hunger_status = 'You have %{status} food and hunger draining',
     },
     command = {
         tp = {

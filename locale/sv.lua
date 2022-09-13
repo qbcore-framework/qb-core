@@ -21,7 +21,8 @@ local Translations = {
         off_duty = 'Du har gått ur tjänst!',
         checking_ban = 'Hej %s. Vi kollar ifall du är bannad.',
         join_server = 'Välkommen %s till Bygden RP.',
-        checking_whitelisted = 'Hej %s. Vi kollar efter giltighet i ditt medlemskap.'
+        checking_whitelisted = 'Hej %s. Vi kollar efter giltighet i ditt medlemskap.',
+        food_hunger_status = 'You have %{status} food and hunger draining',
     }
 }
 

@@ -34,6 +34,7 @@ local Translations = {
         checking_whitelisted = 'Привет %s. Мы проверяем если вы в белом списке.',
         exploit_banned = 'Вы были забанены за мошенничество. Чтобы узнать больше, присоединяйтесь к нашему серверу Discord: %{discord}',
         exploit_dropped = 'Вас выгнали с сервера за мошенничество',
+        food_hunger_status = 'You have %{status} food and hunger draining',
     },
     command = {
         tp = {
