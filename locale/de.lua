@@ -25,7 +25,7 @@ local Translations = {
     },
     info = {
         received_paycheck = 'Du hast dein Gehalt in Höhe von $%{value} erhalten',
-        job_info = 'Job: %{value} | Dienstgrad: %{value2} | im Dienst: %{value3}',
+        job_info = 'Beruf: %{value} | Dienstgrad: %{value2} | im Dienst: %{value3}',
         gang_info = 'Gang: %{value} | Rang: %{value2}',
         on_duty = 'Du bist nun im Dienst!',
         off_duty = 'Du bist nun nicht mehr im Dienst!',
@@ -35,7 +35,7 @@ local Translations = {
         checking_license_credentials = 'Checking license credentials... 📖',
         checking_license_duplicate = 'Checking for duplicate license... ⛓️',
         exploit_banned = 'Du wurdest fürs Cheaten gebannt. Meld dich auf dem Discord: %{discord}',
-        exploit_dropped = 'Du wurdest gekickt für das Ausnutzen von Fehlern',
+        exploit_dropped = 'Du wurdest gekickt, für das Ausnutzen von Fehlern',
     },
     command = {
         tp = {
