@@ -75,7 +75,7 @@ local Translations = {
         },
         dv = { help = 'Sõiduki kustutamine (ainult administraator)' },
         givemoney = {
-            help = 'Mängija rahasumma määramine (ainult administraator),
+            help = 'Mängija rahasumma määramine (ainult administraator)',
             params = {
                 id = { name = 'id', help = 'Mängija ID' },
                 moneytype = { name = 'rahatüüp', help = 'Raha liik (sularaha, pank, krüpto)' },
