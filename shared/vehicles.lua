@@ -4916,7 +4916,8 @@ QBShared.Vehicles = {
         ['category'] = 'compacts',
         ['hash'] = `brioso3`,
         ['shop'] = 'pdm',
-    },
+		['enabled'] = true,
+	},
     ['conada'] = {
         ['name'] = 'Conada',
         ['brand'] = 'Buckingham',
@@ -4925,7 +4926,8 @@ QBShared.Vehicles = {
         ['category'] = 'helicopters',
         ['hash'] = `conada`,
         ['shop'] = 'air',
-    },
+		['enabled'] = true,
+	},
     ['corsita'] = {
         ['name'] = 'Corsita',
         ['brand'] = 'Lampadati',
@@ -4934,7 +4936,8 @@ QBShared.Vehicles = {
         ['category'] = 'sports',
         ['hash'] = `corsita`,
         ['shop'] = 'luxury',
-    },
+		['enabled'] = true,
+	},
     ['draugur'] = {
         ['name'] = 'Draugur',
         ['brand'] = 'Declasse',
@@ -4943,7 +4946,8 @@ QBShared.Vehicles = {
         ['category'] = 'offroad',
         ['hash'] = `draugur`,
         ['shop'] = 'pdm',
-    },
+		['enabled'] = true,
+	},
     ['greenwood'] = {
         ['name'] = 'Greenwood',
         ['brand'] = 'Bravado',
@@ -4952,7 +4956,8 @@ QBShared.Vehicles = {
         ['category'] = 'muscle',
         ['hash'] = `greenwood`,
         ['shop'] = 'pdm',
-    },
+		['enabled'] = true,
+	},
     ['kanjosj'] = {
         ['name'] = 'Kanjo SJ',
         ['brand'] = 'Dinka',
@@ -4961,7 +4966,8 @@ QBShared.Vehicles = {
         ['category'] = 'coupes',
         ['hash'] = `kanjosj`,
         ['shop'] = 'pdm',
-    },
+		['enabled'] = true,
+	},
     ['lm87'] = {
         ['name'] = 'LM87',
         ['brand'] = 'Benefactor',
@@ -4970,7 +4976,8 @@ QBShared.Vehicles = {
         ['category'] = 'super',
         ['hash'] = `lm87`,
         ['shop'] = 'luxury',
-    },
+		['enabled'] = true,
+	},
     ['omnisegt'] = {
         ['name'] = 'Omnis e-GT',
         ['brand'] = 'Obey',
@@ -4979,7 +4986,8 @@ QBShared.Vehicles = {
         ['category'] = 'sports',
         ['hash'] = `omnisegt`,
         ['shop'] = 'luxury',
-    },
+		['enabled'] = true,
+	},
     ['postlude'] = {
         ['name'] = 'Postlude',
         ['brand'] = 'Dinka',
@@ -4988,7 +4996,8 @@ QBShared.Vehicles = {
         ['category'] = 'coupes',
         ['hash'] = `postlude`,
         ['shop'] = 'pdm',
-    },
+		['enabled'] = true,
+	},
     ['rhinehart'] = {
         ['name'] = 'Rhinehart',
         ['brand'] = 'Ubermacht',
@@ -4997,7 +5006,8 @@ QBShared.Vehicles = {
         ['category'] = 'sedans',
         ['hash'] = `rhinehart`,
         ['shop'] = 'pdm',
-    },
+		['enabled'] = true,
+	},
     ['ruiner4'] = {
         ['name'] = 'Ruiner ZZ-8',
         ['brand'] = 'Imponte',
@@ -5006,7 +5016,8 @@ QBShared.Vehicles = {
         ['category'] = 'muscle',
         ['hash'] = `ruiner4`,
         ['shop'] = 'pdm',
-    },
+		['enabled'] = true,
+	},
     ['sentinel4'] = {
         ['name'] = 'Sentinel Classic Widebody',
         ['brand'] = 'Ubermacht',
@@ -5015,7 +5026,8 @@ QBShared.Vehicles = {
         ['category'] = 'sports',
         ['hash'] = `sentinel4`,
         ['shop'] = 'luxury',
-    },
+		['enabled'] = true,
+	},
     ['sm722'] = {
         ['name'] = 'SM722',
         ['brand'] = 'Benefactor',
@@ -5024,7 +5036,8 @@ QBShared.Vehicles = {
         ['category'] = 'sports',
         ['hash'] = `sm722`,
         ['shop'] = 'luxury',
-    },
+		['enabled'] = true,
+	},
 	['tenf'] = {
         ['name'] = '10F',
         ['brand'] = 'Obey',
@@ -5033,7 +5046,8 @@ QBShared.Vehicles = {
         ['category'] = 'sports',
         ['hash'] = `tenf`,
         ['shop'] = 'luxury',
-    },
+		['enabled'] = true,
+	},
     ['tenf2'] = {
         ['name'] = '10F Widebody',
         ['brand'] = 'Obey',
@@ -5042,7 +5056,8 @@ QBShared.Vehicles = {
         ['category'] = 'sports',
         ['hash'] = `tenf2`,
         ['shop'] = 'luxury',
-    },
+		['enabled'] = true,
+	},
     ['torero2'] = {
         ['name'] = 'Torero XO',
         ['brand'] = 'Pegassi',
@@ -5051,7 +5066,8 @@ QBShared.Vehicles = {
         ['category'] = 'super',
         ['hash'] = `torero2`,
         ['shop'] = 'luxury',
-    },
+		['enabled'] = true,
+	},
     ['vigero2'] = {
         ['name'] = 'Vigero ZX',
         ['brand'] = 'Declasse',
@@ -5060,7 +5076,8 @@ QBShared.Vehicles = {
         ['category'] = 'muscle',
         ['hash'] = `vigero2`,
         ['shop'] = 'pdm',
-    },
+		['enabled'] = true,
+	},
     ['weevil2'] = {
         ['name'] = 'Weevil Custom',
         ['brand'] = 'BF',
@@ -5069,7 +5086,8 @@ QBShared.Vehicles = {
         ['category'] = 'muscle',
         ['hash'] = `weevil2`,
         ['shop'] = 'pdm',
-    },
+		['enabled'] = true,
+	},
 }
 
 for _, v in pairs(QBShared.Vehicles) do
