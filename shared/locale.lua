@@ -32,7 +32,13 @@ end
 --- @return Locale
 function Locale:new(opts)
     setmetatable(self, Locale)
-    self.warnOnMissing = opts.warnOnMissing or true
+
+    self.fallback = opts.fallbackLang and Locale.new({}, {
+        warnOnMissing = false,
+        phrases = opts.fallbackLang.phrases,
+    }) or false
+
+    self.warnOnMissing = type(opts.warnOnMissing) ~= 'boolean' and true or opts.warnOnMissing
 
     self.phrases = {}
     self:extend(opts.phrases or {})
@@ -97,6 +103,9 @@ function Locale:t(key, subs)
     else
         if self.warnOnMissing then
             print(('^3Warning: Missing phrase for key: "%s"'):format(key))
+        end
+        if self.fallback then
+            return self.fallback:t(key, subs)
         end
         result = key
     end
