@@ -37,7 +37,7 @@ local Translations = {
     },
 	command = {
         tp = {
-            help = 'الانتقال الي نقطة او الي لاعب (إدارة فقط)',
+            help = 'الانتقال الي نقطة او إلى لاعب (إدارة فقط)',
             params = {
                 x = { name = 'id/x', help = 'ايدي اللاعب او قيمة x'},
                 y = { name = 'y', help = 'Y القيمة'},
@@ -70,12 +70,12 @@ local Translations = {
         car = {
             help = 'رسبنة سيارة (إدارة فقط)',
             params = {
-                model = { name = 'model', help = 'اسم مديل السيارة' },
+                model = { name = 'model', help = 'اسم موديل السيارة' },
             },
         },
         dv = { help = 'حذف السيارة (إدارة فقط)' },
         givemoney = {
-            help = 'اضافة اموال للاعب (إدارة فقط)',
+            help = 'اضافة أموال للاعب (إدارة فقط)',
             params = {
                 id = { name = 'id', help = 'آيدي اللاعب' },
                 moneytype = { name = 'moneytype', help = 'نوع المال (cash, bank, crypto)' },
@@ -92,7 +92,7 @@ local Translations = {
         },
         job = { help = 'التحقق من الوظيفة' },
         setjob = {
-            help = 'اعطاء ظيفة للاعب (إدارة فقط)',
+            help = 'اعطاء وظيفة للاعب (إدارة فقط)',
             params = {
                 id = { name = 'id', help = 'ايدي اللاعب' },
                 job = { name = 'job', help = 'اسم الوظيفة' },
