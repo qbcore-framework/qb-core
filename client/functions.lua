@@ -16,6 +16,12 @@ function QBCore.Functions.HasItem(items, amount)
     return exports['qb-inventory']:HasItem(items, amount)
 end
 
+function QBCore.Functions.DevLog(devtype, msg) 
+    if(QBConfig.DevMode) then 
+        print(string.format('[Debug: %s]: %s', devtype, msg))
+    end
+end
+
 -- Utility
 
 function QBCore.Functions.DrawText(x, y, width, height, scale, r, g, b, a, text)
@@ -123,12 +129,15 @@ end
 
 function QBCore.Functions.TriggerClientCallback(name, cb, ...)
     if not QBCore.ClientCallbacks[name] then return end
+    QBCore.Functions.DevLog("Client Callback", name)
     QBCore.ClientCallbacks[name](cb, ...)
 end
 
 -- Server Callback
 function QBCore.Functions.TriggerCallback(name, cb, ...)
     QBCore.ServerCallbacks[name] = cb
+    QBCore.Functions.DevLog("Server Callback", name)
+
     TriggerServerEvent('QBCore:Server:TriggerCallback', name, ...)
 end
 

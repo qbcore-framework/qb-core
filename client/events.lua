@@ -9,6 +9,11 @@ RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     NetworkSetFriendlyFireOption(true)
 end)
 
+RegisterNetEvent('QBCore:Command:devmode', function(DevMode)
+    QBConfig.DevMode = DevMode -- triggered from command /qbdevmode
+end)
+
+
 RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
     LocalPlayer.state:set('isLoggedIn', false, false)
 end)

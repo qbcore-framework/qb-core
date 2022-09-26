@@ -293,3 +293,12 @@ QBCore.Commands.Add('me', Lang:t("command.me.help"), {{name = Lang:t("command.me
         end
     end
 end, 'user')
+
+
+-- devmode command
+
+QBCore.Commands.Add('qbdevmode', Lang:t("command.dev.help"), {}, false, function(source)
+    QBConfig.DevMode = not QBConfig.Devmode
+    TriggerClientEvent('QBCore:Command:devmode', -1, QBConfig.DevMode) --toggles both client + server side callbacks
+    TriggerClientEvent('QBCore:Notify', source, Lang:t('command.dev.notify') .. QBConfig.DevMode, 'success')
+end, 'admin')
