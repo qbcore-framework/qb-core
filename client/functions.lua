@@ -17,7 +17,7 @@ function QBCore.Functions.HasItem(items, amount)
 end
 
 function QBCore.Functions.DevLog(devtype, msg)
-    if(QBConfig.DevMode) then 
+    if(QBConfig.DevMode) then
         print(string.format('[Debug: %s]: %s', devtype, msg))
     end
 end
