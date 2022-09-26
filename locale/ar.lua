@@ -20,7 +20,7 @@ local Translations = {
         on_duty = 'انت الان في الخدمة',
         off_duty = 'انت الان خارج الخدمة',
         checking_ban = 'نحن نتحقق اذا كنت محجوب من السيرفر. %s مرحبا',
-        join_server = '{Server Name} قي %s مرحبا',
+        join_server = '{Server Name} في %s مرحبا',
         checking_whitelisted = 'نتحقق ما اذا كان مسموح لك بالدخول %s مرحبا '
     }
 }
