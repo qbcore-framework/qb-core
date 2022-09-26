@@ -16,7 +16,7 @@ function QBCore.Functions.HasItem(items, amount)
     return exports['qb-inventory']:HasItem(items, amount)
 end
 
-function QBCore.Functions.DevLog(devtype, msg) 
+function QBCore.Functions.DevLog(devtype, msg)
     if(QBConfig.DevMode) then 
         print(string.format('[Debug: %s]: %s', devtype, msg))
     end
