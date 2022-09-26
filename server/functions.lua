@@ -209,7 +209,7 @@ function PaycheckInterval()
                 if Player.PlayerData.job and payment > 0 and (QBShared.Jobs[Player.PlayerData.job.name].offDutyPay or Player.PlayerData.job.onduty) then
                     if QBCore.Config.Money.PayCheckSociety then
                         local account = exports['qb-management']:GetAccount(Player.PlayerData.job.name)
-                        if account ~= 0 then -- Checks if player is employed by a society
+                        if account ~= false then -- Checks if player is employed by a society
                             if account < payment then -- Checks if company has enough money to pay society
                                 TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, Lang:t('error.company_too_poor'), 'error')
                             else
