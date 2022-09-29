@@ -12,6 +12,7 @@ shared_scripts {
     'shared/main.lua',
     'shared/items.lua',
     'shared/jobs.lua',
+    'shared/jobs/*.lua',
     'shared/vehicles.lua',
     'shared/gangs.lua',
     'shared/weapons.lua',
