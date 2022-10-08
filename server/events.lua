@@ -50,6 +50,7 @@ local function onPlayerConnecting(name, _, deferrals)
     local databaseTime = os.clock()
     local databasePromise = promise.new()
 
+    -- conduct database-dependant checks
     CreateThread(function()
         deferrals.update(string.format(Lang:t('info.checking_ban'), name))
         local databaseSuccess, databaseError = pcall(function()
@@ -74,6 +75,7 @@ local function onPlayerConnecting(name, _, deferrals)
         databasePromise:resolve()
     end)
 
+    -- wait for database to finish
     databasePromise:next(function()
         deferrals.update(string.format(Lang:t('info.join_server'), name))
         deferrals.done()
@@ -81,9 +83,10 @@ local function onPlayerConnecting(name, _, deferrals)
         deferrals.done(Lang:t('error.connecting_database_error'))
         print('^1' .. databaseError)
     end)
-    
-    while databasePromise.state == 0 do -- while database promise is pending
-        if os.clock() - databaseTime > 30 then -- if 30 seconds were spent waiting for the database
+
+    -- if conducting checks for too long then raise error
+    while databasePromise.state == 0 do
+        if os.clock() - databaseTime > 30 then
             deferrals.done(Lang:t('error.connecting_database_timeout'))
             error(Lang:t('error.connecting_database_timeout'))
             break
