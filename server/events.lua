@@ -85,6 +85,7 @@ local function onPlayerConnecting(name, _, deferrals)
     while databasePromise.state == 0 do -- while database promise is pending
         if os.clock() - databaseTime > 30 then -- if 30 seconds were spent waiting for the database
             deferrals.done(Lang:t('error.connecting_database_timeout'))
+            error(Lang:t('error.connecting_database_timeout'))
             break
         end
         Wait(1000)
