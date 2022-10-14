@@ -4752,7 +4752,7 @@ QBShared.Vehicles = {
 		['shop'] = 'truck',
 	},
 	['boxville5'] = {
-		['name'] = 'Armored Boxville,
+		['name'] = 'Armored Boxville',
 		['brand'] = 'Brute',
 		['model'] = 'boxville5',
 		['price'] = 45000,
@@ -4762,7 +4762,7 @@ QBShared.Vehicles = {
 		['shop'] = 'truck',
 	},
 	['pony'] = {
-		['name'] = 'Pony,
+		['name'] = 'Pony',
 		['brand'] = 'Brute',
 		['model'] = 'pony',
 		['price'] = 45000,
@@ -4772,7 +4772,7 @@ QBShared.Vehicles = {
 		['shop'] = 'truck',
 	},
 	['pony2'] = {
-		['name'] = 'Pony 2,
+		['name'] = 'Pony 2',
 		['brand'] = 'Brute',
 		['model'] = 'pony2',
 		['price'] = 45000,
@@ -4782,7 +4782,7 @@ QBShared.Vehicles = {
 		['shop'] = 'truck',
 	},
 	['taco'] = {
-		['name'] = 'Taco Truck,
+		['name'] = 'Taco Truck',
 		['brand'] = 'Brute',
 		['model'] = 'taco',
 		['price'] = 45000,
