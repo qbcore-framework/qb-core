@@ -4883,7 +4883,7 @@ QBShared.Vehicles = {
 	},
 	['rubble'] = {
 		['name'] = 'Jobuilt Dump Truck (Street Legal)',
-		['brand'] = 'Jobuilt’,
+		['brand'] = 'Jobuilt',
 		['model'] = 'rubble',
 		['price'] = 30000,
 		['category'] = 'industrial',
