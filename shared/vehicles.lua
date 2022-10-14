@@ -3973,7 +3973,7 @@ QBShared.Vehicles = {
 		['category'] = 'vans',
 		['hash'] = `youga4`,
 		['shop'] = 'pdm',
-	},	
+	},
 	-- Utility
 	['sadler'] = {
 		['name'] = 'Sadler',
@@ -3983,7 +3983,7 @@ QBShared.Vehicles = {
 		['category'] = 'offroad',
 		['hash'] = `sadler`,
 		['shop'] = 'pdm',
-	},	
+	},
 	['slamtruck'] = {
 		['name'] = 'Slam Truck',
 		['brand'] = 'Vapid',
@@ -4822,7 +4822,7 @@ QBShared.Vehicles = {
 		["categoryLabel"] = 'Industrial',
 		['hash'] = `flatbed`,
 		['shop'] = 'truck',
-	},	
+	},
 	['guardian'] = {
 		['name'] = 'Guardian',
 		['brand'] = 'Vapid',
