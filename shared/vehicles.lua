@@ -4853,7 +4853,7 @@ QBShared.Vehicles = {
 	},
 	['guardian'] = {
 		['name'] = 'Guardian',
-		['brand'] = 'Vapid’,
+		['brand'] = 'Vapid',
 		['model'] = 'guardian',
 		['price'] = 30000,
 		['category'] = 'industrial',
@@ -4893,7 +4893,7 @@ QBShared.Vehicles = {
 	},
 	['tiptruck'] = {
 		['name'] = 'Brute Dump Truck (Street Legal)',
-		['brand'] = 'Brute’,
+		['brand'] = 'Brute',
 		['model'] = 'tiptruck',
 		['price'] = 30000,
 		['category'] = 'industrial',
@@ -4903,7 +4903,7 @@ QBShared.Vehicles = {
 	},
 	['tiptruck2'] = {
 		['name'] = 'MTL Dump Truck (Street Legal)',
-		['brand'] = 'MTL’,
+		['brand'] = 'MT',
 		['model'] = 'tiptruck2',
 		['price'] = 30000,
 		['category'] = 'industrial',
