@@ -11,7 +11,7 @@ QBShared.Vehicles = {
 		['category'] = 'compacts',
         ['categoryLabel'] = 'Compacts',
 		['hash'] = `asbo`,
-		['shop'] = {'pdm','luxury'},
+		['shop'] = {'pdm'},
 	},
 	['blista'] = {
 		['name'] = 'Blista',
@@ -4414,16 +4414,6 @@ QBShared.Vehicles = {
 		['hash'] = `youga4`,
 		['shop'] = 'pdm',
 	},
-	['mule5'] = { 	 	--DLC +set sv_enforceGameBuild 2545
-		['name'] = 'Mule',
-		['brand'] = 'Box Truck',
-		['model'] = 'mule5',
-		['price'] = 221000,
-		['category'] = 'vans',
-        ['categoryLabel'] = 'Vans',
-		['hash'] = `mule5`,
-		['shop'] = 'pdm',
-	},
 	-- Utility
 	['sadler'] = {
 		['name'] = 'Sadler',
@@ -4433,16 +4423,6 @@ QBShared.Vehicles = {
 		['category'] = 'offroad',
         ['categoryLabel'] = 'Off Road',
 		['hash'] = `sadler`,
-		['shop'] = 'pdm',
-	},
-	['guardian'] = {
-		['name'] = 'Guardian',
-		['brand'] = 'Annis',
-		['price'] = 21000,
-		['category'] = 'offroad',
-        ['categoryLabel'] = 'Off Road',
-		['model'] = 'guardian',
-		['hash'] = `guardian`,
 		['shop'] = 'pdm',
 	},
 	['slamtruck'] = {
@@ -5336,16 +5316,6 @@ QBShared.Vehicles = {
         ['category'] = 'industrial',
         ["categoryLabel"] = 'Industrial',
         ['hash'] = `dump`,
-        ['shop'] = 'truck',
-    },
-    ['flatbed'] = {
-        ['name'] = 'Flatbed Truck',
-        ['brand'] = 'MTL',
-        ['model'] = 'flatbed',
-        ['price'] = 30000,
-        ['category'] = 'industrial',
-        ["categoryLabel"] = 'Industrial',
-        ['hash'] = `flatbed`,
         ['shop'] = 'truck',
     },
     ['flatbed'] = {
