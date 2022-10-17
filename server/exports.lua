@@ -42,6 +42,7 @@ local function AddJob(jobName, job)
 
     QBCore.Shared.Jobs[jobName] = job
 
+    exports["qb-cityhall"]:AddCityJob(job, jobName)
     TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Jobs', jobName, job)
     TriggerEvent('QBCore:Server:UpdateObject')
     return true, "success"
