@@ -317,6 +317,8 @@ end
 QBCore.Functions.GetCoreVersion = GetCoreVersion
 exports('GetCoreVersion', GetCoreVersion)
 
+SetConvar("qbcore-version", GetCoreVersion(""))
+
 local function ExploitBan(playerId, origin)
     local name = GetPlayerName(playerId)
     MySQL.insert('INSERT INTO bans (name, license, discord, ip, reason, expire, bannedby) VALUES (?, ?, ?, ?, ?, ?, ?)', {
