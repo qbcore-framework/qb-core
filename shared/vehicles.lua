@@ -5298,14 +5298,14 @@ QBShared.Vehicles = {
         ['hash'] = `handler`,
         ['shop'] = 'truck',
     },
-    ['bulldoze'] = {
+    ['bulldozer'] = {
         ['name'] = 'Bulldozer',
         ['brand'] = 'HVY',
-        ['model'] = 'bulldoze',
+        ['model'] = 'bulldozer',
         ['price'] = 30000,
         ['category'] = 'industrial',
         ["categoryLabel"] = 'Industrial',
-        ['hash'] = `bulldoze`,
+        ['hash'] = `bulldozer`,
         ['shop'] = 'truck',
     },
     ['dump'] = {
