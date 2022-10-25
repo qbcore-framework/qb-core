@@ -290,7 +290,7 @@ QBCore.Commands.Add('me', Lang:t("command.me.help"), {{name = Lang:t("command.me
         local tCoords = GetEntityCoords(target)
         if target == ped or #(pCoords - tCoords) < 20 then
             TriggerClientEvent('QBCore:Command:ShowMe3D', Player, source, msg)
-                TriggerEvent('qb-log:server:CreateLog', 'me', Player, 'lightgreen', msg)
+            TriggerEvent('qb-log:server:CreateLog', 'me', 'Me Command Log', 'white', '**ID: ' .. source .. ') Message:** ' .. msg, false)
         end
     end
 end, 'user')
