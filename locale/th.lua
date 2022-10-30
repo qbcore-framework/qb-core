@@ -8,7 +8,7 @@ local Translations = {
         company_too_poor = 'นายจ้างของคุณกำลังยากจน',
         item_not_exist = 'ไม่มีไอเทมนี้อยู่',
         too_heavy = 'ช่องเก็บของเต็ม',
-        location_not_exist = 'ตำแหน่งนี้ไม่มีอยู่',
+        location_not_exist = 'ไม่พบตำแหน่งนี้',
         duplicate_license = 'พบ Rockstar License ซ้ำกัน',
         no_valid_license  = 'ไม่พบ Rockstar License ที่ถูกต้อง',
         not_whitelisted = 'คุณไม่ใช่ whitelisted สำหรับเซิฟเวอร์นี้',
@@ -27,7 +27,7 @@ local Translations = {
     },
     info = {
         received_paycheck = 'คุณได้รับเงินเดือน $%{value}',
-        job_info = 'อาชีพ: %{value} | ระดับ: %{value2} | หน้าที่: %{value3}',
+        job_info = 'อาชีพ: %{value} | ระดับ: %{value2} | กำลังปฏิบัติหน้าที่: %{value3}',
         gang_info = 'แก๊ง: %{value} | ระดับ: %{value2}',
         on_duty = 'คุณเริ่มปฏิบัติหน้าที่แล้ว!',
         off_duty = 'คุณออกจากการปฏิบัติหน้าที่แล้ว!',
