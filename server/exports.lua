@@ -61,14 +61,14 @@ local function AddJobs(jobs)
             message = 'invalid_job_name'
             shouldContinue = false
             errorItem = jobs[key]
-            return
+            break
         end
 
         if QBCore.Shared.Jobs[key] then
             message = 'job_exists'
             shouldContinue = false
             errorItem = jobs[key]
-            return
+            break
         end
 
         QBCore.Shared.Jobs[key] = value
@@ -171,14 +171,14 @@ local function AddItems(items)
             message = "invalid_item_name"
             shouldContinue = false
             errorItem = items[key]
-            return
+            break
         end
 
         if QBCore.Shared.Items[key] then
             message = "item_exists"
             shouldContinue = false
             errorItem = items[key]
-            return
+            break
         end
 
         QBCore.Shared.Items[key] = value
@@ -244,14 +244,14 @@ local function AddGangs(gangs)
             message = "invalid_gang_name"
             shouldContinue = false
             errorItem = gangs[key]
-            return
+            break
         end
 
         if QBCore.Shared.Gangs[key] then
             message = "gang_exists"
             shouldContinue = false
             errorItem = gangs[key]
-            return
+            break
         end
 
         QBCore.Shared.Gangs[key] = value
