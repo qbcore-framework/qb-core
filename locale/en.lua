@@ -117,6 +117,8 @@ local Translations = {
                 message = { name = 'message', help = 'Message to send' }
             },
         },
+        dev = { help = 'Toggle dev mode (Admin Only)', notify = "Dev mode set to: " },
+
     },
 }
 
