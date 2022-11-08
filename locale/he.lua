@@ -15,21 +15,21 @@ local Translations = {
         server_already_open = 'השרת כבר פתוח',
         server_already_closed = 'השרת כבר סגור',
         no_permission = 'אין לך גישה לזה',
-        no_waypoint = 'נקודת המיקום לא הוגדרה',
-        tp_error = 'התרחשה שגיאה במהלך טלפורטציה',
+        no_waypoint = 'נקודת הסימון לא הוגדרה',
+        tp_error = 'התרחשה שגיאה במהלך ההשתגרות',
     },
     success = {
         server_opened = 'השרת נפתח',
         server_closed = 'השרת נסגר',
-        teleported_waypoint = 'נשלחת בטלפורטציה לנקודת המיקום',
+        teleported_waypoint = 'שןגרת לנקודת הסימון',
     },
     info = {
         received_paycheck = '$%{value} קיבלת תלוש שכר על סך',
-        job_info = '%{value3} :בתפקיד | %{value2} :דרגה | %{value} :עבודה',
+        job_info = '%{value3} :תפקיד | %{value2} :דרגה | %{value} :עבודה',
         gang_info = '%{value2} :דרגה | %{value} :גאנג',
         on_duty = '!עלית לתפקיד',
         off_duty = '!ירדת מהתפקיד',
-        checking_ban = '.אנחנו בודקים אם את/ה חסום/ה בשרת הזה .%s שלום',
+        checking_ban = '.אנחנו בודקים אם את/ה מורחק/ה בשרת הזה .%s שלום',
         join_server = '.{Server Name}-ל %s ברוך/ה הבא/ה',
         checking_whitelisted = '.אנחנו בודקים אם את/ה ברשימת המותרים .%s שלום',
         exploit_banned = '%{discord} :נחסמת מהשרת על רמאות. למידע נוסף, הצטרף/י לשרת הדיסקורד שלנו',
@@ -37,14 +37,14 @@ local Translations = {
     },
     command = {
         tp = {
-            help = '(אדמינים בלבד) טלפורט לשחקן או לקואורדינטות',
+            help = '(אדמינים בלבד) שיגור לשחקן או לקואורדינטות',
             params = {
                 x = { name = 'id/x', help = 'X של שחקן או קואורדינטת ID' },
                 y = { name = 'y', help = 'Y קואורדינטת' },
                 z = { name = 'z', help = 'Z קואורדינטת' },
             },
         },
-        tpm = { help = 'טלפורט לנקודת מיקום (אדמינים בלבד)' },
+        tpm = { help = 'שיגור לנקודת מיקום (אדמינים בלבד)' },
         togglepvp = { help = '(אדמינים בלבד) בשרת PVP להפעיל/לכבות' },
         addpermission = {
             help = '(גוד בלבד) להביא גישה לשחקן',
@@ -68,7 +68,7 @@ local Translations = {
             },
         },
         car = {
-            help = 'תיצור רכב (אדמינים בלבד)',
+            help = 'תזמן רכב (אדמינים בלבד)',
             params = {
                 model = { name = 'דגם', help = 'שם הדגם של הרכב' },
             },
