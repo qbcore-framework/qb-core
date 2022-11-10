@@ -129,7 +129,7 @@ RegisterNetEvent('QBCore:Command:SpawnVehicle', function(vehName)
     end
 
     if IsPedInAnyVehicle(ped) then
-        DeleteVehicle(veh)
+        QBCore.Functions.DeleteEntity(veh)
     end
 
     local vehicle = CreateVehicle(hash, GetEntityCoords(ped), GetEntityHeading(ped), true, false)
@@ -144,15 +144,13 @@ RegisterNetEvent('QBCore:Command:DeleteVehicle', function()
     local ped = PlayerPedId()
     local veh = GetVehiclePedIsUsing(ped)
     if veh ~= 0 then
-        SetEntityAsMissionEntity(veh, true, true)
-        DeleteVehicle(veh)
+        QBCore.Functions.DeleteEntity(veh)
     else
         local pcoords = GetEntityCoords(ped)
         local vehicles = GetGamePool('CVehicle')
         for _, v in pairs(vehicles) do
             if #(pcoords - GetEntityCoords(v)) <= 5.0 then
-                SetEntityAsMissionEntity(v, true, true)
-                DeleteVehicle(v)
+                QBCore.Functions.DeleteEntity(v)
             end
         end
     end
