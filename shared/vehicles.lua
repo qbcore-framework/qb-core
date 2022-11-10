@@ -266,7 +266,7 @@ QBShared.Vehicles = {
     },
     ['sentinel2'] = {
         ['name'] = 'Sentinel XS',
-        ['brand'] = ' Übermacht',
+        ['brand'] = 'Übermacht',
         ['model'] = 'sentinel2',
         ['price'] = 33000,
         ['category'] = 'coupes',
@@ -3193,7 +3193,7 @@ QBShared.Vehicles = {
     },
     ['surano'] = {
         ['name'] = 'Surano',
-        ['brand'] = ' Benefactor',
+        ['brand'] = 'Benefactor',
         ['model'] = 'surano',
         ['price'] = 80000,
         ['category'] = 'sports',
@@ -4145,7 +4145,7 @@ QBShared.Vehicles = {
     },
     ['tyrant'] = {
         ['name'] = 'Tyrant',
-        ['brand'] = ' Överflöd',
+        ['brand'] = 'Överflöd',
         ['model'] = 'tyrant',
         ['price'] = 2100000,
         ['category'] = 'super',
