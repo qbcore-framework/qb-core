@@ -859,28 +859,28 @@ end
 -- Entities
 
 function QBCore.Functions.RequestControlOfEntity(entity, cb)
-	if not entity then return end
-	local attempt = 0
+    if not entity then return end
+    local attempt = 0
 
-	while DoesEntityExist(entity) and not NetworkHasControlOfEntity(entity) and attempt < 100 do
-		Wait(50)
-		NetworkRequestControlOfEntity(entity)
-		attempt = attempt + 1
-	end
-	if cb then
-		cb(entity, attempt)
-	end
+    while DoesEntityExist(entity) and not NetworkHasControlOfEntity(entity) and attempt < 100 do
+        Wait(50)
+        NetworkRequestControlOfEntity(entity)
+        attempt = attempt + 1
+    end
+    if cb then
+        cb(entity, attempt)
+    end
 end
 
 function QBCore.Functions.DeleteEntity(entity, request)
-	if not entity then return end
-	if request then
-		ESX.Game.RequestControlOfEntity(entity)
-	end
-	if DoesEntityExist(entity) and NetworkHasControlOfEntity(entity) then
-		SetEntityAsMissionEntity(entity, false, true)
-		DeleteEntity(entity)
-	end
+    if not entity then return end
+    if request then
+        QBCore.Functions.RequestControlOfEntity(entity)
+    end
+    if DoesEntityExist(entity) and NetworkHasControlOfEntity(entity) then
+        SetEntityAsMissionEntity(entity, false, true)
+        DeleteEntity(entity)
+    end
 end
 
 function QBCore.Functions.LoadParticleDictionary(dictionary)
