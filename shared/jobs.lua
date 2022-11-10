@@ -1,5 +1,7 @@
 QBShared = QBShared or {}
 QBShared.ForceJobDefaultDutyAtLogin = true -- true: Force duty state to jobdefaultDuty | false: set duty state from database last saved
+QBShared.QBJobsStatus = false -- true: qb-jobs resource is installed | false: qb-jobs resource is not installed
+QBShared.Jobs = {}
 QBShared.Jobs = {
 	['unemployed'] = {
 		label = 'Civilian',
