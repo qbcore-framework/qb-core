@@ -448,8 +448,8 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
     end
 
     function self.Functions.UpdateItemMetaData(item, slot, info)
-		if not slot or not info then 
-		    return 
+		if not slot or not info then
+		    return
 		end
 		local itemdata = self.PlayerData.items[slot]
 		if itemdata and itemdata.name == item then
