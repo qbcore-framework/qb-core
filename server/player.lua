@@ -447,6 +447,17 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         return false
     end
 
+    function self.Functions.updateItemMetaData(item, slot, info)
+		if not slot then return end
+		if not info then return end
+		local itemdata = self.PlayerData.items[slot]
+		if itemdata and itemdata.name == item then
+			self.PlayerData.items[slot].info = info
+		else
+			DropPlayer(self.PlayerData.source, 'You Have Been Kicked For Exploitation')
+		end
+	end
+
     function self.Functions.SetInventory(items, dontUpdateChat)
         self.PlayerData.items = items
 
