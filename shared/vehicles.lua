@@ -5339,7 +5339,7 @@ QBShared.Vehicles = {
         ['shop'] = 'truck',
     },
     ['mixer'] = {
-        ['name'] = 'HVY Cement Mixer',
+        ['name'] = 'Cement Mixer',
         ['brand'] = 'HVY',
         ['model'] = 'mixer',
         ['price'] = 30000,
