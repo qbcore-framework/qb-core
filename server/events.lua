@@ -191,6 +191,50 @@ RegisterNetEvent('QBCore:ToggleDuty', function()
     TriggerClientEvent('QBCore:Client:SetDuty', src, Player.PlayerData.job.onduty)
 end)
 
+-- BaseEvents
+
+-- Vehicles
+RegisterServerEvent('baseevents:enteringVehicle', function(veh,seat,modelName,netid)
+    local src = source
+    local data = {
+        vehicle = veh,
+        seat = seat,
+        name = modelName,
+        netid = netid,
+        event = 'Entering'
+    }
+    TriggerClientEvent('QBCore:Client:VehicleInfo', src, data)
+end)
+
+RegisterServerEvent('baseevents:enteredVehicle', function(veh,seat,modelName,netid)
+    local src = source
+    local data = {
+        vehicle = veh,
+        seat = seat,
+        name = modelName,
+        netid = netid,
+        event = 'Entered'
+    }
+    TriggerClientEvent('QBCore:Client:VehicleInfo', src, data)
+end)
+
+RegisterServerEvent('baseevents:enteringAborted', function()
+    local src = source
+    TriggerClientEvent('QBCore:Client:AbortVehicleEntering', src)
+end)
+
+RegisterServerEvent('baseevents:leftVehicle', function(veh,seat,modelName,netid)
+    local src = source
+    local data = {
+        vehicle = veh,
+        seat = seat,
+        name = modelName,
+        netid = netid,
+        event = 'Left'
+    }
+    TriggerClientEvent('QBCore:Client:VehicleInfo', src, data)
+end)
+
 -- Items
 
 -- This event is exploitable and should not be used. It has been deprecated, and will be removed soon.
