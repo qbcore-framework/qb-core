@@ -3,15 +3,15 @@ QBShared.VehicleHashes = {}
 
 QBShared.Vehicles = {
     --- Compacts
-    ['asbo'] = { -- This is to match the spawn code of the vehicle
-        ['name'] = 'Asbo', -- this is a custom name of the car
-        ['brand'] = 'Maxwell', -- This is the vehicle's brand (ford, chevy, bmw, mercedes, etc)
-        ['model'] = 'asbo', -- this must match the spawn code of the vehicle
-        ['price'] = 4000, -- sales price of vehicle
-        ['category'] = 'compacts', -- this must match vehicleclass in vehicles.meta for the vehicle and must match with https://docs.fivem.net/natives/?_0x29439776AAA00A62
-        ['categoryLabel'] = 'Compacts', -- Customize for your VehicleShop headings (can even include spaces)
-        ['hash'] = `asbo`, -- must contain back ticks instead of single quotes and must match the spawn code of the vehicle
-        ['shop'] = {'pdm'}, -- can be a single shop or multiple shops. For multiple shops for example {'shopname1','shopname2','shopname3'}
+    ['asbo'] = { -- This has to match the spawn code of the vehicle
+        ['name'] = 'Asbo', -- This is the display of the vehicle
+        ['brand'] = 'Maxwell', -- This is the vehicle's brand (Ford, Chevrolet, BMW, Mercedes, etc)
+        ['model'] = 'asbo', -- This must match the spawn code of the vehicle
+        ['price'] = 4000, -- The price that the vehicle sells for
+        ['category'] = 'compacts', -- This must match "VehicleClass" in vehicles.meta for the vehicle and must also exist in https://docs.fivem.net/natives/?_0x29439776AAA00A62
+        ['categoryLabel'] = 'Compacts', -- Customize for your Vehicle Shop headings (can even include spaces)
+        ['hash'] = `asbo`, -- This has to match the spawn code of the vehicle and must be surrounded by backticks. Example of a Backtick: `
+        ['shop'] = {'pdm'}, -- Can be a single shop or multiple shops. For multiple shops for example {'shopname1','shopname2','shopname3'}
     },
     ['blista'] = {
         ['name'] = 'Blista',
@@ -5309,7 +5309,7 @@ QBShared.Vehicles = {
         ['shop'] = 'truck',
     },
     ['dump'] = {
-        ['name'] = 'HVY Dump Truck (Off Road)',
+        ['name'] = 'Dump Truck (Off Road)',
         ['brand'] = 'HVY',
         ['model'] = 'dump',
         ['price'] = 30000,
@@ -5339,7 +5339,7 @@ QBShared.Vehicles = {
         ['shop'] = 'truck',
     },
     ['mixer'] = {
-        ['name'] = 'HVY Cement Mixer',
+        ['name'] = 'Cement Mixer',
         ['brand'] = 'HVY',
         ['model'] = 'mixer',
         ['price'] = 30000,
@@ -5349,7 +5349,7 @@ QBShared.Vehicles = {
         ['shop'] = 'truck',
     },
     ['mixer2'] = {
-        ['name'] = 'HVY Cement Mixer 2',
+        ['name'] = 'Cement Mixer 2',
         ['brand'] = 'HVY',
         ['model'] = 'mixer2',
         ['price'] = 30000,
@@ -5359,7 +5359,7 @@ QBShared.Vehicles = {
         ['shop'] = 'truck',
     },
     ['rubble'] = {
-        ['name'] = 'Jobuilt Dump Truck (Street Legal)',
+        ['name'] = 'Dump Truck (Street Legal)',
         ['brand'] = 'Jobuilt',
         ['model'] = 'rubble',
         ['price'] = 30000,
@@ -5369,7 +5369,7 @@ QBShared.Vehicles = {
         ['shop'] = 'truck',
     },
     ['tiptruck'] = {
-        ['name'] = 'Brute Dump Truck (Street Legal)',
+        ['name'] = 'Dump Truck (Street Legal)',
         ['brand'] = 'Brute',
         ['model'] = 'tiptruck',
         ['price'] = 30000,
@@ -5379,7 +5379,7 @@ QBShared.Vehicles = {
         ['shop'] = 'truck',
     },
     ['tiptruck2'] = {
-        ['name'] = 'MTL Dump Truck (Street Legal)',
+        ['name'] = 'Dump Truck (Street Legal)',
         ['brand'] = 'MTL',
         ['model'] = 'tiptruck2',
         ['price'] = 30000,
