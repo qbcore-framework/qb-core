@@ -17,6 +17,8 @@ local Translations = {
         no_permission = 'You don\'t have permissions for this..',
         no_waypoint = 'No Waypoint Set.',
         tp_error = 'Error While Teleporting.',
+        connecting_database_error = 'A database error occurred while connecting to the server. (Is the SQL server on?)',
+        connecting_database_timeout = 'Connection to database timed out. (Is the SQL server on?)',
     },
     success = {
         server_opened = 'The server has been opened',
