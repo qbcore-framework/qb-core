@@ -19,7 +19,7 @@ end)
 
 -- Player Connecting
 
-local function onPlayerConnecting(name, setKickReason, deferrals)
+local function onPlayerConnecting(name, _, deferrals)
     local src = source
     local license
     local identifiers = GetPlayerIdentifiers(src)
@@ -34,8 +34,6 @@ local function onPlayerConnecting(name, setKickReason, deferrals)
         end
     end
 
-    deferrals.update(string.format(Lang:t('info.checking_ban'), name))
-
     for _, v in pairs(identifiers) do
         if string.find(v, 'license') then
             license = v
@@ -43,34 +41,63 @@ local function onPlayerConnecting(name, setKickReason, deferrals)
         end
     end
 
-    -- Mandatory wait
-    Wait(2500)
-
-    deferrals.update(string.format(Lang:t('info.checking_whitelisted'), name))
-
-    local isBanned, Reason = QBCore.Functions.IsPlayerBanned(src)
-    local isLicenseAlreadyInUse = QBCore.Functions.IsLicenseInUse(license)
-    local isWhitelist, whitelisted = QBCore.Config.Server.Whitelist, QBCore.Functions.IsWhitelisted(src)
-
-    Wait(2500)
-
-    deferrals.update(string.format(Lang:t('info.join_server'), name))
+    if GetConvarInt("sv_fxdkMode", false) then
+        license = 'license:AAAAAAAAAAAAAAAA' -- Dummy License
+    end
 
     if not license then
-      deferrals.done(Lang:t('error.no_valid_license'))
-    elseif isBanned then
-        deferrals.done(Reason)
-    elseif isLicenseAlreadyInUse and QBCore.Config.Server.CheckDuplicateLicense then
+        deferrals.done(Lang:t('error.no_valid_license'))
+    elseif QBCore.Config.Server.CheckDuplicateLicense and QBCore.Functions.IsLicenseInUse(license) then
         deferrals.done(Lang:t('error.duplicate_license'))
-    elseif isWhitelist and not whitelisted then
-      deferrals.done(Lang:t('error.not_whitelisted'))
-    else
-        deferrals.done()
-        if QBCore.Config.Server.UseConnectQueue then
-            Wait(1000)
-            TriggerEvent('connectqueue:playerConnect', name, setKickReason, deferrals)
-        end
     end
+
+    local databaseTime = os.clock()
+    local databasePromise = promise.new()
+
+    -- conduct database-dependant checks
+    CreateThread(function()
+        deferrals.update(string.format(Lang:t('info.checking_ban'), name))
+        local databaseSuccess, databaseError = pcall(function()
+            local isBanned, Reason = QBCore.Functions.IsPlayerBanned(src)
+            if isBanned then
+                deferrals.done(Reason)
+            end
+        end)
+
+        if QBCore.Config.Server.Whitelist then
+            deferrals.update(string.format(Lang:t('info.checking_whitelisted'), name))
+            databaseSuccess, databaseError = pcall(function()
+                if not QBCore.Functions.IsWhitelisted(src) then
+                    deferrals.done(Lang:t('error.not_whitelisted'))
+                end
+            end)
+        end
+
+        if not databaseSuccess then
+            databasePromise:reject(databaseError)
+        end
+        databasePromise:resolve()
+    end)
+
+    -- wait for database to finish
+    databasePromise:next(function()
+        deferrals.update(string.format(Lang:t('info.join_server'), name))
+        deferrals.done()
+    end, function (databaseError)
+        deferrals.done(Lang:t('error.connecting_database_error'))
+        print('^1' .. databaseError)
+    end)
+
+    -- if conducting checks for too long then raise error
+    while databasePromise.state == 0 do
+        if os.clock() - databaseTime > 30 then
+            deferrals.done(Lang:t('error.connecting_database_timeout'))
+            error(Lang:t('error.connecting_database_timeout'))
+            break
+        end
+        Wait(1000)
+    end
+
     -- Add any additional defferals you may need!
 end
 
@@ -90,7 +117,7 @@ RegisterNetEvent('QBCore:Server:CloseServer', function(reason)
             end
         end
     else
-        QBCore.Functions.Kick(src, 'You don\'t have permissions for this..', nil, nil)
+        QBCore.Functions.Kick(src, Lang:t("error.no_permission"), nil, nil)
     end
 end)
 
@@ -99,7 +126,7 @@ RegisterNetEvent('QBCore:Server:OpenServer', function()
     if QBCore.Functions.HasPermission(src, 'admin') then
         QBCore.Config.Server.Closed = false
     else
-        QBCore.Functions.Kick(src, 'You don\'t have permissions for this..', nil, nil)
+        QBCore.Functions.Kick(src, Lang:t("error.no_permission"), nil, nil)
     end
 end)
 
@@ -168,26 +195,68 @@ RegisterNetEvent('QBCore:ToggleDuty', function()
     TriggerClientEvent('QBCore:Client:SetDuty', src, Player.PlayerData.job.onduty)
 end)
 
+-- BaseEvents
+
+-- Vehicles
+RegisterServerEvent('baseevents:enteringVehicle', function(veh,seat,modelName,netid)
+    local src = source
+    local data = {
+        vehicle = veh,
+        seat = seat,
+        name = modelName,
+        netid = netid,
+        event = 'Entering'
+    }
+    TriggerClientEvent('QBCore:Client:VehicleInfo', src, data)
+end)
+
+RegisterServerEvent('baseevents:enteredVehicle', function(veh,seat,modelName,netid)
+    local src = source
+    local data = {
+        vehicle = veh,
+        seat = seat,
+        name = modelName,
+        netid = netid,
+        event = 'Entered'
+    }
+    TriggerClientEvent('QBCore:Client:VehicleInfo', src, data)
+end)
+
+RegisterServerEvent('baseevents:enteringAborted', function()
+    local src = source
+    TriggerClientEvent('QBCore:Client:AbortVehicleEntering', src)
+end)
+
+RegisterServerEvent('baseevents:leftVehicle', function(veh,seat,modelName,netid)
+    local src = source
+    local data = {
+        vehicle = veh,
+        seat = seat,
+        name = modelName,
+        netid = netid,
+        event = 'Left'
+    }
+    TriggerClientEvent('QBCore:Client:VehicleInfo', src, data)
+end)
+
 -- Items
 
+-- This event is exploitable and should not be used. It has been deprecated, and will be removed soon.
 RegisterNetEvent('QBCore:Server:UseItem', function(item)
-    local src = source
-    if not item or item.amount <= 0 or not QBCore.Functions.CanUseItem(item.name) then return end
-    QBCore.Functions.UseItem(src, item)
+    print(string.format("%s triggered QBCore:Server:UseItem by ID %s with the following data. This event is deprecated due to exploitation, and will be removed soon. Check qb-inventory for the right use on this event.", GetInvokingResource(), source))
+    QBCore.Debug(item)
 end)
 
-RegisterNetEvent('QBCore:Server:RemoveItem', function(itemName, amount, slot)
+-- This event is exploitable and should not be used. It has been deprecated, and will be removed soon. function(itemName, amount, slot)
+RegisterNetEvent('QBCore:Server:RemoveItem', function(itemName, amount)
     local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    if not Player then return end
-    Player.Functions.RemoveItem(itemName, amount, slot)
+    print(string.format("%s triggered QBCore:Server:RemoveItem by ID %s for %s %s. This event is deprecated due to exploitation, and will be removed soon. Adjust your events accordingly to do this server side with player functions.", GetInvokingResource(), src, amount, itemName))
 end)
 
-RegisterNetEvent('QBCore:Server:AddItem', function(itemName, amount, slot, info)
+-- This event is exploitable and should not be used. It has been deprecated, and will be removed soon. function(itemName, amount, slot, info)
+RegisterNetEvent('QBCore:Server:AddItem', function(itemName, amount)
     local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    if not Player then return end
-    Player.Functions.AddItem(itemName, amount, slot, info)
+    print(string.format("%s triggered QBCore:Server:AddItem by ID %s for %s %s. This event is deprecated due to exploitation, and will be removed soon. Adjust your events accordingly to do this server side with player functions.", GetInvokingResource(), src, amount, itemName))
 end)
 
 -- Non-Chat Command Calling (ex: qb-adminmenu)
@@ -209,38 +278,40 @@ RegisterNetEvent('QBCore:CallCommand', function(command, args)
     end
 end)
 
--- Has Item Callback (can also use client function - QBCore.Functions.HasItem(item))
-
-QBCore.Functions.CreateCallback('QBCore:HasItem', function(source, cb, items, amount)
-    local retval = false
-    local Player = QBCore.Functions.GetPlayer(source)
-    if not Player then return cb(false) end
-    local isTable = type(items) == 'table'
-	local isArray = isTable and table.type(items) == 'array' or false
-	local totalItems = #items
-	local count = 0
-    local kvIndex = 2
-	if isTable and not isArray then
-        totalItems = 0
-        for _ in pairs(items) do totalItems += 1 end
-        kvIndex = 1
-    end
-    if isTable then
-		for k, v in pairs(items) do
-			local itemKV = {k, v}
-			local item = Player.Functions.GetItemByName(itemKV[kvIndex])
-            if item and ((amount and item.amount >= amount) or (not amount and not isArray and item.amount >= v) or (not amount and isArray)) then
-                count += 1
-            end
-		end
-		if count == totalItems then
-			retval = true
-		end
-	else -- Single item as string
-		local item = Player.Functions.GetItemByName(items)
-        if item and not amount or (amount and item.amount >= amount) then
-            retval = true
+-- Use this for player vehicle spawning
+-- Vehicle server-side spawning callback (netId)
+-- use the netid on the client with the NetworkGetEntityFromNetworkId native
+-- convert it to a vehicle via the NetToVeh native
+QBCore.Functions.CreateCallback('QBCore:Server:SpawnVehicle', function(source, cb, model, coords, warp)
+    local ped = GetPlayerPed(source)
+    model = type(model) == 'string' and joaat(model) or model
+    if not coords then coords = GetEntityCoords(ped) end
+    local veh = CreateVehicle(model, coords.x, coords.y, coords.z, coords.w, true, true)
+    while not DoesEntityExist(veh) do Wait(0) end
+    if warp then
+        while GetVehiclePedIsIn(ped) ~= veh do
+            Wait(0)
+            TaskWarpPedIntoVehicle(ped, veh, -1)
         end
-	end
-    cb(retval)
+    end
+    while NetworkGetEntityOwner(veh) ~= source do Wait(0) end
+    cb(NetworkGetNetworkIdFromEntity(veh))
 end)
+
+-- Use this for long distance vehicle spawning
+-- vehicle server-side spawning callback (netId)
+-- use the netid on the client with the NetworkGetEntityFromNetworkId native
+-- convert it to a vehicle via the NetToVeh native
+QBCore.Functions.CreateCallback('QBCore:Server:CreateVehicle', function(source, cb, model, coords, warp)
+    model = type(model) == 'string' and GetHashKey(model) or model
+    if not coords then coords = GetEntityCoords(GetPlayerPed(source)) end
+    local CreateAutomobile = GetHashKey("CREATE_AUTOMOBILE")
+    local veh = Citizen.InvokeNative(CreateAutomobile, model, coords, coords.w, true, true)
+    while not DoesEntityExist(veh) do Wait(0) end
+    if warp then TaskWarpPedIntoVehicle(GetPlayerPed(source), veh, -1) end
+    cb(NetworkGetNetworkIdFromEntity(veh))
+end)
+
+--QBCore.Functions.CreateCallback('QBCore:HasItem', function(source, cb, items, amount)
+-- https://github.com/qbcore-framework/qb-inventory/blob/e4ef156d93dd1727234d388c3f25110c350b3bcf/server/main.lua#L2066
+--end)

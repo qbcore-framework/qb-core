@@ -24,9 +24,10 @@ RegisterNetEvent('QBCore:Command:TeleportToPlayer', function(coords)
     SetPedCoordsKeepVehicle(ped, coords.x, coords.y, coords.z)
 end)
 
-RegisterNetEvent('QBCore:Command:TeleportToCoords', function(x, y, z)
+RegisterNetEvent('QBCore:Command:TeleportToCoords', function(x, y, z, h)
     local ped = PlayerPedId()
     SetPedCoordsKeepVehicle(ped, x, y, z)
+    SetEntityHeading(ped, h or GetEntityHeading(ped))
 end)
 
 RegisterNetEvent('QBCore:Command:GoToMarker', function()
@@ -36,7 +37,7 @@ RegisterNetEvent('QBCore:Command:GoToMarker', function()
 
     local blipMarker <const> = GetFirstBlipInfoId(8)
     if not DoesBlipExist(blipMarker) then
-        QBCore.Functions.Notify('No Waypoint Set.', "error",5000)
+        QBCore.Functions.Notify(Lang:t("error.no_waypoint"), "error", 5000)
         return 'marker'
     end
 
@@ -107,15 +108,28 @@ RegisterNetEvent('QBCore:Command:GoToMarker', function()
         -- If we can't find the coords, set the coords to the old ones.
         -- We don't unpack them before since they aren't in a loop and only called once.
         SetPedCoordsKeepVehicle(ped, oldCoords['x'], oldCoords['y'], oldCoords['z'] - 1.0)
-        QBCore.Functions.Notify('Error While Teleporting.', "error",5000)
+        QBCore.Functions.Notify(Lang:t("error.tp_error"), "error", 5000)
     end
 
     -- If Z coord was found, set coords in found coords.
     SetPedCoordsKeepVehicle(ped, x, y, groundZ)
-    QBCore.Functions.Notify('Teleported To Waypoint.', "success",5000)
+    QBCore.Functions.Notify(Lang:t("success.teleported_waypoint"), "success", 5000)
 end)
 
 -- Vehicle Commands
+RegisterNetEvent('QBCore:Client:VehicleInfo', function(info)
+    local plate = QBCore.Functions.GetPlate(info.vehicle)
+    local data = {
+        vehicle = NetToVeh(info.netid),
+        seat = info.seat,
+        name = info.modelName,
+        plate = plate,
+        driver = GetPedInVehicleSeat(info.vehicle, -1),
+        inseat = GetPedInVehicleSeat(info.vehicle, info.seat),
+        haskeys = exports['qb-vehiclekeys']:HasKeys(plate)
+    }
+    TriggerEvent('QBCore:Client:'..info.event..'Vehicle', data)
+end)
 
 RegisterNetEvent('QBCore:Command:SpawnVehicle', function(vehName)
     local ped = PlayerPedId()
@@ -171,8 +185,10 @@ RegisterNetEvent('QBCore:Notify', function(text, type, length)
     QBCore.Functions.Notify(text, type, length)
 end)
 
+-- This event is exploitable and should not be used. It has been deprecated, and will be removed soon.
 RegisterNetEvent('QBCore:Client:UseItem', function(item)
-    TriggerServerEvent('QBCore:Server:UseItem', item)
+    QBCore.Debug(string.format("%s triggered QBCore:Client:UseItem by ID %s with the following data. This event is deprecated due to exploitation, and will be removed soon. Check qb-inventory for the right use on this event.", GetInvokingResource(), GetPlayerServerId(PlayerId())))
+    QBCore.Debug(item)
 end)
 
 -- Callback Events --
@@ -196,16 +212,16 @@ end)
 
 local function Draw3DText(coords, str)
     local onScreen, worldX, worldY = World3dToScreen2d(coords.x, coords.y, coords.z)
-	local camCoords = GetGameplayCamCoord()
-	local scale = 200 / (GetGameplayCamFov() * #(camCoords - coords))
+    local camCoords = GetGameplayCamCoord()
+    local scale = 200 / (GetGameplayCamFov() * #(camCoords - coords))
     if onScreen then
         SetTextScale(1.0, 0.5 * scale)
         SetTextFont(4)
         SetTextColour(255, 255, 255, 255)
         SetTextEdge(2, 0, 0, 0, 150)
-		SetTextProportional(1)
-		SetTextOutline()
-		SetTextCentre(1)
+        SetTextProportional(1)
+        SetTextOutline()
+        SetTextCentre(1)
         BeginTextCommandDisplayText("STRING")
         AddTextComponentSubstringPlayerName(str)
         EndTextCommandDisplayText(worldX, worldY)

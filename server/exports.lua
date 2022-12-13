@@ -1,3 +1,35 @@
+-- Add or change (a) method(s) in the QBCore.Functions table
+local function SetMethod(methodName, handler)
+    if type(methodName) ~= "string" then
+        return false, "invalid_method_name"
+    end
+
+    QBCore.Functions[methodName] = handler
+
+    TriggerEvent('QBCore:Server:UpdateObject')
+
+    return true, "success"
+end
+
+QBCore.Functions.SetMethod = SetMethod
+exports("SetMethod", SetMethod)
+
+-- Add or change (a) field(s) in the QBCore table
+local function SetField(fieldName, data)
+    if type(fieldName) ~= "string" then
+        return false, "invalid_field_name"
+    end
+
+    QBCore[fieldName] = data
+
+    TriggerEvent('QBCore:Server:UpdateObject')
+
+    return true, "success"
+end
+
+QBCore.Functions.SetField = SetField
+exports("SetField", SetField)
+
 -- Single add job function which should only be used if you planning on adding a single job
 local function AddJob(jobName, job)
     if type(jobName) ~= "string" then
@@ -10,10 +42,11 @@ local function AddJob(jobName, job)
 
     QBCore.Shared.Jobs[jobName] = job
 
-    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1,'Jobs', jobName, job)
+    TriggerClientEvent('QBCore:Client:OnSharedUpdate', -1, 'Jobs', jobName, job)
     TriggerEvent('QBCore:Server:UpdateObject')
     return true, "success"
 end
+
 QBCore.Functions.AddJob = AddJob
 exports('AddJob', AddJob)
 
@@ -46,6 +79,7 @@ local function AddJobs(jobs)
     TriggerEvent('QBCore:Server:UpdateObject')
     return true, message, nil
 end
+
 QBCore.Functions.AddJobs = AddJobs
 exports('AddJobs', AddJobs)
 
@@ -65,6 +99,7 @@ local function RemoveJob(jobName)
     TriggerEvent('QBCore:Server:UpdateObject')
     return true, "success"
 end
+
 QBCore.Functions.RemoveJob = RemoveJob
 exports('RemoveJob', RemoveJob)
 
@@ -84,6 +119,7 @@ local function UpdateJob(jobName, job)
     TriggerEvent('QBCore:Server:UpdateObject')
     return true, "success"
 end
+
 QBCore.Functions.UpdateJob = UpdateJob
 exports('UpdateJob', UpdateJob)
 
@@ -103,6 +139,7 @@ local function AddItem(itemName, item)
     TriggerEvent('QBCore:Server:UpdateObject')
     return true, "success"
 end
+
 QBCore.Functions.AddItem = AddItem
 exports('AddItem', AddItem)
 
@@ -119,6 +156,7 @@ local function UpdateItem(itemName, item)
     TriggerEvent('QBCore:Server:UpdateObject')
     return true, "success"
 end
+
 QBCore.Functions.UpdateItem = UpdateItem
 exports('UpdateItem', UpdateItem)
 
@@ -151,6 +189,7 @@ local function AddItems(items)
     TriggerEvent('QBCore:Server:UpdateObject')
     return true, message, nil
 end
+
 QBCore.Functions.AddItems = AddItems
 exports('AddItems', AddItems)
 
@@ -170,6 +209,7 @@ local function RemoveItem(itemName)
     TriggerEvent('QBCore:Server:UpdateObject')
     return true, "success"
 end
+
 QBCore.Functions.RemoveItem = RemoveItem
 exports('RemoveItem', RemoveItem)
 
@@ -189,6 +229,7 @@ local function AddGang(gangName, gang)
     TriggerEvent('QBCore:Server:UpdateObject')
     return true, "success"
 end
+
 QBCore.Functions.AddGang = AddGang
 exports('AddGang', AddGang)
 
@@ -221,6 +262,7 @@ local function AddGangs(gangs)
     TriggerEvent('QBCore:Server:UpdateObject')
     return true, message, nil
 end
+
 QBCore.Functions.AddGangs = AddGangs
 exports('AddGangs', AddGangs)
 
@@ -240,6 +282,7 @@ local function RemoveGang(gangName)
     TriggerEvent('QBCore:Server:UpdateObject')
     return true, "success"
 end
+
 QBCore.Functions.RemoveGang = RemoveGang
 exports('RemoveGang', RemoveGang)
 
@@ -259,6 +302,7 @@ local function UpdateGang(gangName, gang)
     TriggerEvent('QBCore:Server:UpdateObject')
     return true, "success"
 end
+
 QBCore.Functions.UpdateGang = UpdateGang
 exports('UpdateGang', UpdateGang)
 
@@ -269,6 +313,7 @@ local function GetCoreVersion(InvokingResource)
     end
     return resourceVersion
 end
+
 QBCore.Functions.GetCoreVersion = GetCoreVersion
 exports('GetCoreVersion', GetCoreVersion)
 
@@ -283,7 +328,8 @@ local function ExploitBan(playerId, origin)
         2147483647,
         'Anti Cheat'
     })
-    DropPlayer(playerId, "You have been banned for cheating. Check our Discord for more information: " .. QBCore.Config.Server.Discord)
-    TriggerEvent("qb-log:server:CreateLog", "anticheat", "Anti-Cheat", "red", name.." has been banned for exploiting "..origin, true)
+    DropPlayer(playerId, Lang:t('info.exploit_banned', {discord = QBCore.Config.Server.Discord}))
+    TriggerEvent("qb-log:server:CreateLog", "anticheat", "Anti-Cheat", "red", name .. " has been banned for exploiting " .. origin, true)
 end
+
 exports('ExploitBan', ExploitBan)

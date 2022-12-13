@@ -8,38 +8,12 @@ function QBCore.Functions.GetPlayerData(cb)
 end
 
 function QBCore.Functions.GetCoords(entity)
-    return vector4(GetEntityCoords(entity), GetEntityHeading(entity))
+    local coords = GetEntityCoords(entity)
+    return vector4(coords.x, coords.y, coords.z, GetEntityHeading(entity))
 end
 
 function QBCore.Functions.HasItem(items, amount)
-    local isTable = type(items) == 'table'
-	local isArray = isTable and table.type(items) == 'array' or false
-	local totalItems = #items
-    local count = 0
-    local kvIndex = 2
-	if isTable and not isArray then
-        totalItems = 0
-        for _ in pairs(items) do totalItems += 1 end
-        kvIndex = 1
-    end
-    for _, itemData in pairs(QBCore.PlayerData.items) do
-        if isTable then
-            for k, v in pairs(items) do
-                local itemKV = {k, v}
-                if itemData and itemData.name == itemKV[kvIndex] and ((amount and itemData.amount >= amount) or (not isArray and itemData.amount >= v) or (not amount and isArray)) then
-                    count += 1
-                end
-            end
-            if count == totalItems then
-                return true
-            end
-        else -- Single item as string
-            if itemData and itemData.name == items and (not amount or (amount and itemData.amount >= amount)) then
-                return true
-            end
-        end
-    end
-    return false
+    return exports['qb-inventory']:HasItem(items, amount)
 end
 
 -- Utility
@@ -84,8 +58,8 @@ function QBCore.Functions.RequestAnimDict(animDict)
 end
 
 function QBCore.Functions.PlayAnim(animDict, animName, upperbodyOnly, duration)
-    local flags = upperbodyOnly == true and 16 or 0
-    local runTime = duration ~= nil and duration or -1
+    local flags = upperbodyOnly and 16 or 0
+    local runTime = duration or -1
     QBCore.Functions.RequestAnimDict(animDict)
     TaskPlayAnim(PlayerPedId(), animDict, animName, 8.0, 1.0, runTime, flags, 0.0, false, false, true)
     RemoveAnimDict(animDict)
@@ -157,8 +131,6 @@ function QBCore.Functions.TriggerCallback(name, cb, ...)
     QBCore.ServerCallbacks[name] = cb
     TriggerServerEvent('QBCore:Server:TriggerCallback', name, ...)
 end
-
-
 
 function QBCore.Functions.Progressbar(name, label, duration, useWhileDead, canCancel, disableControls, animation, prop, propTwo, onFinish, onCancel)
     if GetResourceState('progressbar') ~= 'started' then error('progressbar needs to be started in order for QBCore.Functions.Progressbar to work') end
@@ -396,7 +368,7 @@ function QBCore.Functions.SpawnVehicle(model, cb, coords, isnetworked, teleportI
     else
         coords = GetEntityCoords(ped)
     end
-    isnetworked = isnetworked or true
+    isnetworked = isnetworked == nil or isnetworked
     QBCore.Functions.LoadModel(model)
     local veh = CreateVehicle(model, coords.x, coords.y, coords.z, coords.w, isnetworked, false)
     local netid = NetworkGetNetworkIdFromEntity(veh)
@@ -418,6 +390,11 @@ end
 function QBCore.Functions.GetPlate(vehicle)
     if vehicle == 0 then return end
     return QBCore.Shared.Trim(GetVehicleNumberPlateText(vehicle))
+end
+
+function QBCore.Functions.GetVehicleLabel(vehicle)
+    if vehicle == nil or vehicle == 0 then return end
+    return GetLabelText(GetDisplayNameFromVehicleModel(GetEntityModel(vehicle)))
 end
 
 function QBCore.Functions.SpawnClear(coords, radius)
@@ -955,4 +932,63 @@ function QBCore.Functions.StartParticleOnEntity(dict, ptName, looped, entity, bo
         end
     end
     return particleHandle
+end
+
+function QBCore.Functions.GetStreetNametAtCoords(coords)
+    local streetname1, streetname2 = GetStreetNameAtCoord(coords.x, coords.y, coords.z)
+    return { main = GetStreetNameFromHashKey(streetname1), cross = GetStreetNameFromHashKey(streetname2) }
+end
+
+function QBCore.Functions.GetZoneAtCoords(coords)
+    return GetLabelText(GetNameOfZone(coords))
+end
+
+function QBCore.Functions.GetCardinalDirection(entity)
+    entity = DoesEntityExist(entity) and entity or PlayerPedId()
+    if DoesEntityExist(entity) then
+        local heading = GetEntityHeading(entity)
+        if ((heading >= 0 and heading < 45) or (heading >= 315 and heading < 360)) then
+            return "North"
+        elseif (heading >= 45 and heading < 135) then
+            return "West"
+        elseif (heading >= 135 and heading < 225) then
+            return "South"
+        elseif (heading >= 225 and heading < 315) then
+            return "East"
+        end
+    else
+        return "Cardinal Direction Error"
+    end
+end
+
+function QBCore.Functions.GetCurrentTime()
+    local obj = {}
+    obj.min = GetClockMinutes()
+    obj.hour = GetClockHours()
+
+    if obj.hour <= 12 then
+        obj.ampm = "AM"
+    elseif obj.hour >= 13 then
+        obj.ampm = "PM"
+        obj.formattedHour = obj.hour - 12
+    end
+
+    if obj.min <= 9 then
+        obj.formattedMin = "0" .. obj.min
+    end
+
+    return obj
+end
+
+function QBCore.Functions.GetGroundZCoord(coords)
+    if not coords then return end
+
+    local retval, groundZ = GetGroundZFor_3dCoord(coords.x, coords.y, coords.z, 0)
+    if retval then
+        return vector3(coords.x, coords.y, groundZ)
+    else
+        print('Couldn\'t find Ground Z Coordinates given 3D Coordinates')
+        print(coords)
+        return coords
+    end
 end
