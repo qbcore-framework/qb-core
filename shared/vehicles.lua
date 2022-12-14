@@ -1268,7 +1268,7 @@ QBShared.Vehicles = {
         ['shop'] = 'pdm',
     },
     ['impaler2'] = {                            --DLC
-        ['name'] = 'Impaler Apocalypse',
+        ['name'] = 'Impaler Arena',
         ['brand'] = 'Vapid',
         ['model'] = 'impaler2',
         ['price'] = 95000,
