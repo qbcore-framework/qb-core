@@ -946,16 +946,6 @@ QBShared.Vehicles = {
         ['hash'] = `manchez2`,
         ['shop'] = 'pdm',
     },
-    ['manchez3'] = {
-        ['name'] = 'Manchez Scout C',
-        ['brand'] = 'Maibatsu',
-        ['model'] = 'manchez3',
-        ['price'] = 14000,
-        ['category'] = 'motorcycles',
-        ['categoryLabel'] = 'Motorcycles',
-        ['hash'] = `manchez3`,
-        ['shop'] = 'pdm',
-    },
     ['shinobi'] = {        --DLC +set sv_enforceGameBuild 2545
         ['name'] = 'Shinobi',
         ['brand'] = 'Nagasaki',
