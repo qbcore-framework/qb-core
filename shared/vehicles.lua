@@ -1298,7 +1298,7 @@ QBShared.Vehicles = {
         ['shop'] = 'pdm',
     },
     ['imperator'] = {                            --DLC
-        ['name'] = 'imperator',
+        ['name'] = 'Imperator Arena',
         ['brand'] = 'Vapid',
         ['model'] = 'imperator',
         ['price'] = 95000,
@@ -1308,7 +1308,7 @@ QBShared.Vehicles = {
         ['shop'] = 'pdm',
     },
     ['imperator2'] = {                            --DLC
-        ['name'] = 'imperator2',
+        ['name'] = 'imperator Future Shock',
         ['brand'] = 'Vapid',
         ['model'] = 'imperator2',
         ['price'] = 95000,
@@ -1318,7 +1318,7 @@ QBShared.Vehicles = {
         ['shop'] = 'pdm',
     },
     ['imperator3'] = {                            --DLC
-        ['name'] = 'imperator3',
+        ['name'] = 'Imperator Nightmare',
         ['brand'] = 'Vapid',
         ['model'] = 'imperator3',
         ['price'] = 95000,
