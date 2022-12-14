@@ -2129,6 +2129,16 @@ QBShared.Vehicles = {
         ['hash'] = `patriot`,
         ['shop'] = 'pdm',
     },
+    ['patriot2'] = {
+        ['name'] = 'Patriot Stretch',
+        ['brand'] = 'Mammoth',
+        ['model'] = 'patriot2',
+        ['price'] = 21000,
+        ['category'] = 'suvs',
+        ['categoryLabel'] = 'SUVs',
+        ['hash'] = `patriot2`,
+        ['shop'] = 'pdm',
+    },
     ['radi'] = {
         ['name'] = 'Radius',
         ['brand'] = 'Vapid',
