@@ -11,7 +11,7 @@ QBShared.Vehicles = {
         ['category'] = 'compacts',
         ['categoryLabel'] = 'Compacts',
         ['hash'] = `asbo`,
-        ['shop'] = {'pdm'},
+        ['shop'] = 'pdm',
     },
     ['blista'] = {
         ['name'] = 'Blista',
@@ -349,8 +349,8 @@ QBShared.Vehicles = {
         ['brand'] = 'Overflod',
         ['model'] = 'zeno',
         ['price'] = 1350000,
-        ['category'] = 'coupes',
-        ['categoryLabel'] = 'Coupes',
+        ['category'] = 'super',
+        ['categoryLabel'] = 'Super',
         ['hash'] = `zeno`,
         ['shop'] = 'pdm',
     },
@@ -937,13 +937,23 @@ QBShared.Vehicles = {
         ['shop'] = 'pdm',
     },
     ['manchez2'] = {
-        ['name'] = 'Manchez',
+        ['name'] = 'Manchez Scout',
         ['brand'] = 'Maibatsu',
         ['model'] = 'manchez2',
         ['price'] = 14000,
         ['category'] = 'motorcycles',
         ['categoryLabel'] = 'Motorcycles',
         ['hash'] = `manchez2`,
+        ['shop'] = 'pdm',
+    },
+    ['manchez3'] = {
+        ['name'] = 'Manchez Scout C',
+        ['brand'] = 'Maibatsu',
+        ['model'] = 'manchez3',
+        ['price'] = 14000,
+        ['category'] = 'motorcycles',
+        ['categoryLabel'] = 'Motorcycles',
+        ['hash'] = `manchez3`,
         ['shop'] = 'pdm',
     },
     ['shinobi'] = {        --DLC +set sv_enforceGameBuild 2545
@@ -1328,7 +1338,7 @@ QBShared.Vehicles = {
         ['shop'] = 'pdm',
     },
     ['lurcher'] = {
-        ['name'] = 'Gauntlet Classic Custom',
+        ['name'] = 'Lurcher',
         ['brand'] = 'Bravado',
         ['model'] = 'lurcher',
         ['price'] = 21000,
@@ -1558,7 +1568,7 @@ QBShared.Vehicles = {
         ['shop'] = 'pdm',
     },
     ['virgo3'] = {
-        ['name'] = 'Virgo Custom Classic',
+        ['name'] = 'Virgo Classic',
         ['brand'] = 'Dundreary',
         ['model'] = 'virgo3',
         ['price'] = 21000,
@@ -1920,7 +1930,7 @@ QBShared.Vehicles = {
         ['shop'] = 'pdm',
     },
     ['baller2'] = {
-        ['name'] = 'Baller',
+        ['name'] = 'Baller II',
         ['brand'] = 'Gallivanter',
         ['model'] = 'baller2',
         ['price'] = 15000,
@@ -1990,7 +2000,7 @@ QBShared.Vehicles = {
         ['shop'] = 'pdm',
     },
     ['cavalcade2'] = {
-        ['name'] = 'Cavalcade',
+        ['name'] = 'Cavalcade II',
         ['brand'] = 'Albany',
         ['model'] = 'cavalcade2',
         ['price'] = 16500,
@@ -2291,7 +2301,7 @@ QBShared.Vehicles = {
         ['shop'] = 'pdm',
     },
     ['glendale2'] = {
-        ['name'] = 'Glendale',
+        ['name'] = 'Glendale Custom',
         ['brand'] = 'Benefactor',
         ['model'] = 'glendale2',
         ['price'] = 12000,
@@ -3934,7 +3944,7 @@ QBShared.Vehicles = {
         ['shop'] = 'luxury',
     },
     ['italigtb2'] = {
-        ['name'] = 'Itali GTB',
+        ['name'] = 'Itali GTB Custom',
         ['brand'] = 'Progen',
         ['model'] = 'italigtb2',
         ['price'] = 250000,
@@ -4405,7 +4415,7 @@ QBShared.Vehicles = {
         ['shop'] = 'pdm',
     },
     ['youga4'] = {          --DLC +set sv_enforceGameBuild 2545
-        ['name'] = 'Youga',
+        ['name'] = 'Youga Custom',
         ['brand'] = 'Bravado',
         ['model'] = 'youga4',
         ['price'] = 85000,
@@ -4477,7 +4487,7 @@ QBShared.Vehicles = {
         ['shop'] = 'boats',
     },
     ['seashark2'] = {
-        ['name'] = 'Seashark',
+        ['name'] = 'Seashark Lifeguard',
         ['brand'] = 'Speedophile',
         ['model'] = 'seashark2',
         ['price'] = 40000,
@@ -4487,7 +4497,7 @@ QBShared.Vehicles = {
         ['shop'] = 'boats',
     },
     ['seashark3'] = {
-        ['name'] = 'Seashark',
+        ['name'] = 'Seashark 3',
         ['brand'] = 'Speedophile',
         ['model'] = 'seashark3',
         ['price'] = 40000,
@@ -4497,8 +4507,8 @@ QBShared.Vehicles = {
         ['shop'] = 'boats',
     },
     ['jetmax'] = {
-        ['name'] = 'Shitzu',
-        ['brand'] = 'Jetmax',
+        ['name'] = 'Jetmax',
+        ['brand'] = 'Shitzu',
         ['model'] = 'jetmax',
         ['price'] = 40000,
         ['category'] = 'boats',
@@ -4507,8 +4517,8 @@ QBShared.Vehicles = {
         ['shop'] = 'boats',
     },
     ['tropic'] = {
-        ['name'] = 'Shitzu',
-        ['brand'] = 'Tropic',
+        ['name'] = 'Tropic',
+        ['brand'] = 'Shitzu',
         ['model'] = 'tropic',
         ['price'] = 40000,
         ['category'] = 'boats',
@@ -4517,8 +4527,8 @@ QBShared.Vehicles = {
         ['shop'] = 'boats',
     },
     ['tropic2'] = {
-        ['name'] = 'Shitzu',
-        ['brand'] = 'Tropic',
+        ['name'] = 'Tropic 2',
+        ['brand'] = 'Shitzu',
         ['model'] = 'tropic2',
         ['price'] = 40000,
         ['category'] = 'boats',
@@ -4527,8 +4537,8 @@ QBShared.Vehicles = {
         ['shop'] = 'boats',
     },
     ['dinghy'] = {
-        ['name'] = 'Nagasaki',
-        ['brand'] = 'Dinghy',
+        ['name'] = 'Dinghy 2-Seater',
+        ['brand'] = 'Nagasaki',
         ['model'] = 'dinghy',
         ['price'] = 40000,
         ['category'] = 'boats',
@@ -4537,8 +4547,8 @@ QBShared.Vehicles = {
         ['shop'] = 'boats',
     },
     ['dinghy2'] = {
-        ['name'] = 'Nagasaki',
-        ['brand'] = 'Dinghy',
+        ['name'] = 'Dinghy 4-Seater',
+        ['brand'] = 'Nagasaki',
         ['model'] = 'dinghy2',
         ['price'] = 40000,
         ['category'] = 'boats',
@@ -4547,8 +4557,8 @@ QBShared.Vehicles = {
         ['shop'] = 'boats',
     },
     ['dinghy3'] = {
-        ['name'] = 'Nagasaki',
-        ['brand'] = 'Dinghy',
+        ['name'] = 'Dinghy 3',
+        ['brand'] = 'Nagasaki',
         ['model'] = 'dinghy3',
         ['price'] = 40000,
         ['category'] = 'boats',
@@ -4557,8 +4567,8 @@ QBShared.Vehicles = {
         ['shop'] = 'boats',
     },
     ['dinghy4'] = {
-        ['name'] = 'Nagasaki',
-        ['brand'] = 'Dinghy',
+        ['name'] = 'Dinghy 4',
+        ['brand'] = 'Nagasaki',
         ['model'] = 'dinghy4',
         ['price'] = 40000,
         ['category'] = 'boats',
@@ -4567,8 +4577,8 @@ QBShared.Vehicles = {
         ['shop'] = 'boats',
     },
     ['suntrap'] = {
-        ['name'] = 'Shitzu',
-        ['brand'] = 'Suntrap',
+        ['name'] = 'Suntrap',
+        ['brand'] = 'Shitzu',
         ['model'] = 'suntrap',
         ['price'] = 40000,
         ['category'] = 'boats',
@@ -4587,7 +4597,7 @@ QBShared.Vehicles = {
         ['shop'] = 'boats',
     },
     ['speeder2'] = {
-        ['name'] = 'Speeder',
+        ['name'] = 'Speeder 2',
         ['brand'] = 'Pegassi',
         ['model'] = 'speeder2',
         ['price'] = 40000,
@@ -4617,7 +4627,7 @@ QBShared.Vehicles = {
         ['shop'] = 'boats',
     },
     ['toro2'] = {
-        ['name'] = 'Toro',
+        ['name'] = 'Toro II',
         ['brand'] = 'Lampadati',
         ['model'] = 'toro2',
         ['price'] = 40000,
@@ -4648,7 +4658,7 @@ QBShared.Vehicles = {
         ['shop'] = 'air',
     },
     ['frogger2'] = {
-        ['name'] = 'Frogger',
+        ['name'] = 'Frogger Trevor Phillips',
         ['brand'] = 'Unknown',
         ['model'] = 'frogger2',
         ['price'] = 52000,
@@ -4678,7 +4688,7 @@ QBShared.Vehicles = {
         ['shop'] = 'air',
     },
     ['swift2'] = {
-        ['name'] = 'Swift',
+        ['name'] = 'Swift Deluxe',
         ['brand'] = 'Buckingham',
         ['model'] = 'swift2',
         ['price'] = 52000,
@@ -4708,7 +4718,7 @@ QBShared.Vehicles = {
         ['shop'] = 'air',
     },
     ['seasparrow3'] = {
-        ['name'] = 'Sparrow',
+        ['name'] = 'Sparrow III',
         ['brand'] = 'Unknown',
         ['model'] = 'seasparrow3',
         ['price'] = 52000,
@@ -4819,7 +4829,7 @@ QBShared.Vehicles = {
         ['shop'] = 'air',
     },
     ['velum2'] = {
-        ['name'] = 'Velum',
+        ['name'] = 'Velum 5-Seater',
         ['brand'] = 'Unknown',
         ['model'] = 'velum2',
         ['price'] = 45000,
@@ -4916,7 +4926,7 @@ QBShared.Vehicles = {
         ['category'] = 'sports',
         ['categoryLabel'] = 'Sports',
         ['hash'] = `corsita`,
-        ['shop'] = 'luxury',
+        ['shop'] = 'l',
     },
     ['draugur'] = {
         ['name'] = 'Draugur',
