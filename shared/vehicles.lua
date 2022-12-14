@@ -1408,7 +1408,7 @@ QBShared.Vehicles = {
         ['shop'] = 'pdm',
     },
     ['ratloader2'] = {
-        ['name'] = 'ratloader2',
+        ['name'] = 'Ratloader',
         ['brand'] = 'Ratloader2',
         ['model'] = 'ratloader2',
         ['price'] = 20000,
