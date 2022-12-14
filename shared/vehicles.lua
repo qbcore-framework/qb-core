@@ -1258,7 +1258,7 @@ QBShared.Vehicles = {
         ['shop'] = 'pdm',
     },
     ['impaler'] = {                            --DLC
-        ['name'] = 'impaler',
+        ['name'] = 'Impaler',
         ['brand'] = 'Vapid',
         ['model'] = 'impaler',
         ['price'] = 95000,
@@ -1268,7 +1268,7 @@ QBShared.Vehicles = {
         ['shop'] = 'pdm',
     },
     ['impaler2'] = {                            --DLC
-        ['name'] = 'impaler2',
+        ['name'] = 'Impaler Apocalypse',
         ['brand'] = 'Vapid',
         ['model'] = 'impaler2',
         ['price'] = 95000,
@@ -1278,7 +1278,7 @@ QBShared.Vehicles = {
         ['shop'] = 'pdm',
     },
     ['impaler3'] = {                            --DLC
-        ['name'] = 'impaler3',
+        ['name'] = 'Impaler Future Shock',
         ['brand'] = 'Vapid',
         ['model'] = 'impaler3',
         ['price'] = 95000,
@@ -1288,7 +1288,7 @@ QBShared.Vehicles = {
         ['shop'] = 'pdm',
     },
     ['impaler4'] = {                            --DLC
-        ['name'] = 'impaler4',
+        ['name'] = 'Impaler Nightmare',
         ['brand'] = 'Vapid',
         ['model'] = 'impaler4',
         ['price'] = 95000,
