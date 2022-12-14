@@ -3332,7 +3332,7 @@ QBShared.Vehicles = {
         ['shop'] = 'luxury',
     },
     ['vectre'] = {                            --DLC +set sv_enforceGameBuild 2372
-        ['name'] = 'Emperor Vectre',
+        ['name'] = 'Vectre',
         ['brand'] = 'Emperor',
         ['model'] = 'vectre',
         ['price'] = 80000,
