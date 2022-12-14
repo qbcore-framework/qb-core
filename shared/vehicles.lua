@@ -104,7 +104,7 @@ QBShared.Vehicles = {
         ['shop'] = 'pdm',
     },
     ['issi5'] = {                            --DLC
-        ['name'] = 'Issi Arena',
+        ['name'] = 'Issi Future Shock',
         ['brand'] = 'Weeny',
         ['model'] = 'issi5',
         ['price'] = 80000,
@@ -114,7 +114,7 @@ QBShared.Vehicles = {
         ['shop'] = 'pdm',
     },
     ['issi6'] = {                            --DLC
-        ['name'] = 'Issi Arena',
+        ['name'] = 'Issi Nightmare',
         ['brand'] = 'Weeny',
         ['model'] = 'issi6',
         ['price'] = 80000,
