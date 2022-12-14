@@ -4926,7 +4926,7 @@ QBShared.Vehicles = {
         ['category'] = 'sports',
         ['categoryLabel'] = 'Sports',
         ['hash'] = `corsita`,
-        ['shop'] = 'l',
+        ['shop'] = 'luxury',
     },
     ['draugur'] = {
         ['name'] = 'Draugur',
