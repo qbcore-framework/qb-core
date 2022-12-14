@@ -1118,7 +1118,7 @@ QBShared.Vehicles = {
         ['shop'] = 'pdm',
     },
     ['dukes2'] = {
-        ['name'] = 'Dukes Nightrider',
+        ['name'] = 'Duke O\'Death',
         ['brand'] = 'Imponte',
         ['model'] = 'dukes2',
         ['price'] = 60000,
