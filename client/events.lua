@@ -120,7 +120,7 @@ end)
 RegisterNetEvent('QBCore:Client:VehicleInfo', function(info)
     local plate = QBCore.Functions.GetPlate(info.vehicle)
     local data = {
-        vehicle = NetToVeh(info.netid),
+        vehicle = info.vehicl,
         seat = info.seat,
         name = info.modelName,
         plate = plate,
