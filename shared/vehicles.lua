@@ -4597,7 +4597,7 @@ QBShared.Vehicles = {
         ['shop'] = 'boats',
     },
     ['speeder2'] = {
-        ['name'] = 'Speeder 2',
+        ['name'] = 'Speeder Yacht',
         ['brand'] = 'Pegassi',
         ['model'] = 'speeder2',
         ['price'] = 40000,
