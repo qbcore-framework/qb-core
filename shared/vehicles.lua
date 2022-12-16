@@ -4497,7 +4497,7 @@ QBShared.Vehicles = {
         ['shop'] = 'boats',
     },
     ['seashark3'] = {
-        ['name'] = 'Seashark 3',
+        ['name'] = 'Seashark Yacht',
         ['brand'] = 'Speedophile',
         ['model'] = 'seashark3',
         ['price'] = 40000,
