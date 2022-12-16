@@ -4567,7 +4567,7 @@ QBShared.Vehicles = {
         ['shop'] = 'boats',
     },
     ['dinghy4'] = {
-        ['name'] = 'Dinghy 4',
+        ['name'] = 'Dinghy Yacht',
         ['brand'] = 'Nagasaki',
         ['model'] = 'dinghy4',
         ['price'] = 40000,
