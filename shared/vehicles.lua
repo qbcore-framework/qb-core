@@ -5269,7 +5269,7 @@ QBShared.Vehicles = {
         ['shop'] = 'truck',
     },
     ['pony2'] = {
-        ['name'] = 'Pony 2',
+        ['name'] = 'Pony (Smoke on the water)',
         ['brand'] = 'Brute',
         ['model'] = 'pony2',
         ['price'] = 45000,
