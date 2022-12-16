@@ -4658,7 +4658,7 @@ QBShared.Vehicles = {
         ['shop'] = 'air',
     },
     ['frogger2'] = {
-        ['name'] = 'Frogger Trevor Phillips',
+        ['name'] = 'Frogger (Trevor Philips Enterprises)',
         ['brand'] = 'Unknown',
         ['model'] = 'frogger2',
         ['price'] = 52000,
