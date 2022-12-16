@@ -4527,7 +4527,7 @@ QBShared.Vehicles = {
         ['shop'] = 'boats',
     },
     ['tropic2'] = {
-        ['name'] = 'Tropic 2',
+        ['name'] = 'Tropic Yacht',
         ['brand'] = 'Shitzu',
         ['model'] = 'tropic2',
         ['price'] = 40000,
