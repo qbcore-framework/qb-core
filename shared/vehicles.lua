@@ -4718,7 +4718,7 @@ QBShared.Vehicles = {
         ['shop'] = 'air',
     },
     ['seasparrow3'] = {
-        ['name'] = 'Sparrow III',
+        ['name'] = 'Sparrow (Prop)',
         ['brand'] = 'Unknown',
         ['model'] = 'seasparrow3',
         ['price'] = 52000,
