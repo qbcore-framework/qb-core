@@ -4627,7 +4627,7 @@ QBShared.Vehicles = {
         ['shop'] = 'boats',
     },
     ['toro2'] = {
-        ['name'] = 'Toro II',
+        ['name'] = 'Toro Yacht',
         ['brand'] = 'Lampadati',
         ['model'] = 'toro2',
         ['price'] = 40000,
