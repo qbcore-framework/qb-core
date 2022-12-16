@@ -547,8 +547,8 @@ QBShared.Vehicles = {
         ['shop'] = 'pdm',
     },
     ['deathbike'] = {                            --DLC
-        ['name'] = 'deathbike',
-        ['brand'] = 'deathbike',
+        ['name'] = 'Deathbike Apocalypse',
+        ['brand'] = 'Deathbike',
         ['model'] = 'deathbike',
         ['price'] = 30000,
         ['category'] = 'motorcycles',
@@ -557,8 +557,8 @@ QBShared.Vehicles = {
         ['shop'] = 'pdm',
     },
     ['deathbike2'] = {                            --DLC
-        ['name'] = 'deathbike2',
-        ['brand'] = 'deathbike',
+        ['name'] = 'Deathbike Future Shock',
+        ['brand'] = 'Deathbike',
         ['model'] = 'deathbike2',
         ['price'] = 30000,
         ['category'] = 'motorcycles',
@@ -567,8 +567,8 @@ QBShared.Vehicles = {
         ['shop'] = 'pdm',
     },
     ['deathbike3'] = {                            --DLC
-        ['name'] = 'deathbike3',
-        ['brand'] = 'deathbike',
+        ['name'] = 'Deathbike Nightmare',
+        ['brand'] = 'Deathbike',
         ['model'] = 'deathbike3',
         ['price'] = 30000,
         ['category'] = 'motorcycles',
