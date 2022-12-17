@@ -2,7 +2,7 @@ fx_version 'cerulean'
 game 'gta5'
 
 description 'QB-Core'
-version '1.2.0'
+version '1.2.1'
 
 shared_scripts {
     'config.lua',
