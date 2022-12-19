@@ -158,6 +158,20 @@ RegisterNetEvent('QBCore:Command:DeleteVehicle', function()
     end
 end)
 
+RegisterNetEvent('QBCore:Client:VehicleInfo', function(info)
+    local plate = QBCore.Functions.GetPlate(info.vehicle)
+    local data = {
+        vehicle = info.vehicle,
+        seat = info.seat,
+        name = info.modelName,
+        plate = plate,
+        driver = GetPedInVehicleSeat(info.vehicle, -1),
+        inseat = GetPedInVehicleSeat(info.vehicle, info.seat),
+        haskeys = exports['qb-vehiclekeys']:HasKeys(plate)
+    }
+    TriggerEvent('QBCore:Client:'..info.event..'Vehicle', data)
+end)
+
 -- Other stuff
 
 RegisterNetEvent('QBCore:Player:SetPlayerData', function(val)
