@@ -182,6 +182,67 @@ RegisterNetEvent('QBCore:ToggleDuty', function()
     TriggerClientEvent('QBCore:Client:SetDuty', src, Player.PlayerData.job.onduty)
 end)
 
+-- BaseEvents
+
+-- Vehicles
+RegisterServerEvent('baseevents:enteringVehicle', function(veh,seat,modelName)
+    local src = source
+    local data = {
+        vehicle = veh,
+        seat = seat,
+        name = modelName,
+        event = 'Entering'
+    }
+    TriggerClientEvent('QBCore:Client:VehicleInfo', src, data)
+end)
+
+RegisterServerEvent('baseevents:enteredVehicle', function(veh,seat,modelName)
+    local src = source
+    local data = {
+        vehicle = veh,
+        seat = seat,
+        name = modelName,
+        event = 'Entered'
+    }
+    TriggerClientEvent('QBCore:Client:VehicleInfo', src, data)
+end)
+
+RegisterServerEvent('baseevents:enteringAborted', function()
+    local src = source
+    TriggerClientEvent('QBCore:Client:AbortVehicleEntering', src)
+end)
+
+RegisterServerEvent('baseevents:leftVehicle', function(veh,seat,modelName)
+    local src = source
+    local data = {
+        vehicle = veh,
+        seat = seat,
+        name = modelName,
+        event = 'Left'
+    }
+    TriggerClientEvent('QBCore:Client:VehicleInfo', src, data)
+end)
+
+-- Items
+
+-- This event is exploitable and should not be used. It has been deprecated, and will be removed soon.
+RegisterNetEvent('QBCore:Server:UseItem', function(item)
+    print(string.format("%s triggered QBCore:Server:UseItem by ID %s with the following data. This event is deprecated due to exploitation, and will be removed soon. Check qb-inventory for the right use on this event.", GetInvokingResource(), source))
+    QBCore.Debug(item)
+end)
+
+-- This event is exploitable and should not be used. It has been deprecated, and will be removed soon. function(itemName, amount, slot)
+RegisterNetEvent('QBCore:Server:RemoveItem', function(itemName, amount)
+    local src = source
+    print(string.format("%s triggered QBCore:Server:RemoveItem by ID %s for %s %s. This event is deprecated due to exploitation, and will be removed soon. Adjust your events accordingly to do this server side with player functions.", GetInvokingResource(), src, amount, itemName))
+end)
+
+-- This event is exploitable and should not be used. It has been deprecated, and will be removed soon. function(itemName, amount, slot, info)
+RegisterNetEvent('QBCore:Server:AddItem', function(itemName, amount)
+    local src = source
+    print(string.format("%s triggered QBCore:Server:AddItem by ID %s for %s %s. This event is deprecated due to exploitation, and will be removed soon. Adjust your events accordingly to do this server side with player functions.", GetInvokingResource(), src, amount, itemName))
+end)
+
 -- Non-Chat Command Calling (ex: qb-adminmenu)
 
 RegisterNetEvent('QBCore:CallCommand', function(command, args)
