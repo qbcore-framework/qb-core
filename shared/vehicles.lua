@@ -5099,7 +5099,7 @@ QBShared.Vehicles = {
         ['shop'] = 'truck',
     },
     ['stockade'] = {
-        ['name'] = 'stockade',
+        ['name'] = 'Stockade',
         ['brand'] = 'Brute',
         ['model'] = 'stockade',
         ['price'] = 100000,
@@ -5109,7 +5109,7 @@ QBShared.Vehicles = {
         ['shop'] = 'truck',
     },
     ['biff'] = {
-        ['name'] = 'biff',
+        ['name'] = 'Biff',
         ['brand'] = 'Brute',
         ['model'] = 'biff',
         ['price'] = 100000,
