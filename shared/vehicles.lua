@@ -2020,7 +2020,7 @@ QBShared.Vehicles = {
         ['shop'] = 'pdm',
     },
     ['dubsta2'] = {
-        ['name'] = 'Dubsta Luxuary',
+        ['name'] = 'Dubsta Luxury',
         ['brand'] = 'Benefactor',
         ['model'] = 'dubsta2',
         ['price'] = 19500,
