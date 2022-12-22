@@ -1428,7 +1428,7 @@ QBShared.Vehicles = {
         ['shop'] = 'pdm',
     },
     ['sabregt'] = {
-        ['name'] = 'Sabre Turbo',
+        ['name'] = 'Sabre GT Turbo',
         ['brand'] = 'Declasse',
         ['model'] = 'sabregt',
         ['price'] = 23000,
@@ -1438,7 +1438,7 @@ QBShared.Vehicles = {
         ['shop'] = 'pdm',
     },
     ['sabregt2'] = {
-        ['name'] = 'Sabre GT',
+        ['name'] = 'Sabre GT Turbo Custom',
         ['brand'] = 'Declasse',
         ['model'] = 'sabregt2',
         ['price'] = 26500,
