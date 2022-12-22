@@ -3713,7 +3713,7 @@ QBShared.Vehicles = {
         ['shop'] = 'pdm',
     },
     ['tornado2'] = {
-        ['name'] = 'Tornado Gang',
+        ['name'] = 'Tornado Convertible',
         ['brand'] = 'Declasse',
         ['model'] = 'tornado2',
         ['price'] = 22000,
