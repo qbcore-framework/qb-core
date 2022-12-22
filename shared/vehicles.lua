@@ -236,7 +236,7 @@ QBShared.Vehicles = {
     },
     ['oracle'] = {
         ['name'] = 'Oracle',
-        ['brand'] = 'Ubermacht',
+        ['brand'] = 'Übermacht',
         ['model'] = 'oracle',
         ['price'] = 22000,
         ['category'] = 'sedans',
@@ -3063,7 +3063,7 @@ QBShared.Vehicles = {
     },
     ['revolter'] = {
         ['name'] = 'Revolter',
-        ['brand'] = 'Ubermacht',
+        ['brand'] = 'Übermacht',
         ['model'] = 'revolter',
         ['price'] = 95000,
         ['category'] = 'sports',
@@ -3353,7 +3353,7 @@ QBShared.Vehicles = {
     },
     ['cypher'] = {                            --DLC +set sv_enforceGameBuild 2372
         ['name'] = 'Cypher',
-        ['brand'] = 'Ubermacht',
+        ['brand'] = 'Übermacht',
         ['model'] = 'cypher',
         ['price'] = 155000,
         ['category'] = 'sports',
@@ -4990,7 +4990,7 @@ QBShared.Vehicles = {
     },
     ['rhinehart'] = {
         ['name'] = 'Rhinehart',
-        ['brand'] = 'Ubermacht',
+        ['brand'] = 'Übermacht',
         ['model'] = 'rhinehart ',
         ['price'] = 105000,
         ['category'] = 'sedans',
@@ -5010,7 +5010,7 @@ QBShared.Vehicles = {
     },
     ['sentinel4'] = {
         ['name'] = 'Sentinel Classic Widebody',
-        ['brand'] = 'Ubermacht',
+        ['brand'] = 'Übermacht',
         ['model'] = 'sentinel4',
         ['price'] = 140000,
         ['category'] = 'sports',
