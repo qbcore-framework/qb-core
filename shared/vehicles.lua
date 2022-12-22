@@ -2491,8 +2491,8 @@ QBShared.Vehicles = {
         ['shop'] = 'pdm',
     },
     ['astron'] = {          --DLC +set sv_enforceGameBuild 2545
-        ['name'] = 'Pfister',
-        ['brand'] = 'Astron',
+        ['name'] = 'Astron',
+        ['brand'] = 'Pfister',
         ['model'] = 'astron',
         ['price'] = 150000,
         ['category'] = 'sedans',
