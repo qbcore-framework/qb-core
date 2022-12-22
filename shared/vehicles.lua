@@ -837,7 +837,7 @@ QBShared.Vehicles = {
         ['shop'] = 'pdm',
     },
     ['shotaro'] = {
-        ['name'] = 'Shotaro Concept',
+        ['name'] = 'Shotaro',
         ['brand'] = 'Nagasaki',
         ['model'] = 'shotaro',
         ['price'] = 320000,
