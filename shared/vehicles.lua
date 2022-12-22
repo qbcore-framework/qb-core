@@ -5209,7 +5209,7 @@ QBShared.Vehicles = {
         ['shop'] = 'truck',
     },
     ['boxville'] = {
-        ['name'] = 'Boxville',
+        ['name'] = 'Boxville LSDWP',
         ['brand'] = 'Brute',
         ['model'] = 'boxville',
         ['price'] = 45000,
@@ -5219,7 +5219,7 @@ QBShared.Vehicles = {
         ['shop'] = 'truck',
     },
     ['boxville2'] = {
-        ['name'] = 'Boxville2',
+        ['name'] = 'Boxville Go Postal',
         ['brand'] = 'Brute',
         ['model'] = 'boxville2',
         ['price'] = 45000,
@@ -5229,7 +5229,7 @@ QBShared.Vehicles = {
         ['shop'] = 'truck',
     },
     ['boxville3'] = {
-        ['name'] = 'Boxville3',
+        ['name'] = 'Boxville Humane Labs',
         ['brand'] = 'Brute',
         ['model'] = 'boxville3',
         ['price'] = 45000,
@@ -5239,7 +5239,7 @@ QBShared.Vehicles = {
         ['shop'] = 'truck',
     },
     ['boxville4'] = {
-        ['name'] = 'Boxville4',
+        ['name'] = 'Boxville Post OP',
         ['brand'] = 'Brute',
         ['model'] = 'boxville4',
         ['price'] = 45000,
