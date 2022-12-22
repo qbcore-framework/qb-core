@@ -1820,7 +1820,7 @@ QBShared.Vehicles = {
     },
     ['rebel2'] = {
         ['name'] = 'Rebel',
-        ['brand'] = 'Annis',
+        ['brand'] = 'Vapid',
         ['model'] = 'rebel2',
         ['price'] = 20000,
         ['category'] = 'offroad',
@@ -1840,7 +1840,7 @@ QBShared.Vehicles = {
     },
     ['sandking'] = {
         ['name'] = 'Sandking XL',
-        ['brand'] = 'Annis',
+        ['brand'] = 'Vapid',
         ['price'] = 25000,
         ['category'] = 'offroad',
         ['categoryLabel'] = 'Off Road',
@@ -1850,7 +1850,7 @@ QBShared.Vehicles = {
     },
     ['sandking2'] = {
         ['name'] = 'Sandking SWB',
-        ['brand'] = 'Annis',
+        ['brand'] = 'Vapid',
         ['price'] = 38000,
         ['category'] = 'offroad',
         ['categoryLabel'] = 'Off Road',
@@ -1860,7 +1860,7 @@ QBShared.Vehicles = {
     },
     ['trophytruck'] = {
         ['name'] = 'Trophy Truck',
-        ['brand'] = 'Annis',
+        ['brand'] = 'Vapid',
         ['price'] = 60000,
         ['category'] = 'offroad',
         ['categoryLabel'] = 'Off Road',
@@ -1869,8 +1869,8 @@ QBShared.Vehicles = {
         ['shop'] = 'pdm',
     },
     ['trophytruck2'] = {
-        ['name'] = 'Trophy Truck Limited',
-        ['brand'] = 'Annis',
+        ['name'] = 'Desert Raid',
+        ['brand'] = 'Vapid',
         ['price'] = 80000,
         ['category'] = 'offroad',
         ['categoryLabel'] = 'Off Road',
