@@ -236,7 +236,7 @@ QBShared.Vehicles = {
     },
     ['oracle'] = {
         ['name'] = 'Oracle',
-        ['brand'] = 'Ubermacht',
+        ['brand'] = 'Übermacht',
         ['model'] = 'oracle',
         ['price'] = 22000,
         ['category'] = 'sedans',
@@ -346,7 +346,7 @@ QBShared.Vehicles = {
     },
     ['zeno'] = {          --DLC +set sv_enforceGameBuild 2545
         ['name'] = 'Zeno',
-        ['brand'] = 'Overflod',
+        ['brand'] = 'Överflöd',
         ['model'] = 'zeno',
         ['price'] = 1350000,
         ['category'] = 'super',
@@ -837,7 +837,7 @@ QBShared.Vehicles = {
         ['shop'] = 'pdm',
     },
     ['shotaro'] = {
-        ['name'] = 'Shotaro Concept',
+        ['name'] = 'Shotaro',
         ['brand'] = 'Nagasaki',
         ['model'] = 'shotaro',
         ['price'] = 320000,
@@ -1428,7 +1428,7 @@ QBShared.Vehicles = {
         ['shop'] = 'pdm',
     },
     ['sabregt'] = {
-        ['name'] = 'Sabre Turbo',
+        ['name'] = 'Sabre GT Turbo',
         ['brand'] = 'Declasse',
         ['model'] = 'sabregt',
         ['price'] = 23000,
@@ -1438,7 +1438,7 @@ QBShared.Vehicles = {
         ['shop'] = 'pdm',
     },
     ['sabregt2'] = {
-        ['name'] = 'Sabre GT',
+        ['name'] = 'Sabre GT Turbo Custom',
         ['brand'] = 'Declasse',
         ['model'] = 'sabregt2',
         ['price'] = 26500,
@@ -1820,7 +1820,7 @@ QBShared.Vehicles = {
     },
     ['rebel2'] = {
         ['name'] = 'Rebel',
-        ['brand'] = 'Annis',
+        ['brand'] = 'Vapid',
         ['model'] = 'rebel2',
         ['price'] = 20000,
         ['category'] = 'offroad',
@@ -1839,8 +1839,8 @@ QBShared.Vehicles = {
         ['shop'] = 'pdm',
     },
     ['sandking'] = {
-        ['name'] = 'Sandking',
-        ['brand'] = 'Annis',
+        ['name'] = 'Sandking XL',
+        ['brand'] = 'Vapid',
         ['price'] = 25000,
         ['category'] = 'offroad',
         ['categoryLabel'] = 'Off Road',
@@ -1850,7 +1850,7 @@ QBShared.Vehicles = {
     },
     ['sandking2'] = {
         ['name'] = 'Sandking SWB',
-        ['brand'] = 'Annis',
+        ['brand'] = 'Vapid',
         ['price'] = 38000,
         ['category'] = 'offroad',
         ['categoryLabel'] = 'Off Road',
@@ -1860,7 +1860,7 @@ QBShared.Vehicles = {
     },
     ['trophytruck'] = {
         ['name'] = 'Trophy Truck',
-        ['brand'] = 'Annis',
+        ['brand'] = 'Vapid',
         ['price'] = 60000,
         ['category'] = 'offroad',
         ['categoryLabel'] = 'Off Road',
@@ -1869,8 +1869,8 @@ QBShared.Vehicles = {
         ['shop'] = 'pdm',
     },
     ['trophytruck2'] = {
-        ['name'] = 'Trophy Truck Limited',
-        ['brand'] = 'Annis',
+        ['name'] = 'Desert Raid',
+        ['brand'] = 'Vapid',
         ['price'] = 80000,
         ['category'] = 'offroad',
         ['categoryLabel'] = 'Off Road',
@@ -2020,7 +2020,7 @@ QBShared.Vehicles = {
         ['shop'] = 'pdm',
     },
     ['dubsta2'] = {
-        ['name'] = 'Dubsta Luxuary',
+        ['name'] = 'Dubsta Luxury',
         ['brand'] = 'Benefactor',
         ['model'] = 'dubsta2',
         ['price'] = 19500,
@@ -2491,8 +2491,8 @@ QBShared.Vehicles = {
         ['shop'] = 'pdm',
     },
     ['astron'] = {          --DLC +set sv_enforceGameBuild 2545
-        ['name'] = 'Pfister',
-        ['brand'] = 'Astron',
+        ['name'] = 'Astron',
+        ['brand'] = 'Pfister',
         ['model'] = 'astron',
         ['price'] = 150000,
         ['category'] = 'sedans',
@@ -2803,7 +2803,7 @@ QBShared.Vehicles = {
     },
     ['imorgon'] = {
         ['name'] = 'Imorgon',
-        ['brand'] = 'Overflod',
+        ['brand'] = 'Överflöd',
         ['model'] = 'imorgon',
         ['price'] = 120000,
         ['category'] = 'sports',
@@ -3063,7 +3063,7 @@ QBShared.Vehicles = {
     },
     ['revolter'] = {
         ['name'] = 'Revolter',
-        ['brand'] = 'Ubermacht',
+        ['brand'] = 'Übermacht',
         ['model'] = 'revolter',
         ['price'] = 95000,
         ['category'] = 'sports',
@@ -3353,7 +3353,7 @@ QBShared.Vehicles = {
     },
     ['cypher'] = {                            --DLC +set sv_enforceGameBuild 2372
         ['name'] = 'Cypher',
-        ['brand'] = 'Ubermacht',
+        ['brand'] = 'Übermacht',
         ['model'] = 'cypher',
         ['price'] = 155000,
         ['category'] = 'sports',
@@ -3613,7 +3613,7 @@ QBShared.Vehicles = {
         ['shop'] = 'pdm',
     },
     ['rapidgt3'] = {
-        ['name'] = 'Rapid GT',
+        ['name'] = 'Rapid GT Classic',
         ['brand'] = 'Dewbauchee',
         ['model'] = 'rapidgt3',
         ['price'] = 90000,
@@ -3713,7 +3713,7 @@ QBShared.Vehicles = {
         ['shop'] = 'pdm',
     },
     ['tornado2'] = {
-        ['name'] = 'Tornado Gang',
+        ['name'] = 'Tornado Convertible',
         ['brand'] = 'Declasse',
         ['model'] = 'tornado2',
         ['price'] = 22000,
@@ -4990,7 +4990,7 @@ QBShared.Vehicles = {
     },
     ['rhinehart'] = {
         ['name'] = 'Rhinehart',
-        ['brand'] = 'Ubermacht',
+        ['brand'] = 'Übermacht',
         ['model'] = 'rhinehart ',
         ['price'] = 105000,
         ['category'] = 'sedans',
@@ -5010,7 +5010,7 @@ QBShared.Vehicles = {
     },
     ['sentinel4'] = {
         ['name'] = 'Sentinel Classic Widebody',
-        ['brand'] = 'Ubermacht',
+        ['brand'] = 'Übermacht',
         ['model'] = 'sentinel4',
         ['price'] = 140000,
         ['category'] = 'sports',
@@ -5099,7 +5099,7 @@ QBShared.Vehicles = {
         ['shop'] = 'truck',
     },
     ['stockade'] = {
-        ['name'] = 'stockade',
+        ['name'] = 'Stockade',
         ['brand'] = 'Brute',
         ['model'] = 'stockade',
         ['price'] = 100000,
@@ -5109,7 +5109,7 @@ QBShared.Vehicles = {
         ['shop'] = 'truck',
     },
     ['biff'] = {
-        ['name'] = 'biff',
+        ['name'] = 'Biff',
         ['brand'] = 'Brute',
         ['model'] = 'biff',
         ['price'] = 100000,
