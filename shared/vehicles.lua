@@ -346,7 +346,7 @@ QBShared.Vehicles = {
     },
     ['zeno'] = {          --DLC +set sv_enforceGameBuild 2545
         ['name'] = 'Zeno',
-        ['brand'] = 'Overflod',
+        ['brand'] = 'Överflöd',
         ['model'] = 'zeno',
         ['price'] = 1350000,
         ['category'] = 'super',
@@ -2803,7 +2803,7 @@ QBShared.Vehicles = {
     },
     ['imorgon'] = {
         ['name'] = 'Imorgon',
-        ['brand'] = 'Overflod',
+        ['brand'] = 'Överflöd',
         ['model'] = 'imorgon',
         ['price'] = 120000,
         ['category'] = 'sports',
