@@ -10,7 +10,7 @@ local Translations = {
         too_heavy = 'Inventaris is te vol',
         duplicate_license = 'Dubbele Rockstar-licentie gevonden',
         no_valid_license  = 'Geen geldige Rockstar-licentie gevonden',
-        not_whitelisted = 'Je staat niet op de whitelist voor deze server'
+        not_whitelisted = 'Je staat niet op de whitelist voor deze server',
         server_already_open = 'Server is al open',
         server_already_closed = 'Server is gesloten',
         no_permission = 'Je hebt geen rechten om dit te doen..',
@@ -32,7 +32,7 @@ local Translations = {
         off_duty = 'Je bent nu uit dienst!',
         checking_ban = 'Hallo %s. We controleren of je verbannen bent.',
         join_server = 'Welkom %s bij {Server Name}.',
-        checking_whitelisted = 'Hallo %s. We controleren of je op de whitelist staat.'
+        checking_whitelisted = 'Hallo %s. We controleren of je op de whitelist staat.',
         exploit_banned = 'Je bent verbannen voor valsspelen. Check onze Discord voor meer informatie: %{discord}',
         exploit_dropped = 'Je bent Ge-Kicked Voor Exploit gebruik',
     },
