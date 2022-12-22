@@ -1748,6 +1748,16 @@ QBShared.Vehicles = {
         ['hash'] = `everon`,
         ['shop'] = 'pdm',
     },
+    ['everon2'] = {                         --DLC +set sv_enforceGameBuild 2802
+        ['name'] = 'Hotring Everon',
+        ['brand'] = 'Karin',
+        ['model'] = 'everon2',
+        ['price'] = 179000,
+        ['category'] = 'sports',
+        ["categoryLabel"] = 'Sports',
+        ['hash'] = `everon2`,
+        ['shop'] = 'UNRELEASED',
+    },
     ['freecrawler'] = {                            --DLC
         ['name'] = 'Freecrawler',
         ['brand'] = 'Canis',
@@ -5538,7 +5548,16 @@ QBShared.Vehicles = {
         ['hash'] = `virtue`,
         ['shop'] = 'UNRELEASED',
     },
-
+    ['brickade2'] = {                         --DLC +set sv_enforceGameBuild 2802
+        ['name'] = 'Brickade 6x6',
+        ['brand'] = 'MTL',
+        ['model'] = 'brickade2',
+        ['price'] = 245000,
+        ['category'] = 'service',
+        ["categoryLabel"] = 'Service',
+        ['hash'] = `brickade2`,
+        ['shop'] = 'UNRELEASED',
+    },
 }
 
 for _, v in pairs(QBShared.Vehicles) do
