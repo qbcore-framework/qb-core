@@ -1839,7 +1839,7 @@ QBShared.Vehicles = {
         ['shop'] = 'pdm',
     },
     ['sandking'] = {
-        ['name'] = 'Sandking',
+        ['name'] = 'Sandking XL',
         ['brand'] = 'Annis',
         ['price'] = 25000,
         ['category'] = 'offroad',
