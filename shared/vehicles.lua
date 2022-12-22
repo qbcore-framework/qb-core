@@ -3613,7 +3613,7 @@ QBShared.Vehicles = {
         ['shop'] = 'pdm',
     },
     ['rapidgt3'] = {
-        ['name'] = 'Rapid GT',
+        ['name'] = 'Rapid GT Classic',
         ['brand'] = 'Dewbauchee',
         ['model'] = 'rapidgt3',
         ['price'] = 90000,
