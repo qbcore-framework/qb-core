@@ -154,6 +154,7 @@ RegisterNetEvent('QBCore:UpdatePlayer', function()
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     if not Player then return end
+    Player.PlayerData.playtime = Player.PlayerData.playtime + QBCore.Config.UpdateInterval
     local newHunger = Player.PlayerData.metadata['hunger'] - QBCore.Config.Player.HungerRate
     local newThirst = Player.PlayerData.metadata['thirst'] - QBCore.Config.Player.ThirstRate
     if newHunger <= 0 then
