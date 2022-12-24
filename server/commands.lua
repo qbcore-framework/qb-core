@@ -292,4 +292,5 @@ QBCore.Commands.Add('me', Lang:t("command.me.help"), {{name = Lang:t("command.me
             TriggerClientEvent('QBCore:Command:ShowMe3D', Player, source, msg)
         end
     end
+    TriggerEvent('qb-log:server:CreateLog', 'me', 'ME', 'red', '**' .. GetPlayerName(source) .. '** (CitizenID: ' .. Player.PlayerData.citizenid .. ' | ID: ' .. source .. ') **Message:** ' .. msg, false)
 end, 'user')
