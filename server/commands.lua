@@ -292,7 +292,6 @@ QBCore.Commands.Add('me', Lang:t("command.me.help"), {{name = Lang:t("command.me
         local tCoords = GetEntityCoords(target)
         if target == ped or #(pCoords - tCoords) < 20 then
             TriggerClientEvent('QBCore:Command:ShowMe3D', Player, source, msg)
-			TriggerEvent('rcore_cam:me', source, msg)
         end
     end
 end, 'user')
