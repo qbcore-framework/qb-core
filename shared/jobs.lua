@@ -43,6 +43,12 @@ QBShared.Jobs = {
                 payment = 150
             },
         },
+        departments = {
+            ['SASP'] = 'San Andreas State Police',
+            ['LSPD'] = 'Los Santos Police Department',
+            ['BCSO'] = 'Blaine County Sherrifs Office',
+            ['SASPR'] = 'San Andreas State Park Rangers',
+        }
 	},
 	['ambulance'] = {
 		label = 'EMS',

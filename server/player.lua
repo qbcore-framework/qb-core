@@ -144,6 +144,9 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
     if QBCore.Shared.ForceJobDefaultDutyAtLogin or PlayerData.job.onduty == nil then
         PlayerData.job.onduty = QBCore.Shared.Jobs[PlayerData.job.name].defaultDuty
     end
+    PlayerData.job.dept = PlayerData.job.dept or {}
+    PlayerData.job.dept.name = PlayerData.job.dept.name or 'none'
+    PlayerData.job.dept.label = PlayerData.job.dept.label or 'Unknown'
     PlayerData.job.isboss = PlayerData.job.isboss or false
     PlayerData.job.grade = PlayerData.job.grade or {}
     PlayerData.job.grade.name = PlayerData.job.grade.name or 'Freelancer'
@@ -189,14 +192,22 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         TriggerClientEvent('QBCore:Player:SetPlayerData', self.PlayerData.source, self.PlayerData)
     end
 
-    function self.Functions.SetJob(job, grade)
+    function self.Functions.SetJob(job, grade, dept)
         job = job:lower()
         grade = tostring(grade) or '0'
+
         if not QBCore.Shared.Jobs[job] then return false end
         self.PlayerData.job.name = job
         self.PlayerData.job.label = QBCore.Shared.Jobs[job].label
         self.PlayerData.job.onduty = QBCore.Shared.Jobs[job].defaultDuty
         self.PlayerData.job.type = QBCore.Shared.Jobs[job].type or 'none'
+        if QBCore.Shared.Jobs[job].departments then
+            self.PlayerData.job.dept.name = dept or 'none'
+            self.PlayerData.job.dept.label = QBCore.Shared.Jobs[job].departments[dept] or 'Unknown'
+        else
+            self.PlayerData.job.dept.name = 'none'
+            self.PlayerData.job.dept.label = 'Unknown'
+        end
         if QBCore.Shared.Jobs[job].grades[grade] then
             local jobgrade = QBCore.Shared.Jobs[job].grades[grade]
             self.PlayerData.job.grade = {}

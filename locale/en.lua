@@ -28,6 +28,7 @@ local Translations = {
     info = {
         received_paycheck = 'You received your paycheck of $%{value}',
         job_info = 'Job: %{value} | Grade: %{value2} | Duty: %{value3}',
+        job_info_dept = 'Job: %{value} | Grade: %{value2} | Dept: %{value3} | Duty: %{value4}',
         gang_info = 'Gang: %{value} | Grade: %{value2}',
         on_duty = 'You are now on duty!',
         off_duty = 'You are now off duty!',
