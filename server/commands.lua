@@ -217,19 +217,19 @@ QBCore.Commands.Add('job', Lang:t("command.job.help"), {}, false, function(sourc
     local PlayerJob = QBCore.Functions.GetPlayer(source).PlayerData.job
     if PlayerJob.dept ~= 'none' then
         TriggerClientEvent('QBCore:Notify', source, Lang:t('info.job_info_dept', {value = PlayerJob.label, value2 = PlayerJob.grade.name, value3 = PlayerJob.dept.name, value4 = PlayerJob.onduty}))
-    else 
+    else
         TriggerClientEvent('QBCore:Notify', source, Lang:t('info.job_info', {value = PlayerJob.label, value2 = PlayerJob.grade.name, value3 = PlayerJob.onduty}))
     end
 end, 'user')
 
 QBCore.Commands.Add('setjob', 'Set A Players Job (Admin Only)', { { name = Lang:t("command.setjob.params.id.name"), help = Lang:t("command.setjob.params.id.help") }, { name = Lang:t("command.setjob.params.job.name"), help = Lang:t("command.setjob.params.job.help") }, { name = Lang:t("command.setjob.params.grade.name"), help = Lang:t("command.setjob.params.grade.help") }, { name = 'dept', help = 'Department (Leave Blank If not PD)' } }, false, function(source, args)
     local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
-    if not args[1] then return end 
-    if not args[2] then return end 
-    if not args[3] then return end 
-    if not args[4] then 
+    if not args[1] then return end
+    if not args[2] then return end
+    if not args[3] then return end
+    if not args[4] then
         args[4] = "none"
-    end 
+    end
 
     if Player then
         Player.Functions.SetJob(tostring(args[2]), tonumber(args[3]), tostring(args[4]))

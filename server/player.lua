@@ -201,10 +201,10 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         self.PlayerData.job.label = QBCore.Shared.Jobs[job].label
         self.PlayerData.job.onduty = QBCore.Shared.Jobs[job].defaultDuty
         self.PlayerData.job.type = QBCore.Shared.Jobs[job].type or 'none'
-        if QBCore.Shared.Jobs[job].departments then 
+        if QBCore.Shared.Jobs[job].departments then
             self.PlayerData.job.dept.name = dept or 'none'
             self.PlayerData.job.dept.label = QBCore.Shared.Jobs[job].departments[dept] or 'Unknown'
-        else 
+        else
             self.PlayerData.job.dept.name = 'none'
             self.PlayerData.job.dept.label = 'Unknown'
         end
