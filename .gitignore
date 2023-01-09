@@ -3,3 +3,4 @@
 .vscode/*
 !.vscode/extensions.json
 !.vscode/settings.json
+html/css/themes.css
