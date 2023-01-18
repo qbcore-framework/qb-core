@@ -317,19 +317,26 @@ end
 QBCore.Functions.GetCoreVersion = GetCoreVersion
 exports('GetCoreVersion', GetCoreVersion)
 
-local function ExploitBan(playerId, origin)
-    local name = GetPlayerName(playerId)
+-- Player Ban
+local function BanPlayer(src,reason,expire,resource)
+    local name = GetPlayerName(src)
     MySQL.insert('INSERT INTO bans (name, license, discord, ip, reason, expire, bannedby) VALUES (?, ?, ?, ?, ?, ?, ?)', {
         name,
-        QBCore.Functions.GetIdentifier(playerId, 'license'),
-        QBCore.Functions.GetIdentifier(playerId, 'discord'),
-        QBCore.Functions.GetIdentifier(playerId, 'ip'),
-        origin,
-        2147483647,
-        'Anti Cheat'
+        QBCore.Functions.GetIdentifier(src, 'license'),
+        QBCore.Functions.GetIdentifier(src, 'discord'),
+        QBCore.Functions.GetIdentifier(src, 'ip'),
+        reason,
+        expire,
+        resource
     })
-    DropPlayer(playerId, Lang:t('info.exploit_banned', {discord = QBCore.Config.Server.Discord}))
-    TriggerEvent("qb-log:server:CreateLog", "anticheat", "Anti-Cheat", "red", name .. " has been banned for exploiting " .. origin, true)
+    TriggerEvent('qb-log:server:CreateLog', resource, 'Player Banned', 'red', string.format('%s was banned by %s for %s', name, resource, reason), true)
+    DropPlayer(src, string.format("You were permanently banned by the server for: %s",reason))
 end
+exports("BanPlayer",BanPlayer)
 
+-- Deprecated exploit ban
+local function ExploitBan(playerId, origin)
+    local name = GetPlayerName(playerId)
+    BanPlayer(playerId,origin,"2147483647",'Anti Cheat')
+end
 exports('ExploitBan', ExploitBan)
