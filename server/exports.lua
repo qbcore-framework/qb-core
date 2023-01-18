@@ -336,7 +336,6 @@ exports("BanPlayer",BanPlayer)
 
 -- Deprecated exploit ban
 local function ExploitBan(playerId, origin)
-    local name = GetPlayerName(playerId)
     BanPlayer(playerId,origin,"2147483647",'Anti Cheat')
 end
 exports('ExploitBan', ExploitBan)
