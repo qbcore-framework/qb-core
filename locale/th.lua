@@ -117,6 +117,7 @@ local Translations = {
                 message = { name = 'message', help = 'ข้อความที่จะส่ง' }
             },
         },
+    }
 }
     
 if GetConvar('qb_locale', 'en') == 'th' then
