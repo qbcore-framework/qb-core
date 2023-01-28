@@ -27,7 +27,7 @@ local Translations = {
     },
     info = {
         received_paycheck = 'Du har modtaget din lønseddel på %{value} kr.',
-        job_info = 'Job: %{value} | Karakter: %{value2} | Pligt: %{value3}',
+        job_info = 'Job: %{value} | Karakter: %{value2} | På Arbejde: ​​%{value3}',
         gang_info = 'Bande: %{value} | Karakter: %{value2}',
         on_duty = 'Du er nu på vagt!',
         off_duty = 'Du har nu fri!',
