@@ -26,8 +26,8 @@ local Translations = {
         teleported_waypoint = 'Teleporteret til waypoint.',
     },
     info = {
-        receive_paycheck = 'Du har modtaget din lønseddel på %{value} kr.',
-        job_info = 'Job: %{value} | Karakter: %{value2} | Pligt: ​​%{value3}',
+        received_paycheck = 'Du har modtaget din lønseddel på %{value} kr.',
+        job_info = 'Job: %{value} | Karakter: %{value2} | Pligt: %{value3}',
         gang_info = 'Bande: %{value} | Karakter: %{value2}',
         on_duty = 'Du er nu på vagt!',
         off_duty = 'Du har nu fri!',
