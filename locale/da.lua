@@ -1,6 +1,6 @@
 local Translations = {
     error = {
-        not_online = 'Spiller er ikke online',
+        not_online = 'Spiller ikke online',
         wrong_format = 'Forkert format',
         missing_args = 'Du mangler nogle argumenter (x, y, z)',
         missing_args2 = 'Alle argumenter skal udfyldes!',
@@ -120,7 +120,10 @@ local Translations = {
     },
 }
 
-Lang = Lang or Locale:new({
-    phrases = Translations,
-    warnOnMissing = true
-})
+if GetConvar('qb_locale', 'en') == 'da' then
+    Lang = Locale:new({
+        phrases = Translations,
+        warnOnMissing = true,
+        fallbackLang = Lang,
+    })
+end
