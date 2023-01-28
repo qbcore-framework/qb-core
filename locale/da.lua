@@ -1,6 +1,6 @@
 local Translations = {
     error = {
-        not_online = 'Spiller ikke online',
+        not_online = 'Spiller er ikke online',
         wrong_format = 'Forkert format',
         missing_args = 'Du mangler nogle argumenter (x, y, z)',
         missing_args2 = 'Alle argumenter skal udfyldes!',
