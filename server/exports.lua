@@ -329,7 +329,7 @@ local function BanPlayer(src,reason,expire,resource)
         expire,
         resource
     })
-    TriggerEvent('qb-log:server:CreateLog', resource, 'Player Banned', 'red', string.format('%s was banned by %s for %s', name, resource, reason), true)
+    TriggerEvent('qb-log:server:CreateLog', resource, 'Player Banned', 'red', string.format('%s was banned by %s for %s', name, resource, reason))
     DropPlayer(src, string.format("You were permanently banned by the server for: %s",reason))
 end
 exports("BanPlayer",BanPlayer)
