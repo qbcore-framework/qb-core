@@ -5068,6 +5068,16 @@ QBShared.Vehicles = {
         ['hash'] = `vigero2`,
         ['shop'] = 'pdm',
     },
+    ['broadway'] = {
+        ['name'] = 'Broadway',
+        ['brand'] = 'Classique',
+        ['model'] = 'broadway',
+        ['price'] = 76000,
+        ['category'] = 'muscle',
+        ['categoryLabel'] = 'Muscle',
+        ['hash'] = `broadway`,
+        ['shop'] = 'pdm',
+    },
     ['weevil2'] = {
         ['name'] = 'Weevil Custom',
         ['brand'] = 'BF',
