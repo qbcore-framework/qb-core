@@ -249,7 +249,7 @@ function QBCore.Functions.TriggerCallback(name, source, cb, ...)
     if not QBCore.ServerCallbacks[name] then return end
     local params = { ... }
     xpcall(function()
-        QBCore.ServerCallbacks[name](source, cb, table.unpack(params)) 
+        QBCore.ServerCallbacks[name](source, cb, table.unpack(params))
     end, function(err)
         QBCore.ShowError(GetInvokingResource(), "Callback " .. name .. " errored out.")
         QBCore.ShowError(GetInvokingResource(), err)
