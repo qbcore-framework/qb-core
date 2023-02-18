@@ -11,6 +11,7 @@ function QBCore.Player.Login(source, citizenid, newData)
             local license = QBCore.Functions.GetIdentifier(source, 'license')
             local PlayerData = MySQL.prepare.await('SELECT * FROM players where citizenid = ?', { citizenid })
             if PlayerData and license == PlayerData.license then
+                PlayerData.online = true
                 PlayerData.money = json.decode(PlayerData.money)
                 PlayerData.job = json.decode(PlayerData.job)
                 PlayerData.position = json.decode(PlayerData.position)
@@ -59,14 +60,15 @@ end
 
 function QBCore.Player.CheckPlayerData(source, PlayerData)
     PlayerData = PlayerData or {}
-    local Offline = true
+
     if source then
         PlayerData.source = source
         PlayerData.license = PlayerData.license or QBCore.Functions.GetIdentifier(source, 'license')
         PlayerData.name = GetPlayerName(source)
-        Offline = false
+        PlayerData.online = true
     end
 
+    PlayerData.online = PlayerData.online or true
     PlayerData.citizenid = PlayerData.citizenid or QBCore.Player.CreateCitizenId()
     PlayerData.cid = PlayerData.cid or 1
     PlayerData.money = PlayerData.money or {}
@@ -160,12 +162,13 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
     -- Other
     PlayerData.position = PlayerData.position or QBConfig.DefaultSpawn
     PlayerData.items = GetResourceState('qb-inventory') ~= 'missing' and exports['qb-inventory']:LoadInventory(PlayerData.source, PlayerData.citizenid) or {}
-    return QBCore.Player.CreatePlayer(PlayerData, Offline)
+    return QBCore.Player.CreatePlayer(PlayerData)
 end
 
 -- On player logout
 
 function QBCore.Player.Logout(source)
+    QBCore.Players[source].PlayerData.online = false
     TriggerClientEvent('QBCore:Client:OnPlayerUnload', source)
     TriggerEvent('QBCore:Server:OnPlayerUnload', source)
     TriggerClientEvent('QBCore:Player:UpdatePlayerData', source)
@@ -177,15 +180,16 @@ end
 -- Don't touch any of this unless you know what you are doing
 -- Will cause major issues!
 
-function QBCore.Player.CreatePlayer(PlayerData, Offline)
+function QBCore.Player.CreatePlayer(PlayerData)
     local self = {}
     self.Functions = {}
     self.PlayerData = PlayerData
-    self.Offline = Offline
+    -- For backwards compability reasons [qb-inventory i.e.]
+    self.Offline = not self.PlayerData.online
 
     function self.Functions.UpdatePlayerData()
-        if self.Offline then return end -- Unsupported for Offline Players
-        TriggerEvent('QBCore:Player:SetPlayerData', self.PlayerData)
+        if not self.PlayerData.online then return end -- Unsupported for Offline Players
+        TriggerEvent('QBCore:UpdatePlayer')
         TriggerClientEvent('QBCore:Player:SetPlayerData', self.PlayerData.source, self.PlayerData)
     end
 
@@ -212,7 +216,7 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
             self.PlayerData.job.isboss = false
         end
 
-        if not self.Offline then
+        if self.PlayerData.online then
             self.Functions.UpdatePlayerData()
             TriggerEvent('QBCore:Server:OnJobUpdate', self.PlayerData.source, self.PlayerData.job)
             TriggerClientEvent('QBCore:Client:OnJobUpdate', self.PlayerData.source, self.PlayerData.job)
@@ -240,7 +244,7 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
             self.PlayerData.gang.isboss = false
         end
 
-        if not self.Offline then
+        if self.PlayerData.online then
             self.Functions.UpdatePlayerData()
             TriggerEvent('QBCore:Server:OnGangUpdate', self.PlayerData.source, self.PlayerData.gang)
             TriggerClientEvent('QBCore:Client:OnGangUpdate', self.PlayerData.source, self.PlayerData.gang)
@@ -289,7 +293,7 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         if not self.PlayerData.money[moneytype] then return false end
         self.PlayerData.money[moneytype] = self.PlayerData.money[moneytype] + amount
 
-        if not self.Offline then
+        if self.PlayerData.online then
             self.Functions.UpdatePlayerData()
             if amount > 100000 then
                 TriggerEvent('qb-log:server:CreateLog', 'playermoney', 'AddMoney', 'lightgreen', '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')** $' .. amount .. ' (' .. moneytype .. ') added, new ' .. moneytype .. ' balance: ' .. self.PlayerData.money[moneytype] .. ' reason: ' .. reason, true)
@@ -319,7 +323,7 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         end
         self.PlayerData.money[moneytype] = self.PlayerData.money[moneytype] - amount
 
-        if not self.Offline then
+        if self.PlayerData.online then
             self.Functions.UpdatePlayerData()
             if amount > 100000 then
                 TriggerEvent('qb-log:server:CreateLog', 'playermoney', 'RemoveMoney', 'red', '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')** $' .. amount .. ' (' .. moneytype .. ') removed, new ' .. moneytype .. ' balance: ' .. self.PlayerData.money[moneytype] .. ' reason: ' .. reason, true)
@@ -346,7 +350,7 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         local difference = amount - self.PlayerData.money[moneytype]
         self.PlayerData.money[moneytype] = amount
 
-        if not self.Offline then
+        if self.PlayerData.online then
             self.Functions.UpdatePlayerData()
             TriggerEvent('qb-log:server:CreateLog', 'playermoney', 'SetMoney', 'green', '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')** $' .. amount .. ' (' .. moneytype .. ') set, new ' .. moneytype .. ' balance: ' .. self.PlayerData.money[moneytype] .. ' reason: ' .. reason)
             TriggerClientEvent('hud:client:OnMoneyChange', self.PlayerData.source, moneytype, math.abs(difference), difference < 0)
@@ -382,7 +386,7 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
     end
 
     function self.Functions.Save()
-        if self.Offline then
+        if not self.PlayerData.online then
             QBCore.Player.SaveOffline(self.PlayerData)
         else
             QBCore.Player.Save(self.PlayerData.source)
@@ -390,7 +394,7 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
     end
 
     function self.Functions.Logout()
-        if self.Offline then return end -- Unsupported for Offline Players
+        if not self.PlayerData.online then return end -- Unsupported for Offline Players
         QBCore.Player.Logout(self.PlayerData.source)
     end
 
@@ -402,7 +406,7 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         self[fieldName] = data
     end
 
-    if self.Offline then
+    if not self.PlayerData.online then
         return self
     else
         QBCore.Players[self.PlayerData.source] = self
@@ -477,7 +481,7 @@ function QBCore.Player.Save(source)
     local pcoords = GetEntityCoords(ped)
     local PlayerData = QBCore.Players[source].PlayerData
     if PlayerData then
-        MySQL.insert('INSERT INTO players (citizenid, cid, license, name, money, charinfo, job, gang, position, metadata) VALUES (:citizenid, :cid, :license, :name, :money, :charinfo, :job, :gang, :position, :metadata) ON DUPLICATE KEY UPDATE cid = :cid, name = :name, money = :money, charinfo = :charinfo, job = :job, gang = :gang, position = :position, metadata = :metadata', {
+        MySQL.insert('INSERT INTO players (citizenid, cid, license, name, money, charinfo, job, gang, position, metadata, online) VALUES (:citizenid, :cid, :license, :name, :money, :charinfo, :job, :gang, :position, :metadata, :online) ON DUPLICATE KEY UPDATE cid = :cid, name = :name, money = :money, charinfo = :charinfo, job = :job, gang = :gang, position = :position, metadata = :metadata, online = :online', {
             citizenid = PlayerData.citizenid,
             cid = tonumber(PlayerData.cid),
             license = PlayerData.license,
@@ -487,7 +491,8 @@ function QBCore.Player.Save(source)
             job = json.encode(PlayerData.job),
             gang = json.encode(PlayerData.gang),
             position = json.encode(pcoords),
-            metadata = json.encode(PlayerData.metadata)
+            metadata = json.encode(PlayerData.metadata),
+            online = PlayerData.online
         })
         if GetResourceState('qb-inventory') ~= 'missing' then exports['qb-inventory']:SaveInventory(source) end
         QBCore.ShowSuccess(GetCurrentResourceName(), PlayerData.name .. ' PLAYER SAVED!')
@@ -508,7 +513,8 @@ function QBCore.Player.SaveOffline(PlayerData)
             job = json.encode(PlayerData.job),
             gang = json.encode(PlayerData.gang),
             position = json.encode(PlayerData.position),
-            metadata = json.encode(PlayerData.metadata)
+            metadata = json.encode(PlayerData.metadata),
+            online = PlayerData.online,
         })
         if GetResourceState('qb-inventory') ~= 'missing' then exports['qb-inventory']:SaveInventory(PlayerData, true) end
         QBCore.ShowSuccess(GetCurrentResourceName(), PlayerData.name .. ' OFFLINE PLAYER SAVED!')
