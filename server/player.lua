@@ -249,7 +249,6 @@ function QBCore.Player.CreatePlayer(PlayerData)
             TriggerEvent('QBCore:Server:OnGangUpdate', self.PlayerData.source, self.PlayerData.gang)
             TriggerClientEvent('QBCore:Client:OnGangUpdate', self.PlayerData.source, self.PlayerData.gang)
         end
-
         return true
     end
 
@@ -398,7 +397,7 @@ function QBCore.Player.CreatePlayer(PlayerData)
                 TriggerClientEvent('QBCore:Client:OnMoneyChange', self.PlayerData.source, moneytype, amount, "transfer", reason)
                 return true
             end
-            return false   
+            return false
         end
     end
 
@@ -472,7 +471,7 @@ function QBCore.Player.CreatePlayer(PlayerData)
 
         -- At this point we are safe to emit new instance to third party resource for load handling
         TriggerEvent('QBCore:Server:PlayerLoaded', self)
-        self.Functions.UpdatePlayerData() 
+        self.Functions.UpdatePlayerData()
     else
         return self
     end
