@@ -11,7 +11,7 @@ function QBCore.Player.Login(source, citizenid, newData)
             local license = QBCore.Functions.GetIdentifier(source, 'license')
             local PlayerData = MySQL.prepare.await('SELECT * FROM players where citizenid = ?', { citizenid })
             if PlayerData and license == PlayerData.license then
-                PlayerData.online = true
+                PlayerData.online = 1
                 PlayerData.money = json.decode(PlayerData.money)
                 PlayerData.job = json.decode(PlayerData.job)
                 PlayerData.position = json.decode(PlayerData.position)
@@ -60,15 +60,15 @@ end
 
 function QBCore.Player.CheckPlayerData(source, PlayerData)
     PlayerData = PlayerData or {}
-
+    
+    
     if source then
         PlayerData.source = source
         PlayerData.license = PlayerData.license or QBCore.Functions.GetIdentifier(source, 'license')
         PlayerData.name = GetPlayerName(source)
-        PlayerData.online = true
     end
 
-    PlayerData.online = PlayerData.online or true
+    
     PlayerData.citizenid = PlayerData.citizenid or QBCore.Player.CreateCitizenId()
     PlayerData.cid = PlayerData.cid or 1
     PlayerData.money = PlayerData.money or {}
@@ -168,7 +168,7 @@ end
 -- On player logout
 
 function QBCore.Player.Logout(source)
-    QBCore.Players[source].PlayerData.online = false
+    QBCore.Players[source].PlayerData.online = 0
     TriggerClientEvent('QBCore:Client:OnPlayerUnload', source)
     TriggerEvent('QBCore:Server:OnPlayerUnload', source)
     TriggerClientEvent('QBCore:Player:UpdatePlayerData', source)
@@ -289,7 +289,7 @@ function QBCore.Player.CreatePlayer(PlayerData)
         reason = reason or 'unknown'
         moneytype = moneytype:lower()
         amount = tonumber(amount)
-        if amount < 0 then return end
+        if amount <= 0 then return end
         if not self.PlayerData.money[moneytype] then return false end
         self.PlayerData.money[moneytype] = self.PlayerData.money[moneytype] + amount
 
@@ -302,7 +302,6 @@ function QBCore.Player.CreatePlayer(PlayerData)
             end
             TriggerClientEvent('hud:client:OnMoneyChange', self.PlayerData.source, moneytype, amount, false)
             TriggerClientEvent('QBCore:Client:OnMoneyChange', self.PlayerData.source, moneytype, amount, "add", reason)
-            TriggerEvent('QBCore:Server:OnMoneyChange', self.PlayerData.source, moneytype, amount, "add", reason)
         end
 
         return true
@@ -312,7 +311,7 @@ function QBCore.Player.CreatePlayer(PlayerData)
         reason = reason or 'unknown'
         moneytype = moneytype:lower()
         amount = tonumber(amount)
-        if amount < 0 then return end
+        if amount <= 0 then return end
         if not self.PlayerData.money[moneytype] then return false end
         for _, mtype in pairs(QBCore.Config.Money.DontAllowMinus) do
             if mtype == moneytype then
@@ -335,10 +334,72 @@ function QBCore.Player.CreatePlayer(PlayerData)
                 TriggerClientEvent('qb-phone:client:RemoveBankMoney', self.PlayerData.source, amount)
             end
             TriggerClientEvent('QBCore:Client:OnMoneyChange', self.PlayerData.source, moneytype, amount, "remove", reason)
-            TriggerEvent('QBCore:Server:OnMoneyChange', self.PlayerData.source, moneytype, amount, "remove", reason)
         end
 
         return true
+    end
+
+    function self.Functions.TransferMoney(moneytype, amount, recipient, reason)
+        reason = reason or 'unknown'
+        moneytype = moneytype:lower()
+        amount = tonumber(amount)
+        recipient = recipient:upper()
+        local Target = QBCore.Player.GetOfflinePlayer(recipient)
+        if Target == nil then return false end
+        if amount <= 0 then return false end
+
+        
+        if not self.PlayerData.money[moneytype] then return false end
+        if (self.PlayerData.money[moneytype] - amount) < 0 then
+            return false
+        end
+
+        if Target.PlayerData.online then
+            local donatorMoney = self.PlayerData.money
+            donatorMoney[moneytype] = donatorMoney[moneytype] - amount
+
+            local recipientMoney = Target.PlayerData.money
+            recipientMoney[moneytype] = recipientMoney[moneytype] + amount
+
+            local queries = {
+                { query = 'UPDATE players SET money = :money WHERE citizenid = :citizenid', values = { ['money'] = json.encode(donatorMoney), citizenid = self.PlayerData.citizenid}, },
+                { query = 'UPDATE players SET money = :money WHERE citizenid = :citizenid', values = { ['money'] = json.encode(recipientMoney), citizenid = Target.PlayerData.citizenid} }
+            }
+
+            local success = MySQL.transaction.await(queries)
+
+            if success then
+                TriggerEvent('qb-log:server:CreateLog', 'playermoney', 'TransferMoney', 'green', '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')** $' .. amount .. ' (' .. moneytype .. ') set, new ' .. moneytype .. ' balance: ' .. self.PlayerData.money[moneytype] .. ' reason: ' .. reason)
+                TriggerClientEvent('hud:client:OnMoneyChange', self.PlayerData.source, moneytype, amount, true)
+                TriggerClientEvent('QBCore:Client:OnMoneyChange', self.PlayerData.source, moneytype, amount, "transfer", reason)
+                TriggerClientEvent('hud:client:OnMoneyChange', Target.PlayerData.source, moneytype, amount, false)
+                TriggerClientEvent('QBCore:Client:OnMoneyChange', Target.PlayerData.source, moneytype, amount, "transfer", reason)
+                return true
+            end
+            return false
+        else
+            if QBConfig.Money.DontAllowOfflineTransfer[moneytype] then return false end
+
+            local donatorMoney = self.PlayerData.money
+            donatorMoney[moneytype] = donatorMoney[moneytype] - amount
+
+            local recipientMoney = Target.PlayerData.money
+            recipientMoney[moneytype] = recipientMoney[moneytype] + amount
+
+            local queries = {
+                { query = 'UPDATE players SET money = :money WHERE citizenid = :citizenid', values = { ['money'] = json.encode(donatorMoney), citizenid = self.PlayerData.citizenid}, },
+                { query = 'UPDATE players SET money = :money WHERE citizenid = :citizenid', values = { ['money'] = json.encode(recipientMoney), citizenid = Target.PlayerData.citizenid} }
+            }
+            local success = MySQL.transaction.await(queries)
+
+            if success then
+                TriggerEvent('qb-log:server:CreateLog', 'playermoney', 'TransferMoney', 'green', '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')** $' .. amount .. ' (' .. moneytype .. ') set, new ' .. moneytype .. ' balance: ' .. self.PlayerData.money[moneytype] .. ' reason: ' .. reason)
+                TriggerClientEvent('hud:client:OnMoneyChange', self.PlayerData.source, moneytype, amount, true)
+                TriggerClientEvent('QBCore:Client:OnMoneyChange', self.PlayerData.source, moneytype, amount, "transfer", reason)
+                return true
+            end
+            return false   
+        end
     end
 
     function self.Functions.SetMoney(moneytype, amount, reason)
@@ -355,7 +416,6 @@ function QBCore.Player.CreatePlayer(PlayerData)
             TriggerEvent('qb-log:server:CreateLog', 'playermoney', 'SetMoney', 'green', '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')** $' .. amount .. ' (' .. moneytype .. ') set, new ' .. moneytype .. ' balance: ' .. self.PlayerData.money[moneytype] .. ' reason: ' .. reason)
             TriggerClientEvent('hud:client:OnMoneyChange', self.PlayerData.source, moneytype, math.abs(difference), difference < 0)
             TriggerClientEvent('QBCore:Client:OnMoneyChange', self.PlayerData.source, moneytype, amount, "set", reason)
-            TriggerEvent('QBCore:Server:OnMoneyChange', self.PlayerData.source, moneytype, amount, "set", reason)
         end
 
         return true
@@ -406,15 +466,15 @@ function QBCore.Player.CreatePlayer(PlayerData)
         self[fieldName] = data
     end
 
-    if not self.PlayerData.online then
-        return self
-    else
+    if self.PlayerData.online == 1 then
         QBCore.Players[self.PlayerData.source] = self
         QBCore.Player.Save(self.PlayerData.source)
 
         -- At this point we are safe to emit new instance to third party resource for load handling
         TriggerEvent('QBCore:Server:PlayerLoaded', self)
-        self.Functions.UpdatePlayerData()
+        self.Functions.UpdatePlayerData() 
+    else
+        return self
     end
 end
 
@@ -701,3 +761,13 @@ function QBCore.Player.CreateSerialNumber()
 end
 
 PaycheckInterval() -- This starts the paycheck system
+
+
+AddEventHandler('onResourceStop', function(name)
+    if name == GetCurrentResourceName() then
+        for src, Player in pairs(QBCore.Players) do
+            QBCore.Players[src].PlayerData.online = 0
+            Player.Functions.Save()
+        end
+    end
+end)
