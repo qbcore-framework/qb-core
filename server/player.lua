@@ -24,7 +24,7 @@ function QBCore.Player.Login(source, citizenid, newData)
                 QBCore.Player.CheckPlayerData(source, PlayerData)
             else
                 DropPlayer(source, Lang:t("info.exploit_dropped"))
-                TriggerEvent('qb-log:server:CreateLog', 'anticheat', 'Anti-Cheat', 'white', GetPlayerName(source) .. ' Has Been Dropped For Character Joining Exploit', false)
+                TriggerEvent('qb-log:server:CreateLog', 'anticheat', 'Anti-Cheat', 'white', string.format("%s Has Been Dropped For Character Joining Exploit", GetPlayerName(source)), false)
             end
         else
             QBCore.Player.CheckPlayerData(source, newData)
@@ -291,11 +291,7 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
 
         if not self.Offline then
             self.Functions.UpdatePlayerData()
-            if amount > 100000 then
-                TriggerEvent('qb-log:server:CreateLog', 'playermoney', 'AddMoney', 'lightgreen', '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')** $' .. amount .. ' (' .. moneytype .. ') added, new ' .. moneytype .. ' balance: ' .. self.PlayerData.money[moneytype] .. ' reason: ' .. reason, true)
-            else
-                TriggerEvent('qb-log:server:CreateLog', 'playermoney', 'AddMoney', 'lightgreen', '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')** $' .. amount .. ' (' .. moneytype .. ') added, new ' .. moneytype .. ' balance: ' .. self.PlayerData.money[moneytype] .. ' reason: ' .. reason)
-            end
+            TriggerEvent('qb-log:server:CreateLog', 'playermoney', 'AddMoney', 'lightgreen', string.format("** %s (citizenid: %s | id: %s) ** $%s (%s) added, new %s balance: %s reason: %s",GetPlayerName(self.PlayerData.source),self.PlayerData.citizenid,self.PlayerData.source,amount,moneytype,moneytype,self.PlayerData.money[moneytype],reason))
             TriggerClientEvent('hud:client:OnMoneyChange', self.PlayerData.source, moneytype, amount, false)
             TriggerClientEvent('QBCore:Client:OnMoneyChange', self.PlayerData.source, moneytype, amount, "add", reason)
             TriggerEvent('QBCore:Server:OnMoneyChange', self.PlayerData.source, moneytype, amount, "add", reason)
@@ -321,11 +317,7 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
 
         if not self.Offline then
             self.Functions.UpdatePlayerData()
-            if amount > 100000 then
-                TriggerEvent('qb-log:server:CreateLog', 'playermoney', 'RemoveMoney', 'red', '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')** $' .. amount .. ' (' .. moneytype .. ') removed, new ' .. moneytype .. ' balance: ' .. self.PlayerData.money[moneytype] .. ' reason: ' .. reason, true)
-            else
-                TriggerEvent('qb-log:server:CreateLog', 'playermoney', 'RemoveMoney', 'red', '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')** $' .. amount .. ' (' .. moneytype .. ') removed, new ' .. moneytype .. ' balance: ' .. self.PlayerData.money[moneytype] .. ' reason: ' .. reason)
-            end
+            TriggerEvent('qb-log:server:CreateLog', 'playermoney', 'RemoveMoney', 'red', string.format("** %s (citizenid: %s | id: %s)** $%s (%s) removed, new %s balance: %s reason: %s",GetPlayerName(self.PlayerData.source),self.PlayerData.citizenid,self.PlayerData.source,amount,moneytype,moneytype,self.PlayerData.money[moneytype],reason))
             TriggerClientEvent('hud:client:OnMoneyChange', self.PlayerData.source, moneytype, amount, true)
             if moneytype == 'bank' then
                 TriggerClientEvent('qb-phone:client:RemoveBankMoney', self.PlayerData.source, amount)
@@ -348,7 +340,7 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
 
         if not self.Offline then
             self.Functions.UpdatePlayerData()
-            TriggerEvent('qb-log:server:CreateLog', 'playermoney', 'SetMoney', 'green', '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')** $' .. amount .. ' (' .. moneytype .. ') set, new ' .. moneytype .. ' balance: ' .. self.PlayerData.money[moneytype] .. ' reason: ' .. reason)
+            TriggerEvent('qb-log:server:CreateLog', 'playermoney', 'SetMoney', 'green', string.format("** %s (citizenid: %s | id: %s)** $%s (%s) set, new %s balance: %s reason: %s",GetPlayerName(self.PlayerData.source),self.PlayerData.citizenid,self.PlayerData.source,amount,moneytype,moneytype,self.PlayerData.money[moneytype],reason))
             TriggerClientEvent('hud:client:OnMoneyChange', self.PlayerData.source, moneytype, math.abs(difference), difference < 0)
             TriggerClientEvent('QBCore:Client:OnMoneyChange', self.PlayerData.source, moneytype, amount, "set", reason)
             TriggerEvent('QBCore:Server:OnMoneyChange', self.PlayerData.source, moneytype, amount, "set", reason)
@@ -549,12 +541,12 @@ function QBCore.Player.DeleteCharacter(source, citizenid)
 
         MySQL.transaction(queries, function(result2)
             if result2 then
-                TriggerEvent('qb-log:server:CreateLog', 'joinleave', 'Character Deleted', 'red', '**' .. GetPlayerName(source) .. '** ' .. license .. ' deleted **' .. citizenid .. '**..')
+                TriggerEvent('qb-log:server:CreateLog', 'joinleave', 'Character Deleted', 'red', string.format("** %s ** %s deleted ** %s **",GetPlayerName(source),license,citizenid))
             end
         end)
     else
         DropPlayer(source, Lang:t("info.exploit_dropped"))
-        TriggerEvent('qb-log:server:CreateLog', 'anticheat', 'Anti-Cheat', 'white', GetPlayerName(source) .. ' Has Been Dropped For Character Deletion Exploit', true)
+        TriggerEvent('qb-log:server:CreateLog', 'anticheat', 'Anti-Cheat', 'white', string.format("%s Has Been Dropped For Character Deletion Exploit",GetPlayerName(source)))
     end
 end
 
@@ -576,7 +568,7 @@ function QBCore.Player.ForceDeleteCharacter(citizenid)
 
         MySQL.transaction(queries, function(result2)
             if result2 then
-                TriggerEvent('qb-log:server:CreateLog', 'joinleave', 'Character Force Deleted', 'red', 'Character **' .. citizenid .. '** got deleted')
+                TriggerEvent('qb-log:server:CreateLog', 'joinleave', 'Character Force Deleted', 'red', string.format("Character ** %s ** got deleted",citizenid))
             end
         end)
     end
