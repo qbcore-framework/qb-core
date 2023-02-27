@@ -28,6 +28,7 @@ QBConfig.Server.PVP = true -- Enable or disable pvp on the server (Ability to sh
 QBConfig.Server.Discord = "" -- Discord invite link
 QBConfig.Server.CheckDuplicateLicense = true -- Check for duplicate rockstar license on join
 QBConfig.Server.Permissions = { 'god', 'admin', 'mod' } -- Add as many groups as you want here after creating them in your server.cfg
+QBConfig.Server.CharacterDeletion = { 'citizenid', 'id', 'user_id' } -- Add as table names as needed
 
 QBConfig.Notify = {}
 
