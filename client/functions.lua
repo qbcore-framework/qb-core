@@ -558,6 +558,8 @@ function QBCore.Functions.GetVehicleProperties(vehicle)
             modLivery = modLivery,
             modKit49 = GetVehicleMod(vehicle, 49),
             liveryRoof = GetVehicleRoofLivery(vehicle),
+            modColor1 = { GetVehicleModColor_1(vehicle) },
+            modColor2 = { GetVehicleModColor_2(vehicle) }
         }
     else
         return
@@ -852,6 +854,12 @@ function QBCore.Functions.SetVehicleProperties(vehicle, props)
         end
         if props.liveryRoof then
             SetVehicleRoofLivery(vehicle, props.liveryRoof)
+        end
+        if props.modColor1 then
+            SetVehicleModColor_1(vehicle, props.modColor1[1], props.modColor1[2], props.modColor1[3])
+        end
+        if props.modColor2 then
+            SetVehicleModColor_2(vehicle, props.modColor2[1], props.modColor2[2])
         end
     end
 end
