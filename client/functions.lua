@@ -392,6 +392,11 @@ function QBCore.Functions.GetPlate(vehicle)
     return QBCore.Shared.Trim(GetVehicleNumberPlateText(vehicle))
 end
 
+function QBCore.Functions.GetVehicleLabel(vehicle)
+    if vehicle == nil or vehicle == 0 then return end
+    return GetLabelText(GetDisplayNameFromVehicleModel(GetEntityModel(vehicle)))
+end
+
 function QBCore.Functions.SpawnClear(coords, radius)
     if coords then
         coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords
@@ -926,4 +931,63 @@ function QBCore.Functions.StartParticleOnEntity(dict, ptName, looped, entity, bo
         end
     end
     return particleHandle
+end
+
+function QBCore.Functions.GetStreetNametAtCoords(coords)
+    local streetname1, streetname2 = GetStreetNameAtCoord(coords.x, coords.y, coords.z)
+    return { main = GetStreetNameFromHashKey(streetname1), cross = GetStreetNameFromHashKey(streetname2) }
+end
+
+function QBCore.Functions.GetZoneAtCoords(coords)
+    return GetLabelText(GetNameOfZone(coords))
+end
+
+function QBCore.Functions.GetCardinalDirection(entity)
+    entity = DoesEntityExist(entity) and entity or PlayerPedId()
+    if DoesEntityExist(entity) then
+        local heading = GetEntityHeading(entity)
+        if ((heading >= 0 and heading < 45) or (heading >= 315 and heading < 360)) then
+            return "North"
+        elseif (heading >= 45 and heading < 135) then
+            return "West"
+        elseif (heading >= 135 and heading < 225) then
+            return "South"
+        elseif (heading >= 225 and heading < 315) then
+            return "East"
+        end
+    else
+        return "Cardinal Direction Error"
+    end
+end
+
+function QBCore.Functions.GetCurrentTime()
+    local obj = {}
+    obj.min = GetClockMinutes()
+    obj.hour = GetClockHours()
+
+    if obj.hour <= 12 then
+        obj.ampm = "AM"
+    elseif obj.hour >= 13 then
+        obj.ampm = "PM"
+        obj.formattedHour = obj.hour - 12
+    end
+
+    if obj.min <= 9 then
+        obj.formattedMin = "0" .. obj.min
+    end
+
+    return obj
+end
+
+function QBCore.Functions.GetGroundZCoord(coords)
+    if not coords then return end
+
+    local retval, groundZ = GetGroundZFor_3dCoord(coords.x, coords.y, coords.z, 0)
+    if retval then
+        return vector3(coords.x, coords.y, groundZ)
+    else
+        print('Couldn\'t find Ground Z Coordinates given 3D Coordinates')
+        print(coords)
+        return coords
+    end
 end

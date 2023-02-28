@@ -3,6 +3,12 @@ QBShared = QBShared or {}
 local StringCharset = {}
 local NumberCharset = {}
 
+QBShared.StarterItems = {
+    ['phone'] = { amount = 1, item = 'phone' },
+    ['id_card'] = { amount = 1, item = 'id_card' },
+    ['driver_license'] = { amount = 1, item = 'driver_license' },
+}
+
 for i = 48, 57 do NumberCharset[#NumberCharset + 1] = string.char(i) end
 for i = 65, 90 do StringCharset[#StringCharset + 1] = string.char(i) end
 for i = 97, 122 do StringCharset[#StringCharset + 1] = string.char(i) end
@@ -33,6 +39,11 @@ end
 function QBShared.Trim(value)
     if not value then return nil end
     return (string.gsub(value, '^%s*(.-)%s*$', '%1'))
+end
+
+function QBShared.FirstToUpper(value)
+    if not value then return nil end
+    return (value:gsub("^%l", string.upper))
 end
 
 function QBShared.Round(value, numDecimalPlaces)
@@ -69,12 +80,6 @@ function QBShared.SetDefaultVehicleExtras(vehicle, config)
         QBShared.ChangeVehicleExtra(vehicle, tonumber(id), type(enabled) == 'boolean' and enabled or true)
     end
 end
-
-QBShared.StarterItems = {
-    ['phone'] = { amount = 1, item = 'phone' },
-    ['id_card'] = { amount = 1, item = 'id_card' },
-    ['driver_license'] = { amount = 1, item = 'driver_license' },
-}
 
 QBShared.MaleNoGloves = {
     [0] = true,
