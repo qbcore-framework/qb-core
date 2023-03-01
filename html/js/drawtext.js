@@ -2,7 +2,7 @@ let direction = null;
 
 const drawText = async (textData) => {
   const text = document.getElementById("text");
-  let {position} = textData;
+  let { position } = textData;
   switch (textData.position) {
     case "left":
       addClass(text, position);
@@ -30,7 +30,7 @@ const drawText = async (textData) => {
 
 const changeText = async (textData) => {
   const text = document.getElementById("text");
-  let {position} = textData;
+  let { position } = textData;
 
   removeClass(text, "show");
   addClass(text, "pressed");
