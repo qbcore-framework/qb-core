@@ -59,7 +59,7 @@ end
 
 ---Get player by citizen id
 ---@param citizenid string
----@return table|nil
+---@return table?
 function QBCore.Functions.GetPlayerByCitizenId(citizenid)
     for src in pairs(QBCore.Players) do
         if QBCore.Players[src].PlayerData.citizenid == citizenid then
@@ -71,14 +71,14 @@ end
 
 ---Get offline player by citizen id
 ---@param citizenid string
----@return table|nil
+---@return table?
 function QBCore.Functions.GetOfflinePlayerByCitizenId(citizenid)
     return QBCore.Player.GetOfflinePlayer(citizenid)
 end
 
 ---Get player by phone number
 ---@param number number
----@return table|nil
+---@return table?
 function QBCore.Functions.GetPlayerByPhone(number)
     for src in pairs(QBCore.Players) do
         if QBCore.Players[src].PlayerData.charinfo.phone == number then
