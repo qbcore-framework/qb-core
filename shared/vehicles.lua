@@ -1,5 +1,4 @@
 QBShared = QBShared or {}
-QBShared.VehicleHashes = {}
 
 QBShared.Vehicles = {
     --- Compacts
@@ -5399,7 +5398,3 @@ QBShared.Vehicles = {
         ['shop'] = 'truck',
     },
 }
-
-for _, v in pairs(QBShared.Vehicles) do
-    QBShared.VehicleHashes[v.hash] = v
-end
