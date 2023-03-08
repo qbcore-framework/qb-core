@@ -34,8 +34,6 @@ local function onPlayerConnecting(name, _, deferrals)
         end
     end
 
-    deferrals.update(string.format(Lang:t('info.checking_ban'), name))
-
     for _, v in pairs(identifiers) do
         if string.find(v, 'license') then
             license = v
@@ -43,30 +41,62 @@ local function onPlayerConnecting(name, _, deferrals)
         end
     end
 
-    -- Mandatory wait
-    Wait(2500)
-
-    deferrals.update(string.format(Lang:t('info.checking_whitelisted'), name))
-
-    local isBanned, Reason = QBCore.Functions.IsPlayerBanned(src)
-    local isLicenseAlreadyInUse = QBCore.Functions.IsLicenseInUse(license)
-    local isWhitelist, whitelisted = QBCore.Config.Server.Whitelist, QBCore.Functions.IsWhitelisted(src)
-
-    Wait(2500)
-
-    deferrals.update(string.format(Lang:t('info.join_server'), name))
-
-    if not license then
-      deferrals.done(Lang:t('error.no_valid_license'))
-    elseif isBanned then
-        deferrals.done(Reason)
-    elseif isLicenseAlreadyInUse and QBCore.Config.Server.CheckDuplicateLicense then
-        deferrals.done(Lang:t('error.duplicate_license'))
-    elseif isWhitelist and not whitelisted then
-      deferrals.done(Lang:t('error.not_whitelisted'))
+    if GetConvarInt("sv_fxdkMode", false) then
+        license = 'license:AAAAAAAAAAAAAAAA' -- Dummy License
     end
 
-    deferrals.done()
+    if not license then
+        deferrals.done(Lang:t('error.no_valid_license'))
+    elseif QBCore.Config.Server.CheckDuplicateLicense and QBCore.Functions.IsLicenseInUse(license) then
+        deferrals.done(Lang:t('error.duplicate_license'))
+    end
+
+    local databaseTime = os.clock()
+    local databasePromise = promise.new()
+
+    -- conduct database-dependant checks
+    CreateThread(function()
+        deferrals.update(string.format(Lang:t('info.checking_ban'), name))
+        local databaseSuccess, databaseError = pcall(function()
+            local isBanned, Reason = QBCore.Functions.IsPlayerBanned(src)
+            if isBanned then
+                deferrals.done(Reason)
+            end
+        end)
+
+        if QBCore.Config.Server.Whitelist then
+            deferrals.update(string.format(Lang:t('info.checking_whitelisted'), name))
+            databaseSuccess, databaseError = pcall(function()
+                if not QBCore.Functions.IsWhitelisted(src) then
+                    deferrals.done(Lang:t('error.not_whitelisted'))
+                end
+            end)
+        end
+
+        if not databaseSuccess then
+            databasePromise:reject(databaseError)
+        end
+        databasePromise:resolve()
+    end)
+
+    -- wait for database to finish
+    databasePromise:next(function()
+        deferrals.update(string.format(Lang:t('info.join_server'), name))
+        deferrals.done()
+    end, function (databaseError)
+        deferrals.done(Lang:t('error.connecting_database_error'))
+        print('^1' .. databaseError)
+    end)
+
+    -- if conducting checks for too long then raise error
+    while databasePromise.state == 0 do
+        if os.clock() - databaseTime > 30 then
+            deferrals.done(Lang:t('error.connecting_database_timeout'))
+            error(Lang:t('error.connecting_database_timeout'))
+            break
+        end
+        Wait(1000)
+    end
 
     -- Add any additional defferals you may need!
 end
@@ -138,19 +168,6 @@ RegisterNetEvent('QBCore:UpdatePlayer', function()
     Player.Functions.Save()
 end)
 
-RegisterNetEvent('QBCore:Server:SetMetaData', function(meta, data)
-    local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    if not Player then return end
-    if meta == 'hunger' or meta == 'thirst' then
-        if data > 100 then
-            data = 100
-        end
-    end
-    Player.Functions.SetMetaData(meta, data)
-    TriggerClientEvent('hud:client:UpdateNeeds', src, Player.PlayerData.metadata['hunger'], Player.PlayerData.metadata['thirst'])
-end)
-
 RegisterNetEvent('QBCore:ToggleDuty', function()
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
@@ -163,6 +180,47 @@ RegisterNetEvent('QBCore:ToggleDuty', function()
         TriggerClientEvent('QBCore:Notify', src, Lang:t('info.on_duty'))
     end
     TriggerClientEvent('QBCore:Client:SetDuty', src, Player.PlayerData.job.onduty)
+end)
+
+-- BaseEvents
+
+-- Vehicles
+RegisterServerEvent('baseevents:enteringVehicle', function(veh,seat,modelName)
+    local src = source
+    local data = {
+        vehicle = veh,
+        seat = seat,
+        name = modelName,
+        event = 'Entering'
+    }
+    TriggerClientEvent('QBCore:Client:VehicleInfo', src, data)
+end)
+
+RegisterServerEvent('baseevents:enteredVehicle', function(veh,seat,modelName)
+    local src = source
+    local data = {
+        vehicle = veh,
+        seat = seat,
+        name = modelName,
+        event = 'Entered'
+    }
+    TriggerClientEvent('QBCore:Client:VehicleInfo', src, data)
+end)
+
+RegisterServerEvent('baseevents:enteringAborted', function()
+    local src = source
+    TriggerClientEvent('QBCore:Client:AbortVehicleEntering', src)
+end)
+
+RegisterServerEvent('baseevents:leftVehicle', function(veh,seat,modelName)
+    local src = source
+    local data = {
+        vehicle = veh,
+        seat = seat,
+        name = modelName,
+        event = 'Left'
+    }
+    TriggerClientEvent('QBCore:Client:VehicleInfo', src, data)
 end)
 
 -- Items
