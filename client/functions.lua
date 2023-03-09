@@ -493,7 +493,7 @@ function QBCore.Functions.GetVehicleProperties(vehicle)
             windowTint = GetVehicleWindowTint(vehicle),
             windowStatus = windowStatus,
             doorStatus = doorStatus,
-            xenonColor = GetVehicleXenonLightsColour(vehicle),
+            xenonColor = GetVehicleXenonLightsColor(vehicle), --https://docs.fivem.net/natives/?_0x3DFF319A831E0CDB
             neonEnabled = {
                 IsVehicleNeonLightEnabled(vehicle, 0),
                 IsVehicleNeonLightEnabled(vehicle, 1),
