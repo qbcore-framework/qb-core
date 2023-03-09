@@ -1,4 +1,5 @@
 QBCore.Functions = {}
+QBCore.Blips = {}
 
 -- Player
 
@@ -17,6 +18,21 @@ function QBCore.Functions.HasItem(items, amount)
 end
 
 -- Utility
+
+function QBCore.Functions.CreateBlip(name, coord, sprite, scale, display, color, shortRange, label)
+    QBCore.Blips[name] = AddBlipForCoord(coord.x, coord.y, coord.z)
+    SetBlipSprite(QBCore.Blips[name], sprite)
+    SetBlipScale(QBCore.Blips[name], scale)
+    SetBlipDisplay(QBCore.Blips[name], display)
+    SetBlipColour(QBCore.Blips[name], color)
+    SetBlipAsShortRange(QBCore.Blips[name], shortRange)
+    if #QBCore.Blips >= 100 and label then print('ERROR: Too Many Blips In Legend') return QBCore.Blips[name] end
+    if not label then return QBCore.Blips[name] end
+    BeginTextCommandSetBlipName("STRING")
+    AddTextComponentSubstringPlayerName(label)
+    EndTextCommandSetBlipName(QBCore.Blips[name])
+    return QBCore.Blips[name]
+end
 
 function QBCore.Functions.DrawText(x, y, width, height, scale, r, g, b, a, text)
     -- Use local function instead
