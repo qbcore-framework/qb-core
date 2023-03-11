@@ -539,13 +539,16 @@ function QBCore.Player.DeleteCharacter(source, citizenid)
     local result = MySQL.scalar.await('SELECT license FROM players where citizenid = ?', { citizenid })
     if license == result then
         local query = "DELETE FROM %s WHERE citizenid = ?"
-        local tableCount = #playertables
+        local tableCount = #playertables + 1 -- Add 1 for the apartments table
         local queries = table.create(tableCount, 0)
 
-        for i = 1, tableCount do
+        for i = 1, #playertables do
             local v = playertables[i]
             queries[i] = {query = query:format(v.table), values = { citizenid }}
         end
+
+        -- Add query to delete rows from apartments table
+        queries[tableCount] = {query = "DELETE FROM apartments WHERE citizenid = ?", values = { citizenid }}
 
         MySQL.transaction(queries, function(result2)
             if result2 then
@@ -561,18 +564,22 @@ end
 function QBCore.Player.ForceDeleteCharacter(citizenid)
     local result = MySQL.scalar.await('SELECT license FROM players where citizenid = ?', { citizenid })
     if result then
-        local query = "DELETE FROM %s WHERE citizenid = ?"
+        local queryPlayer = "DELETE FROM %s WHERE citizenid = ?"
+        local queryApartments = "DELETE FROM apartments WHERE citizenid = ?"
         local tableCount = #playertables
-        local queries = table.create(tableCount, 0)
+        local queries = table.create(tableCount + 1, 0)
         local Player = QBCore.Functions.GetPlayerByCitizenId(citizenid)
 
         if Player then
             DropPlayer(Player.PlayerData.source, "An admin deleted the character which you are currently using")
         end
+
         for i = 1, tableCount do
             local v = playertables[i]
-            queries[i] = {query = query:format(v.table), values = { citizenid }}
+            queries[i] = {query = queryPlayer:format(v.table), values = { citizenid }}
         end
+
+        queries[tableCount + 1] = {query = queryApartments, values = { citizenid }}
 
         MySQL.transaction(queries, function(result2)
             if result2 then
