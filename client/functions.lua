@@ -18,7 +18,7 @@ end
 
 -- Utility
 
-function QBCore.Functions.DrawText(x, y, width, height, scale, r, g, b, a, text)
+function QBCore.Functions.DrawText(text, x, y, scale, r, g, b, a, width, height)
     SetTextFont(4)
     SetTextScale(scale, scale)
     SetTextColour(r, g, b, a)
