@@ -992,3 +992,10 @@ function QBCore.Functions.GetGroundZCoord(coords)
         return coords
     end
 end
+
+function QBCore.Functions.GetGroundHash(entity)
+    local coords = GetEntityCoords(entity)
+    local num = StartShapeTestCapsule(coords.x,coords.y,coords.z+4,coords.x,coords.y,coords.z-2.0, 1,1,veh,7)
+    local arg1, arg2, arg3, arg4, arg5 = GetShapeTestResultEx(num)
+    return arg5
+end
