@@ -614,7 +614,11 @@ function QBCore.Functions.SetVehicleProperties(vehicle, props)
             if type(props.color2) == "number" then
                 SetVehicleColours(vehicle, props.color1 or colorPrimary, props.color2)
             else
-                SetVehicleCustomSecondaryColour(vehicle, props.color2[1], props.color2[2], props.color2[3])
+                if props.color1 and type(props.color1) == "number" then
+                    SetVehicleColours(vehicle, props.color1, props.color2)
+                else
+                    SetVehicleColours(vehicle, colorPrimary, props.color2)
+                end
             end
         end
         if props.pearlescentColor then
