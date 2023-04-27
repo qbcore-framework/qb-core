@@ -20,7 +20,7 @@ local function translateKey(phrase, subs)
 
     -- Initial Scan over result looking for substituions
     for k, v in pairs(subs) do
-        local templateToFind = '%%{' .. k .. '}'
+        local templateToFind = '%{' .. k .. '}'
         result = result:gsub(templateToFind, tostring(v)) -- string to allow all types
     end
 
