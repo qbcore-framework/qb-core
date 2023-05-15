@@ -76,6 +76,13 @@ function QBCore.Functions.GetOfflinePlayerByCitizenId(citizenid)
     return QBCore.Player.GetOfflinePlayer(citizenid)
 end
 
+---Get player by license
+---@param license string
+---@return table?
+function QBCore.Functions.GetPlayerByLicense(license)
+    return QBCore.Player.GetPlayerByLicense(license)
+end
+
 ---Get player by phone number
 ---@param number number
 ---@return table?
