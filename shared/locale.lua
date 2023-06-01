@@ -30,10 +30,10 @@ end
 --- Constructor function for a new Locale class instance
 --- @param opts table<string, any> - Constructor opts param
 --- @return Locale
-function Locale:new(opts)
-    setmetatable(self, Locale)
+function Locale.new(_, opts)
+    local self = setmetatable({}, Locale)
 
-    self.fallback = opts.fallbackLang and Locale.new({}, {
+    self.fallback = opts.fallbackLang and Locale:new({
         warnOnMissing = false,
         phrases = opts.fallbackLang.phrases,
     }) or false
