@@ -59,7 +59,7 @@ end
 
 function QBCore.Player.GetPlayerByLicense(license)
     if license then
-        local PlayerData = MySQL.Sync.prepare('SELECT * FROM players where license = ?', {license})
+        local PlayerData = MySQL.prepare.await('SELECT * FROM players where license = ?', {license})
         if PlayerData then
             PlayerData.money = json.decode(PlayerData.money)
             PlayerData.job = json.decode(PlayerData.job)
