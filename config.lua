@@ -46,15 +46,15 @@ QBConfig.Notify.NotificationStyling = {
 QBConfig.Notify.VariantDefinitions = {
     success = {
         classes = 'success',
-        icon = 'done'
+        icon = 'task_alt'
     },
     primary = {
         classes = 'primary',
-        icon = 'info'
+        icon = 'notifications'
     },
     error = {
         classes = 'error',
-        icon = 'dangerous'
+        icon = 'warning'
     },
     police = {
         classes = 'police',
