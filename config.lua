@@ -29,6 +29,9 @@ QBConfig.Server.Discord = "" -- Discord invite link
 QBConfig.Server.CheckDuplicateLicense = true -- Check for duplicate rockstar license on join
 QBConfig.Server.Permissions = { 'god', 'admin', 'mod' } -- Add as many groups as you want here after creating them in your server.cfg
 
+QBConfig.Commands = {} -- Command Configuration
+QBConfig.Commands.OOCColor = {255, 151, 133} -- RGB color code for the OOC command
+
 QBConfig.Notify = {}
 
 QBConfig.Notify.NotificationStyling = {
@@ -43,15 +46,15 @@ QBConfig.Notify.NotificationStyling = {
 QBConfig.Notify.VariantDefinitions = {
     success = {
         classes = 'success',
-        icon = 'done'
+        icon = 'task_alt'
     },
     primary = {
         classes = 'primary',
-        icon = 'info'
+        icon = 'notifications'
     },
     error = {
         classes = 'error',
-        icon = 'dangerous'
+        icon = 'warning'
     },
     police = {
         classes = 'police',
