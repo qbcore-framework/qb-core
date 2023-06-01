@@ -21,13 +21,8 @@ end
 function QBCore.Functions.DrawText(x, y, width, height, scale, r, g, b, a, text)
     -- Use local function instead
     SetTextFont(4)
-    SetTextProportional(0)
     SetTextScale(scale, scale)
     SetTextColour(r, g, b, a)
-    SetTextDropShadow(0, 0, 0, 0, 255)
-    SetTextEdge(2, 0, 0, 0, 255)
-    SetTextDropShadow()
-    SetTextOutline()
     SetTextEntry('STRING')
     AddTextComponentString(text)
     DrawText(x - width / 2, y - height / 2 + 0.005)
@@ -605,6 +600,7 @@ function QBCore.Functions.SetVehicleProperties(vehicle, props)
         end
         if props.color1 then
             if type(props.color1) == "number" then
+                ClearVehicleCustomPrimaryColour(vehicle)
                 SetVehicleColours(vehicle, props.color1, colorSecondary)
             else
                 SetVehicleCustomPrimaryColour(vehicle, props.color1[1], props.color1[2], props.color1[3])
@@ -612,6 +608,7 @@ function QBCore.Functions.SetVehicleProperties(vehicle, props)
         end
         if props.color2 then
             if type(props.color2) == "number" then
+                ClearVehicleCustomSecondaryColour(vehicle)
                 SetVehicleColours(vehicle, props.color1 or colorPrimary, props.color2)
             else
                 SetVehicleCustomSecondaryColour(vehicle, props.color2[1], props.color2[2], props.color2[3])
@@ -991,4 +988,11 @@ function QBCore.Functions.GetGroundZCoord(coords)
         print(coords)
         return coords
     end
+end
+
+function QBCore.Functions.GetGroundHash(entity)
+    local coords = GetEntityCoords(entity)
+    local num = StartShapeTestCapsule(coords.x, coords.y, coords.z + 4, coords.x, coords.y, coords.z - 2.0, 1, 1, entity, 7)
+    local retval, success, endCoords, surfaceNormal, materialHash, entityHit = GetShapeTestResultEx(num)
+    return materialHash, entityHit, surfaceNormal, endCoords, success, retval
 end
