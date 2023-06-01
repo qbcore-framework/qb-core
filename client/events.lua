@@ -129,6 +129,7 @@ RegisterNetEvent('QBCore:Command:SpawnVehicle', function(vehName)
     end
 
     if IsPedInAnyVehicle(ped) then
+        SetEntityAsMissionEntity(veh, true, true)
         DeleteVehicle(veh)
     end
 
