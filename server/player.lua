@@ -32,6 +32,11 @@ function QBCore.Player.Login(source, citizenid, newData)
         return true
     else
         QBCore.ShowError(GetCurrentResourceName(), 'ERROR QBCORE.PLAYER.LOGIN - NO SOURCE GIVEN!')
+        for k,v in pairs(QBCore.Shared) do
+            if type (v) == 'table' then
+                TriggerClientEvent('QBCore:Client:OnSharedUpdateMultiple', source, k,v)
+            end
+        end
         return false
     end
 end
