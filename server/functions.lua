@@ -92,8 +92,10 @@ end
 ---@return table
 function QBCore.Functions.GetPlayers()
     local sources = {}
+    local index = 1
     for k in pairs(QBCore.Players) do
-        sources[#sources+1] = k
+        sources[index] = k
+        index = index + 1
     end
     return sources
 end
@@ -110,16 +112,14 @@ end
 ---@return table, number
 function QBCore.Functions.GetPlayersOnDuty(job)
     local players = {}
-    local count = 0
+    local count = 1
     for src, Player in pairs(QBCore.Players) do
-        if Player.PlayerData.job.name == job then
-            if Player.PlayerData.job.onduty then
-                players[#players + 1] = src
-                count += 1
-            end
+        local jobData = Player.PlayerData.job 
+        if jobData.onduty and jobData.name == job then
+            players[count] = src
         end
     end
-    return players, count
+    return players, count - 1
 end
 
 ---Returns only the amount of players on duty for the specified job
@@ -509,7 +509,9 @@ end
 ---@return boolean
 function QBCore.Functions.IsLicenseInUse(license)
     local players = GetPlayers()
-    for _, player in pairs(players) do
+    local length = #players
+    for i = 1, length do
+        local player = players[i]
         local identifiers = GetPlayerIdentifiers(player)
         for _, id in pairs(identifiers) do
             if string.find(id, 'license') then
