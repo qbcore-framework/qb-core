@@ -115,7 +115,7 @@ function QBCore.Functions.GetPlayersOnDuty(job)
         if Player.PlayerData.job.name == job then
             if Player.PlayerData.job.onduty then
                 players[#players + 1] = src
-                count += 1
+                count = count + 1
             end
         end
     end
@@ -130,7 +130,7 @@ function QBCore.Functions.GetDutyCount(job)
     for _, Player in pairs(QBCore.Players) do
         if Player.PlayerData.job.name == job then
             if Player.PlayerData.job.onduty then
-                count += 1
+                count = count + 1
             end
         end
     end
