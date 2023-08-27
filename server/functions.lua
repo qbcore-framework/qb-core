@@ -277,37 +277,43 @@ end
 
 ---Paychecks (standalone - don't touch)
 function PaycheckInterval()
-    if next(QBCore.Players) then
-        for _, Player in pairs(QBCore.Players) do
-            if Player then
-                local payment = QBShared.Jobs[Player.PlayerData.job.name]['grades'][tostring(Player.PlayerData.job.grade.level)].payment
-                if not payment then payment = Player.PlayerData.job.payment end
-                if Player.PlayerData.job and payment > 0 and (QBShared.Jobs[Player.PlayerData.job.name].offDutyPay or Player.PlayerData.job.onduty) then
-                    if QBCore.Config.Money.PayCheckSociety then
-                        local account = exports['qb-management']:GetAccount(Player.PlayerData.job.name)
-                        if account ~= 0 then -- Checks if player is employed by a society
-                            if account < payment then -- Checks if company has enough money to pay society
-                                TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, Lang:t('error.company_too_poor'), 'error')
-                            else
-                                Player.Functions.AddMoney('bank', payment, 'paycheck')
-                                exports['qb-management']:RemoveMoney(Player.PlayerData.job.name, payment)
-                                TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, Lang:t('info.received_paycheck', {value = payment}))
-                            end
+    -- Check if there are any players
+    if not next(QBCore.Players) then
+        SetTimeout(QBCore.Config.Money.PayCheckTimeOut * (60 * 1000), PaycheckInterval)
+        return
+    end
+
+    for _, Player in pairs(QBCore.Players) do
+        if Player then
+            local jobData = Player.PlayerData.job
+            local payment = QBShared.Jobs[jobData.name]['grades'][tostring(jobData.grade.level)].payment or jobData.payment
+
+            -- Check if player has a job, has a positive payment, and is either offDutyPay or onduty
+            if jobData and payment > 0 and (QBShared.Jobs[jobData.name].offDutyPay or jobData.onduty) then
+                local shouldPay = true
+
+                if QBCore.Config.Money.PayCheckSociety then
+                    local account = exports['qb-management']:GetAccount(jobData.name)
+                    if account ~= 0 then -- Checks if player is employed by a society
+                        if account < payment then -- Checks if company has enough money to pay society
+                            TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, Lang:t('error.company_too_poor'), 'error')
+                            shouldPay = false
                         else
-                            Player.Functions.AddMoney('bank', payment, 'paycheck')
-                            TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, Lang:t('info.received_paycheck', {value = payment}))
+                            exports['qb-management']:RemoveMoney(jobData.name, payment)
                         end
-                    else
-                        Player.Functions.AddMoney('bank', payment, 'paycheck')
-                        TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, Lang:t('info.received_paycheck', {value = payment}))
                     end
+                end
+
+                if shouldPay then
+                    Player.Functions.AddMoney('bank', payment, 'paycheck')
+                    TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, Lang:t('info.received_paycheck', {value = payment}))
                 end
             end
         end
     end
+
     SetTimeout(QBCore.Config.Money.PayCheckTimeOut * (60 * 1000), PaycheckInterval)
 end
-
 -- Callback Functions --
 
 ---Trigger Client Callback
