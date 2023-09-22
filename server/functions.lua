@@ -88,6 +88,33 @@ function QBCore.Functions.GetPlayerByPhone(number)
     return nil
 end
 
+---Get player by account id
+---@param account string
+---@return table?
+function QBCore.Functions.GetPlayerByAccount(account)
+    for src in pairs(QBCore.Players) do
+        if QBCore.Players[src].PlayerData.charinfo.account == account then
+            return QBCore.Players[src]
+        end
+    end
+    return nil
+end
+
+---Get player passing property and value to check exists
+---@param property string
+---@param value string  
+---@return table?
+function QBCore.Functions.GetPlayerByCharInfo(property, value)
+    for src in pairs(QBCore.Players) do
+        local charinfo = QBCore.Players[src].PlayerData.charinfo
+        if charinfo[property] ~= nil and charinfo[property] == value then
+            return QBCore.Players[src]
+        end
+    end
+    return nil
+end
+
+
 ---Get all players. Returns the server ids of all players.
 ---@return table
 function QBCore.Functions.GetPlayers()
