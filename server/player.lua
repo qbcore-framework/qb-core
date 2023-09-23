@@ -270,6 +270,14 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         return true
     end
 
+    function self.Functions.Notify(text, type, lenght)
+        TriggerClientEvent('QBCore:Notify', self.PlayerData.source, text, type, lenght)
+    end
+
+    function self.Functions.HasItem(items, amount)
+        QBCore.Functions.HasItem(self.PlayerData.source, items, amount)
+    end
+
     function self.Functions.SetJobDuty(onDuty)
         self.PlayerData.job.onduty = not not onDuty -- Make sure the value is a boolean if nil is sent
         self.Functions.UpdatePlayerData()
