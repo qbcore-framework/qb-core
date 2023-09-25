@@ -43,7 +43,28 @@ end
 
 function QBCore.Player.GetOfflinePlayer(citizenid)
     if citizenid then
-        local PlayerData = MySQL.Sync.prepare('SELECT * FROM players where citizenid = ?', {citizenid})
+        local PlayerData = MySQL.prepare.await('SELECT * FROM players where citizenid = ?', {citizenid})
+        if PlayerData then
+            PlayerData.money = json.decode(PlayerData.money)
+            PlayerData.job = json.decode(PlayerData.job)
+            PlayerData.position = json.decode(PlayerData.position)
+            PlayerData.metadata = json.decode(PlayerData.metadata)
+            PlayerData.charinfo = json.decode(PlayerData.charinfo)
+            if PlayerData.gang then
+                PlayerData.gang = json.decode(PlayerData.gang)
+            else
+                PlayerData.gang = {}
+            end
+
+            return QBCore.Player.CheckPlayerData(nil, PlayerData)
+        end
+    end
+    return nil
+end
+
+function QBCore.Player.GetPlayerByLicense(license)
+    if license then
+        local PlayerData = MySQL.prepare.await('SELECT * FROM players where license = ?', {license})
         if PlayerData then
             PlayerData.money = json.decode(PlayerData.money)
             PlayerData.job = json.decode(PlayerData.job)
@@ -252,6 +273,14 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         end
 
         return true
+    end
+
+    function self.Functions.Notify(text, type, lenght)
+        TriggerClientEvent('QBCore:Notify', self.PlayerData.source, text, type, lenght)
+    end
+
+    function self.Functions.HasItem(items, amount)
+        QBCore.Functions.HasItem(self.PlayerData.source, items, amount)
     end
 
     function self.Functions.SetJobDuty(onDuty)
