@@ -263,6 +263,6 @@ RegisterNetEvent('QBCore:Client:OnSharedUpdateMultiple', function(tableName, val
     TriggerEvent('QBCore:Client:UpdateObject')
 end)
 
-RegisterNetEvent('QBCore:Client:SharedUpdate', function(table) 
+RegisterNetEvent('QBCore:Client:SharedUpdate', function(table)
     QBCore.Shared = table
 end)
