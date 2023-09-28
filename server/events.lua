@@ -99,6 +99,7 @@ local function onPlayerConnecting(name, _, deferrals)
     end
 
     -- Add any additional defferals you may need!
+    TriggerClientEvent('QBCore:Client:SharedUpdate', QBCore.Shared)
 end
 
 AddEventHandler('playerConnecting', onPlayerConnecting)
