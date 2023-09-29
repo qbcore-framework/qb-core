@@ -1,0 +1,62 @@
+:root {
+  --ColorPreview: rgb(234, 7, 7); /* This is used for colour preview variables only */
+
+  --Black: rgb(0, 0, 0);
+  --White: rgb(255, 255, 255);
+
+  --DarkText: rgb(0, 0, 0);
+  --LightText: rgb(255, 255, 255);
+
+  --OpacityStrength: 0.9; /* This is used for opaque variables only */
+
+  --BackgroundR: 23;
+  --BackgroundG: 23;
+  --BackgroundB: 23;
+
+  --PrimaryR: 220;
+  --PrimaryG: 20;
+  --PrimaryB: 60;
+
+  --SecondaryR: 54;
+  --SecondaryG: 54;
+  --SecondaryB: 54;
+
+  --SuccessR: 32;
+  --SuccessG: 187;
+  --SuccessB: 68;
+
+  --ErrorR: 193;
+  --ErrorG: 1;
+  --ErrorB: 20;
+
+  --PoliceR: 33;
+  --PoliceG: 151;
+  --PoliceB: 242;
+
+  --AmbulanceR: 244;
+  --AmbulanceG: 66;
+  --AmbulanceB: 54;
+
+  /* DONT TOUCH BELOW THIS LINE */
+
+  --Background: rgb(var(--BackgroundR), var(--BackgroundG), var(--BackgroundB));
+  --Primary: rgb(var(--PrimaryR), var(--PrimaryG), var(--PrimaryB));
+  --Secondary: rgb(var(--SecondaryR), var(--SecondaryG), var(--SecondaryB));
+  --Success: rgb(var(--SuccessR), var(--SuccessG), var(--SuccessB));
+  --Error: rgb(var(--ErrorR), var(--ErrorG), var(--ErrorB));
+  --Police: rgb(var(--PoliceR), var(--PoliceG), var(--PoliceB));
+  --Ambulance: rgb(var(--AmbulanceR), var(--AmbulanceG), var(--AmbulanceB));
+
+  --BackgroundTransparency: rgba(var(--BackgroundR), var(--BackgroundG), var(--BackgroundB), var(--OpacityStrength));
+  --PrimaryTransparency: rgba(var(--PrimaryR), var(--PrimaryG), var(--PrimaryB), var(--OpacityStrength));
+  --SecondaryTransparency: rgba(var(--SecondaryR), var(--SecondaryG), var(--SecondaryB), var(--OpacityStrength));
+  --SuccessTransparency: rgba(var(--SuccessR), var(--SuccessG), var(--SuccessB), var(--OpacityStrength));
+  --ErrorTransparency: rgba(var(--ErrorR), var(--ErrorG), var(--ErrorB), var(--OpacityStrength));
+  --PoliceTransparency: rgba(var(--PoliceR), var(--PoliceG), var(--PoliceB), var(--OpacityStrength));
+  --AmbulanceTransparency: rgba(var(--AmbulanceR), var(--AmbulanceG), var(--AmbulanceB), var(--OpacityStrength));
+}
+
+/*
+  To import to other resources:
+    <link rel="stylesheet" href="https://cfx-nui-qb-core/html/css/standardTheme.css">
+*/
