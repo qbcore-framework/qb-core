@@ -159,24 +159,24 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
     if PlayerData.job and PlayerData.job.name and not QBCore.Shared.Jobs[PlayerData.job.name] then PlayerData.job = nil end
     PlayerData.job = PlayerData.job or {}
     PlayerData.job.name = PlayerData.job.name or 'unemployed'
-    PlayerData.job.label = PlayerData.job.label or 'Civilian'
-    PlayerData.job.payment = PlayerData.job.payment or 10
-    PlayerData.job.type = PlayerData.job.type or 'none'
+    PlayerData.job.label = QBCore.Shared.Jobs[PlayerData.job.name].label or 'Civilian'
+    PlayerData.job.payment = QBCore.Shared.Jobs[PlayerData.job.name].grades[PlayerData.job.grade].payment or 10
+    PlayerData.job.type = QBCore.Shared.Jobs[PlayerData.job.name].type or 'none'
     if QBCore.Shared.ForceJobDefaultDutyAtLogin or PlayerData.job.onduty == nil then
         PlayerData.job.onduty = QBCore.Shared.Jobs[PlayerData.job.name].defaultDuty
     end
-    PlayerData.job.isboss = PlayerData.job.isboss or false
+    PlayerData.job.isboss = QBCore.Shared.Jobs[PlayerData.job.name].grades[PlayerData.job.grade].isboss or false
     PlayerData.job.grade = PlayerData.job.grade or {}
-    PlayerData.job.grade.name = PlayerData.job.grade.name or 'Freelancer'
+    PlayerData.job.grade.name = QBCore.Shared.Jobs[PlayerData.job.name].grades[PlayerData.job.grade].name or 'Freelancer'
     PlayerData.job.grade.level = PlayerData.job.grade.level or 0
     -- Gang
     if PlayerData.gang and PlayerData.gang.name and not QBCore.Shared.Gangs[PlayerData.gang.name] then PlayerData.gang = nil end
     PlayerData.gang = PlayerData.gang or {}
     PlayerData.gang.name = PlayerData.gang.name or 'none'
-    PlayerData.gang.label = PlayerData.gang.label or 'No Gang Affiliaton'
-    PlayerData.gang.isboss = PlayerData.gang.isboss or false
+    PlayerData.gang.label = QBCore.Shared.Gangs[PlayerData.gang.name].label or 'No Gang Affiliaton'
+    PlayerData.gang.isboss = QBCore.Shared.Gangs[PlayerData.gang.name].grades[PlayerData.gang.grade].isboss or false
     PlayerData.gang.grade = PlayerData.gang.grade or {}
-    PlayerData.gang.grade.name = PlayerData.gang.grade.name or 'none'
+    PlayerData.gang.grade.name = QBCore.Shared.Gangs[PlayerData.gang.name].grades[PlayerData.gang.grade].name or 'none'
     PlayerData.gang.grade.level = PlayerData.gang.grade.level or 0
     -- Other
     PlayerData.position = PlayerData.position or QBConfig.DefaultSpawn
