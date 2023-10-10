@@ -1,46 +1,72 @@
 QBShared = QBShared or {}
-QBShared.Gangs = {
-	['none'] = createGang('No Gang', {
-		['0'] = { name = 'Unaffiliated' }
-	}),
-	['lostmc'] = createGang('The Lost MC', {
-		['0'] = { name = 'Recruit' },
-		['1'] = { name = 'Enforcer' },
-		['2'] = { name = 'Shot Caller' },
-		['3'] = { name = 'Boss', isboss = true }
-	}),
-	['ballas'] = createGang('Ballas', {
-		['0'] = { name = 'Recruit' },
-		['1'] = { name = 'Enforcer' },
-		['2'] = { name = 'Shot Caller' },
-		['3'] = { name = 'Boss', isboss = true }
-	}),
-	['vagos'] = createGang('Vagos', {
-		['0'] = { name = 'Recruit' },
-		['1'] = { name = 'Enforcer' },
-		['2'] = { name = 'Shot Caller' },
-		['3'] = { name = 'Boss', isboss = true }
-	}),
-	['cartel'] = createGang('Cartel', {
-		['0'] = { name = 'Recruit' },
-		['1'] = { name = 'Enforcer' },
-		['2'] = { name = 'Shot Caller' },
-		['3'] = { name = 'Boss', isboss = true }
-	}),
-	['families'] = createGang('Families', {
-		['0'] = { name = 'Recruit' },
-		['1'] = { name = 'Enforcer' },
-		['2'] = { name = 'Shot Caller' },
-		['3'] = { name = 'Boss', isboss = true }
-	}),
-	['triads'] = createGang('Triads', {
-		['0'] = { name = 'Recruit' },
-		['1'] = { name = 'Enforcer' },
-		['2'] = { name = 'Shot Caller' },
-		['3'] = { name = 'Boss', isboss = true }
-	})
-}
 
-local function createGang(label, grades)
-	return { label = label, grades = grades }
+local function createGangGrades(grades)
+    local gangGrades = {}
+    for i, grade in ipairs(grades) do
+        gangGrades[tostring(i-1)] = grade
+    end
+    return gangGrades
 end
+
+QBShared.Gangs = {
+    none = {
+        label = 'No Gang',
+        grades = {
+            ['0'] = { name = 'Unaffiliated' }
+        }
+    },
+    lostmc = {
+        label = 'The Lost MC',
+        grades = createGangGrades({
+            { name = 'Recruit' },
+            { name = 'Enforcer' },
+            { name = 'Shot Caller' },
+            { name = 'Boss', isboss = true }
+        })
+    },
+    ballas = {
+        label = 'Ballas',
+        grades = createGangGrades({
+            { name = 'Associate' },
+            { name = 'Soldier' },
+            { name = 'Lieutenant' },
+            { name = 'Boss', isboss = true }
+        })
+    },
+    vagos = {
+        label = 'Vagos',
+        grades = createGangGrades({
+            { name = 'Recruit' },
+            { name = 'Enforcer' },
+            { name = 'Shot Caller' },
+            { name = 'Boss', isboss = true }
+        })
+    },
+    cartel = {
+        label = 'Cartel',
+        grades = createGangGrades({
+            { name = 'Recruit' },
+            { name = 'Enforcer' },
+            { name = 'Shot Caller' },
+            { name = 'Boss', isboss = true }
+        })
+    },
+    families = {
+        label = 'Families',
+        grades = createGangGrades({
+            { name = 'Recruit' },
+            { name = 'Enforcer' },
+            { name = 'Shot Caller' },
+            { name = 'Boss', isboss = true }
+        })
+    },
+    triads = {
+        label = 'Triads',
+        grades = createGangGrades({
+            { name = 'Recruit' },
+            { name = 'Enforcer' },
+            { name = 'Shot Caller' },
+            { name = 'Boss', isboss = true }
+        })
+    }
+}
