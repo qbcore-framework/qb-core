@@ -1,10 +1,11 @@
 {
     "recommendations": [
         "sumneko.lua",
+        "actboy168.lua-debug",
+        "JericoFX.qb-core-snippets",
         "overextended.cfxlua-vscode",
-        "ihyajb.qbcore-code-snippets",
-        "EditorConfig.EditorConfig",
-        "eamodio.gitlens",
-        "GitHub.vscode-pull-request-github"
+        "GitHub.copilot",
+        "GitHub.vscode-pull-request-github",
+        "eamodio.gitlens"
     ]
 }
