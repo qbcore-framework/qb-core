@@ -22,13 +22,7 @@ end
 ---@param idtype string
 ---@return string?
 function QBCore.Functions.GetIdentifier(source, idtype)
-    local identifiers = GetPlayerIdentifiers(source)
-    for _, identifier in pairs(identifiers) do
-        if string.find(identifier, idtype) then
-            return identifier
-        end
-    end
-    return nil
+    return GetPlayerIdentifierByType(source, idtype or "license")    
 end
 
 ---Gets a players server id (source). Returns 0 if no player is found.
