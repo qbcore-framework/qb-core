@@ -29,6 +29,25 @@ QBConfig.Server.Discord = "" -- Discord invite link
 QBConfig.Server.CheckDuplicateLicense = true -- Check for duplicate rockstar license on join
 QBConfig.Server.Permissions = { 'god', 'admin', 'mod' } -- Add as many groups as you want here after creating them in your server.cfg
 
+QBConfig.Server.DeleteCharacterDB = {  -- You can add more database tables and columns here if needed.
+    { table = 'players',             column = 'citizenid' },
+    { table = 'apartments',          column = 'citizenid' },
+    { table = 'bank_accounts',       column = 'citizenid' },
+    { table = 'crypto_transactions', column = 'citizenid' },
+    { table = 'phone_invoices',      column = 'citizenid' },
+    { table = 'phone_messages',      column = 'citizenid' },
+    { table = 'playerskins',         column = 'citizenid' },
+    { table = 'player_contacts',     column = 'citizenid' },
+    { table = 'player_houses',       column = 'citizenid' },
+    { table = 'player_mails',        column = 'citizenid' },
+    { table = 'player_outfits',      column = 'citizenid' },
+    { table = 'player_vehicles',     column = 'citizenid' },
+
+
+--  { table = '',     column = '' },
+--  { table = 'properties',          column = 'owner_citizenid' },
+}
+
 QBConfig.Commands = {} -- Command Configuration
 QBConfig.Commands.OOCColor = {255, 151, 133} -- RGB color code for the OOC command
 
