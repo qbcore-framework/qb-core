@@ -191,6 +191,31 @@ QBCore.Commands.Add('dv', Lang:t('command.dv.help'), {}, false, function(source)
     TriggerClientEvent('QBCore:Command:DeleteVehicle', source)
 end, 'admin')
 
+QBCore.Commands.Add('dvall', Lang:t('command.dvall.help'), {}, false, function(source)
+    local vehicles = GetAllVehicles()
+    for _, vehicle in ipairs(vehicles) do
+        DeleteEntity(vehicle)
+    end
+end, 'admin')
+
+-- Peds
+
+QBCore.Commands.Add('dvp', Lang:t('command.dvp.help'), {}, false, function(source)
+    local peds = GetAllPeds()
+    for _, ped in ipairs(peds) do
+        DeleteEntity(ped)
+    end
+end, 'admin')
+
+-- Objects
+
+QBCore.Commands.Add('dvo', Lang:t('command.dvo.help'), {}, false, function(source)
+    local objects = GetAllObjects()
+    for _, object in ipairs(objects) do
+        DeleteEntity(object)
+    end
+end, 'admin')
+
 -- Money
 
 QBCore.Commands.Add('givemoney', Lang:t('command.givemoney.help'), { { name = Lang:t('command.givemoney.params.id.name'), help = Lang:t('command.givemoney.params.id.help') }, { name = Lang:t('command.givemoney.params.moneytype.name'), help = Lang:t('command.givemoney.params.moneytype.help') }, { name = Lang:t('command.givemoney.params.amount.name'), help = Lang:t('command.givemoney.params.amount.help') } }, true, function(source, args)
