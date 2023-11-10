@@ -21,8 +21,7 @@ end)
 
 local function onPlayerConnecting(name, _, deferrals)
     local src = source
-    local license
-    local identifiers = GetPlayerIdentifiers(src)
+    local license = GetPlayerIdentifierByType(src, "license")    
     deferrals.defer()
 
     -- Mandatory wait
@@ -31,13 +30,6 @@ local function onPlayerConnecting(name, _, deferrals)
     if QBCore.Config.Server.Closed then
         if not IsPlayerAceAllowed(src, 'qbadmin.join') then
             deferrals.done(QBCore.Config.Server.ClosedReason)
-        end
-    end
-
-    for _, v in pairs(identifiers) do
-        if string.find(v, 'license') then
-            license = v
-            break
         end
     end
 
