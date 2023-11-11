@@ -80,7 +80,13 @@ RegisterNUICallback('getNotifyConfig', function(_, cb)
     cb(QBCore.Config.Notify)
 end)
 
+local notifyEnabled = true
+function QBCore.Functions.EnableNotify(enable)
+    notifyEnabled = enable
+end
+
 function QBCore.Functions.Notify(text, texttype, length)
+    if not notifyEnabled then return end
     if type(text) == "table" then
         local ttext = text.text or 'Placeholder'
         local caption = text.caption or 'Placeholder'

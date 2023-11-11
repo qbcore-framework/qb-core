@@ -10,7 +10,7 @@ QBShared.Jobs = {
 		offDutyPay = false,
 		grades = {
             ['0'] = {
-                name = 'Freelancer',
+                name = 'Unemployed',
                 payment = 10
             },
         },
