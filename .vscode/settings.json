@@ -1,4 +1,0 @@
-{
-    "Lua.runtime.nonstandardSymbol": ["/**/", "`", "+=", "-=", "*=", "/="],
-    "Lua.runtime.version": "Lua 5.4"
-}
