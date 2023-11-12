@@ -25,6 +25,19 @@ function QBCore.Functions.GetIdentifier(source, idtype)
     return GetPlayerIdentifierByType(source, idtype or "license")    
 end
 
+---Get All  Player identifiers like license, steam, and others
+---@param source string | number 
+---@return table --A table like {{[identifier] = value, ...}}
+function QBCore.Functions.GetIdentifiers(source)
+    if not source then return {} end
+    local identifiers = {}
+    for i = 0, GetNumPlayerIdentifiers(source) - 1 do
+        local data = QBShared.SplitStr(GetPlayerIdentifier(source, i), ":")
+        identifiers[data[1]] = data[2]       
+    end
+    return identifiers
+end
+
 ---Gets a players server id (source). Returns 0 if no player is found.
 ---@param identifier string
 ---@return number
