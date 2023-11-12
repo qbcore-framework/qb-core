@@ -22,12 +22,10 @@ end)
 local function onPlayerConnecting(name, _, deferrals)
     local src = source
     local license
-    local identifiers = GetPlayerIdentifiers(src)
     deferrals.defer()
-
     -- Mandatory wait
     Wait(0)
-
+    local identifiers = GetPlayerIdentifiers(src)
     if QBCore.Config.Server.Closed then
         if not IsPlayerAceAllowed(src, 'qbadmin.join') then
             deferrals.done(QBCore.Config.Server.ClosedReason)
@@ -41,13 +39,13 @@ local function onPlayerConnecting(name, _, deferrals)
         end
     end
 
-    if GetConvarInt('sv_fxdkMode', false) then
-        license = 'license:AAAAAAAAAAAAAAAA' -- Dummy License
-    end
+    -- if GetConvarInt('sv_fxdkMode', false) then
+    --     license = 'license:AAAAAAAAAAAAAAAA' -- Dummy License
+    -- end
 
     if not license then
         deferrals.done(Lang:t('error.no_valid_license'))
-    elseif QBCore.Config.Server.CheckDuplicateLicense and QBCore.Functions.IsLicenseInUse(license) then
+    elseif QBConfig.Server.CheckDuplicateLicense and QBCore.Functions.IsLicenseInUse(license) then
         deferrals.done(Lang:t('error.duplicate_license'))
     end
 
