@@ -32,8 +32,9 @@ function QBCore.Functions.GetIdentifiers(source)
     if not source then return {} end
     local identifiers = {}
     for i = 0, GetNumPlayerIdentifiers(source) - 1 do
-        local data = QBShared.SplitStr(GetPlayerIdentifier(source, i), ":")
-        identifiers[data[1]] = data[2]       
+        local idf = GetPlayerIdentifier(source, i)
+        local data = QBShared.SplitStr(idf, ":")
+        identifiers[data[1]] = idf       
     end
     return identifiers
 end
@@ -42,12 +43,9 @@ end
 ---@param identifier string
 ---@return number
 function QBCore.Functions.GetSource(identifier)
-    for src, _ in pairs(QBCore.Players) do
-        local idens = GetPlayerIdentifiers(src)
-        for _, id in pairs(idens) do
-            if identifier == id then
-                return src
-            end
+    for src in next, QBCore.Players do        
+        for _, v in next, QBCore.Functions.GetIdentifiers( src ) do 
+            if v == identifier then return src end
         end
     end
     return 0
@@ -494,6 +492,8 @@ function QBCore.Functions.HasPermission(source, permission)
 
     return false
 end
+
+
 
 ---Get the players permissions
 ---@param source any
