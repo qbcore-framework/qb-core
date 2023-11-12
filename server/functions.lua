@@ -22,7 +22,7 @@ end
 ---@param idtype string
 ---@return string?
 function QBCore.Functions.GetIdentifier(source, idtype)
-    return GetPlayerIdentifierByType(source, idtype or "license")    
+    return GetPlayerIdentifierByType(source, idtype or "license")
 end
 
 ---Gets a players server id (source). Returns 0 if no player is found.
