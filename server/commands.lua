@@ -191,7 +191,7 @@ QBCore.Commands.Add('dv', Lang:t('command.dv.help'), {}, false, function(source)
     TriggerClientEvent('QBCore:Command:DeleteVehicle', source)
 end, 'admin')
 
-QBCore.Commands.Add('dvall', Lang:t('command.dvall.help'), {}, false, function(source)
+QBCore.Commands.Add('dvall', Lang:t('command.dvall.help'), {}, false, function()
     local vehicles = GetAllVehicles()
     for _, vehicle in ipairs(vehicles) do
         DeleteEntity(vehicle)
@@ -200,7 +200,7 @@ end, 'admin')
 
 -- Peds
 
-QBCore.Commands.Add('dvp', Lang:t('command.dvp.help'), {}, false, function(source)
+QBCore.Commands.Add('dvp', Lang:t('command.dvp.help'), {}, false, function()
     local peds = GetAllPeds()
     for _, ped in ipairs(peds) do
         DeleteEntity(ped)
@@ -209,7 +209,7 @@ end, 'admin')
 
 -- Objects
 
-QBCore.Commands.Add('dvo', Lang:t('command.dvo.help'), {}, false, function(source)
+QBCore.Commands.Add('dvo', Lang:t('command.dvo.help'), {}, false, function()
     local objects = GetAllObjects()
     for _, object in ipairs(objects) do
         DeleteEntity(object)
