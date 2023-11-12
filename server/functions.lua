@@ -539,10 +539,8 @@ function QBCore.Functions.IsLicenseInUse(license)
     for _, player in pairs(players) do
         local identifiers = GetPlayerIdentifiers(player)
         for _, id in pairs(identifiers) do
-            if string.find(id, 'license') then
-                if id == license then
-                    return true
-                end
+            if id == license then
+                return true
             end
         end
     end
