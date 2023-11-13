@@ -39,9 +39,9 @@ local function onPlayerConnecting(name, _, deferrals)
         end
     end
 
-    -- if GetConvarInt('sv_fxdkMode', false) then
-    --     license = 'license:AAAAAAAAAAAAAAAA' -- Dummy License
-    -- end
+    if GetConvarInt("sv_fxdkMode", 0) == 1 then
+        license = 'license:AAAAAAAAAAAAAAAA' -- Dummy License
+    end
 
     if not license then
         deferrals.done(Lang:t('error.no_valid_license'))
