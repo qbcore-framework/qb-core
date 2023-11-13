@@ -21,84 +21,41 @@ end)
 
 local function onPlayerConnecting(name, _, deferrals)
     local src = source
-    local license
-    local identifiers = GetPlayerIdentifiers(src)
     deferrals.defer()
 
-    -- Mandatory wait
+    if QBCore.Config.Server.Closed and not IsPlayerAceAllowed(src, 'qbadmin.join') then
+        return deferrals.done(QBCore.Config.Server.ClosedReason)
+    end
+
+    if QBCore.Config.Server.Whitelist then
+        Wait(0)
+        deferrals.update(string.format(Lang:t('info.checking_whitelist'), name))
+        if not QBCore.Functions.IsWhitelisted(src) then
+            return deferrals.done(Lang:t('error.not_whitelisted'))
+        end
+    end
+
     Wait(0)
-
-    if QBCore.Config.Server.Closed then
-        if not IsPlayerAceAllowed(src, 'qbadmin.join') then
-            deferrals.done(QBCore.Config.Server.ClosedReason)
-        end
-    end
-
-    for _, v in pairs(identifiers) do
-        if string.find(v, 'license') then
-            license = v
-            break
-        end
-    end
-
-    if GetConvarInt('sv_fxdkMode', false) then
-        license = 'license:AAAAAAAAAAAAAAAA' -- Dummy License
-    end
+    deferrals.update(string.format('Hello %s. Your license is being checked', name))
+    local license = QBCore.Functions.GetIdentifier(src, 'license')
 
     if not license then
-        deferrals.done(Lang:t('error.no_valid_license'))
+        return deferrals.done(Lang:t('error.no_valid_license'))
     elseif QBCore.Config.Server.CheckDuplicateLicense and QBCore.Functions.IsLicenseInUse(license) then
-        deferrals.done(Lang:t('error.duplicate_license'))
+        return deferrals.done(Lang:t('error.duplicate_license'))
     end
 
-    local databaseTime = os.clock()
-    local databasePromise = promise.new()
+    Wait(0)
+    deferrals.update(string.format(Lang:t('info.checking_ban'), name))
 
-    -- conduct database-dependant checks
-    CreateThread(function()
-        deferrals.update(string.format(Lang:t('info.checking_ban'), name))
-        local databaseSuccess, databaseError = pcall(function()
-            local isBanned, Reason = QBCore.Functions.IsPlayerBanned(src)
-            if isBanned then
-                deferrals.done(Reason)
-            end
-        end)
+    local success, isBanned, reason = pcall(QBCore.Functions.IsPlayerBanned, src)
+    if not success then return deferrals.done(Lang:t('error.connecting_database_error')) end
+    if isBanned then return deferrals.done(reason) end
 
-        if QBCore.Config.Server.Whitelist then
-            deferrals.update(string.format(Lang:t('info.checking_whitelisted'), name))
-            databaseSuccess, databaseError = pcall(function()
-                if not QBCore.Functions.IsWhitelisted(src) then
-                    deferrals.done(Lang:t('error.not_whitelisted'))
-                end
-            end)
-        end
+    Wait(0)
+    deferrals.update(string.format(Lang:t('info.join_server'), name))
+    deferrals.done()
 
-        if not databaseSuccess then
-            databasePromise:reject(databaseError)
-        end
-        databasePromise:resolve()
-    end)
-
-    -- wait for database to finish
-    databasePromise:next(function()
-        deferrals.update(string.format(Lang:t('info.join_server'), name))
-        deferrals.done()
-    end, function(databaseError)
-        deferrals.done(Lang:t('error.connecting_database_error'))
-        print('^1' .. databaseError)
-    end)
-
-    -- if conducting checks for too long then raise error
-    while databasePromise.state == 0 do
-        if os.clock() - databaseTime > 30 then
-            deferrals.done(Lang:t('error.connecting_database_timeout'))
-            error(Lang:t('error.connecting_database_timeout'))
-            break
-        end
-        Wait(1000)
-    end
-
-    -- Add any additional defferals you may need!
     TriggerClientEvent('QBCore:Client:SharedUpdate', src, QBCore.Shared)
 end
 
