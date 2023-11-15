@@ -22,7 +22,8 @@ end
 ---@param idtype string
 ---@return string?
 function QBCore.Functions.GetIdentifier(source, idtype)
-    return GetPlayerIdentifierByType(source, idtype or "license")    
+    if GetConvarInt('sv_fxdkMode', 0) == 1 then return 'license:fxdk' end
+    return GetPlayerIdentifierByType(source, idtype or 'license')
 end
 
 ---Get All  Player identifiers like license, steam, and others
@@ -550,14 +551,8 @@ end
 function QBCore.Functions.IsLicenseInUse(license)
     local players = GetPlayers()
     for _, player in pairs(players) do
-        local identifiers = GetPlayerIdentifiers(player)
-        for _, id in pairs(identifiers) do
-            if string.find(id, 'license') then
-                if id == license then
-                    return true
-                end
-            end
-        end
+        local playerLicense = QBCore.Functions.GetIdentifier(player, 'license')
+        if playerLicense == license then return true end
     end
     return false
 end

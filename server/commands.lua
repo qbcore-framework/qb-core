@@ -6,7 +6,7 @@ QBCore.Commands.IgnoreList = { -- Ignore old perm levels while keeping backwards
 }
 
 CreateThread(function() -- Add ace to node for perm checking
-    local permissions = QBConfig.Server.Permissions
+    local permissions = QBCore.Config.Server.Permissions
     for i = 1, #permissions do
         local permission = permissions[i]
         ExecuteCommand(('add_ace qbcore.%s %s allow'):format(permission, permission))
@@ -120,8 +120,8 @@ QBCore.Commands.Add('tpm', Lang:t('command.tpm.help'), {}, false, function(sourc
 end, 'admin')
 
 QBCore.Commands.Add('togglepvp', Lang:t('command.togglepvp.help'), {}, false, function()
-    QBConfig.Server.PVP = not QBConfig.Server.PVP
-    TriggerClientEvent('QBCore:Client:PvpHasToggled', -1, QBConfig.Server.PVP)
+    QBCore.Config.Server.PVP = not QBCore.Config.Server.PVP
+    TriggerClientEvent('QBCore:Client:PvpHasToggled', -1, QBCore.Config.Server.PVP)
 end, 'admin')
 
 -- Permissions
@@ -191,7 +191,7 @@ QBCore.Commands.Add('dv', Lang:t('command.dv.help'), {}, false, function(source)
     TriggerClientEvent('QBCore:Command:DeleteVehicle', source)
 end, 'admin')
 
-QBCore.Commands.Add('dvall', Lang:t('command.dvall.help'), {}, false, function(source)
+QBCore.Commands.Add('dvall', Lang:t('command.dvall.help'), {}, false, function()
     local vehicles = GetAllVehicles()
     for _, vehicle in ipairs(vehicles) do
         DeleteEntity(vehicle)
@@ -200,7 +200,7 @@ end, 'admin')
 
 -- Peds
 
-QBCore.Commands.Add('dvp', Lang:t('command.dvp.help'), {}, false, function(source)
+QBCore.Commands.Add('dvp', Lang:t('command.dvp.help'), {}, false, function()
     local peds = GetAllPeds()
     for _, ped in ipairs(peds) do
         DeleteEntity(ped)
@@ -209,7 +209,7 @@ end, 'admin')
 
 -- Objects
 
-QBCore.Commands.Add('dvo', Lang:t('command.dvo.help'), {}, false, function(source)
+QBCore.Commands.Add('dvo', Lang:t('command.dvo.help'), {}, false, function()
     local objects = GetAllObjects()
     for _, object in ipairs(objects) do
         DeleteEntity(object)
@@ -277,20 +277,20 @@ QBCore.Commands.Add('ooc', Lang:t('command.ooc.help'), {}, false, function(sourc
     for _, v in pairs(Players) do
         if v == source then
             TriggerClientEvent('chat:addMessage', v, {
-                color = QBConfig.Commands.OOCColor,
+                color = QBCore.Config.Commands.OOCColor,
                 multiline = true,
                 args = { 'OOC | ' .. GetPlayerName(source), message }
             })
         elseif #(playerCoords - GetEntityCoords(GetPlayerPed(v))) < 20.0 then
             TriggerClientEvent('chat:addMessage', v, {
-                color = QBConfig.Commands.OOCColor,
+                color = QBCore.Config.Commands.OOCColor,
                 multiline = true,
                 args = { 'OOC | ' .. GetPlayerName(source), message }
             })
         elseif QBCore.Functions.HasPermission(v, 'admin') then
             if QBCore.Functions.IsOptin(v) then
                 TriggerClientEvent('chat:addMessage', v, {
-                    color = QBConfig.Commands.OOCColor,
+                    color = QBCore.Config.Commands.OOCColor,
                     multiline = true,
                     args = { 'Proximity OOC | ' .. GetPlayerName(source), message }
                 })
