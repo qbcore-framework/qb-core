@@ -29,7 +29,7 @@ local function onPlayerConnecting(name, _, deferrals)
 
     if QBCore.Config.Server.Whitelist then
         Wait(0)
-        deferrals.update(string.format(Lang:t('info.checking_whitelist'), name))
+        deferrals.update(string.format(Lang:t('info.checking_whitelisted'), name))
         if not QBCore.Functions.IsWhitelisted(src) then
             return deferrals.done(Lang:t('error.not_whitelisted'))
         end
