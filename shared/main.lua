@@ -161,3 +161,52 @@ QBShared.FemaleNoGloves = {
     [161] = true,
     [165] = true
 }
+
+---@return table<string, Job>
+function GetJobs()
+    return QBCore.Shared.Jobs
+end
+
+exports('GetJobs', GetJobs)
+
+---@return table<string, Gang>
+function GetGangs()
+    return QBCore.Shared.Gangs
+end
+
+exports('GetGangs', GetGangs)
+
+---@return table<string, Vehicle>
+function GetVehiclesByName()
+    return QBCore.Shared.Vehicles
+end
+
+exports('GetVehiclesByName', GetVehiclesByName)
+
+---@return table<number, Vehicle>
+function GetVehiclesByHash()
+    return QBCore.Shared.VehicleHashes
+end
+
+exports('GetVehiclesByHash', GetVehiclesByHash)
+
+---@return table<string, Vehicle[]>
+function GetVehiclesByCategory()
+	return MapTableBySubfield('category', QBCore.Shared.Vehicles)
+end
+
+exports('GetVehiclesByCategory', GetVehiclesByCategory)
+
+---@return table<number, Weapon>
+function GetWeapons()
+    return QBCore.Shared.Weapons
+end
+
+exports('GetWeapons', GetWeapons)
+
+---@return table<string, vector4>
+function GetLocations()
+    return QBCore.Shared.Locations
+end
+
+exports('GetLocations', GetLocations)
