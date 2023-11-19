@@ -81,6 +81,23 @@ function QBShared.SetDefaultVehicleExtras(vehicle, config)
     end
 end
 
+function QBShared.MapTableBySubfield(subfield, table)
+	local mappedTable = {}
+	for _, tableData in pairs(table) do
+        local tableSubfield = tableData[subfield]
+		if not tableSubfield then
+			goto continue
+		end
+		if not mappedTable[tableSubfield] then
+			mappedTable[tableSubfield] = {}
+		end
+
+		mappedTable[tableSubfield][#mappedTable[tableSubfield]+1] = tableData
+		::continue::
+	end
+	return mappedTable
+end
+
 QBShared.MaleNoGloves = {
     [0] = true,
     [1] = true,
