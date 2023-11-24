@@ -309,8 +309,10 @@ function PaycheckInterval()
         for _, Player in pairs(QBCore.Players) do
             if Player then
                 local payment = QBShared.Jobs[Player.PlayerData.job.name]['grades'][tostring(Player.PlayerData.job.grade.level)].payment
+                local offdutypayment = QBShared.Jobs[Player.PlayerData.job.name]['grades'][tostring(Player.PlayerData.job.grade.level)].offdutypayment
                 if not payment then payment = Player.PlayerData.job.payment end
-                if Player.PlayerData.job and payment > 0 and (QBShared.Jobs[Player.PlayerData.job.name].offDutyPay or Player.PlayerData.job.onduty) then
+                if not offdutypayment then offdutypayment = Player.PlayerData.job.offdutypayment end
+                if Player.PlayerData.job and payment > 0 and Player.PlayerData.job.onduty then
                     if QBCore.Config.Money.PayCheckSociety then
                         local account = exports['qb-banking']:GetAccountBalance(Player.PlayerData.job.name)
                         if account ~= 0 then          -- Checks if player is employed by a society
@@ -328,6 +330,25 @@ function PaycheckInterval()
                     else
                         Player.Functions.AddMoney('bank', payment, 'paycheck')
                         TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, Lang:t('info.received_paycheck', { value = payment }))
+                    end
+                elseif Player.PlayerData.job and offdutypayment > 0 and (QBShared.Jobs[Player.PlayerData.job.name].offDutyPay and not Player.PlayerData.job.onduty) then
+                    if QBCore.Config.Money.PayCheckSociety then
+                        local account = exports['qb-banking']:GetAccountBalance(Player.PlayerData.job.name)
+                        if account ~= 0 then          -- Checks if player is employed by a society
+                            if account < offdutypayment then -- Checks if company has enough money to pay society
+                                TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, Lang:t('error.company_too_poor'), 'error')
+                            else
+                                Player.Functions.AddMoney('bank', offdutypayment, 'paycheck')
+                                exports['qb-banking']:RemoveMoney(Player.PlayerData.job.name, offdutypayment, 'Employee Paycheck')
+                                TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, Lang:t('info.received_paycheck', { value = offdutypayment }))
+                            end
+                        else
+                            Player.Functions.AddMoney('bank', offdutypayment, 'paycheck')
+                            TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, Lang:t('info.received_paycheck', { value = offdutypayment }))
+                        end
+                    else
+                        Player.Functions.AddMoney('bank', offdutypayment, 'paycheck')
+                        TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, Lang:t('info.received_paycheck', { value = offdutypayment }))
                     end
                 end
             end
