@@ -91,6 +91,26 @@ function QBCore.Functions.ScreenRelToWorld(camPos,camRot,coord)
     return point3Dret;
 end
 
+function QBCore.Functions.GetAddonVehicles()
+    local AddonVehicles = {}
+    for k, v in pairs(QBShared.Vehicles) do
+        if Config.Settings['Cars']['Custom'] then
+            if v['category'] == Config.Settings['Cars']['CustomCat'] then
+                AddonVehicles[#AddonVehicles + 1] = {
+                    Text = k,
+                    Label = ' ['..v['brand']..' '..v['name']..']'
+                }
+            end
+        else
+            AddonVehicles[#AddonVehicles + 1] = {
+                Text = k,
+                Label = ' ['..v['brand']..' '..v['name']..']'
+            }
+        end
+    end
+    return AddonVehicles
+end
+
 function QBCore.Functions.RequestAnimDict(animDict)
 	if HasAnimDictLoaded(animDict) then return end
 	RequestAnimDict(animDict)
