@@ -16,35 +16,39 @@ end)
 -- Register & Refresh Commands
 
 function QBCore.Commands.Add(name, help, arguments, argsrequired, callback, permission, ...)
-    local restricted = true                                  -- Default to restricted for all commands
-    if not permission then permission = 'user' end           -- some commands don't pass permission level
-    if permission == 'user' then restricted = false end      -- allow all users to use command
+    local restricted = true
+    if not permission or permission == 'user' then
+        restricted, permission = false, 'user'
+    end
 
-    RegisterCommand(name, function(source, args, rawCommand) -- Register command within fivem
+    RegisterCommand(name, function(source, args, rawCommand)
         if argsrequired and #args < #arguments then
-            return TriggerClientEvent('chat:addMessage', source, {
-                color = { 255, 0, 0 },
-                multiline = true,
-                args = { 'System', Lang:t('error.missing_args2') }
-            })
+            local errorMessage = Lang:t('error.missing_args2')
+            TriggerClientEvent('chat:addMessage', source, { color = {255, 0, 0}, multiline = true, args = {'System', errorMessage} })
+            return
         end
         callback(source, args, rawCommand)
     end, restricted)
 
-    local extraPerms = ... and table.pack(...) or nil
-    if extraPerms then
-        extraPerms[extraPerms.n + 1] = permission -- The `n` field is the number of arguments in the packed table
-        extraPerms.n += 1
-        permission = extraPerms
-        for i = 1, permission.n do
-            if not QBCore.Commands.IgnoreList[permission[i]] then -- only create aces for extra perm levels
-                ExecuteCommand(('add_ace qbcore.%s command.%s allow'):format(permission[i], name))
+    local extraPerms = { ... }
+    if #extraPerms > 0 then
+        extraPerms[#extraPerms + 1] = permission
+        for _, perm in ipairs(extraPerms) do
+            perm = tostring(perm:lower())
+            if not QBCore.Commands.IgnoreList[perm] then
+                ExecuteCommand(('add_ace qbcore.%s command.%s allow'):format(perm, name))
             end
         end
-        permission.n = nil
+    elseif type(permission) == 'table' then
+        for _, perm in pairs(permission) do
+            perm = tostring(perm:lower())
+            if not QBCore.Commands.IgnoreList[perm] then
+                ExecuteCommand(('add_ace qbcore.%s command.%s allow'):format(perm, name))
+            end
+        end
     else
         permission = tostring(permission:lower())
-        if not QBCore.Commands.IgnoreList[permission] then -- only create aces for extra perm levels
+        if not QBCore.Commands.IgnoreList[permission] then
             ExecuteCommand(('add_ace qbcore.%s command.%s allow'):format(permission, name))
         end
     end
