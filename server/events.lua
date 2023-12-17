@@ -106,6 +106,13 @@ RegisterNetEvent('QBCore:Server:TriggerCallback', function(name, ...)
     end, ...)
 end)
 
+RegisterNetEvent('QBCore:Server:TriggerRpc', function(name, id, ...)
+    local src = source
+    QBCore.Functions.TriggerCallback(name, src, function(...)
+        TriggerClientEvent(id, src, ...)
+    end, ...)
+end)
+
 -- Player
 
 RegisterNetEvent('QBCore:UpdatePlayer', function()
