@@ -127,6 +127,46 @@ function QBCore.Functions.TriggerCallback(name, cb, ...)
     TriggerServerEvent('QBCore:Server:TriggerCallback', name, ...)
 end
 
+function QBCore.Functions.uuid()
+	print('1')
+    math.randomseed(GetGameTimer())
+    local template ='xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
+    return string.gsub(template, '[xy]', function (c)
+        local v = (c == 'x') and math.random(0, 0xf) or math.random(8, 0xb)
+        return string.format('%x', v)
+    end)
+end
+
+function QBCore.Functions.TriggerRpc(name, ...)
+    local eventResponseId = QBCore.Functions.uuid()
+    local p = promise.new()
+
+    local event = RegisterNetEvent(eventResponseId, function(result)
+        RemoveEventHandler(QBCore.ServerRPC[eventResponseId].event)
+        QBCore.ServerRPC[eventResponseId] = nil
+        p:resolve(result)
+    end)
+
+    QBCore.ServerRPC[eventResponseId] = {
+        name = name,
+        args = {...},
+        promise = p,
+        event = event,
+    }
+
+    SetTimeout(2000, function()
+        if QBCore.ServerRPC[eventResponseId] then
+            p:reject('RPC timed out for event: ' .. QBCore.ServerRPC[eventResponseId].name)
+            RemoveEventHandler(QBCore.ServerRPC[eventResponseId].event)
+            QBCore.ServerRPC[eventResponseId] = nil
+        end
+    end)
+
+    TriggerServerEvent('QBCore:Server:TriggerRpc', name, eventResponseId, ...)
+
+    return Citizen.Await(p)
+end
+
 function QBCore.Functions.Progressbar(name, label, duration, useWhileDead, canCancel, disableControls, animation, prop, propTwo, onFinish, onCancel)
     if GetResourceState('progressbar') ~= 'started' then error('progressbar needs to be started in order for QBCore.Functions.Progressbar to work') end
     exports['progressbar']:Progress({
