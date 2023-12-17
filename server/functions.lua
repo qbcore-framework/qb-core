@@ -365,6 +365,16 @@ function QBCore.Functions.TriggerCallback(name, source, cb, ...)
     QBCore.ServerCallbacks[name](source, cb, ...)
 end
 
+function QBCore.Functions.TriggerRpc(name, source, ...)
+    local result
+
+    QBCore.Functions.TriggerCallback(name, source, function(res)
+        result = res
+    end, ...)
+
+    return result
+end
+
 -- Items
 
 ---Create a usable item
