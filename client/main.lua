@@ -4,6 +4,7 @@ QBCore.Config = QBConfig
 QBCore.Shared = QBShared
 QBCore.ClientCallbacks = {}
 QBCore.ServerCallbacks = {}
+QBCore.ServerRPC = {} --https://en.wikipedia.org/wiki/Remote_procedure_call
 
 exports('GetCoreObject', function()
     return QBCore
