@@ -165,6 +165,11 @@ function QBCore.Functions.GetDutyCount(job)
     return count
 end
 
+function QBCore.Functions.GetTaxPrice(Price, Type)
+	if QBConfig.Money.Tax[Type] == nil then return Price end
+	return math.floor(Price + ((Price / 100) * QBConfig.Money.Tax[Type])) 
+end
+
 -- Routing buckets (Only touch if you know what you are doing)
 
 ---Returns the objects related to buckets, first returned value is the player buckets, second one is entity buckets
