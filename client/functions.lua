@@ -128,7 +128,6 @@ function QBCore.Functions.TriggerCallback(name, cb, ...)
 end
 
 function QBCore.Functions.uuid()
-	print('1')
     math.randomseed(GetGameTimer())
     local template ='xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
     return string.gsub(template, '[xy]', function (c)
