@@ -126,11 +126,20 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
     PlayerData.metadata['craftingrep'] = PlayerData.metadata['craftingrep'] or 0
     PlayerData.metadata['attachmentcraftingrep'] = PlayerData.metadata['attachmentcraftingrep'] or 0
     PlayerData.metadata['currentapartment'] = PlayerData.metadata['currentapartment'] or nil
+    -- Metadata Job
     PlayerData.metadata['jobrep'] = PlayerData.metadata['jobrep'] or {}
     PlayerData.metadata['jobrep']['tow'] = PlayerData.metadata['jobrep']['tow'] or 0
     PlayerData.metadata['jobrep']['trucker'] = PlayerData.metadata['jobrep']['trucker'] or 0
     PlayerData.metadata['jobrep']['taxi'] = PlayerData.metadata['jobrep']['taxi'] or 0
     PlayerData.metadata['jobrep']['hotdog'] = PlayerData.metadata['jobrep']['hotdog'] or 0
+    PlayerData.metadata['jobrep']['ambulance'] = PlayerData.metadata['jobrep']['ambulance'] or 0
+    PlayerData.metadata['jobrep']['police'] = PlayerData.metadata['jobrep']['police'] or 0
+    PlayerData.metadata['jobrep']['bus'] = PlayerData.metadata['jobrep']['bus'] or 0
+    PlayerData.metadata['jobrep']['mechanic'] = PlayerData.metadata['jobrep']['mechanic'] or 0
+    PlayerData.metadata['jobrep']['vineyard'] = PlayerData.metadata['jobrep']['vineyard'] or 0
+    PlayerData.metadata['jobrep']['recycle'] = PlayerData.metadata['jobrep']['recycle'] or 0
+    PlayerData.metadata['jobrep']['news'] = PlayerData.metadata['jobrep']['news'] or 0
+    PlayerData.metadata['jobrep']['garbage'] = PlayerData.metadata['jobrep']['garbage'] or 0
     PlayerData.metadata['callsign'] = PlayerData.metadata['callsign'] or 'NO CALLSIGN'
     PlayerData.metadata['fingerprint'] = PlayerData.metadata['fingerprint'] or QBCore.Player.CreateFingerId()
     PlayerData.metadata['walletid'] = PlayerData.metadata['walletid'] or QBCore.Player.CreateWalletId()
