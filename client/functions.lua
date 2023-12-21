@@ -343,7 +343,7 @@ function QBCore.Functions.GetBoneDistance(entity, boneType, boneIndex)
 end
 
 function QBCore.Functions.AttachProp(ped, model, boneId, x, y, z, xR, yR, zR, vertex)
-    local modelHash = type(model) == 'string' and GetHashKey(model) or model
+    local modelHash = type(model) == 'string' and joaat(model) or model
     local bone = GetPedBoneIndex(ped, boneId)
     QBCore.Functions.LoadModel(modelHash)
     local prop = CreateObject(modelHash, 1.0, 1.0, 1.0, 1, 1, 0)
@@ -356,7 +356,7 @@ end
 
 function QBCore.Functions.SpawnVehicle(model, cb, coords, isnetworked, teleportInto)
     local ped = PlayerPedId()
-    model = type(model) == 'string' and GetHashKey(model) or model
+    model = type(model) == 'string' and joaat(model) or model
     if not IsModelInCdimage(model) then return end
     if coords then
         coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords

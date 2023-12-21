@@ -120,7 +120,7 @@ end)
 
 RegisterNetEvent('QBCore:Command:SpawnVehicle', function(vehName)
     local ped = PlayerPedId()
-    local hash = GetHashKey(vehName)
+    local hash = joaat(vehName)
     local veh = GetVehiclePedIsUsing(ped)
     if not IsModelInCdimage(hash) then return end
     RequestModel(hash)
