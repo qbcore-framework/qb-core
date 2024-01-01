@@ -28,6 +28,7 @@ QBConfig.Server.PVP = true                              -- Enable or disable pvp
 QBConfig.Server.Discord = ''                            -- Discord invite link
 QBConfig.Server.CheckDuplicateLicense = true            -- Check for duplicate rockstar license on join
 QBConfig.Server.Permissions = { 'god', 'admin', 'mod' } -- Add as many groups as you want here after creating them in your server.cfg
+QBConfig.Server.Name = 'QBCore Framework Server'        -- The server name can be used from anywhere
 
 QBConfig.Commands = {}                                  -- Command Configuration
 QBConfig.Commands.OOCColor = { 255, 151, 133 }          -- RGB color code for the OOC command
