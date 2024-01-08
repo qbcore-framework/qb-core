@@ -252,6 +252,19 @@ QBCore.Commands.Add('setjob', Lang:t('command.setjob.help'), { { name = Lang:t('
     end
 end, 'admin')
 
+QBCore.Commands.Add('setmetadata', Lang:t('command.set.metadata'), {}, false, function(source, args)
+    local Player = QBCore.Functions.GetPlayer(source)
+    if args[1] then
+        if args[1] == 'trucker' then
+            if args[2] then
+                local newrep = Player.PlayerData.metadata['jobrep']
+                newrep.trucker = tonumber(args[2])
+                Player.Functions.SetMetaData('jobrep', newrep)
+            end
+        end
+    end
+end, 'god')
+
 -- Gang
 
 QBCore.Commands.Add('gang', Lang:t('command.gang.help'), {}, false, function(source)
@@ -269,6 +282,7 @@ QBCore.Commands.Add('setgang', Lang:t('command.setgang.help'), { { name = Lang:t
 end, 'admin')
 
 -- Out of Character Chat
+
 QBCore.Commands.Add('ooc', Lang:t('command.ooc.help'), {}, false, function(source, args)
     local message = table.concat(args, ' ')
     local Players = QBCore.Functions.GetPlayers()

@@ -114,6 +114,7 @@ local Translations = {
             },
         },
         ooc = { help = 'OOC Chat Message' },
+        set = { metadata = 'Set Player Metadata (God Only)' },
         me = {
             help = 'Show local message',
             params = {
