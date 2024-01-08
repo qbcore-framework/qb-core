@@ -45,11 +45,11 @@ function QBCore.Functions.DrawText3D(x, y, z, text)
 end
 
 function QBCore.Functions.RequestAnimDict(animDict)
-	if HasAnimDictLoaded(animDict) then return end
-	RequestAnimDict(animDict)
-	while not HasAnimDictLoaded(animDict) do
-		Wait(0)
-	end
+    if HasAnimDictLoaded(animDict) then return end
+    RequestAnimDict(animDict)
+    while not HasAnimDictLoaded(animDict) do
+        Wait(0)
+    end
 end
 
 function QBCore.Functions.PlayAnim(animDict, animName, upperbodyOnly, duration)
@@ -62,10 +62,10 @@ end
 
 function QBCore.Functions.LoadModel(model)
     if HasModelLoaded(model) then return end
-	RequestModel(model)
-	while not HasModelLoaded(model) do
-		Wait(0)
-	end
+    RequestModel(model)
+    while not HasModelLoaded(model) do
+        Wait(0)
+    end
 end
 
 function QBCore.Functions.LoadAnimSet(animSet)
@@ -81,7 +81,7 @@ RegisterNUICallback('getNotifyConfig', function(_, cb)
 end)
 
 function QBCore.Functions.Notify(text, texttype, length)
-    if type(text) == "table" then
+    if type(text) == 'table' then
         local ttext = text.text or 'Placeholder'
         local caption = text.caption or 'Placeholder'
         texttype = texttype or 'primary'
@@ -323,7 +323,7 @@ function QBCore.Functions.GetClosestBone(entity, list)
         end
     end
     if not bone then
-        bone = {id = GetEntityBoneIndexByName(entity, "bodyshell"), type = "remains", name = "bodyshell"}
+        bone = { id = GetEntityBoneIndexByName(entity, 'bodyshell'), type = 'remains', name = 'bodyshell' }
         coords = GetWorldPositionOfEntityBone(entity, bone.id)
         distance = #(coords - playerCoords)
     end
@@ -418,12 +418,12 @@ function QBCore.Functions.GetVehicleProperties(vehicle)
         local colorPrimary, colorSecondary = GetVehicleColours(vehicle)
         if GetIsVehiclePrimaryColourCustom(vehicle) then
             local r, g, b = GetVehicleCustomPrimaryColour(vehicle)
-            colorPrimary = {r, g, b}
+            colorPrimary = { r, g, b }
         end
 
         if GetIsVehicleSecondaryColourCustom(vehicle) then
             local r, g, b = GetVehicleCustomSecondaryColour(vehicle)
-            colorSecondary = {r, g, b}
+            colorSecondary = { r, g, b }
         end
 
         local extras = {}
@@ -446,7 +446,7 @@ function QBCore.Functions.GetVehicleProperties(vehicle)
 
         local tireBurstState = {}
         for i = 0, 5 do
-           tireBurstState[i] = IsVehicleTyreBurst(vehicle, i, false)
+            tireBurstState[i] = IsVehicleTyreBurst(vehicle, i, false)
         end
 
         local tireBurstCompletely = {}
@@ -462,6 +462,14 @@ function QBCore.Functions.GetVehicleProperties(vehicle)
         local doorStatus = {}
         for i = 0, 5 do
             doorStatus[i] = IsVehicleDoorDamaged(vehicle, i) == 1
+        end
+
+        local xenonColor
+        local hasCustom, r, g, b = GetVehicleXenonLightsCustomColor(vehicle)
+        if hasCustom then
+            xenonColor = table.pack(r, g, b)
+        else
+            xenonColor = GetVehicleXenonLightsColor(vehicle)
         end
 
         return {
@@ -488,7 +496,6 @@ function QBCore.Functions.GetVehicleProperties(vehicle)
             windowTint = GetVehicleWindowTint(vehicle),
             windowStatus = windowStatus,
             doorStatus = doorStatus,
-            xenonColor = GetVehicleXenonLightsColour(vehicle),
             neonEnabled = {
                 IsVehicleNeonLightEnabled(vehicle, 0),
                 IsVehicleNeonLightEnabled(vehicle, 1),
@@ -496,10 +503,10 @@ function QBCore.Functions.GetVehicleProperties(vehicle)
                 IsVehicleNeonLightEnabled(vehicle, 3)
             },
             neonColor = table.pack(GetVehicleNeonLightsColour(vehicle)),
-            headlightColor = GetVehicleHeadlightsColour(vehicle),
             interiorColor = GetVehicleInteriorColour(vehicle),
             extras = extras,
             tyreSmokeColor = table.pack(GetVehicleTyreSmokeColor(vehicle)),
+            xenonColor = xenonColor,
             modSpoilers = GetVehicleMod(vehicle, 0),
             modFrontBumper = GetVehicleMod(vehicle, 1),
             modRearBumper = GetVehicleMod(vehicle, 2),
@@ -599,7 +606,7 @@ function QBCore.Functions.SetVehicleProperties(vehicle, props)
             SetVehicleOilLevel(vehicle, props.oilLevel)
         end
         if props.color1 then
-            if type(props.color1) == "number" then
+            if type(props.color1) == 'number' then
                 ClearVehicleCustomPrimaryColour(vehicle)
                 SetVehicleColours(vehicle, props.color1, colorSecondary)
             else
@@ -607,7 +614,7 @@ function QBCore.Functions.SetVehicleProperties(vehicle, props)
             end
         end
         if props.color2 then
-            if type(props.color2) == "number" then
+            if type(props.color2) == 'number' then
                 ClearVehicleCustomSecondaryColour(vehicle)
                 SetVehicleColours(vehicle, props.color1 or colorPrimary, props.color2)
             else
@@ -671,9 +678,6 @@ function QBCore.Functions.SetVehicleProperties(vehicle, props)
         end
         if props.neonColor then
             SetVehicleNeonLightsColour(vehicle, props.neonColor[1], props.neonColor[2], props.neonColor[3])
-        end
-        if props.headlightColor then
-            SetVehicleHeadlightsColour(vehicle, props.headlightColor)
         end
         if props.interiorColor then
             SetVehicleInteriorColour(vehicle, props.interiorColor)
@@ -757,7 +761,11 @@ function QBCore.Functions.SetVehicleProperties(vehicle, props)
             ToggleVehicleMod(vehicle, 22, props.modXenon)
         end
         if props.xenonColor then
-            SetVehicleXenonLightsColor(vehicle, props.xenonColor)
+            if type(props.xenonColor) == 'table' then
+                SetVehicleXenonLightsCustomColor(vehicle, props.xenonColor[1], props.xenonColor[2], props.xenonColor[3])
+            else
+                SetVehicleXenonLightsColor(vehicle, props.xenonColor)
+            end
         end
         if props.modFrontWheels then
             SetVehicleMod(vehicle, 23, props.modFrontWheels, false)
@@ -945,16 +953,16 @@ function QBCore.Functions.GetCardinalDirection(entity)
     if DoesEntityExist(entity) then
         local heading = GetEntityHeading(entity)
         if ((heading >= 0 and heading < 45) or (heading >= 315 and heading < 360)) then
-            return "North"
+            return 'North'
         elseif (heading >= 45 and heading < 135) then
-            return "West"
+            return 'West'
         elseif (heading >= 135 and heading < 225) then
-            return "South"
+            return 'South'
         elseif (heading >= 225 and heading < 315) then
-            return "East"
+            return 'East'
         end
     else
-        return "Cardinal Direction Error"
+        return 'Cardinal Direction Error'
     end
 end
 
@@ -964,14 +972,14 @@ function QBCore.Functions.GetCurrentTime()
     obj.hour = GetClockHours()
 
     if obj.hour <= 12 then
-        obj.ampm = "AM"
+        obj.ampm = 'AM'
     elseif obj.hour >= 13 then
-        obj.ampm = "PM"
+        obj.ampm = 'PM'
         obj.formattedHour = obj.hour - 12
     end
 
     if obj.min <= 9 then
-        obj.formattedMin = "0" .. obj.min
+        obj.formattedMin = '0' .. obj.min
     end
 
     return obj
