@@ -10,6 +10,7 @@ QBConfig.Money.MoneyTypes = { cash = 500, bank = 5000, crypto = 0 } -- type = st
 QBConfig.Money.DontAllowMinus = { 'cash', 'crypto' }                -- Money that is not allowed going in minus
 QBConfig.Money.PayCheckTimeOut = 10                                 -- The time in minutes that it will give the paycheck
 QBConfig.Money.PayCheckSociety = false                              -- If true paycheck will come from the society account that the player is employed at, requires qb-management
+QBConfig.Money.CurrencyPrefix = '$'                                 -- For example. $ for USD - The price will be in the foreground
 
 QBConfig.Player = {}
 QBConfig.Player.HungerRate = 4.2 -- Rate at which hunger goes down.
