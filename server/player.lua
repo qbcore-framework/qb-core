@@ -104,12 +104,14 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
     PlayerData.charinfo.gender = PlayerData.charinfo.gender or 0
     PlayerData.charinfo.backstory = PlayerData.charinfo.backstory or 'placeholder backstory'
     PlayerData.charinfo.nationality = PlayerData.charinfo.nationality or 'USA'
+    PlayerData.charinfo.email = PlayerData.charinfo.email or (PlayerData.charinfo.firstname .. "." .. PlayerData.charinfo.lastname .. "@qbcore.com")
     PlayerData.charinfo.phone = PlayerData.charinfo.phone or QBCore.Functions.CreatePhoneNumber()
     PlayerData.charinfo.account = PlayerData.charinfo.account or QBCore.Functions.CreateAccountNumber()
     -- Metadata
     PlayerData.metadata = PlayerData.metadata or {}
     PlayerData.metadata['hunger'] = PlayerData.metadata['hunger'] or 100
     PlayerData.metadata['thirst'] = PlayerData.metadata['thirst'] or 100
+    PlayerData.metadata['alcohol'] = PlayerData.metadata['alcohol'] or 0
     PlayerData.metadata['stress'] = PlayerData.metadata['stress'] or 0
     PlayerData.metadata['isdead'] = PlayerData.metadata['isdead'] or false
     PlayerData.metadata['inlaststand'] = PlayerData.metadata['inlaststand'] or false
@@ -118,6 +120,7 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
     PlayerData.metadata['tracker'] = PlayerData.metadata['tracker'] or false
     PlayerData.metadata['injail'] = PlayerData.metadata['injail'] or 0
     PlayerData.metadata['jailitems'] = PlayerData.metadata['jailitems'] or {}
+    PlayerData.metadata['jailclothes'] = PlayerData.metadata['jailclothes'] or {}
     PlayerData.metadata['status'] = PlayerData.metadata['status'] or {}
     PlayerData.metadata['phone'] = PlayerData.metadata['phone'] or {}
     PlayerData.metadata['fitbit'] = PlayerData.metadata['fitbit'] or {}
@@ -131,6 +134,14 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
     PlayerData.metadata['jobrep']['trucker'] = PlayerData.metadata['jobrep']['trucker'] or 0
     PlayerData.metadata['jobrep']['taxi'] = PlayerData.metadata['jobrep']['taxi'] or 0
     PlayerData.metadata['jobrep']['hotdog'] = PlayerData.metadata['jobrep']['hotdog'] or 0
+    PlayerData.metadata['jobrep']['ambulance'] = PlayerData.metadata['jobrep']['ambulance'] or 0
+    PlayerData.metadata['jobrep']['police'] = PlayerData.metadata['jobrep']['police'] or 0
+    PlayerData.metadata['jobrep']['bus'] = PlayerData.metadata['jobrep']['bus'] or 0
+    PlayerData.metadata['jobrep']['mechanic'] = PlayerData.metadata['jobrep']['mechanic'] or 0
+    PlayerData.metadata['jobrep']['vineyard'] = PlayerData.metadata['jobrep']['vineyard'] or 0
+    PlayerData.metadata['jobrep']['recycle'] = PlayerData.metadata['jobrep']['recycle'] or 0
+    PlayerData.metadata['jobrep']['news'] = PlayerData.metadata['jobrep']['news'] or 0
+    PlayerData.metadata['jobrep']['garbage'] = PlayerData.metadata['jobrep']['garbage'] or 0
     PlayerData.metadata['callsign'] = PlayerData.metadata['callsign'] or 'NO CALLSIGN'
     PlayerData.metadata['fingerprint'] = PlayerData.metadata['fingerprint'] or QBCore.Player.CreateFingerId()
     PlayerData.metadata['walletid'] = PlayerData.metadata['walletid'] or QBCore.Player.CreateWalletId()
@@ -161,6 +172,7 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
     PlayerData.job.label = PlayerData.job.label or 'Civilian'
     PlayerData.job.payment = PlayerData.job.payment or 10
     PlayerData.job.type = PlayerData.job.type or 'none'
+    PlayerData.job.department = PlayerData.job.department or 'LSPD'
     if QBCore.Shared.ForceJobDefaultDutyAtLogin or PlayerData.job.onduty == nil then
         PlayerData.job.onduty = QBCore.Shared.Jobs[PlayerData.job.name].defaultDuty
     end
