@@ -368,6 +368,20 @@ QBShared.Items = {
     diving_gear                  = { name = 'diving_gear', label = 'Diving Gear', weight = 30000, type = 'item', image = 'diving_gear.png', unique = true, useable = true, shouldClose = true, combinable = nil, description = 'An oxygen tank and a rebreather' },
     diving_fill                  = { name = 'diving_fill', label = 'Diving Tube', weight = 3000, type = 'item', image = 'diving_tube.png', unique = true, useable = true, shouldClose = true, combinable = nil, discription = 'An oxygen tube and a rebreather' },
 
+    --Clothing
+    helmet                       = { name = 'helmet', label = 'Helmet', weight = 0, type = 'item', image = 'helmet.png', unique = true, useable = true, shouldClose = true, combinable = nil, discription = 'A Helmet' },
+    top                       = { name = 'top', label = 'Top', weight = 0, type = 'item', image = 'shirt.png', unique = true, useable = true, shouldClose = true, combinable = nil, discription = 'A Shirt' },
+    pants                       = { name = 'pants', label = 'Pants', weight = 0, type = 'item', image = 'pants.png', unique = true, useable = true, shouldClose = true, combinable = nil, discription = 'A Pants' },
+    shoes                       = { name = 'shoes', label = 'Shoes', weight = 0, type = 'item', image = 'shoes.png', unique = true, useable = true, shouldClose = true, combinable = nil, discription = 'A Shoes' },
+    neck                       = { name = 'neck', label = 'Necklace', weight = 0, type = 'item', image = 'necklace.png', unique = true, useable = true, shouldClose = true, combinable = nil, discription = 'A Necklace' },
+    ear                       = { name = 'ear', label = 'Earings', weight = 0, type = 'item', image = 'earings.png', unique = true, useable = true, shouldClose = true, combinable = nil, discription = 'A Earings' },
+    glasses                       = { name = 'glasses', label = 'Glasses', weight = 0, type = 'item', image = 'glasses.png', unique = true, useable = true, shouldClose = true, combinable = nil, discription = 'A Glasses' },
+    mask                       = { name = 'mask', label = 'Mask', weight = 0, type = 'item', image = 'mask.png', unique = true, useable = true, shouldClose = true, combinable = nil, discription = 'A Mask' },
+    vest                       = { name = 'vest', label = 'Vest', weight = 0, type = 'item', image = 'vest.png', unique = true, useable = true, shouldClose = true, combinable = nil, discription = 'A Vest' },
+    bag                       = { name = 'bag', label = 'Bag', weight = 0, type = 'item', image = 'bag.png', unique = true, useable = true, shouldClose = true, combinable = nil, discription = 'A Bag' },
+    bracelet                       = { name = 'bracelet', label = 'Bracelet', weight = 0, type = 'item', image = 'bracelet.png', unique = true, useable = true, shouldClose = true, combinable = nil, discription = 'A Bracelet' },
+    watch                       = { name = 'watch', label = 'Watch', weight = 0, type = 'item', image = 'watch.png', unique = true, useable = true, shouldClose = true, combinable = nil, discription = 'A Watch' },
+
     -- Other Tools
     casinochips                  = { name = 'casinochips', label = 'Casino Chips', weight = 0, type = 'item', image = 'casinochips.png', unique = false, useable = false, shouldClose = false, combinable = nil, description = 'Chips For Casino Gambling' },
     stickynote                   = { name = 'stickynote', label = 'Sticky note', weight = 0, type = 'item', image = 'stickynote.png', unique = true, useable = false, shouldClose = false, combinable = nil, description = 'Sometimes handy to remember something :)' },
