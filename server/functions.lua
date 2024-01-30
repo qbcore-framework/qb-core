@@ -180,6 +180,7 @@ end
 function QBCore.Functions.SetPlayerBucket(source, bucket)
     if source and bucket then
         local plicense = QBCore.Functions.GetIdentifier(source, 'license')
+        Player(source).state:set('instance', bucket, true)
         SetPlayerRoutingBucket(source, bucket)
         QBCore.Player_Buckets[plicense] = { id = source, bucket = bucket }
         return true
