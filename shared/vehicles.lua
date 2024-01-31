@@ -601,7 +601,6 @@ local Vehicles = {
     { model = 'dinghy',        name = 'Dinghy 2-Seater',               brand = 'Nagasaki',        price = 40000,   category = 'boats',          type = 'boat',       shop = 'boats' },
     { model = 'dinghy2',       name = 'Dinghy 4-Seater',               brand = 'Nagasaki',        price = 40000,   category = 'boats',          type = 'boat',       shop = 'boats' },
     { model = 'dinghy3',       name = 'Dinghy (Heist)',                brand = 'Nagasaki',        price = 40000,   category = 'boats',          type = 'boat',       shop = 'boats' },
-    { model = 'dinghy4',       name = 'Dinghy Yacht',                  brand = 'Nagasaki',        price = 40000,   category = 'boats',          type = 'boat',       shop = 'boats' },
     --- Helicopters (15)
     { model = 'conada2',       name = 'Weaponized Conada',             brand = 'Buckingham',      price = 52000,   category = 'helicopters',    type = 'heli',       shop = 'none' },
     { model = 'conada',        name = 'Conada',                        brand = 'Buckingham',      price = 115000,  category = 'helicopters',    type = 'heli',       shop = 'air' },
