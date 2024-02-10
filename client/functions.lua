@@ -58,9 +58,8 @@ end
 --- @param duration number - The duration of the animation in milliseconds. -1 will play the animation indefinitely
 --- @param upperbodyOnly boolean - If true, the animation will only affect the upper body of the ped
 --- @return number - The timestamp indicating when the animation concluded. For animations set to loop indefinitely, this will still return the maximum duration of the animation.
-function QBCore.Functions.PlayAnim(animDict, animName, duration, upperbodyOnly)
-    -- local invoked = GetInvokingResource()
-    local invoked = 'runningAnim'
+function QBCore.Functions.PlayAnim(animDict, animName, upperbodyOnly, duration)
+    local invoked = GetInvokingResource()
     local animPromise = promise.new()
     if type(animDict) ~= 'string' or type(animName) ~= 'string' then
         animPromise:reject(invoked..' :^1  Wrong type for animDict or animName')
