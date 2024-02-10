@@ -70,6 +70,7 @@ local Vehicles = {
     { model = 'warrener2',     name = 'Warrener HKR',                  brand = 'Vulcar',          price = 30000,   category = 'sedans',         type = 'automobile', shop = 'pdm' },
     { model = 'rhinehart',     name = 'Rhinehart',                     brand = 'Übermacht',       price = 105000,  category = 'sedans',         type = 'automobile', shop = 'pdm' },
     { model = 'eudora',        name = 'Eudora',                        brand = 'Willard',         price = 17000,   category = 'sedans',         type = 'automobile', shop = 'pdm' },
+    { model = 'asterope2',     name = 'Asterope GZ',                   brand = 'Karin',           price = 459000,   category = 'sedans',        type = 'automobile', shop = 'pdm' },
     --- SUV (2)
     { model = 'baller',        name = 'Baller',                        brand = 'Gallivanter',     price = 22000,   category = 'suvs',           type = 'automobile', shop = 'pdm' },
     { model = 'baller2',       name = 'Baller II',                     brand = 'Gallivanter',     price = 15000,   category = 'suvs',           type = 'automobile', shop = 'pdm' },
@@ -103,6 +104,11 @@ local Vehicles = {
     { model = 'xls',           name = 'XLS',                           brand = 'Benefactor',      price = 17000,   category = 'suvs',           type = 'automobile', shop = 'pdm' },
     { model = 'granger2',      name = 'Granger 3600LX',                brand = 'Declasse',        price = 221000,  category = 'suvs',           type = 'automobile', shop = 'pdm' },
     { model = 'patriot3',      name = 'Patriot Military',              brand = 'Mil-Spec',        price = 270000,  category = 'suvs',           type = 'automobile', shop = 'pdm' },
+    { model = 'aleutian',      name = 'Aleutian',                      brand = 'Vapid',           price = 183500,  category = 'suvs',           type = 'automobile', shop = 'pdm' },
+    { model = 'baller8',       name = 'Baller ST-D',                   brand = 'Gallivanter',     price = 171500,  category = 'suvs',           type = 'automobile', shop = 'pdm' },
+    { model = 'cavalcade3',    name = 'Cavalcade XL',                  brand = 'Albany',          price = 166500,  category = 'suvs',           type = 'automobile', shop = 'pdm' },
+    { model = 'dorado',        name = 'Dorado',                        brand = 'Bravado',         price = 137500,  category = 'suvs',           type = 'automobile', shop = 'pdm' },
+    { model = 'vivanite',      name = 'Vivanite',                      brand = 'Karin',           price = 160500,  category = 'suvs',           type = 'automobile', shop = 'pdm' },
     --- Coupes (3)
     { model = 'cogcabrio',     name = 'Cognoscenti Cabrio',            brand = 'Enus',            price = 30000,   category = 'coupes',         type = 'automobile', shop = 'pdm' },
     { model = 'exemplar',      name = 'Exemplar',                      brand = 'Dewbauchee',      price = 40000,   category = 'coupes',         type = 'automobile', shop = 'pdm' },
@@ -125,6 +131,7 @@ local Vehicles = {
     { model = 'postlude',      name = 'Postlude',                      brand = 'Dinka',           price = 90000,   category = 'coupes',         type = 'automobile', shop = 'pdm' },
     { model = 'tahoma',        name = 'Tahoma Coupe',                  brand = 'Declasse',        price = 12000,   category = 'coupes',         type = 'automobile', shop = 'pdm' },
     { model = 'broadway',      name = 'Broadway',                      brand = 'Classique',       price = 20000,   category = 'coupes',         type = 'automobile', shop = 'pdm' },
+    { model = 'fr36',          name = 'FR36',                          brand = 'Fathom',          price = 161000,   category = 'coupes',        type = 'automobile', shop = 'pdm' },
     --- Muscle (4)
     { model = 'blade',         name = 'Blade',                         brand = 'Vapid',           price = 23500,   category = 'muscle',         type = 'automobile', shop = 'pdm' },
     { model = 'buccaneer',     name = 'Buccaneer',                     brand = 'Albany',          price = 22500,   category = 'muscle',         type = 'automobile', shop = 'pdm' },
@@ -198,6 +205,9 @@ local Vehicles = {
     { model = 'clique2',       name = 'Clique Wagon',                  brand = 'Vapid',           price = 102500,  category = 'muscle',         type = 'automobile', shop = 'pdm' },
     { model = 'brigham',       name = 'Brigham',                       brand = 'Albany',          price = 149900,  category = 'muscle',         type = 'automobile', shop = 'pdm' },
     { model = 'greenwood',     name = 'Greenwood',                     brand = 'Bravado',         price = 105000,  category = 'muscle',         type = 'automobile', shop = 'pdm' },
+    { model = 'dominator9',    name = 'Dominator GT',                  brand = 'Vapid',           price = 219500,  category = 'muscle',         type = 'automobile', shop = 'pdm' },
+    { model = 'impaler6',      name = 'Impaler LX',                    brand = 'Declasse',        price = 146500,  category = 'muscle',         type = 'automobile', shop = 'pdm' },
+    { model = 'vigero3',       name = 'Vigero ZX Convertible',         brand = 'Declasse',        price = 229500,  category = 'muscle',         type = 'automobile', shop = 'pdm' },
     --- Sports Classic (5)
     { model = 'ardent',        name = 'Ardent',                        brand = 'Ocelot',          price = 30000,   category = 'sportsclassics', type = 'automobile', shop = 'pdm' },
     { model = 'btype',         name = 'Roosevelt',                     brand = 'Albany',          price = 75000,   category = 'sportsclassics', type = 'automobile', shop = 'pdm' },
@@ -382,6 +392,7 @@ local Vehicles = {
     { model = 'torero2',       name = 'Torero XO',                     brand = 'Pegassi',         price = 245000,  category = 'super',          type = 'automobile', shop = 'luxury' },
     { model = 'entity3',       name = 'Entity MT',                     brand = 'Overflod',        price = 200000,  category = 'super',          type = 'automobile', shop = 'luxury' },
     { model = 'virtue',        name = 'Virtue',                        brand = 'Ocelot',          price = 72000,   category = 'super',          type = 'automobile', shop = 'luxury' },
+    { model = 'turismo3',      name = 'Turismo Omaggio',               brand = 'Grotti',          price = 284500,   category = 'super',         type = 'automobile', shop = 'luxury' },
     --- Motorcycles (8)
     { model = 'akuma',         name = 'Akuma',                         brand = 'Dinka',           price = 55000,   category = 'motorcycles',    type = 'bike',       shop = 'pdm' },
     { model = 'avarus',        name = 'Avarus',                        brand = 'LCC',             price = 20000,   category = 'motorcycles',    type = 'bike',       shop = 'pdm' },
@@ -475,6 +486,7 @@ local Vehicles = {
     { model = 'l35',           name = 'Walton L35',                    brand = 'Declasse',        price = 167000,  category = 'offroad',        type = 'automobile', shop = 'pdm' },
     { model = 'monstrociti',   name = 'MonstroCiti',                   brand = 'Maibatsu',        price = 48000,   category = 'offroad',        type = 'automobile', shop = 'pdm' },
     { model = 'draugur',       name = 'Draugur',                       brand = 'Declasse',        price = 99000,   category = 'offroad',        type = 'automobile', shop = 'pdm' },
+    { model = 'terminus',      name = 'Terminus',                      brand = 'Canis',           price = 187750,   category = 'offroad',       type = 'automobile', shop = 'pdm' },
     --- Industrial (10)
     { model = 'guardian',      name = 'Guardian',                      brand = 'Vapid',           price = 30000,   category = 'industrial',     type = 'automobile', shop = 'truck' },
     { model = 'mixer2',        name = 'Mixer II',                      brand = 'HVY',             price = 30000,   category = 'industrial',     type = 'automobile', shop = 'truck' },
@@ -507,6 +519,8 @@ local Vehicles = {
     { model = 'forklift',      name = 'Forklift',                      brand = 'HVY',             price = 30000,   category = 'utility',        type = 'automobile', shop = 'truck' },
     { model = 'docktug',       name = 'Docktug',                       brand = 'HVY',             price = 30000,   category = 'utility',        type = 'automobile', shop = 'truck' },
     { model = 'airtug',        name = 'Airtug',                        brand = 'HVY',             price = 30000,   category = 'utility',        type = 'automobile', shop = 'truck' },
+    { model = 'trailers5',     name = 'Trailer (Christmas)',           brand = 'Unknown',         price = 30000,   category = 'utility',        type = 'automobile', shop = 'truck' },
+    { model = 'tvtrailer2',    name = 'Trailer (TV)',                  brand = 'Unknown',         price = 30000,   category = 'utility',        type = 'automobile', shop = 'truck' },
     --- Vans (12)
     { model = 'bison',         name = 'Bison',                         brand = 'Bravado',         price = 18000,   category = 'vans',           type = 'automobile', shop = 'pdm' },
     { model = 'bobcatxl',      name = 'Bobcat XL Open',                brand = 'Vapid',           price = 13500,   category = 'vans',           type = 'automobile', shop = 'pdm' },
@@ -540,6 +554,7 @@ local Vehicles = {
     { model = 'mule2',         name = 'Mule',                          brand = 'Maibatsu',        price = 40000,   category = 'vans',           type = 'automobile', shop = 'pdm' },
     { model = 'mule3',         name = 'Mule',                          brand = 'Maibatsu',        price = 40000,   category = 'vans',           type = 'automobile', shop = 'pdm' },
     { model = 'taco',          name = 'Taco Truck',                    brand = 'Brute',           price = 45000,   category = 'vans',           type = 'automobile', shop = 'pdm' },
+    { model = 'boxville6',     name = 'Boxville (LSDS)',               brand = 'Brute',           price = 47500,   category = 'vans',           type = 'automobile', shop = 'pdm' },
     --- Cycles (13)
     { model = 'bmx',           name = 'BMX',                           brand = 'Bike',            price = 160,     category = 'cycles',         type = 'bike',       shop = 'pdm' },
     { model = 'cruiser',       name = 'Cruiser',                       brand = 'Bike',            price = 510,     category = 'cycles',         type = 'bike',       shop = 'pdm' },
@@ -551,7 +566,6 @@ local Vehicles = {
     { model = 'inductor',      name = 'Inductor',                      brand = 'Coil',            price = 5000,    category = 'cycles',         type = 'bike',       shop = 'pdm' },
     { model = 'inductor2',     name = 'Junk Energy Inductor',          brand = 'Coil',            price = 5000,    category = 'cycles',         type = 'bike',       shop = 'pdm' },
     --- Boats (14)
-    { model = 'dinghy4',       name = 'Weaponized Dinghy',             brand = 'Nagasaki',        price = 40000,   category = 'boats',          type = 'boat',       shop = 'none' },
     { model = 'avisa',         name = 'Avisa',                         brand = 'Kraken Subs',     price = 40000,   category = 'boats',          type = 'boat',       shop = 'none' },
     { model = 'patrolboat',    name = 'Kurtz 31 Patrol Boat',          brand = 'Unknown',         price = 40000,   category = 'boats',          type = 'boat',       shop = 'none' },
     { model = 'longfin',       name = 'Longfin',                       brand = 'Shitzu',          price = 40000,   category = 'boats',          type = 'boat',       shop = 'boats' },
@@ -683,6 +697,8 @@ local Vehicles = {
     { model = 'fbi',           name = 'FIB Buffalo',                   brand = 'Bravado',         price = 40000,   category = 'emergency',      type = 'automobile', shop = 'none' },
     { model = 'fbi2',          name = 'FIB Granger',                   brand = 'Declasse',        price = 40000,   category = 'emergency',      type = 'automobile', shop = 'none' },
     { model = 'predator',      name = 'Police Predator',               brand = 'Unknown',         price = 40000,   category = 'emergency',      type = 'automobile', shop = 'none' },
+    { model = 'polgauntlet',   name = 'Gauntlet Interceptor',          brand = 'Bravado',         price = 40000,   category = 'emergency',      type = 'automobile', shop = 'none' },
+    { model = 'police5',       name = 'Stanier LE Cruiser',            brand = 'Vapid',           price = 40000,   category = 'emergency',      type = 'automobile', shop = 'none' },
     --- Military (19)
     { model = 'vetir',         name = 'Vetir',                         brand = 'Unknown',         price = 100000,  category = 'military',       type = 'automobile', shop = 'none' },
     { model = 'kosatka',       name = 'Kosatka',                       brand = 'Rune',            price = 100000,  category = 'military',       type = 'automobile', shop = 'none' },
@@ -718,6 +734,8 @@ local Vehicles = {
     { model = 'hauler',        name = 'Hauler',                        brand = 'Jobuilt',         price = 100000,  category = 'commercial',     type = 'automobile', shop = 'truck' },
     { model = 'biff',          name = 'Biff',                          brand = 'Brute',           price = 100000,  category = 'commercial',     type = 'automobile', shop = 'truck' },
     { model = 'benson',        name = 'Benson',                        brand = 'Vapid',           price = 55000,   category = 'commercial',     type = 'automobile', shop = 'truck' },
+    { model = 'benson2',       name = 'Benson (Cluckin Bell)',         brand = 'Vapid',           price = 55000,   category = 'commercial',     type = 'automobile', shop = 'truck' },
+    { model = 'phantom4',      name = 'Phantom (Christmas)',           brand = 'Vapid',           price = 100000,  category = 'commercial',     type = 'automobile', shop = 'truck' },
     --- Trains (21)
     --- Open Wheel (22)
     { model = 'openwheel2',    name = 'DR1',                           brand = 'Declasse',        price = 100000,  category = 'openwheel',      type = 'automobile', shop = 'none' },

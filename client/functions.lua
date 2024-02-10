@@ -50,27 +50,118 @@ function QBCore.Functions.DrawText3D(x, y, z, text)
 end
 
 function QBCore.Functions.RequestAnimDict(animDict)
-	if HasAnimDictLoaded(animDict) then return end
-	RequestAnimDict(animDict)
-	while not HasAnimDictLoaded(animDict) do
-		Wait(0)
-	end
+    if HasAnimDictLoaded(animDict) then return end
+    RequestAnimDict(animDict)
+    while not HasAnimDictLoaded(animDict) do
+        Wait(0)
+    end
 end
 
+---@param entity number - The entity to look at
+---@param timeout number - The time in milliseconds before the function times out
+---@param speed number - The speed at which the entity should turn
+---@return number - The time at which the entity was looked at
+function QBCore.Functions.LookAtEntity(entity, timeout, speed)
+    local involved = GetInvokingResource()
+    if not DoesEntityExist(entity) then turnPromise:reject(involved..' :^1  Entity does not exist')         return turnPromise.value end
+    if not type(entity) == 'number' then turnPromise:reject(involved..' :^1  Entity must be a number')     return turnPromise.value end
+    if not type(speed) == 'number' then turnPromise:reject(involved..' :^1  Speed must be a number')       return turnPromise.value end
+    if speed > 5.0 then speed = 5.0 end
+    if timeout > 5000 then timeout = 5000 end
+
+    local ped = PlayerPedId()
+    local playerPos = GetEntityCoords(ped)
+
+    local targetPos = GetEntityCoords(entity)
+    local dx = targetPos.x - playerPos.x
+    local dy = targetPos.y - playerPos.y
+    local targetHeading = GetHeadingFromVector_2d(dx, dy)
+
+    local turnSpeed = speed
+    local startTimeout = GetGameTimer()
+    while true do
+        local currentHeading = GetEntityHeading(ped)
+        local diff = targetHeading - currentHeading
+        if math.abs(diff) < 2 then
+            break
+        end
+
+        if diff < -180 then
+            diff = diff + 360
+        elseif diff > 180 then
+            diff = diff - 360
+        end
+
+        turnSpeed = speed + (2.5 - speed) * (1 - math.abs(diff) / 180)
+
+        if diff > 0 then
+            currentHeading = currentHeading + turnSpeed
+        else
+            currentHeading = currentHeading - turnSpeed
+        end
+        SetEntityHeading(ped, currentHeading)
+        Wait(0)
+        if (startTimeout + timeout) < GetGameTimer() then break end
+    end
+    SetEntityHeading(ped, targetHeading)
+end
+
+-- Function to run an animation
+--- @param animDic string: The name of the animation dictionary
+--- @param animName string - The name of the animation within the dictionary
+--- @param duration number - The duration of the animation in milliseconds. -1 will play the animation indefinitely
+--- @param upperbodyOnly boolean - If true, the animation will only affect the upper body of the ped
+--- @return number - The timestamp indicating when the animation concluded. For animations set to loop indefinitely, this will still return the maximum duration of the animation.
 function QBCore.Functions.PlayAnim(animDict, animName, upperbodyOnly, duration)
+    local invoked = GetInvokingResource()
+    local animPromise = promise.new()
+    if type(animDict) ~= 'string' or type(animName) ~= 'string' then
+        animPromise:reject(invoked..' :^1  Wrong type for animDict or animName')
+        return animPromise.value
+    end
+    if not DoesAnimDictExist(animDict) then
+        animPromise:reject(invoked..' :^1  Animation dictionary does not exist')
+        return animPromise.value
+    end
+
     local flags = upperbodyOnly and 16 or 0
     local runTime = duration or -1
-    QBCore.Functions.RequestAnimDict(animDict)
-    TaskPlayAnim(PlayerPedId(), animDict, animName, 8.0, 1.0, runTime, flags, 0.0, false, false, true)
+    if runTime == -1 then flags = 49 end
+    local ped = PlayerPedId()
+    local start = GetGameTimer()
+    while not HasAnimDictLoaded(animDict) do
+        RequestAnimDict(animDict)
+        if (GetGameTimer() - start) > 5000 then
+            animPromise:reject(invoked..' :^1  Animation dictionary failed to load')
+            return animPromise.value
+        end
+        Wait(1)
+    end
+
+    TaskPlayAnim(ped, animDict, animName, 8.0, 8.0, runTime, flags, 0, true, true, true)
+    Wait(10) -- Wait a bit for the animation to start, then check if it exists
+    local currentTime = GetAnimDuration(animDict, animName)
+    if currentTime == 0 then
+        animPromise:reject(invoked..' :^1  Animation does not exist')
+        return animPromise.value
+    end
+
+    local fullDuration = currentTime * 1000
+    -- If duration is provided and is less than the full duration, use it instead
+    local waitTime = duration and math.min(duration, fullDuration) or fullDuration
+
+    Wait(waitTime)
     RemoveAnimDict(animDict)
+    animPromise:resolve(currentTime)
+    return animPromise.value
 end
 
 function QBCore.Functions.LoadModel(model)
     if HasModelLoaded(model) then return end
-	RequestModel(model)
-	while not HasModelLoaded(model) do
-		Wait(0)
-	end
+    RequestModel(model)
+    while not HasModelLoaded(model) do
+        Wait(0)
+    end
 end
 
 function QBCore.Functions.LoadAnimSet(animSet)
@@ -86,7 +177,7 @@ RegisterNUICallback('getNotifyConfig', function(_, cb)
 end)
 
 function QBCore.Functions.Notify(text, texttype, length)
-    if type(text) == "table" then
+    if type(text) == 'table' then
         local ttext = text.text or 'Placeholder'
         local caption = text.caption or 'Placeholder'
         texttype = texttype or 'primary'
@@ -328,7 +419,7 @@ function QBCore.Functions.GetClosestBone(entity, list)
         end
     end
     if not bone then
-        bone = {id = GetEntityBoneIndexByName(entity, "bodyshell"), type = "remains", name = "bodyshell"}
+        bone = { id = GetEntityBoneIndexByName(entity, 'bodyshell'), type = 'remains', name = 'bodyshell' }
         coords = GetWorldPositionOfEntityBone(entity, bone.id)
         distance = #(coords - playerCoords)
     end
@@ -348,7 +439,7 @@ function QBCore.Functions.GetBoneDistance(entity, boneType, boneIndex)
 end
 
 function QBCore.Functions.AttachProp(ped, model, boneId, x, y, z, xR, yR, zR, vertex)
-    local modelHash = type(model) == 'string' and GetHashKey(model) or model
+    local modelHash = type(model) == 'string' and joaat(model) or model
     local bone = GetPedBoneIndex(ped, boneId)
     QBCore.Functions.LoadModel(modelHash)
     local prop = CreateObject(modelHash, 1.0, 1.0, 1.0, 1, 1, 0)
@@ -361,7 +452,7 @@ end
 
 function QBCore.Functions.SpawnVehicle(model, cb, coords, isnetworked, teleportInto)
     local ped = PlayerPedId()
-    model = type(model) == 'string' and GetHashKey(model) or model
+    model = type(model) == 'string' and joaat(model) or model
     if not IsModelInCdimage(model) then return end
     if coords then
         coords = type(coords) == 'table' and vec3(coords.x, coords.y, coords.z) or coords
@@ -423,12 +514,12 @@ function QBCore.Functions.GetVehicleProperties(vehicle)
         local colorPrimary, colorSecondary = GetVehicleColours(vehicle)
         if GetIsVehiclePrimaryColourCustom(vehicle) then
             local r, g, b = GetVehicleCustomPrimaryColour(vehicle)
-            colorPrimary = {r, g, b}
+            colorPrimary = { r, g, b }
         end
 
         if GetIsVehicleSecondaryColourCustom(vehicle) then
             local r, g, b = GetVehicleCustomSecondaryColour(vehicle)
-            colorSecondary = {r, g, b}
+            colorSecondary = { r, g, b }
         end
 
         local extras = {}
@@ -451,7 +542,7 @@ function QBCore.Functions.GetVehicleProperties(vehicle)
 
         local tireBurstState = {}
         for i = 0, 5 do
-           tireBurstState[i] = IsVehicleTyreBurst(vehicle, i, false)
+            tireBurstState[i] = IsVehicleTyreBurst(vehicle, i, false)
         end
 
         local tireBurstCompletely = {}
@@ -467,6 +558,14 @@ function QBCore.Functions.GetVehicleProperties(vehicle)
         local doorStatus = {}
         for i = 0, 5 do
             doorStatus[i] = IsVehicleDoorDamaged(vehicle, i) == 1
+        end
+
+        local xenonColor
+        local hasCustom, r, g, b = GetVehicleXenonLightsCustomColor(vehicle)
+        if hasCustom then
+            xenonColor = table.pack(r, g, b)
+        else
+            xenonColor = GetVehicleXenonLightsColor(vehicle)
         end
 
         return {
@@ -493,7 +592,6 @@ function QBCore.Functions.GetVehicleProperties(vehicle)
             windowTint = GetVehicleWindowTint(vehicle),
             windowStatus = windowStatus,
             doorStatus = doorStatus,
-            xenonColor = GetVehicleXenonLightsColour(vehicle),
             neonEnabled = {
                 IsVehicleNeonLightEnabled(vehicle, 0),
                 IsVehicleNeonLightEnabled(vehicle, 1),
@@ -501,10 +599,10 @@ function QBCore.Functions.GetVehicleProperties(vehicle)
                 IsVehicleNeonLightEnabled(vehicle, 3)
             },
             neonColor = table.pack(GetVehicleNeonLightsColour(vehicle)),
-            headlightColor = GetVehicleHeadlightsColour(vehicle),
             interiorColor = GetVehicleInteriorColour(vehicle),
             extras = extras,
             tyreSmokeColor = table.pack(GetVehicleTyreSmokeColor(vehicle)),
+            xenonColor = xenonColor,
             modSpoilers = GetVehicleMod(vehicle, 0),
             modFrontBumper = GetVehicleMod(vehicle, 1),
             modRearBumper = GetVehicleMod(vehicle, 2),
@@ -604,7 +702,7 @@ function QBCore.Functions.SetVehicleProperties(vehicle, props)
             SetVehicleOilLevel(vehicle, props.oilLevel)
         end
         if props.color1 then
-            if type(props.color1) == "number" then
+            if type(props.color1) == 'number' then
                 ClearVehicleCustomPrimaryColour(vehicle)
                 SetVehicleColours(vehicle, props.color1, colorSecondary)
             else
@@ -612,7 +710,7 @@ function QBCore.Functions.SetVehicleProperties(vehicle, props)
             end
         end
         if props.color2 then
-            if type(props.color2) == "number" then
+            if type(props.color2) == 'number' then
                 ClearVehicleCustomSecondaryColour(vehicle)
                 SetVehicleColours(vehicle, props.color1 or colorPrimary, props.color2)
             else
@@ -676,9 +774,6 @@ function QBCore.Functions.SetVehicleProperties(vehicle, props)
         end
         if props.neonColor then
             SetVehicleNeonLightsColour(vehicle, props.neonColor[1], props.neonColor[2], props.neonColor[3])
-        end
-        if props.headlightColor then
-            SetVehicleHeadlightsColour(vehicle, props.headlightColor)
         end
         if props.interiorColor then
             SetVehicleInteriorColour(vehicle, props.interiorColor)
@@ -762,7 +857,11 @@ function QBCore.Functions.SetVehicleProperties(vehicle, props)
             ToggleVehicleMod(vehicle, 22, props.modXenon)
         end
         if props.xenonColor then
-            SetVehicleXenonLightsColor(vehicle, props.xenonColor)
+            if type(props.xenonColor) == 'table' then
+                SetVehicleXenonLightsCustomColor(vehicle, props.xenonColor[1], props.xenonColor[2], props.xenonColor[3])
+            else
+                SetVehicleXenonLightsColor(vehicle, props.xenonColor)
+            end
         end
         if props.modFrontWheels then
             SetVehicleMod(vehicle, 23, props.modFrontWheels, false)
@@ -950,16 +1049,16 @@ function QBCore.Functions.GetCardinalDirection(entity)
     if DoesEntityExist(entity) then
         local heading = GetEntityHeading(entity)
         if ((heading >= 0 and heading < 45) or (heading >= 315 and heading < 360)) then
-            return "North"
+            return 'North'
         elseif (heading >= 45 and heading < 135) then
-            return "West"
+            return 'West'
         elseif (heading >= 135 and heading < 225) then
-            return "South"
+            return 'South'
         elseif (heading >= 225 and heading < 315) then
-            return "East"
+            return 'East'
         end
     else
-        return "Cardinal Direction Error"
+        return 'Cardinal Direction Error'
     end
 end
 
@@ -969,14 +1068,14 @@ function QBCore.Functions.GetCurrentTime()
     obj.hour = GetClockHours()
 
     if obj.hour <= 12 then
-        obj.ampm = "AM"
+        obj.ampm = 'AM'
     elseif obj.hour >= 13 then
-        obj.ampm = "PM"
+        obj.ampm = 'PM'
         obj.formattedHour = obj.hour - 12
     end
 
     if obj.min <= 9 then
-        obj.formattedMin = "0" .. obj.min
+        obj.formattedMin = '0' .. obj.min
     end
 
     return obj
