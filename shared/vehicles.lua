@@ -566,7 +566,6 @@ local Vehicles = {
     { model = 'inductor',      name = 'Inductor',                      brand = 'Coil',            price = 5000,    category = 'cycles',         type = 'bike',       shop = 'pdm' },
     { model = 'inductor2',     name = 'Junk Energy Inductor',          brand = 'Coil',            price = 5000,    category = 'cycles',         type = 'bike',       shop = 'pdm' },
     --- Boats (14)
-    { model = 'dinghy4',       name = 'Weaponized Dinghy',             brand = 'Nagasaki',        price = 40000,   category = 'boats',          type = 'boat',       shop = 'none' },
     { model = 'avisa',         name = 'Avisa',                         brand = 'Kraken Subs',     price = 40000,   category = 'boats',          type = 'boat',       shop = 'none' },
     { model = 'patrolboat',    name = 'Kurtz 31 Patrol Boat',          brand = 'Unknown',         price = 40000,   category = 'boats',          type = 'boat',       shop = 'none' },
     { model = 'longfin',       name = 'Longfin',                       brand = 'Shitzu',          price = 40000,   category = 'boats',          type = 'boat',       shop = 'boats' },
