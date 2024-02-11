@@ -59,24 +59,14 @@ function QBCore.Player.GetOfflinePlayer(citizenid)
 end
 
 function QBCore.Player.GetPlayerByLicense(license)
-    if license then
-        local PlayerData = MySQL.prepare.await('SELECT * FROM players where license = ?', { license })
-        if PlayerData then
-            PlayerData.money = json.decode(PlayerData.money)
-            PlayerData.job = json.decode(PlayerData.job)
-            PlayerData.position = json.decode(PlayerData.position)
-            PlayerData.metadata = json.decode(PlayerData.metadata)
-            PlayerData.charinfo = json.decode(PlayerData.charinfo)
-            if PlayerData.gang then
-                PlayerData.gang = json.decode(PlayerData.gang)
-            else
-                PlayerData.gang = {}
-            end
+    if not license then return nil end
 
-            return QBCore.Player.CheckPlayerData(nil, PlayerData)
+    for k in next, QBCore.Players do
+        if QBCore.Players[k].PlayerData?.license == license then
+             return  QBCore.Players[k]
         end
     end
-    return nil
+    return nil    
 end
 
 function QBCore.Player.CheckPlayerData(source, PlayerData)
