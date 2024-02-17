@@ -58,9 +58,18 @@ end
 ---@return number - The time at which the entity was looked at
 function QBCore.Functions.LookAtEntity(entity, timeout, speed)
     local involved = GetInvokingResource()
-    if not DoesEntityExist(entity) then turnPromise:reject(involved..' :^1  Entity does not exist')         return turnPromise.value end
-    if not type(entity) == 'number' then turnPromise:reject(involved..' :^1  Entity must be a number')     return turnPromise.value end
-    if not type(speed) == 'number' then turnPromise:reject(involved..' :^1  Speed must be a number')       return turnPromise.value end
+    if not DoesEntityExist(entity) then
+        turnPromise:reject(involved .. ' :^1  Entity does not exist')
+        return turnPromise.value
+    end
+    if not type(entity) == 'number' then
+        turnPromise:reject(involved .. ' :^1  Entity must be a number')
+        return turnPromise.value
+    end
+    if not type(speed) == 'number' then
+        turnPromise:reject(involved .. ' :^1  Speed must be a number')
+        return turnPromise.value
+    end
     if speed > 5.0 then speed = 5.0 end
     if timeout > 5000 then timeout = 5000 end
 
@@ -111,11 +120,11 @@ function QBCore.Functions.PlayAnim(animDict, animName, upperbodyOnly, duration)
     local invoked = GetInvokingResource()
     local animPromise = promise.new()
     if type(animDict) ~= 'string' or type(animName) ~= 'string' then
-        animPromise:reject(invoked..' :^1  Wrong type for animDict or animName')
+        animPromise:reject(invoked .. ' :^1  Wrong type for animDict or animName')
         return animPromise.value
     end
     if not DoesAnimDictExist(animDict) then
-        animPromise:reject(invoked..' :^1  Animation dictionary does not exist')
+        animPromise:reject(invoked .. ' :^1  Animation dictionary does not exist')
         return animPromise.value
     end
 
@@ -127,7 +136,7 @@ function QBCore.Functions.PlayAnim(animDict, animName, upperbodyOnly, duration)
     while not HasAnimDictLoaded(animDict) do
         RequestAnimDict(animDict)
         if (GetGameTimer() - start) > 5000 then
-            animPromise:reject(invoked..' :^1  Animation dictionary failed to load')
+            animPromise:reject(invoked .. ' :^1  Animation dictionary failed to load')
             return animPromise.value
         end
         Wait(1)
@@ -137,7 +146,7 @@ function QBCore.Functions.PlayAnim(animDict, animName, upperbodyOnly, duration)
     Wait(10) -- Wait a bit for the animation to start, then check if it exists
     local currentTime = GetAnimDuration(animDict, animName)
     if currentTime == 0 then
-        animPromise:reject(invoked..' :^1  Animation does not exist')
+        animPromise:reject(invoked .. ' :^1  Animation does not exist')
         return animPromise.value
     end
 
@@ -171,29 +180,25 @@ RegisterNUICallback('getNotifyConfig', function(_, cb)
     cb(QBCore.Config.Notify)
 end)
 
-function QBCore.Functions.Notify(text, texttype, length)
+function QBCore.Functions.Notify(text, texttype, length, icon)
+    local message = {
+        action = 'notify',
+        type = texttype or 'primary',
+        length = length or 5000,
+    }
+
     if type(text) == 'table' then
-        local ttext = text.text or 'Placeholder'
-        local caption = text.caption or 'Placeholder'
-        texttype = texttype or 'primary'
-        length = length or 5000
-        SendNUIMessage({
-            action = 'notify',
-            type = texttype,
-            length = length,
-            text = ttext,
-            caption = caption
-        })
+        message.text = text.text or 'Placeholder'
+        message.caption = text.caption or 'Placeholder'
     else
-        texttype = texttype or 'primary'
-        length = length or 5000
-        SendNUIMessage({
-            action = 'notify',
-            type = texttype,
-            length = length,
-            text = text
-        })
+        message.text = text
     end
+
+    if icon then
+        message.icon = icon
+    end
+
+    SendNUIMessage(message)
 end
 
 function QBCore.Debug(resource, obj, depth)
