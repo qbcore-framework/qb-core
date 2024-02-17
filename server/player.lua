@@ -85,7 +85,7 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
     if source then
         PlayerData.source = source
         PlayerData.license = PlayerData.license or QBCore.Functions.GetIdentifier(source, 'license')
-        PlayerData.name = GetPlayerName(source)
+        PlayerData.name = GetPlayerName(source):gsub("%W","")
         Offline = false
     end
 
