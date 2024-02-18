@@ -744,16 +744,16 @@ local Vehicles = {
     { model = 'formula',       name = 'PR4',                           brand = 'Progen',          price = 100000,  category = 'openwheel',      type = 'automobile', shop = 'none' },
 }
 
-for i = 1, #Vehicles do
-    QBShared.Vehicles[Vehicles[i].model] = {
-        spawncode = Vehicles[i].model,
-        name = Vehicles[i].name,
-        brand = Vehicles[i].brand,
-        model = Vehicles[i].model,
-        price = Vehicles[i].price,
-        category = Vehicles[i].category,
-        hash = joaat(Vehicles[i].model),
-        type = Vehicles[i].type,
-        shop = Vehicles[i].shop
+for _, v in pairs(Vehicles) do
+    QBShared.Vehicles[v.model] = {
+        spawncode = v.model,
+        name = v.name,
+        brand = v.brand,
+        model = v.model,
+        price = v.price,
+        category = v.category,
+        hash = joaat(v.model),
+        type = v.type or 'automobile',
+        shop = v.shop
     }
 end
