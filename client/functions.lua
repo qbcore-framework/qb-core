@@ -16,6 +16,11 @@ function QBCore.Functions.HasItem(items, amount)
     return exports['qb-inventory']:HasItem(items, amount)
 end
 
+function QBCore.Functions.GetTaxPrice(Price, Type)
+	if QBConfig.Money.Tax[Type] == nil then return Price end
+	return math.floor(Price + ((Price / 100) * QBConfig.Money.Tax[Type])) 
+end
+
 -- Utility
 
 function QBCore.Functions.DrawText(x, y, width, height, scale, r, g, b, a, text)
