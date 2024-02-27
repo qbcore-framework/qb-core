@@ -275,7 +275,7 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
     end
 
     function self.Functions.HasItem(items, amount)
-        QBCore.Functions.HasItem(self.PlayerData.source, items, amount)
+        return QBCore.Functions.HasItem(self.PlayerData.source, items, amount)
     end
 
     function self.Functions.SetJobDuty(onDuty)
