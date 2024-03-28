@@ -265,15 +265,13 @@ end
 function QBCore.Functions.GetPeds(ignoreList)
     local pedPool = GetGamePool('CPed')
     local peds = {}
+    local ignoreTable = {}
     ignoreList = ignoreList or {}
-    for i = 1, #pedPool, 1 do
-        local found = false
-        for j = 1, #ignoreList, 1 do
-            if ignoreList[j] == pedPool[i] then
-                found = true
-            end
-        end
-        if not found then
+    for i = 1, #ignoreList do
+        ignoreTable[ignoreList[i]] = true
+    end
+    for i = 1, #pedPool do
+        if not ignoreTable[pedPool[i]] then
             peds[#peds + 1] = pedPool[i]
         end
     end
@@ -353,9 +351,8 @@ function QBCore.Functions.GetPlayersFromCoords(coords, distance)
     end
     distance = distance or 5
     local closePlayers = {}
-    for _, player in pairs(players) do
-        local target = GetPlayerPed(player)
-        local targetCoords = GetEntityCoords(target)
+    for _, player in ipairs(players) do
+        local targetCoords = GetEntityCoords(GetPlayerPed(player))
         local targetdistance = #(targetCoords - coords)
         if targetdistance <= distance then
             closePlayers[#closePlayers + 1] = player

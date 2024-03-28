@@ -60,6 +60,18 @@ end
 
 function QBCore.Player.GetPlayerByLicense(license)
     if license then
+        local source = QBCore.Functions.GetSource(license)
+        if source > 0 then
+            return QBCore.Players[source]
+        else
+            return QBCore.Player.GetOfflinePlayerByLicense(license)
+        end
+    end
+    return nil
+end
+
+function QBCore.Player.GetOfflinePlayerByLicense(license)
+    if license then
         local PlayerData = MySQL.prepare.await('SELECT * FROM players where license = ?', { license })
         if PlayerData then
             PlayerData.money = json.decode(PlayerData.money)
