@@ -388,6 +388,29 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         return true
     end
 
+    function self.Functions.TransferTo(emitermoneytype, receivercid, receivermoneytype, quant, reason)
+        local ReceiverPlayer = QBCore.Functions.GetPlayerByCitizenId(receivercid)
+        if not tonumber(quant) then return false end
+        quant = tonumber(quant) or 0
+        local errorOnLast = false
+        if not self.Functions.RemoveMoney(quant, emitermoneytype, reason) then return false end
+        if ReceiverPlayer then
+            if not ReceiverPlayer.Functions.AddMoney(quant, receivermoneytype, reason) then errorOnLast = true end
+        else
+            local result = MySQL.single.await('SELECT money FROM players WHERE citizendid = ?', { receivercid })
+            if not result then errorOnLast = true end
+            result = json.decode(result)
+            result[receivermoneytype] += quant
+            if not MySQL.update.await('UPDATE players SET money = ? WHERE citizenid = ?', { json.encode(result), receivercid }) then return false end
+        end
+
+        if errorOnLast then
+            self.Functions.AddMoney(quant, emitermoneytype, reason)
+            return false
+        end
+        return true
+    end
+
     function self.Functions.GetMoney(moneytype)
         if not moneytype then return false end
         moneytype = moneytype:lower()
