@@ -388,7 +388,7 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         return true
     end
 
-    function self.Functions.TransferTo(emitermoneytype, receivercid, receivermoneytype, quant, reason)
+    function self.Functions.TransferMoneyTo(emitermoneytype, receivercid, receivermoneytype, quant, reason)
         local ReceiverPlayer = QBCore.Functions.GetPlayerByCitizenId(receivercid)
         if not tonumber(quant) then return false end
         quant = tonumber(quant) or 0
