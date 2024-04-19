@@ -585,9 +585,9 @@ end
 
 ---Do a money transactio between players
 ---@param emitercid string
----@param emitermoneytype "cash" | "bank" | "black_money"
+---@param emitermoneytype string -- Only money types in QBConfig.Money.MoneyTypes
 ---@param receivercid string
----@param receivermoneytype "cash" | "bank" | "black_money"
+---@param receivermoneytype string -- Only money types in QBConfig.Money.MoneyTypes
 ---@param quant number
 ---@param reason string
 ---@return boolean
