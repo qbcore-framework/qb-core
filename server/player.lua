@@ -146,6 +146,7 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
             self.PlayerData.job.grade.level = tonumber(gradeKey)
             self.PlayerData.job.grade.payment = jobGradeInfo.payment
             self.PlayerData.job.grade.isboss = jobGradeInfo.isboss or false
+            self.PlayerData.job.isboss = jobGradeInfo.isboss or false
         end
 
         if not self.Offline then
@@ -176,6 +177,7 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
             self.PlayerData.gang.grade.name = gangGradeInfo.name
             self.PlayerData.gang.grade.level = tonumber(gradeKey)
             self.PlayerData.gang.grade.isboss = gangGradeInfo.isboss or false
+            self.PlayerData.gang.isboss = gangGradeInfo.isboss or false
         end
 
         if not self.Offline then
