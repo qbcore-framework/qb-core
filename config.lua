@@ -18,6 +18,100 @@ QBConfig.Player.Bloodtypes = {
     'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-',
 }
 
+QBConfig.Player.PlayerDefaults = {
+    citizenid = function() return QBCore.Player.CreateCitizenId() end,
+    cid = 1,
+    money = function()
+        local moneyDefaults = {}
+        for moneytype, startamount in pairs(QBConfig.Money.MoneyTypes) do
+            moneyDefaults[moneytype] = startamount
+        end
+        return moneyDefaults
+    end,
+    optin = true,
+    charinfo = {
+        firstname = 'Firstname',
+        lastname = 'Lastname',
+        birthdate = '00-00-0000',
+        gender = 0,
+        nationality = 'USA',
+        phone = function() return QBCore.Functions.CreatePhoneNumber() end,
+        account = function() return QBCore.Functions.CreateAccountNumber() end
+    },
+    job = {
+        name = 'unemployed',
+        label = 'Civilian',
+        payment = 10,
+        type = 'none',
+        onduty = false,
+        isboss = false,
+        grade = {
+            name = 'Freelancer',
+            level = 0
+        }
+    },
+    gang = {
+        name = 'none',
+        label = 'No Gang Affiliation',
+        isboss = false,
+        grade = {
+            name = 'none',
+            level = 0
+        }
+    },
+    metadata = {
+        hunger = 100,
+        thirst = 100,
+        stress = 0,
+        isdead = false,
+        inlaststand = false,
+        armor = 0,
+        ishandcuffed = false,
+        tracker = false,
+        injail = 0,
+        jailitems = {},
+        status = {},
+        phone = {},
+        fitbit = {},
+        bloodtype = function() return QBConfig.Player.Bloodtypes[math.random(1, #QBConfig.Player.Bloodtypes)] end,
+        dealerrep = 0,
+        craftingrep = 0,
+        attachmentcraftingrep = 0,
+        currentapartment = nil,
+        jobrep = {
+            tow = 0,
+            trucker = 0,
+            taxi = 0,
+            hotdog = 0
+        },
+        callsign = 'NO CALLSIGN',
+        fingerprint = function() return QBCore.Player.CreateFingerId() end,
+        walletid = function() return QBCore.Player.CreateWalletId() end,
+        criminalrecord = {
+            hasRecord = false,
+            date = nil
+        },
+        licences = {
+            driver = true,
+            business = false,
+            weapon = false
+        },
+        inside = {
+            house = nil,
+            apartment = {
+                apartmentType = nil,
+                apartmentId = nil,
+            }
+        },
+        phonedata = {
+            SerialNumber = function() return QBCore.Player.CreateSerialNumber() end,
+            InstalledApps = {}
+        }
+    },
+    position = QBConfig.DefaultSpawn,
+    items = {},
+}
+
 QBConfig.Server = {}                                    -- General server config
 QBConfig.Server.Closed = false                          -- Set server closed (no one can join except people with ace permission 'qbadmin.join')
 QBConfig.Server.ClosedReason = 'Server Closed'          -- Reason message to display when people can't join the server
