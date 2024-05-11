@@ -1,7 +1,8 @@
 fx_version 'cerulean'
 game 'gta5'
-
-description 'QB-Core'
+lua54 'yes'
+author 'Kakarot'
+description 'Core resource for the framework, contains all the core functionality and features'
 version '1.2.6'
 
 shared_scripts {
@@ -47,5 +48,3 @@ files {
 }
 
 dependency 'oxmysql'
-
-lua54 'yes'
