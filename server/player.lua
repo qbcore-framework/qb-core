@@ -236,11 +236,29 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         return self.PlayerData.metadata[meta]
     end
 
-    function self.Functions.AddJobReputation(amount)
-        if not amount then return end
-        amount = tonumber(amount)
-        self.PlayerData.metadata['jobrep'][self.PlayerData.job.name] = self.PlayerData.metadata['jobrep'][self.PlayerData.job.name] + amount
+    function self.Functions.AddRep(rep, amount)
+        if not rep or not amount then return end
+        local addAmount = tonumber(amount)
+        local currentRep = self.PlayerData.metadata['rep'][rep] or 0
+        self.PlayerData.metadata['rep'][rep] = currentRep + addAmount
         self.Functions.UpdatePlayerData()
+    end
+
+    function self.Functions.RemoveRep(rep, amount)
+        if not rep or not amount then return end
+        local removeAmount = tonumber(amount)
+        local currentRep = self.PlayerData.metadata['rep'][rep] or 0
+        if currentRep - removeAmount < 0 then
+            self.PlayerData.metadata['rep'][rep] = 0
+        else
+            self.PlayerData.metadata['rep'][rep] = currentRep - removeAmount
+        end
+        self.Functions.UpdatePlayerData()
+    end
+
+    function self.Functions.GetRep(rep)
+        if not rep then return end
+        return self.PlayerData.metadata['rep'][rep] or 0
     end
 
     function self.Functions.AddMoney(moneytype, amount, reason)
