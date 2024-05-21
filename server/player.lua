@@ -201,8 +201,8 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         return true
     end
 
-    function self.Functions.Notify(text, type, lenght)
-        TriggerClientEvent('QBCore:Notify', self.PlayerData.source, text, type, lenght)
+    function self.Functions.Notify(text, type, length)
+        TriggerClientEvent('QBCore:Notify', self.PlayerData.source, text, type, length)
     end
 
     function self.Functions.HasItem(items, amount)
