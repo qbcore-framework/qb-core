@@ -17,6 +17,8 @@ local Translations = {
         no_permission = 'No tienes permisos para esto..',
         no_waypoint = 'No hay waypoint establecido.',
         tp_error = 'Error mientras se teletransporta.',
+        connecting_database_error   = '[QBCORE] - Un error en la base de datos sucedió mientras te conectabas al servidor (¿Está la SQL del servidor encendida?)',
+        connecting_database_timeout = '[QBCORE] - La conexión con la base de datos falló (¿Está la SQL del servidor encendida?)',
     },
     success = {
         server_opened = 'El servidor ha sido abierto',
@@ -74,6 +76,9 @@ local Translations = {
             },
         },
         dv = { help = 'Borrar vehículo (sólo para admin)' },
+        dvall = { help = 'Borrar todos los Vehículos (sólo para admin)' },
+        dvp = { help = 'Borrar todos las Peds (sólo para admin)' },
+        dvo = { help = 'Borrar todos los Objectos (sólo para admin)' },
         givemoney = {
             help = 'Dar dinero a un jugador (sólo para admin)',
             params = {
