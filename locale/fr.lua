@@ -76,6 +76,9 @@ local Translations = {
             },
         },
         dv = { help = 'Supprimer un véhicule (Admin Only)'},
+        dvall = { help = 'Supprimer tous les véhicules (Admin Only)' },
+        dvp = { help = 'Supprimer tous les Peds (Admin Only)' },
+        dvo = { help = 'Supprimer tous les Objets (Admin Only)' },
         givemoney = {
             help = 'Donner de l\'argent à un joueur (Admin Only)',
             params = {
