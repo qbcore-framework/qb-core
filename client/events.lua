@@ -200,6 +200,10 @@ RegisterNetEvent('QBCore:Client:UseItem', function(item)
     QBCore.Debug(item)
 end)
 
+RegisterNUICallback('getNotifyConfig', function(_, cb)
+    cb(QBCore.Config.Notify)
+end)
+
 -- Callback Events --
 
 -- Client Callback
