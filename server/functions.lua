@@ -462,7 +462,26 @@ end
 ---@param item string
 ---@param data function
 function QBCore.Functions.CreateUseableItem(item, data)
-    QBCore.UsableItems[item] = data
+    local rawFunc = nil
+
+    if type(data) == "table" then
+        if rawget(data, '__cfx_functionReference') then
+            rawFunc = data
+        elseif data.cb and rawget(data.cb, '__cfx_functionReference') then
+            rawFunc = data.cb
+        elseif data.callback and rawget(data.callback, '__cfx_functionReference') then
+            rawFunc = data.callback
+        end
+    elseif type(data) == "function" then
+        rawFunc = data
+    end
+    
+    if rawFunc then
+        QBCore.UsableItems[item] = {
+            func = rawFunc,
+            resource = GetInvokingResource()
+        }
+    end
 end
 
 ---Checks if the given item is usable
