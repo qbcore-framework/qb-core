@@ -59,7 +59,7 @@ function QBCore.Functions.LookAtEntity(entity, timeout, speed)
     local dx = targetPos.x - playerPos.x
     local dy = targetPos.y - playerPos.y
     local targetHeading = GetHeadingFromVector_2d(dx, dy)
-    local turnSpeed = nil
+    local turnSpeed
     local startTimeout = GetGameTimer()
     while true do
         local currentHeading = GetEntityHeading(ped)
