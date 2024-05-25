@@ -100,6 +100,24 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
         PlayerData.name = GetPlayerName(source)
     end
 
+    -- todo, what should happen if the job doesnt exist?
+    if PlayerData.job and PlayerData.job.name ~= nil and PlayerData.job.grade and PlayerData.job.grade.level ~= nil then
+        local jobInfo = QBCore.Shared.Jobs[PlayerData.job.name]
+
+        if jobInfo then
+            local jobGradeInfo = jobInfo.grades[tostring(PlayerData.job.grade.level)]
+            if jobGradeInfo then
+                PlayerData.job.label = jobInfo.label
+                PlayerData.job.grade.name = jobGradeInfo.name
+                PlayerData.job.payment = jobGradeInfo.payment
+                PlayerData.job.grade.isboss = jobGradeInfo.isboss or false
+                PlayerData.job.isboss = jobGradeInfo.isboss or false
+            end
+        end
+    end
+
+    -- todo, fix same thing as above, but for the gang data
+
     applyDefaults(PlayerData, QBCore.Config.Player.PlayerDefaults)
 
     if GetResourceState('qb-inventory') ~= 'missing' then
