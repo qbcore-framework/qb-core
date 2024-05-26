@@ -100,7 +100,7 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
         PlayerData.name = GetPlayerName(source)
     end
 
-    -- todo, what should happen if the job doesnt exist?
+    local validatedJob = false
     if PlayerData.job and PlayerData.job.name ~= nil and PlayerData.job.grade and PlayerData.job.grade.level ~= nil then
         local jobInfo = QBCore.Shared.Jobs[PlayerData.job.name]
 
@@ -112,11 +112,15 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
                 PlayerData.job.payment = jobGradeInfo.payment
                 PlayerData.job.grade.isboss = jobGradeInfo.isboss or false
                 PlayerData.job.isboss = jobGradeInfo.isboss or false
+                validatedJob = true
             end
         end
     end
 
-    -- todo, fix same thing as above, but for the gang data
+    if validatedJob == false then
+        -- set to nil, as the default job (unemployed) will be added by `applyDefaults`
+        PlayerData.job = nil
+    end
 
     applyDefaults(PlayerData, QBCore.Config.Player.PlayerDefaults)
 
