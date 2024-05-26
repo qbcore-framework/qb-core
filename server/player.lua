@@ -122,6 +122,28 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
         PlayerData.job = nil
     end
 
+    local validatedGang = false
+    if PlayerData.gang and PlayerData.gang.name ~= nil and PlayerData.gang.grade and PlayerData.gang.grade.level ~= nil then
+        local gangInfo = QBCore.Shared.Gangs[PlayerData.gang.name]
+
+        if gangInfo then
+            local gangGradeInfo = gangInfo.grades[tostring(PlayerData.gang.grade.level)]
+            if gangGradeInfo then
+                PlayerData.gang.label = gangInfo.label
+                PlayerData.gang.grade.name = gangGradeInfo.name
+                PlayerData.gang.payment = gangGradeInfo.payment
+                PlayerData.gang.grade.isboss = gangGradeInfo.isboss or false
+                PlayerData.gang.isboss = gangGradeInfo.isboss or false
+                validatedGang = true
+            end
+        end
+    end
+
+    if validatedGang == false then
+        -- set to nil, as the default gang (unemployed) will be added by `applyDefaults`
+        PlayerData.gang = nil
+    end
+
     applyDefaults(PlayerData, QBCore.Config.Player.PlayerDefaults)
 
     if GetResourceState('qb-inventory') ~= 'missing' then
