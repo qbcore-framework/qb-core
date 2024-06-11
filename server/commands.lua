@@ -188,8 +188,19 @@ QBCore.Commands.Add('car', Lang:t('command.car.help'), { { name = Lang:t('comman
 end, 'admin')
 
 QBCore.Commands.Add('dv', Lang:t('command.dv.help'), {}, false, function(source)
-    local vehicle = GetVehiclePedIsIn(GetPlayerPed(source), false)
-    if vehicle then DeleteEntity(vehicle) end
+    local ped = GetPlayerPed(source)
+    local vehicle = GetVehiclePedIsIn(ped, false)
+    if vehicle > 0 then 
+        DeleteEntity(vehicle)
+    else
+        local coords = GetEntityCoords(ped)
+        local vehicles = GetAllVehicles()
+        for _, v in ipairs(vehicles) do
+            if #(coords - GetEntityCoords(v)) <= 5.0 then
+                DeleteEntity(v)
+            end
+        end
+    end
 end, 'admin')
 
 QBCore.Commands.Add('dvall', Lang:t('command.dvall.help'), {}, false, function()
