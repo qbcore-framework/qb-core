@@ -184,11 +184,23 @@ end, 'admin')
 -- Vehicle
 
 QBCore.Commands.Add('car', Lang:t('command.car.help'), { { name = Lang:t('command.car.params.model.name'), help = Lang:t('command.car.params.model.help') } }, true, function(source, args)
-    TriggerClientEvent('QBCore:Command:SpawnVehicle', source, args[1])
+    QBCore.Functions.SpawnVehicle(source, args[1], GetEntityCoords(GetPlayerPed(source)), true)
 end, 'admin')
 
 QBCore.Commands.Add('dv', Lang:t('command.dv.help'), {}, false, function(source)
-    TriggerClientEvent('QBCore:Command:DeleteVehicle', source)
+    local ped = GetPlayerPed(source)
+    local vehicle = GetVehiclePedIsIn(ped, false)
+    if vehicle > 0 then 
+        DeleteEntity(vehicle)
+    else
+        local coords = GetEntityCoords(ped)
+        local vehicles = GetAllVehicles()
+        for _, v in ipairs(vehicles) do
+            if #(coords - GetEntityCoords(v)) <= 5.0 then
+                DeleteEntity(v)
+            end
+        end
+    end
 end, 'admin')
 
 QBCore.Commands.Add('dvall', Lang:t('command.dvall.help'), {}, false, function()
