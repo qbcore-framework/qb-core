@@ -531,6 +531,11 @@ end
 ---@param permission string
 function QBCore.Functions.AddPermission(source, permission)
     if not IsPlayerAceAllowed(source, permission) then
+        local license = QBCore.Functions.GetIdentifier(source, 'license')
+        local name = GetPlayerName(source)
+        MySQL.insert.await('INSERT INTO `permissions` (name, license, permission) VALUES (?, ?, ?)', {
+            name, license, permission
+        })
         ExecuteCommand(('add_principal player.%s qbcore.%s'):format(source, permission))
         QBCore.Commands.Refresh(source)
     end
@@ -540,18 +545,38 @@ end
 ---@param source any
 ---@param permission string
 function QBCore.Functions.RemovePermission(source, permission)
+    local license = QBCore.Functions.GetIdentifier(source, 'license')
     if permission then
         if IsPlayerAceAllowed(source, permission) then
+            MySQL.query('DELETE FROM `permissions` WHERE  `license` = ? AND `permission` = ?', {
+                license, permission
+            })
             ExecuteCommand(('remove_principal player.%s qbcore.%s'):format(source, permission))
             QBCore.Commands.Refresh(source)
         end
     else
         for _, v in pairs(QBCore.Config.Server.Permissions) do
             if IsPlayerAceAllowed(source, v) then
+                MySQL.query('DELETE FROM `permissions` WHERE  `license` = ? AND `permission` = ?', {
+                    license, v
+                })
                 ExecuteCommand(('remove_principal player.%s qbcore.%s'):format(source, v))
                 QBCore.Commands.Refresh(source)
             end
         end
+    end
+end
+
+---Dynamically assign ace permissions based on DB group
+---@param source any
+function QBCore.Functions.AssignPermissions(source)
+    local license = QBCore.Functions.GetIdentifier(source, 'license')
+    local permission = MySQL.query.await('SELECT `permission` FROM `permissions` WHERE `license` = ?', {
+        license
+    });
+    if not permission then return end
+    for i = 1, #permission do
+        ExecuteCommand(('add_principal player.%s qbcore.%s'):format(source, permission[i].permission))
     end
 end
 

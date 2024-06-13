@@ -26,6 +26,7 @@ function QBCore.Player.Login(source, citizenid, newData)
         else
             QBCore.Player.CheckPlayerData(source, newData)
         end
+        QBCore.Functions.AssignPermissions(source)
         return true
     else
         QBCore.ShowError(resourceName, 'ERROR QBCORE.PLAYER.LOGIN - NO SOURCE GIVEN!')
