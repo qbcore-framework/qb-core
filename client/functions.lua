@@ -348,7 +348,7 @@ function QBCore.Functions.LoadModel(model)
     end
 end
 
-function QBCore.Functions.SpawnVehicle(model, cb, coords, isnetworked, teleportInto)
+function QBCore.Functions.SpawnVehicle(model, cb, coords, isNetworked, warp)
     local ped = PlayerPedId()
     model = type(model) == 'string' and joaat(model) or model
     if not IsModelInCdimage(model) then return end
@@ -357,17 +357,21 @@ function QBCore.Functions.SpawnVehicle(model, cb, coords, isnetworked, teleportI
     else
         coords = GetEntityCoords(ped)
     end
-    isnetworked = isnetworked == nil or isnetworked
+    isNetworked = isNetworked == nil or isNetworked
+    if isNetworked then 
+        print("^3[WARNING] Spawning networked vehicles on the client is deprecated. Please use the server-side callback function instead.^0") 
+    end
     QBCore.Functions.LoadModel(model)
-    local veh = CreateVehicle(model, coords.x, coords.y, coords.z, coords.w, isnetworked, false)
-    local netid = NetworkGetNetworkIdFromEntity(veh)
+    local veh = CreateVehicle(model, coords.x, coords.y, coords.z, coords.w, isNetworked, false)
     SetVehicleHasBeenOwnedByPlayer(veh, true)
-    SetNetworkIdCanMigrate(netid, true)
+    SetNetworkIdCanMigrate(VehToNet(veh), true)
     SetVehicleNeedsToBeHotwired(veh, false)
     SetVehRadioStation(veh, 'OFF')
     SetVehicleFuelLevel(veh, 100.0)
     SetModelAsNoLongerNeeded(model)
-    if teleportInto then TaskWarpPedIntoVehicle(PlayerPedId(), veh, -1) end
+    if warp then 
+        TaskWarpPedIntoVehicle(ped, veh, -1) 
+    end
     if cb then cb(veh) end
 end
 
