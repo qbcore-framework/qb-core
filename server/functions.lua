@@ -672,3 +672,22 @@ function QBCore.Functions.PrepForSQL(source, data, pattern)
     end
     return true
 end
+
+---@param tbl table
+---@param filters table
+---@return table
+function QBCore.Functions.GetFiltered(tbl, filters)
+    local results = {}
+    for key, value in pairs(filters) do
+        if value == "all" or value == true then
+            results[key] = tbl[key]
+        elseif type(value) == 'table' then
+            results[key] = results[key] or {}
+            local subResults = QBCore.Functions.GetFiltered(tbl[key], value)
+            for subKey, subValue in pairs(subResults) do
+                results[key][subKey] = subValue
+            end
+        end
+    end
+    return results
+end
