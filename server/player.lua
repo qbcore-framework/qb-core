@@ -51,6 +51,18 @@ end
 
 function QBCore.Player.GetPlayerByLicense(license)
     if license then
+        local source = QBCore.Functions.GetSource(license)
+        if source > 0 then
+            return QBCore.Players[source]
+        else
+            return QBCore.Player.GetOfflinePlayerByLicense(license)
+        end
+    end
+    return nil
+end
+
+function QBCore.Player.GetOfflinePlayerByLicense(license)
+    if license then
         local PlayerData = MySQL.prepare.await('SELECT * FROM players where license = ?', { license })
         if PlayerData then
             PlayerData.money = json.decode(PlayerData.money)
@@ -189,12 +201,12 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         return true
     end
 
-    function self.Functions.Notify(text, type, lenght)
-        TriggerClientEvent('QBCore:Notify', self.PlayerData.source, text, type, lenght)
+    function self.Functions.Notify(text, type, length)
+        TriggerClientEvent('QBCore:Notify', self.PlayerData.source, text, type, length)
     end
 
     function self.Functions.HasItem(items, amount)
-        QBCore.Functions.HasItem(self.PlayerData.source, items, amount)
+        return QBCore.Functions.HasItem(self.PlayerData.source, items, amount)
     end
 
     function self.Functions.SetJobDuty(onDuty)
@@ -224,11 +236,29 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         return self.PlayerData.metadata[meta]
     end
 
-    function self.Functions.AddJobReputation(amount)
-        if not amount then return end
-        amount = tonumber(amount)
-        self.PlayerData.metadata['jobrep'][self.PlayerData.job.name] = self.PlayerData.metadata['jobrep'][self.PlayerData.job.name] + amount
+    function self.Functions.AddRep(rep, amount)
+        if not rep or not amount then return end
+        local addAmount = tonumber(amount)
+        local currentRep = self.PlayerData.metadata['rep'][rep] or 0
+        self.PlayerData.metadata['rep'][rep] = currentRep + addAmount
         self.Functions.UpdatePlayerData()
+    end
+
+    function self.Functions.RemoveRep(rep, amount)
+        if not rep or not amount then return end
+        local removeAmount = tonumber(amount)
+        local currentRep = self.PlayerData.metadata['rep'][rep] or 0
+        if currentRep - removeAmount < 0 then
+            self.PlayerData.metadata['rep'][rep] = 0
+        else
+            self.PlayerData.metadata['rep'][rep] = currentRep - removeAmount
+        end
+        self.Functions.UpdatePlayerData()
+    end
+
+    function self.Functions.GetRep(rep)
+        if not rep then return end
+        return self.PlayerData.metadata['rep'][rep] or 0
     end
 
     function self.Functions.AddMoney(moneytype, amount, reason)
@@ -311,24 +341,6 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         if not moneytype then return false end
         moneytype = moneytype:lower()
         return self.PlayerData.money[moneytype]
-    end
-
-    function self.Functions.SetCreditCard(cardNumber)
-        self.PlayerData.charinfo.card = cardNumber
-        self.Functions.UpdatePlayerData()
-    end
-
-    function self.Functions.GetCardSlot(cardNumber, cardType)
-        local item = tostring(cardType):lower()
-        local slots = exports['qb-inventory']:GetSlotsByItem(self.PlayerData.items, item)
-        for _, slot in pairs(slots) do
-            if slot then
-                if self.PlayerData.items[slot].info.cardNumber == cardNumber then
-                    return slot
-                end
-            end
-        end
-        return nil
     end
 
     function self.Functions.Save()
