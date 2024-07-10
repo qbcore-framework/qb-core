@@ -71,6 +71,7 @@ local Vehicles = {
     { model = 'rhinehart',     name = 'Rhinehart',                     brand = 'Übermacht',       price = 105000,  category = 'sedans',         type = 'automobile', shop = 'pdm' },
     { model = 'eudora',        name = 'Eudora',                        brand = 'Willard',         price = 17000,   category = 'sedans',         type = 'automobile', shop = 'pdm' },
     { model = 'asterope2',     name = 'Asterope GZ',                   brand = 'Karin',           price = 459000,   category = 'sedans',        type = 'automobile', shop = 'pdm' },
+    { model = 'impaler5',      name = 'Impaler SZ',                    brand = 'Declasse',        price = 768000,   category = 'sedans',        type = 'automobile', shop = 'pdm' },
     --- SUV (2)
     { model = 'baller',        name = 'Baller',                        brand = 'Gallivanter',     price = 22000,   category = 'suvs',           type = 'automobile', shop = 'pdm' },
     { model = 'baller2',       name = 'Baller II',                     brand = 'Gallivanter',     price = 15000,   category = 'suvs',           type = 'automobile', shop = 'pdm' },
