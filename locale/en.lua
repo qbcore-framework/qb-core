@@ -18,8 +18,8 @@ local Translations = {
         no_waypoint                 = 'No Waypoint Set.',
         tp_error                    = 'Error While Teleporting.',
         ban_table_not_found         = '[QBCORE] - Unable to find the bans table in the database. Please ensure you have imported the SQL file correctly.',
-        connecting_database_error   = '[QBCORE] - A database error occurred while connecting to the server. (Is the SQL server on?)',
-        connecting_database_timeout = '[QBCORE] - Connection to database timed out. (Is the SQL server on?)',
+        connecting_database_error   = '[QBCORE] - An error occurred while connecting to the database. Ensure that the SQL server is running and that the details in the server.cfg file are correct.',
+        connecting_database_timeout = '[QBCORE] - The database connection has timed out. Ensure that the SQL server is running and that the details in the server.cfg file are correct.',
     },
     success = {
         server_opened = 'The server has been opened',
