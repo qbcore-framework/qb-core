@@ -19,20 +19,21 @@ AddEventHandler('playerDropped', function(reason)
 end)
 
 -- Player Connecting
-
-local databaseConnected = false
-local bansTableExists = false
-MySQL.Ready(function()
-    databaseConnected = true
-
-    local DatabaseInfo = QBCore.Functions.GetDatabaseInfo()
-    if not DatabaseInfo or not DatabaseInfo.exists then return end
+local readyFunction = MySQL.ready
+local databaseConnected, bansTableExists = readyFunction == nil, readyFunction == nil
+if readyFunction ~= nil then
+    MySQL.ready(function()
+        databaseConnected = true
     
-    local result = MySQL.query.await('SELECT * FROM information_schema.tables WHERE table_schema = "%s" AND table_name = "bans";', {DatabaseInfo.database})
-    if result and result[1] then
-        bansTableExists = true
-    end
-end)
+        local DatabaseInfo = QBCore.Functions.GetDatabaseInfo()
+        if not DatabaseInfo or not DatabaseInfo.exists then return end
+        
+        local result = MySQL.query.await('SELECT * FROM information_schema.tables WHERE table_schema = "%s" AND table_name = "bans";', {DatabaseInfo.database})
+        if result and result[1] then
+            bansTableExists = true
+        end
+    end)
+end
 
 local function onPlayerConnecting(name, _, deferrals)
     local src = source
