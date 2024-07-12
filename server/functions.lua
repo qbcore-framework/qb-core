@@ -623,6 +623,8 @@ function QBCore.Functions.IsPlayerBanned(source)
     return false
 end
 
+-- Retrieves information about the database connection.
+--- @return table; A table containing the database information.
 function QBCore.Functions.GetDatabaseInfo()
     local details = {
         exists = false,
@@ -636,6 +638,7 @@ function QBCore.Functions.GetDatabaseInfo()
         connectionString = connectionString:sub(9, -1)
         details.database = connectionString:sub(connectionString:find("/") + 1, -1):gsub("[%?]+[%w%p]*$", "")
         details.exists = true
+        return details
     else
         connectionString = { string.strsplit(";", connectionString) }
 
@@ -644,7 +647,7 @@ function QBCore.Functions.GetDatabaseInfo()
             if v:match("database") then
                 details.database = v:sub(10, #v)
                 details.exists = true
-                break
+                return details
             end
         end
     end
