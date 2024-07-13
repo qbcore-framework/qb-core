@@ -165,6 +165,19 @@ function QBCore.Functions.GetDutyCount(job)
     return count
 end
 
+
+---Returns true if the specified job exists
+---@param job string
+---@return boolean
+function QBCore.Functions.DoesJobExist(job)
+	for k, v in pairs(QBCore.Shared.Jobs) do
+        if k == job then
+            return true
+        end
+    end
+    return false
+end
+
 --- @param source number source player's server ID.
 --- @param coords vector The coordinates to calculate the distance from. Can be a table with x, y, z fields or a vector3. If not provided, the source player's Ped's coordinates are used.
 --- @return string closestPlayer - The Player that is closest to the source player (or the provided coordinates). Returns -1 if no Players are found.
