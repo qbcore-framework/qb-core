@@ -704,47 +704,48 @@ function QBCore.Functions.PrepForSQL(source, data, pattern)
 end
 
 ---Do a money transactio between players
----@param emitercid string
----@param emitermoneytype string -- Only money types in QBConfig.Money.MoneyTypes
----@param receivercid string
----@param receivermoneytype string -- Only money types in QBConfig.Money.MoneyTypes
----@param quant number
+---@param sourcecid string
+---@param sourcemoneytype string -- Only money types in QBConfig.Money.MoneyTypes
+---@param targetcid string
+---@param targetmoneytype string -- Only money types in QBConfig.Money.MoneyTypes
+---@param amount number
 ---@param reason string
 ---@return boolean
-function QBCore.Functions.TransferMoney(emitercid, emitermoneytype, receivercid, receivermoneytype, quant, reason)
-    local EmiterPlayer = QBCore.Functions.GetPlayerByCitizenId(emitercid)
-    local ReceiverPlayer = QBCore.Functions.GetPlayerByCitizenId(receivercid)
-    if not tonumber(quant) then return false end
-    quant = tonumber(quant) or 0
+function QBCore.Functions.TransferMoney(sourcecid, sourcemoneytype, targetcid, targetmoneytype, amount, reason)
+    local SourcePlayer = QBCore.Functions.GetPlayerByCitizenId(sourcecid)
+    local TargetPlayer = QBCore.Functions.GetPlayerByCitizenId(targetcid)
+    if not tonumber(amount) then return false end
+    amount = tonumber(amount) or 0
+    if tonumber(amount) <= 0 then return true end
     local errorOnLast = false
-    if EmiterPlayer then
-        if not EmiterPlayer.Functions.RemoveMoney(quant, emitermoneytype, reason) then return false end
+    if SourcePlayer then
+        if not SourcePlayer.Functions.RemoveMoney(amount, sourcemoneytype, reason) then return false end
     else
-        local result = MySQL.single.await('SELECT money FROM players WHERE citizendid = ?', { emitercid })
+        local result = MySQL.single.await('SELECT money FROM players WHERE citizendid = ?', { sourcecid })
         if not result then return false end
         result = json.decode(result)
-        result[emitermoneytype] -= quant
-        if not MySQL.update.await('UPDATE players SET money = ? WHERE citizenid = ?', { json.encode(result), emitercid }) then return false end
+        result[sourcemoneytype] -= amount
+        if not MySQL.update.await('UPDATE players SET money = ? WHERE citizenid = ?', { json.encode(result), sourcecid }) then errorOnLast = true end
     end
-    if ReceiverPlayer then
-        if not ReceiverPlayer.Functions.AddMoney(quant, receivermoneytype, reason) then errorOnLast = true end
+    if TargetPlayer then
+        if not TargetPlayer.Functions.AddMoney(amount, targetmoneytype, reason) then errorOnLast = true end
     else
-        local result = MySQL.single.await('SELECT money FROM players WHERE citizendid = ?', { receivercid })
+        local result = MySQL.single.await('SELECT money FROM players WHERE citizendid = ?', { targetcid })
         if not result then errorOnLast = true end
         result = json.decode(result)
-        result[receivermoneytype] += quant
-        if not MySQL.update.await('UPDATE players SET money = ? WHERE citizenid = ?', { json.encode(result), receivercid }) then return false end
+        result[targetmoneytype] += amount
+        if not MySQL.update.await('UPDATE players SET money = ? WHERE citizenid = ?', { json.encode(result), targetcid }) then errorOnLast = true end
     end
 
     if errorOnLast then
-        if EmiterPlayer then
-            if not EmiterPlayer.Functions.AddMoney(quant, emitermoneytype, reason) then return false end
+        if SourcePlayer then
+            if not SourcePlayer.Functions.AddMoney(amount, sourcemoneytype, reason) then return false end
         else
-            local result = MySQL.single.await('SELECT money FROM players WHERE citizendid = ?', { emitercid })
+            local result = MySQL.single.await('SELECT money FROM players WHERE citizendid = ?', { sourcecid })
             if not result then return false end
             result = json.decode(result)
-            result[emitermoneytype] += quant
-            if not MySQL.update.await('UPDATE players SET money = ? WHERE citizenid = ?', { json.encode(result), emitercid }) then return false end
+            result[sourcemoneytype] += amount
+            if not MySQL.update.await('UPDATE players SET money = ? WHERE citizenid = ?', { json.encode(result), sourcecid }) then return false end
         end
         return false
     end
