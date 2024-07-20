@@ -337,24 +337,25 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         return true
     end
 
-    function self.Functions.TransferMoneyTo(emitermoneytype, receivercid, receivermoneytype, quant, reason)
-        local ReceiverPlayer = QBCore.Functions.GetPlayerByCitizenId(receivercid)
-        if not tonumber(quant) then return false end
-        quant = tonumber(quant) or 0
+    function self.Functions.TransferMoneyTo(sourcemoneytype, targetcid, targetmoneytype, amount, reason)
+        local TargetPlayer = QBCore.Functions.GetPlayerByCitizenId(targetcid)
+        if not tonumber(amount) then return false end
+        amount = tonumber(amount) or 0
+        if amount <= 0 then return true end
         local errorOnLast = false
-        if not self.Functions.RemoveMoney(quant, emitermoneytype, reason) then return false end
-        if ReceiverPlayer then
-            if not ReceiverPlayer.Functions.AddMoney(quant, receivermoneytype, reason) then errorOnLast = true end
+        if not self.Functions.RemoveMoney(amount, sourcemoneytype, reason) then return false end
+        if TargetPlayer then
+            if not TargetPlayer.Functions.AddMoney(amount, targetmoneytype, reason) then errorOnLast = true end
         else
-            local result = MySQL.single.await('SELECT money FROM players WHERE citizendid = ?', { receivercid })
+            local result = MySQL.single.await('SELECT money FROM players WHERE citizendid = ?', { targetcid })
             if not result then errorOnLast = true end
             result = json.decode(result)
-            result[receivermoneytype] += quant
-            if not MySQL.update.await('UPDATE players SET money = ? WHERE citizenid = ?', { json.encode(result), receivercid }) then return false end
+            result[targetmoneytype] += amount
+            if not MySQL.update.await('UPDATE players SET money = ? WHERE citizenid = ?', { json.encode(result), targetcid }) then errorOnLast = true end
         end
 
         if errorOnLast then
-            self.Functions.AddMoney(quant, emitermoneytype, reason)
+            self.Functions.AddMoney(amount, sourcemoneytype, reason)
             return false
         end
         return true
