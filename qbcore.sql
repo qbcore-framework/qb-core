@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS `players` (
   `citizenid` varchar(50) NOT NULL,
   `cid` int(11) DEFAULT NULL,
   `license` varchar(255) NOT NULL,
+  `discord` varchar(255) NOT NULL,
   `name` varchar(255) NOT NULL,
   `money` text NOT NULL,
   `charinfo` text DEFAULT NULL,
