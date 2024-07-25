@@ -43,16 +43,13 @@ end
 function QBCore.Functions.LookAtEntity(entity, timeout, speed)
     local involved = GetInvokingResource()
     if not DoesEntityExist(entity) then
-        turnPromise:reject(involved .. ' :^1  Entity does not exist')
-        return turnPromise.value
+        return involved .. ' :^1  Entity does not exist'
     end
-    if not type(entity) == 'number' then
-        turnPromise:reject(involved .. ' :^1  Entity must be a number')
-        return turnPromise.value
+    if type(entity) ~= 'number' then
+        return involved .. ' :^1  Entity must be a number'
     end
-    if not type(speed) == 'number' then
-        turnPromise:reject(involved .. ' :^1  Speed must be a number')
-        return turnPromise.value
+    if type(speed) ~= 'number' then
+        return involved .. ' :^1  Speed must be a number'
     end
     if speed > 5.0 then speed = 5.0 end
     if timeout > 5000 then timeout = 5000 end
@@ -62,7 +59,7 @@ function QBCore.Functions.LookAtEntity(entity, timeout, speed)
     local dx = targetPos.x - playerPos.x
     local dy = targetPos.y - playerPos.y
     local targetHeading = GetHeadingFromVector_2d(dx, dy)
-    local turnSpeed = speed
+    local turnSpeed
     local startTimeout = GetGameTimer()
     while true do
         local currentHeading = GetEntityHeading(ped)
