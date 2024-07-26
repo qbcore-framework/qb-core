@@ -19,6 +19,21 @@ AddEventHandler('playerDropped', function(reason)
 end)
 
 -- Player Connecting
+local readyFunction = MySQL.ready
+local databaseConnected, bansTableExists = readyFunction == nil, readyFunction == nil
+if readyFunction ~= nil then
+    MySQL.ready(function()
+        databaseConnected = true
+    
+        local DatabaseInfo = QBCore.Functions.GetDatabaseInfo()
+        if not DatabaseInfo or not DatabaseInfo.exists then return end
+
+        local result = MySQL.query.await('SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = ? AND TABLE_NAME = "bans";', {DatabaseInfo.database})
+        if result and result[1] then
+            bansTableExists = true
+        end
+    end)
+end
 
 local function onPlayerConnecting(name, _, deferrals)
     local src = source
@@ -26,6 +41,10 @@ local function onPlayerConnecting(name, _, deferrals)
 
     if QBCore.Config.Server.Closed and not IsPlayerAceAllowed(src, 'qbadmin.join') then
         return deferrals.done(QBCore.Config.Server.ClosedReason)
+    end
+
+    if not databaseConnected then
+        return deferrals.done(Lang:t('error.connecting_database_error'))
     end
 
     if QBCore.Config.Server.Whitelist then
@@ -48,6 +67,10 @@ local function onPlayerConnecting(name, _, deferrals)
 
     Wait(0)
     deferrals.update(string.format(Lang:t('info.checking_ban'), name))
+
+    if not bansTableExists then
+        return deferrals.done(Lang:t('error.ban_table_not_found'))
+    end
 
     local success, isBanned, reason = pcall(QBCore.Functions.IsPlayerBanned, src)
     if not success then return deferrals.done(Lang:t('error.connecting_database_error')) end
