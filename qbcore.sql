@@ -42,3 +42,13 @@ CREATE TABLE IF NOT EXISTS `player_contacts` (
   PRIMARY KEY (`id`),
   KEY `citizenid` (`citizenid`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1;
+
+CREATE TABLE IF NOT EXISTS `permissions` (
+	`id` INT(11) NOT NULL AUTO_INCREMENT,
+	`name` VARCHAR(255) NOT NULL COLLATE 'utf8mb4_general_ci',
+	`license` VARCHAR(255) NOT NULL COLLATE 'utf8mb4_general_ci',
+	`permission` VARCHAR(255) NOT NULL COLLATE 'utf8mb4_general_ci',
+	PRIMARY KEY (`id`) USING BTREE,
+	INDEX `license` (`license`) USING BTREE
+)
+COLLATE='utf8mb4_general_ci' ENGINE=InnoDB AUTO_INCREMENT=1;
