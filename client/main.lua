@@ -5,7 +5,22 @@ QBCore.Shared = QBShared
 QBCore.ClientCallbacks = {}
 QBCore.ServerCallbacks = {}
 
-exports('GetCoreObject', function()
+--[[ --filters example
+    local QBCore = exports['qb-core']:GetCoreObject({
+        Functions = {
+            GetPlayerData = true,
+            Notify = true,
+        },
+        Shared = {
+            Vehicles = true,
+        },
+    })
+]]
+
+---@param filters table
+---@return table
+exports('GetCoreObject', function(filters)
+    if filters then return QBCore.Functions.GetFiltered(QBCore, filters) end
     return QBCore
 end)
 
