@@ -358,6 +358,23 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
             self.Functions.AddMoney(amount, sourcemoneytype, reason)
             return false
         end
+
+        TriggerClientEvent('hud:client:OnMoneyChange', self.PlayerData.source, sourcemoneytype, true)
+        TriggerClientEvent('QBCore:Client:OnMoneyChange', self.PlayerData.source, sourcemoneytype, amount, 'transfer', reason)
+        TriggerEvent('QBCore:Server:OnMoneyChange', self.PlayerData.source, sourcemoneytype, amount, 'transfer', reason)
+
+        if TargetPlayer then
+            TriggerClientEvent('hud:client:OnMoneyChange', TargetPlayer.PlayerData.source, targetmoneytype, true)
+            TriggerClientEvent('QBCore:Client:OnMoneyChange', TargetPlayer.PlayerData.source, targetmoneytype, amount, 'transfer', reason)
+            TriggerEvent('QBCore:Server:OnMoneyChange', TargetPlayer.PlayerData.source, targetmoneytype, amount, 'transfer', reason)
+        end
+
+        if not TargetPlayer then
+            TriggerEvent('qb-log:server:CreateLog', 'playermoney', 'TransferMoney', 'yellow', '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')**, new balance: ' .. self.PlayerData.money[sourcemoneytype] .. ' gived $' .. amount .. ' (' .. sourcemoneytype .. ') to **' .. targetcid .. ' in ('..targetmoneytype..') reason: ' .. reason .. ' | (Target offline)')
+        elseif TargetPlayer then
+            TriggerEvent('qb-log:server:CreateLog', 'playermoney', 'TransferMoney', 'yellow', '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')**, new balance: ' .. self.PlayerData.money[sourcemoneytype] .. ' gived $' .. amount .. ' (' .. sourcemoneytype .. ') to **' .. GetPlayerName(TargetPlayer.PlayerData.source) .. ' (citizenid: ' .. TargetPlayer.PlayerData.citizenid .. ' | id: ' .. TargetPlayer.PlayerData.source .. ')**, new balance: ' .. TargetPlayer.PlayerData.money[targetmoneytype] .. ' in ('..targetmoneytype..') reason: ' .. reason)
+        end
+
         return true
     end
 

@@ -749,5 +749,28 @@ function QBCore.Functions.TransferMoney(sourcecid, sourcemoneytype, targetcid, t
         end
         return false
     end
+
+    if SourcePlayer then
+        TriggerClientEvent('hud:client:OnMoneyChange', SourcePlayer.PlayerData.source, sourcemoneytype, true)
+        TriggerClientEvent('QBCore:Client:OnMoneyChange', SourcePlayer.PlayerData.source, sourcemoneytype, amount, 'transfer', reason)
+        TriggerEvent('QBCore:Server:OnMoneyChange', SourcePlayer.PlayerData.source, sourcemoneytype, amount, 'transfer', reason)
+    end
+
+    if TargetPlayer then
+        TriggerClientEvent('hud:client:OnMoneyChange', TargetPlayer.PlayerData.source, targetmoneytype, true)
+        TriggerClientEvent('QBCore:Client:OnMoneyChange', TargetPlayer.PlayerData.source, targetmoneytype, amount, 'transfer', reason)
+        TriggerEvent('QBCore:Server:OnMoneyChange', TargetPlayer.PlayerData.source, targetmoneytype, amount, 'transfer', reason)
+    end
+
+    if not SourcePlayer and not TargetPlayer then
+        TriggerEvent('qb-log:server:CreateLog', 'playermoney', 'TransferMoney', 'yellow', '**' .. sourcecid .. '** gived $' .. amount .. ' (' .. sourcemoneytype .. ') to **' .. targetcid .. '** reason: ' .. reason .. ' | (Both offline)')
+    elseif not TargetPlayer and SourcePlayer then
+        TriggerEvent('qb-log:server:CreateLog', 'playermoney', 'TransferMoney', 'yellow', '**' .. GetPlayerName(SourcePlayer.PlayerData.source) .. ' (citizenid: ' .. SourcePlayer.PlayerData.citizenid .. ' | id: ' .. SourcePlayer.PlayerData.source .. ')**, new balance: ' .. SourcePlayer.PlayerData.money[sourcemoneytype] .. ' gived $' .. amount .. ' (' .. sourcemoneytype .. ') to **' .. targetcid .. ' in ('..targetmoneytype..') reason: ' .. reason .. ' | (Target offline)')
+    elseif not SourcePlayer and TargetPlayer then
+        TriggerEvent('qb-log:server:CreateLog', 'playermoney', 'TransferMoney', 'yellow', '**' .. sourcecid  .. '** gived $' .. amount .. ' (' .. sourcemoneytype .. ') to **' .. GetPlayerName(TargetPlayer.PlayerData.source) .. ' (citizenid: ' .. TargetPlayer.PlayerData.citizenid .. ' | id: ' .. TargetPlayer.PlayerData.source .. ')**, new balance: ' .. TargetPlayer.PlayerData.money[targetmoneytype] .. ' in ('..targetmoneytype..') reason: ' .. reason .. ' | (Source offline)')
+    elseif SourcePlayer and TargetPlayer then
+        TriggerEvent('qb-log:server:CreateLog', 'playermoney', 'TransferMoney', 'yellow', '**' .. GetPlayerName(SourcePlayer.PlayerData.source) .. ' (citizenid: ' .. SourcePlayer.PlayerData.citizenid .. ' | id: ' .. SourcePlayer.PlayerData.source .. ')**, new balance: ' .. SourcePlayer.PlayerData.money[sourcemoneytype] .. ' gived $' .. amount .. ' (' .. sourcemoneytype .. ') to **' .. GetPlayerName(TargetPlayer.PlayerData.source) .. ' (citizenid: ' .. TargetPlayer.PlayerData.citizenid .. ' | id: ' .. TargetPlayer.PlayerData.source .. ')**, new balance: ' .. TargetPlayer.PlayerData.money[targetmoneytype] .. ' in ('..targetmoneytype..') reason: ' .. reason)
+    end
+
     return true
 end
