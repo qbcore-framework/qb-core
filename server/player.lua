@@ -97,7 +97,12 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
     if source then
         PlayerData.source = source
         PlayerData.license = PlayerData.license or QBCore.Functions.GetIdentifier(source, 'license')
-        PlayerData.discord = PlayerData.discord or QBCore.Functions.GetIdentifier(source, 'discord'):sub(9)
+        PlayerData.discord = PlayerData.discord
+
+        if not PlayerData.discord and QBCore.Functions.GetIdentifier(source, 'discord') then
+            PlayerData.discord = QBCore.Functions.GetIdentifier(source, 'discord'):sub(9)
+        end
+
         PlayerData.name = GetPlayerName(source)
     end
 
