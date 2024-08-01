@@ -165,94 +165,75 @@ function QBCore.Functions.GetDutyCount(job)
     return count
 end
 
---- @param source number source player's server ID.
---- @param coords vector The coordinates to calculate the distance from. Can be a table with x, y, z fields or a vector3. If not provided, the source player's Ped's coordinates are used.
---- @return string closestPlayer - The Player that is closest to the source player (or the provided coordinates). Returns -1 if no Players are found.
---- @return number closestDistance - The distance to the closest Player. Returns -1 if no Players are found.
-function QBCore.Functions.GetClosestPlayer(source, coords)
+---Utility function to find the closest entity to a source player or specified coordinates.
+---@param source number The source player's server ID.
+---@param coords vector|nil The coordinates to calculate the distance from. Can be a table with x, y, z fields or a vector3. If not provided, the source player's Ped's coordinates are used.
+---@param entities table A list of entities to check (e.g., players, objects, vehicles, or peds).
+---@param isPlayer boolean A flag indicating whether the entities are players. If true, `GetPlayerPed` is called to get the player's Ped.
+---@return number closestEntity The closest entity's identifier (player ID, object, vehicle, or ped). Returns -1 if no entities are found.
+---@return number closestDistance The distance to the closest entity. Returns -1 if no entities are found.
+local function GetClosestEntity(source, coords, entities, isPlayer)
     local ped = GetPlayerPed(source)
-    local players = GetPlayers()
-    local closestDistance, closestPlayer = -1, -1
-    if coords then coords = type(coords) == 'table' and vector3(coords.x, coords.y, coords.z) or coords end
-    if not coords then coords = GetEntityCoords(ped) end
-    for i = 1, #players do
-        local playerId = players[i]
-        local playerPed = GetPlayerPed(playerId)
-        if playerPed ~= ped then
-            local playerCoords = GetEntityCoords(playerPed)
-            local distance = #(playerCoords - coords)
+    local closestDistance, closestEntity = -1, -1
+    if coords then
+        coords = type(coords) == 'table' and vector3(coords.x, coords.y, coords.z) or coords
+    else
+        coords = GetEntityCoords(ped)
+    end
+
+    for i = 1, #entities do
+        local entity = entities[i]
+        local entityPed = isPlayer and GetPlayerPed(entity) or entity
+        if entityPed ~= ped then
+            local entityCoords = GetEntityCoords(entityPed)
+            local distance = #(entityCoords - coords)
             if closestDistance == -1 or distance < closestDistance then
-                closestPlayer = playerId
+                closestEntity = entity
                 closestDistance = distance
             end
         end
     end
-    return closestPlayer, closestDistance
+    return closestEntity, closestDistance
 end
 
---- @param source number source player's server ID.
---- @param coords vector The coordinates to calculate the distance from. Can be a table with x, y, z fields or a vector3. If not provided, the source player's Ped's coordinates are used.
---- @return number closestObject - The Object that is closest to the source player (or the provided coordinates). Returns -1 if no Objects are found.
---- @return number closestDistance - The distance to the closest Object. Returns -1 if no Objects are found.
+---Get the closest player to the source player or provided coordinates
+---@param source number The source player's server ID.
+---@param coords vector The coordinates to calculate the distance from.
+---@return number closestPlayer The closest player. -1 if none found.
+---@return number closestDistance The distance to the closest player. -1 if none found.
+function QBCore.Functions.GetClosestPlayer(source, coords)
+    local players = GetPlayers()
+    return GetClosestEntity(source, coords, players, true)
+end
+
+---Get the closest object to the source player or provided coordinates
+---@param source number The source player's server ID.
+---@param coords vector The coordinates to calculate the distance from.
+---@return number closestObject The closest object. -1 if none found.
+---@return number closestDistance The distance to the closest object. -1 if none found.
 function QBCore.Functions.GetClosestObject(source, coords)
-    local ped = GetPlayerPed(source)
     local objects = GetAllObjects()
-    local closestDistance, closestObject = -1, -1
-    if coords then coords = type(coords) == 'table' and vector3(coords.x, coords.y, coords.z) or coords end
-    if not coords then coords = GetEntityCoords(ped) end
-    for i = 1, #objects do
-        local objectCoords = GetEntityCoords(objects[i])
-        local distance = #(objectCoords - coords)
-        if closestDistance == -1 or closestDistance > distance then
-            closestObject = objects[i]
-            closestDistance = distance
-        end
-    end
-    return closestObject, closestDistance
+    return GetClosestEntity(source, coords, objects, false)
 end
 
---- @param source number source player's server ID.
---- @param coords vector The coordinates to calculate the distance from. Can be a table with x, y, z fields or a vector3. If not provided, the source player's Ped's coordinates are used.
---- @return number closestVehicle - The Vehicle that is closest to the source player (or the provided coordinates). Returns -1 if no Vehicles are found.
---- @return number closestDistance - The distance to the closest Vehicle. Returns -1 if no Vehicles are found.
+---Get the closest vehicle to the source player or provided coordinates
+---@param source number The source player's server ID.
+---@param coords vector The coordinates to calculate the distance from.
+---@return number closestVehicle The closest vehicle. -1 if none found.
+---@return number closestDistance The distance to the closest vehicle. -1 if none found.
 function QBCore.Functions.GetClosestVehicle(source, coords)
-    local ped = GetPlayerPed(source)
     local vehicles = GetAllVehicles()
-    local closestDistance, closestVehicle = -1, -1
-    if coords then coords = type(coords) == 'table' and vector3(coords.x, coords.y, coords.z) or coords end
-    if not coords then coords = GetEntityCoords(ped) end
-    for i = 1, #vehicles do
-        local vehicleCoords = GetEntityCoords(vehicles[i])
-        local distance = #(vehicleCoords - coords)
-        if closestDistance == -1 or closestDistance > distance then
-            closestVehicle = vehicles[i]
-            closestDistance = distance
-        end
-    end
-    return closestVehicle, closestDistance
+    return GetClosestEntity(source, coords, vehicles, false)
 end
 
---- @param source number source player's server ID.
---- @param coords vector The coordinates to calculate the distance from. Can be a table with x, y, z fields or a vector3. If not provided, the source player's Ped's coordinates are used.
---- @return number closestPed - The Ped that is closest to the source player (or the provided coordinates). Returns -1 if no Peds are found.
---- @return number closestDistance - The distance to the closest Ped. Returns -1 if no Peds are found.
+---Get the closest ped to the source player or provided coordinates
+---@param source number The source player's server ID.
+---@param coords vector The coordinates to calculate the distance from.
+---@return number closestPed The closest ped. -1 if none found.
+---@return number closestDistance The distance to the closest ped. -1 if none found.
 function QBCore.Functions.GetClosestPed(source, coords)
-    local ped = GetPlayerPed(source)
     local peds = GetAllPeds()
-    local closestDistance, closestPed = -1, -1
-    if coords then coords = type(coords) == 'table' and vector3(coords.x, coords.y, coords.z) or coords end
-    if not coords then coords = GetEntityCoords(ped) end
-    for i = 1, #peds do
-        if peds[i] ~= ped then
-            local pedCoords = GetEntityCoords(peds[i])
-            local distance = #(pedCoords - coords)
-            if closestDistance == -1 or closestDistance > distance then
-                closestPed = peds[i]
-                closestDistance = distance
-            end
-        end
-    end
-    return closestPed, closestDistance
+    return GetClosestEntity(source, coords, peds, false)
 end
 
 -- Routing buckets (Only touch if you know what you are doing)
