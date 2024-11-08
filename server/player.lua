@@ -341,7 +341,7 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
                 end
             end
         end
-        if self.PlayerData.money[moneytype] - amount <= QBConfig.Money.MinusLimit then return false end
+        if self.PlayerData.money[moneytype] - amount < QBConfig.Money.MinusLimit then return false end
         self.PlayerData.money[moneytype] = self.PlayerData.money[moneytype] - amount
 
         if not self.Offline then
