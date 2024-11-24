@@ -566,7 +566,7 @@ function QBCore.Functions.SetVehicleProperties(vehicle, props)
             SetVehicleEngineHealth(vehicle, props.engineHealth + 0.0)
         end
         if props.tankHealth then
-            SetVehiclePetrolTankHealth(vehicle, props.tankHealth)
+            SetVehiclePetrolTankHealth(vehicle, props.tankHealth + 0.0)
         end
         if props.fuelLevel then
             SetVehicleFuelLevel(vehicle, props.fuelLevel + 0.0)
@@ -575,7 +575,7 @@ function QBCore.Functions.SetVehicleProperties(vehicle, props)
             SetVehicleDirtLevel(vehicle, props.dirtLevel + 0.0)
         end
         if props.oilLevel then
-            SetVehicleOilLevel(vehicle, props.oilLevel)
+            SetVehicleOilLevel(vehicle, props.oilLevel + 0.0)
         end
         if props.color1 then
             if type(props.color1) == 'number' then
