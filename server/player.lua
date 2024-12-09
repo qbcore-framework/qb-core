@@ -177,6 +177,28 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         if self.Offline then return end
         TriggerEvent('QBCore:Player:SetPlayerData', self.PlayerData)
         TriggerClientEvent('QBCore:Player:SetPlayerData', self.PlayerData.source, self.PlayerData)
+
+        if not QBConfig.Money.MoneyAsItems then return end
+        for k, v in pairs(self.PlayerData.items) do
+            local moneytype = nil
+
+            for money, item in pairs(QBConfig.Money.MoneyItems) do
+                if item == v.name then
+                    moneytype = money
+                    break
+                end
+            end
+
+            if moneytype and QBConfig.Money.MoneyItems[moneytype] then
+                local currentMoneyItem = exports['qb-inventory']:GetItemCount(self.PlayerData.source, QBConfig.Money.MoneyItems[moneytype])
+                local diff = self.PlayerData.money[moneytype] - currentMoneyItem
+                if diff > 0 then
+                    self.Functions.AddItem(QBConfig.Money.MoneyItems[moneytype], diff)
+                else
+                    self.Functions.RemoveItem(QBConfig.Money.MoneyItems[moneytype], diff)
+                end
+            end
+        end
     end
 
     function self.Functions.SetJob(job, grade)
@@ -313,6 +335,16 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         if not self.PlayerData.money[moneytype] then return false end
         self.PlayerData.money[moneytype] = self.PlayerData.money[moneytype] + amount
 
+        if QBConfig.Money.MoneyItems[moneytype] and QBConfig.Money.MoneyAsItems then
+            local currentMoneyItem = exports['qb-inventory']:GetItemCount(self.PlayerData.source, QBConfig.Money.MoneyItems[moneytype])
+            local diff = self.PlayerData.money[moneytype] - currentMoneyItem
+            if diff > 0 then
+                self.Functions.AddItem(QBConfig.Money.MoneyItems[moneytype], diff)
+            else
+                self.Functions.RemoveItem(QBConfig.Money.MoneyItems[moneytype], diff)
+            end
+        end
+
         if not self.Offline then
             self.Functions.UpdatePlayerData()
             if amount > 100000 then
@@ -341,8 +373,19 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
                 end
             end
         end
+
         if self.PlayerData.money[moneytype] - amount < QBCore.Config.Money.MinusLimit then return false end
         self.PlayerData.money[moneytype] = self.PlayerData.money[moneytype] - amount
+
+        if QBConfig.Money.MoneyItems[moneytype] and QBConfig.Money.MoneyAsItems then
+            local currentMoneyItem = exports['qb-inventory']:GetItemCount(self.PlayerData.source, QBConfig.Money.MoneyItems[moneytype])
+            local diff = self.PlayerData.money[moneytype] - currentMoneyItem
+            if diff > 0 then
+                self.Functions.AddItem(QBConfig.Money.MoneyItems[moneytype], diff)
+            else
+                self.Functions.RemoveItem(QBConfig.Money.MoneyItems[moneytype], diff)
+            end
+        end
 
         if not self.Offline then
             self.Functions.UpdatePlayerData()
@@ -370,6 +413,16 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         if not self.PlayerData.money[moneytype] then return false end
         local difference = amount - self.PlayerData.money[moneytype]
         self.PlayerData.money[moneytype] = amount
+
+        if QBConfig.Money.MoneyItems[moneytype] and QBConfig.Money.MoneyAsItems then
+            local currentMoneyItem = exports['qb-inventory']:GetItemCount(self.PlayerData.source, QBConfig.Money.MoneyItems[moneytype])
+            local diff = self.PlayerData.money[moneytype] - currentMoneyItem
+            if diff > 0 then
+                self.Functions.AddItem(QBConfig.Money.MoneyItems[moneytype], diff)
+            else
+                self.Functions.RemoveItem(QBConfig.Money.MoneyItems[moneytype], diff)
+            end
+        end
 
         if not self.Offline then
             self.Functions.UpdatePlayerData()
