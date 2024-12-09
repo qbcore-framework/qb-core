@@ -179,11 +179,11 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         TriggerClientEvent('QBCore:Player:SetPlayerData', self.PlayerData.source, self.PlayerData)
 
         if not QBConfig.Money.MoneyAsItems then return end
-        for k, v in pairs(self.PlayerData.items) do
+        for _, pitem in pairs(self.PlayerData.items) do
             local moneytype = nil
 
             for money, item in pairs(QBConfig.Money.MoneyItems) do
-                if item == v.name then
+                if item == pitem.name then
                     moneytype = money
                     break
                 end
