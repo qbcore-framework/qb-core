@@ -114,7 +114,7 @@ local Vehicles = {
     --- Coupes (3)
     { model = 'cogcabrio',       name = 'Cognoscenti Cabrio',            brand = 'Enus',            price = 30000,   category = 'coupes',         type = 'automobile', shop = 'pdm' },
     { model = 'exemplar',        name = 'Exemplar',                      brand = 'Dewbauchee',      price = 40000,   category = 'coupes',         type = 'automobile', shop = 'pdm' },
-    { model = 'f620',            name = 'F620',                          brand = 'Ocelot',          price = 32500,   category = 'coupes',         type = 'automobile', shop = 'pdm' },
+    { model = 'rhapsody',        name = 'Rhapsody',                          brand = 'Ocelot',          price = 32500,   category = 'coupes',         type = 'automobile', shop = 'pdm' },
     { model = 'felon',           name = 'Felon',                         brand = 'Lampadati',       price = 31000,   category = 'coupes',         type = 'automobile', shop = 'pdm' },
     { model = 'felon2',          name = 'Felon GT',                      brand = 'Lampadati',       price = 37000,   category = 'coupes',         type = 'automobile', shop = 'pdm' },
     { model = 'jackal',          name = 'Jackal',                        brand = 'Ocelot',          price = 19000,   category = 'coupes',         type = 'automobile', shop = 'pdm' },
