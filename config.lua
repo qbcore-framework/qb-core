@@ -113,6 +113,13 @@ QBConfig.Server.WhitelistPermission = 'admin'           -- Permission that's abl
 QBConfig.Server.PVP = true                              -- Enable or disable pvp on the server (Ability to shoot other players)
 QBConfig.Server.Discord = ''                            -- Discord invite link
 QBConfig.Server.CheckDuplicateLicense = true            -- Check for duplicate rockstar license on join
+QBConfig.Server.ExceptionalLicenses = {                 -- If enabled, it will not check if these specified licenses are duplicate(if you want shared account players to be able to play in your server)
+    enabled = true,
+    licences = {
+        'license:b2de9ea8f669f4de25d05b6fac17b4ae6f645032',
+        'license:c5891bbe326c6723d5476c3378fff6495f7bc998'
+    }
+}
 QBConfig.Server.Permissions = { 'god', 'admin', 'mod' } -- Add as many groups as you want here after creating them in your server.cfg
 
 QBConfig.Commands = {}                                  -- Command Configuration
