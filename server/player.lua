@@ -177,12 +177,6 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         if self.Offline then return end
         TriggerEvent('QBCore:Player:SetPlayerData', self.PlayerData)
         TriggerClientEvent('QBCore:Player:SetPlayerData', self.PlayerData.source, self.PlayerData)
-
-        if not QBConfig.Money.MoneyAsItems then return end
-
-        for money, _ in pairs(QBConfig.Money.MoneyItems) do
-            self.Functions.UpdateMoney(money)
-        end
     end
 
     function self.Functions.SetJob(job, grade)
@@ -270,6 +264,12 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         if not key or type(key) ~= 'string' then return end
         self.PlayerData[key] = val
         self.Functions.UpdatePlayerData()
+
+        if not QBConfig.Money.MoneyAsItems or key ~= "items" then return end
+
+        for money, _ in pairs(QBConfig.Money.MoneyItems) do
+            self.Functions.UpdateMoney(money, true)
+        end
     end
 
     function self.Functions.SetMetaData(meta, val)
@@ -311,18 +311,23 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         return self.PlayerData.metadata['rep'][rep] or 0
     end
 
-    function self.Functions.UpdateMoney(moneytype)
+    function self.Functions.UpdateMoney(moneytype, prioritizeItem)
         if not QBConfig.Money.MoneyItems[moneytype] or not QBConfig.Money.MoneyAsItems then return end
 
         local currentMoneyItem = exports['qb-inventory']:GetItemCount(self.PlayerData.source, QBConfig.Money.MoneyItems[moneytype])
         local diff = self.PlayerData.money[moneytype] - currentMoneyItem
-
         if diff == 0 then return end
+
+        if prioritizeItem then
+            self.PlayerData.money[moneytype] = currentMoneyItem
+            self.Functions.UpdatePlayerData()
+            return
+        end
 
         if diff > 0 then
             self.Functions.AddItem(QBConfig.Money.MoneyItems[moneytype], diff)
         else
-            self.Functions.RemoveItem(QBConfig.Money.MoneyItems[moneytype], diff)
+            self.Functions.RemoveItem(QBConfig.Money.MoneyItems[moneytype], -diff)
         end
     end
 
