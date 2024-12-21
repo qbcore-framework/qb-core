@@ -1,6 +1,6 @@
 -- Event Handler
-
 local isExceptional = false
+
 
 AddEventHandler('chatMessage', function(_, _, message)
     if string.sub(message, 1, 1) == '/' then
@@ -46,6 +46,7 @@ if readyFunction ~= nil then
 end
 
 local function onPlayerConnecting(name, _, deferrals)
+    isExceptional = false
     local src = source
     deferrals.defer()
 
