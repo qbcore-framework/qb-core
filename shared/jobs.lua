@@ -9,12 +9,11 @@ QBShared.Jobs = {
 	garbage = { label = 'Garbage', defaultDuty = true, offDutyPay = false, grades = { ['0'] = { name = 'Collector', payment = 50 } } },
 	vineyard = { label = 'Vineyard', defaultDuty = true, offDutyPay = false, grades = { ['0'] = { name = 'Picker', payment = 50 } } },
 	hotdog = { label = 'Hotdog', defaultDuty = true, offDutyPay = false, grades = { ['0'] = { name = 'Sales', payment = 50 } } },
-
 	---------------------
 	-- City Government --
 	---------------------
 	cityhall = {
-		label = 'Los Santos Municipality Services',
+		label = 'LS Municipality Services',
 		defaultDuty = true,
 		offDutyPay = false,
 		grades = {
@@ -29,7 +28,7 @@ QBShared.Jobs = {
 	-- Justice & Criminal Law --
 	----------------------------
 	judge = {
-		label = 'State of San Andreas Criminal Court',
+		label = 'San Andreas Criminal Court',
 		type = 'doj',
 		defaultDuty = true,
 		offDutyPay = false,
