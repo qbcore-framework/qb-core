@@ -6,14 +6,35 @@ function QBCore.Functions.CreateClientCallback(name, cb)
     QBCore.ClientCallbacks[name] = cb
 end
 
-function QBCore.Functions.TriggerClientCallback(name, cb, ...)
-    if not QBCore.ClientCallbacks[name] then return end
-    QBCore.ClientCallbacks[name](cb, ...)
-end
+function QBCore.Functions.TriggerCallback(name, ...)
+    local cb = nil
+    local args = { ... }
 
-function QBCore.Functions.TriggerCallback(name, cb, ...)
-    QBCore.ServerCallbacks[name] = cb
+    if type(args[1]) == "function" then
+        cb = args[1]
+        table.remove(args, 1)
+    elseif type(args[1]) == "table" then
+        local _, err = pcall(function()
+            args[1]["__cfx_functionReferenc"] = args[1]["__cfx_functionReferenc"]
+        end)
+
+        if err and string.find(err, "Cannot index a funcref") then
+            cb = args[1]
+            table.remove(args, 1)
+        end
+    end
+
+    QBCore.ServerCallbacks[name] = {
+        callback = cb,
+        promise = promise.new()
+    }
+
     TriggerServerEvent('QBCore:Server:TriggerCallback', name, ...)
+
+    if cb == nil then
+        Citizen.Await(QBCore.ServerCallbacks[name].promise)
+        return QBCore.ServerCallbacks[name].promise.value
+    end
 end
 
 function QBCore.Debug(resource, obj, depth)

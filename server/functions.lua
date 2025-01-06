@@ -434,9 +434,35 @@ end
 ---@param source any
 ---@param cb function
 ---@param ... any
-function QBCore.Functions.TriggerClientCallback(name, source, cb, ...)
-    QBCore.ClientCallbacks[name] = cb
+function QBCore.Functions.TriggerClientCallback(name, source, ...)
+    local cb = nil
+    local args = { ... }
+
+    if type(args[1]) == "function" then
+        cb = args[1]
+        table.remove(args, 1)
+    elseif type(args[1]) == "table" then
+        local _, err = pcall(function()
+            args[1]["__cfx_functionReferenc"] = args[1]["__cfx_functionReferenc"]
+        end)
+
+        if err and string.find(err, "Cannot index a funcref") then
+            cb = args[1]
+            table.remove(args, 1)
+        end
+    end
+
+    QBCore.ClientCallbacks[name] = {
+        callback = cb,
+        promise = promise.new()
+    }
+
     TriggerClientEvent('QBCore:Client:TriggerClientCallback', source, name, ...)
+
+    if cb == nil then
+        Citizen.Await(QBCore.ClientCallbacks[name].promise)
+        return QBCore.ClientCallbacks[name].promise.value
+    end
 end
 
 ---Create Server Callback
@@ -444,16 +470,6 @@ end
 ---@param cb function
 function QBCore.Functions.CreateCallback(name, cb)
     QBCore.ServerCallbacks[name] = cb
-end
-
----Trigger Serv er Callback
----@param name string
----@param source any
----@param cb function
----@param ... any
-function QBCore.Functions.TriggerCallback(name, source, cb, ...)
-    if not QBCore.ServerCallbacks[name] then return end
-    QBCore.ServerCallbacks[name](source, cb, ...)
 end
 
 -- Items
@@ -475,7 +491,7 @@ function QBCore.Functions.CreateUseableItem(item, data)
     elseif type(data) == "function" then
         rawFunc = data
     end
-    
+
     if rawFunc then
         QBCore.UsableItems[item] = {
             func = rawFunc,
