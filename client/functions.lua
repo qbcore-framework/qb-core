@@ -29,7 +29,7 @@ function QBCore.Functions.TriggerCallback(name, ...)
         promise = promise.new()
     }
 
-    TriggerServerEvent('QBCore:Server:TriggerCallback', name, ...)
+    TriggerServerEvent('QBCore:Server:TriggerCallback', name, table.unpack(args))
 
     if cb == nil then
         Citizen.Await(QBCore.ServerCallbacks[name].promise)

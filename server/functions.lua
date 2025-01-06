@@ -457,7 +457,7 @@ function QBCore.Functions.TriggerClientCallback(name, source, ...)
         promise = promise.new()
     }
 
-    TriggerClientEvent('QBCore:Client:TriggerClientCallback', source, name, ...)
+    TriggerClientEvent('QBCore:Client:TriggerClientCallback', source, name, table.unpack(args))
 
     if cb == nil then
         Citizen.Await(QBCore.ClientCallbacks[name].promise)
