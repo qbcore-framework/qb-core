@@ -10,18 +10,9 @@ function QBCore.Functions.TriggerCallback(name, ...)
     local cb = nil
     local args = { ... }
 
-    if type(args[1]) == "function" then
+    if QBCore.Shared.IsFunction(args[1]) then
         cb = args[1]
         table.remove(args, 1)
-    elseif type(args[1]) == "table" then
-        local _, err = pcall(function()
-            args[1]["__cfx_functionReferenc"] = args[1]["__cfx_functionReferenc"]
-        end)
-
-        if err and string.find(err, "Cannot index a funcref") then
-            cb = args[1]
-            table.remove(args, 1)
-        end
     end
 
     QBCore.ServerCallbacks[name] = {
@@ -191,8 +182,12 @@ function QBCore.Functions.Notify(text, texttype, length, icon)
     SendNUIMessage(message)
 end
 
-function QBCore.Functions.Progressbar(name, label, duration, useWhileDead, canCancel, disableControls, animation, prop, propTwo, onFinish, onCancel)
-    if GetResourceState('progressbar') ~= 'started' then error('progressbar needs to be started in order for QBCore.Functions.Progressbar to work') end
+function QBCore.Functions.Progressbar(name, label, duration, useWhileDead, canCancel, disableControls, animation, prop,
+                                      propTwo, onFinish, onCancel)
+    if GetResourceState('progressbar') ~= 'started' then
+        error(
+            'progressbar needs to be started in order for QBCore.Functions.Progressbar to work')
+    end
     exports['progressbar']:Progress({
         name = name:lower(),
         duration = duration,
@@ -977,7 +972,8 @@ function QBCore.Functions.StartParticleAtCoord(dict, ptName, looped, coords, rot
     SetPtfxAssetNextCall(dict)
     local particleHandle
     if looped then
-        particleHandle = StartParticleFxLoopedAtCoord(ptName, coords.x, coords.y, coords.z, rot.x, rot.y, rot.z, scale or 1.0)
+        particleHandle = StartParticleFxLoopedAtCoord(ptName, coords.x, coords.y, coords.z, rot.x, rot.y, rot.z,
+            scale or 1.0)
         if color then
             SetParticleFxLoopedColour(particleHandle, color.r, color.g, color.b, false)
         end
@@ -996,7 +992,8 @@ function QBCore.Functions.StartParticleAtCoord(dict, ptName, looped, coords, rot
     return particleHandle
 end
 
-function QBCore.Functions.StartParticleOnEntity(dict, ptName, looped, entity, bone, offset, rot, scale, alpha, color, evolution, duration)
+function QBCore.Functions.StartParticleOnEntity(dict, ptName, looped, entity, bone, offset, rot, scale, alpha, color,
+                                                evolution, duration)
     QBCore.Functions.LoadParticleDictionary(dict)
     UseParticleFxAssetNextCall(dict)
     local particleHandle, boneID
@@ -1007,9 +1004,11 @@ function QBCore.Functions.StartParticleOnEntity(dict, ptName, looped, entity, bo
     end
     if looped then
         if bone then
-            particleHandle = StartParticleFxLoopedOnEntityBone(ptName, entity, offset.x, offset.y, offset.z, rot.x, rot.y, rot.z, boneID, scale)
+            particleHandle = StartParticleFxLoopedOnEntityBone(ptName, entity, offset.x, offset.y, offset.z, rot.x, rot
+                .y, rot.z, boneID, scale)
         else
-            particleHandle = StartParticleFxLoopedOnEntity(ptName, entity, offset.x, offset.y, offset.z, rot.x, rot.y, rot.z, scale)
+            particleHandle = StartParticleFxLoopedOnEntity(ptName, entity, offset.x, offset.y, offset.z, rot.x, rot.y,
+                rot.z, scale)
         end
         if evolution then
             SetParticleFxLoopedEvolution(particleHandle, evolution.name, evolution.amount, false)
@@ -1028,7 +1027,8 @@ function QBCore.Functions.StartParticleOnEntity(dict, ptName, looped, entity, bo
             SetParticleFxNonLoopedColour(color.r, color.g, color.b)
         end
         if bone then
-            StartParticleFxNonLoopedOnPedBone(ptName, entity, offset.x, offset.y, offset.z, rot.x, rot.y, rot.z, boneID, scale)
+            StartParticleFxNonLoopedOnPedBone(ptName, entity, offset.x, offset.y, offset.z, rot.x, rot.y, rot.z, boneID,
+                scale)
         else
             StartParticleFxNonLoopedOnEntity(ptName, entity, offset.x, offset.y, offset.z, rot.x, rot.y, rot.z, scale)
         end
@@ -1092,7 +1092,8 @@ end
 
 function QBCore.Functions.GetGroundHash(entity)
     local coords = GetEntityCoords(entity)
-    local num = StartShapeTestCapsule(coords.x, coords.y, coords.z + 4, coords.x, coords.y, coords.z - 2.0, 1, 1, entity, 7)
+    local num = StartShapeTestCapsule(coords.x, coords.y, coords.z + 4, coords.x, coords.y, coords.z - 2.0, 1, 1, entity,
+        7)
     local retval, success, endCoords, surfaceNormal, materialHash, entityHit = GetShapeTestResultEx(num)
     return materialHash, entityHit, surfaceNormal, endCoords, success, retval
 end

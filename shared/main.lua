@@ -68,6 +68,19 @@ function QBShared.ChangeVehicleExtra(vehicle, extra, enable)
     end
 end
 
+function QBShared.IsFunction(value)
+    if type(value) == 'table' then
+        local success = pcall(function()
+            -- we just need to check if the table is indexable or not, this will simply return the error "cannot index a funcref"
+            return value.__cfx_functionReference
+        end)
+
+        return success
+    end
+
+    return type(value) == 'function'
+end
+
 function QBShared.SetDefaultVehicleExtras(vehicle, config)
     -- Clear Extras
     for i = 1, 20 do
