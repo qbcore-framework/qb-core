@@ -70,12 +70,7 @@ end
 
 function QBShared.IsFunction(value)
     if type(value) == 'table' then
-        local success = pcall(function()
-            -- we just need to check if the table is indexable or not, this will simply return the error "cannot index a funcref"
-            return value.__cfx_functionReference
-        end)
-
-        return success
+        return value.__cfx_functionReference ~= nil and type(value.__cfx_functionReference) == "string"
     end
 
     return type(value) == 'function'
