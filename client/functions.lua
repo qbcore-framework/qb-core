@@ -36,6 +36,8 @@ function QBCore.Functions.HasItem(items, amount)
     return exports['qb-inventory']:HasItem(items, amount)
 end
 
+---Returns the full character name
+---@return string
 function exports.Functions.GetName()
     local charinfo = QBCore.PlayerData.charinfo
     return charinfo.firstname .. ' ' .. charinfo.lastname
