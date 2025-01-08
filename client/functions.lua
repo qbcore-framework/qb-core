@@ -36,6 +36,11 @@ function QBCore.Functions.HasItem(items, amount)
     return exports['qb-inventory']:HasItem(items, amount)
 end
 
+function exports.Functions.GetName()
+    local charinfo = QBCore.PlayerData.charinfo
+    return charinfo.firstname .. ' ' .. charinfo.lastname
+end
+
 ---@param entity number - The entity to look at
 ---@param timeout number - The time in milliseconds before the function times out
 ---@param speed number - The speed at which the entity should turn
