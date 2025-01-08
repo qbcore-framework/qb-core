@@ -38,7 +38,7 @@ end
 
 ---Returns the full character name
 ---@return string
-function exports.Functions.GetName()
+function QBCore.Functions.GetName()
     local charinfo = QBCore.PlayerData.charinfo
     return charinfo.firstname .. ' ' .. charinfo.lastname
 end
