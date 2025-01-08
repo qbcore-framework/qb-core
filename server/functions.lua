@@ -722,7 +722,7 @@ function QBCore.Functions.PrepForSQL(source, data, pattern)
     return true
 end
 
----Do a money transactio between players
+---Do a money transaction between players
 ---@param sourcecid string
 ---@param sourcemoneytype string -- Only money types in QBConfig.Money.MoneyTypes
 ---@param targetcid string
@@ -731,63 +731,51 @@ end
 ---@param reason string
 ---@return boolean
 function QBCore.Functions.TransferMoney(sourcecid, sourcemoneytype, targetcid, targetmoneytype, amount, reason)
-    local SourcePlayer = QBCore.Functions.GetPlayerByCitizenId(sourcecid)
-    local TargetPlayer = QBCore.Functions.GetPlayerByCitizenId(targetcid)
+    local SourcePlayer = QBCore.Functions.GetPlayerByCitizenId(sourcecid) or QBCore.Functions.GetOfflinePlayerByCitizenId(sourcecid)
+    local TargetPlayer = QBCore.Functions.GetPlayerByCitizenId(targetcid) or QBCore.Functions.GetOfflinePlayerByCitizenId(targetcid)
+
+    if not SourcePlayer or not TargetPlayer then return false end
+
     if not tonumber(amount) then return false end
     amount = tonumber(amount) or 0
     if tonumber(amount) <= 0 then return true end
+
     local errorOnLast = false
-    if SourcePlayer then
-        if not SourcePlayer.Functions.RemoveMoney(amount, sourcemoneytype, reason) then return false end
-    else
-        local result = MySQL.single.await('SELECT money FROM players WHERE citizendid = ?', { sourcecid })
-        if not result then return false end
-        result = json.decode(result)
-        result[sourcemoneytype] -= amount
-        if not MySQL.update.await('UPDATE players SET money = ? WHERE citizenid = ?', { json.encode(result), sourcecid }) then errorOnLast = true end
-    end
-    if TargetPlayer then
-        if not TargetPlayer.Functions.AddMoney(amount, targetmoneytype, reason) then errorOnLast = true end
-    else
-        local result = MySQL.single.await('SELECT money FROM players WHERE citizendid = ?', { targetcid })
-        if not result then errorOnLast = true end
-        result = json.decode(result)
-        result[targetmoneytype] += amount
-        if not MySQL.update.await('UPDATE players SET money = ? WHERE citizenid = ?', { json.encode(result), targetcid }) then errorOnLast = true end
-    end
+
+    local offSource = SourcePlayer.PlayerData.source == nil
+    local offTarget = TargetPlayer.PlayerData.source == nil
+
+    if not SourcePlayer.Functions.RemoveMoney(amount, sourcemoneytype, reason) then return false end
+    if not TargetPlayer.Functions.AddMoney(amount, targetmoneytype, reason) then errorOnLast = true end
 
     if errorOnLast then
-        if SourcePlayer then
-            if not SourcePlayer.Functions.AddMoney(amount, sourcemoneytype, reason) then return false end
-        else
-            local result = MySQL.single.await('SELECT money FROM players WHERE citizendid = ?', { sourcecid })
-            if not result then return false end
-            result = json.decode(result)
-            result[sourcemoneytype] += amount
-            if not MySQL.update.await('UPDATE players SET money = ? WHERE citizenid = ?', { json.encode(result), sourcecid }) then return false end
-        end
+        SourcePlayer.Functions.AddMoney(amount, sourcemoneytype, reason)
         return false
     end
 
-    if SourcePlayer then
+    if not offSource then
         TriggerClientEvent('hud:client:OnMoneyChange', SourcePlayer.PlayerData.source, sourcemoneytype, true)
         TriggerClientEvent('QBCore:Client:OnMoneyChange', SourcePlayer.PlayerData.source, sourcemoneytype, amount, 'transfer', reason)
         TriggerEvent('QBCore:Server:OnMoneyChange', SourcePlayer.PlayerData.source, sourcemoneytype, amount, 'transfer', reason)
+    else
+        SourcePlayer.Functions.Save()
     end
 
-    if TargetPlayer then
+    if not offTarget then
         TriggerClientEvent('hud:client:OnMoneyChange', TargetPlayer.PlayerData.source, targetmoneytype, true)
         TriggerClientEvent('QBCore:Client:OnMoneyChange', TargetPlayer.PlayerData.source, targetmoneytype, amount, 'transfer', reason)
         TriggerEvent('QBCore:Server:OnMoneyChange', TargetPlayer.PlayerData.source, targetmoneytype, amount, 'transfer', reason)
+    else
+        TargetPlayer.Functions.Save()
     end
 
-    if not SourcePlayer and not TargetPlayer then
+    if not offSource and not offTarget then
         TriggerEvent('qb-log:server:CreateLog', 'playermoney', 'TransferMoney', 'yellow', '**' .. sourcecid .. '** gived $' .. amount .. ' (' .. sourcemoneytype .. ') to **' .. targetcid .. '** reason: ' .. reason .. ' | (Both offline)')
-    elseif not TargetPlayer and SourcePlayer then
+    elseif not offTarget and offSource then
         TriggerEvent('qb-log:server:CreateLog', 'playermoney', 'TransferMoney', 'yellow', '**' .. GetPlayerName(SourcePlayer.PlayerData.source) .. ' (citizenid: ' .. SourcePlayer.PlayerData.citizenid .. ' | id: ' .. SourcePlayer.PlayerData.source .. ')**, new balance: ' .. SourcePlayer.PlayerData.money[sourcemoneytype] .. ' gived $' .. amount .. ' (' .. sourcemoneytype .. ') to **' .. targetcid .. ' in ('..targetmoneytype..') reason: ' .. reason .. ' | (Target offline)')
-    elseif not SourcePlayer and TargetPlayer then
+    elseif not offSource and offTarget then
         TriggerEvent('qb-log:server:CreateLog', 'playermoney', 'TransferMoney', 'yellow', '**' .. sourcecid  .. '** gived $' .. amount .. ' (' .. sourcemoneytype .. ') to **' .. GetPlayerName(TargetPlayer.PlayerData.source) .. ' (citizenid: ' .. TargetPlayer.PlayerData.citizenid .. ' | id: ' .. TargetPlayer.PlayerData.source .. ')**, new balance: ' .. TargetPlayer.PlayerData.money[targetmoneytype] .. ' in ('..targetmoneytype..') reason: ' .. reason .. ' | (Source offline)')
-    elseif SourcePlayer and TargetPlayer then
+    elseif offSource and offTarget then
         TriggerEvent('qb-log:server:CreateLog', 'playermoney', 'TransferMoney', 'yellow', '**' .. GetPlayerName(SourcePlayer.PlayerData.source) .. ' (citizenid: ' .. SourcePlayer.PlayerData.citizenid .. ' | id: ' .. SourcePlayer.PlayerData.source .. ')**, new balance: ' .. SourcePlayer.PlayerData.money[sourcemoneytype] .. ' gived $' .. amount .. ' (' .. sourcemoneytype .. ') to **' .. GetPlayerName(TargetPlayer.PlayerData.source) .. ' (citizenid: ' .. TargetPlayer.PlayerData.citizenid .. ' | id: ' .. TargetPlayer.PlayerData.source .. ')**, new balance: ' .. TargetPlayer.PlayerData.money[targetmoneytype] .. ' in ('..targetmoneytype..') reason: ' .. reason)
     end
 
