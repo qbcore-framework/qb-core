@@ -383,44 +383,7 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
     end
 
     function self.Functions.TransferMoneyTo(sourcemoneytype, targetcid, targetmoneytype, amount, reason)
-        local TargetPlayer = QBCore.Functions.GetPlayerByCitizenId(targetcid)
-        if not tonumber(amount) then return false end
-        amount = tonumber(amount) or 0
-        if amount <= 0 then return true end
-        local errorOnLast = false
-        if not self.Functions.RemoveMoney(amount, sourcemoneytype, reason) then return false end
-        if TargetPlayer then
-            if not TargetPlayer.Functions.AddMoney(amount, targetmoneytype, reason) then errorOnLast = true end
-        else
-            local result = MySQL.single.await('SELECT money FROM players WHERE citizendid = ?', { targetcid })
-            if not result then errorOnLast = true end
-            result = json.decode(result)
-            result[targetmoneytype] += amount
-            if not MySQL.update.await('UPDATE players SET money = ? WHERE citizenid = ?', { json.encode(result), targetcid }) then errorOnLast = true end
-        end
-
-        if errorOnLast then
-            self.Functions.AddMoney(amount, sourcemoneytype, reason)
-            return false
-        end
-
-        TriggerClientEvent('hud:client:OnMoneyChange', self.PlayerData.source, sourcemoneytype, true)
-        TriggerClientEvent('QBCore:Client:OnMoneyChange', self.PlayerData.source, sourcemoneytype, amount, 'transfer', reason)
-        TriggerEvent('QBCore:Server:OnMoneyChange', self.PlayerData.source, sourcemoneytype, amount, 'transfer', reason)
-
-        if TargetPlayer then
-            TriggerClientEvent('hud:client:OnMoneyChange', TargetPlayer.PlayerData.source, targetmoneytype, true)
-            TriggerClientEvent('QBCore:Client:OnMoneyChange', TargetPlayer.PlayerData.source, targetmoneytype, amount, 'transfer', reason)
-            TriggerEvent('QBCore:Server:OnMoneyChange', TargetPlayer.PlayerData.source, targetmoneytype, amount, 'transfer', reason)
-        end
-
-        if not TargetPlayer then
-            TriggerEvent('qb-log:server:CreateLog', 'playermoney', 'TransferMoney', 'yellow', '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')**, new balance: ' .. self.PlayerData.money[sourcemoneytype] .. ' gived $' .. amount .. ' (' .. sourcemoneytype .. ') to **' .. targetcid .. ' in ('..targetmoneytype..') reason: ' .. reason .. ' | (Target offline)')
-        elseif TargetPlayer then
-            TriggerEvent('qb-log:server:CreateLog', 'playermoney', 'TransferMoney', 'yellow', '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')**, new balance: ' .. self.PlayerData.money[sourcemoneytype] .. ' gived $' .. amount .. ' (' .. sourcemoneytype .. ') to **' .. GetPlayerName(TargetPlayer.PlayerData.source) .. ' (citizenid: ' .. TargetPlayer.PlayerData.citizenid .. ' | id: ' .. TargetPlayer.PlayerData.source .. ')**, new balance: ' .. TargetPlayer.PlayerData.money[targetmoneytype] .. ' in ('..targetmoneytype..') reason: ' .. reason)
-        end
-
-        return true
+        return QBCore.Functions.TransferMoney(self.PlayerData.source, sourcemoneytype, targetcid, targetmoneytype, amount, reason)
     end
 
     function self.Functions.GetMoney(moneytype)
