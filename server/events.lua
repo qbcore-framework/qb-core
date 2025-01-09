@@ -285,5 +285,5 @@ end)
 --end)
 
 QBCore.Functions.CreateCallback('QBCore:Server:GetDutyCount', function(_, cb, jobName)
-    cb(exports['qb-core']:GetDuty(jobName))
+    cb(QBCore.Functions.GetDutyCount(jobName))
 end)
