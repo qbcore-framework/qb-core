@@ -156,10 +156,8 @@ end
 function QBCore.Functions.GetDutyCount(job)
     local count = 0
     for _, Player in pairs(QBCore.Players) do
-        if Player.PlayerData.job.name == job then
-            if Player.PlayerData.job.onduty then
-                count += 1
-            end
+        if Player.PlayerData.job.name == job and Player.PlayerData.job.onduty then
+            count += 1
         end
     end
     return count

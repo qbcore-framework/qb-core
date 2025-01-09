@@ -347,12 +347,12 @@ function QBCore.Functions.GetClosestObject(coords)
     return closestObject, closestDistance
 end
 
-function QBCore.Functions.GetOnDuty(jobName)
-    local result = QBCore.Functions.TriggerCallback('QBCore:Server:GetDuty', jobName)
+function QBCore.Functions.GetDutyCount(jobName)
+    local result = QBCore.Functions.TriggerCallback('QBCore:Server:GetDutyCount', jobName)
     return result
 end
 
-exports('GetOnDuty', QBCore.Functions.GetOnDuty)
+exports('GetOnDuty', QBCore.Functions.GetOGetDutyCountnDuty)
 
 -- Vehicle
 
