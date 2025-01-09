@@ -335,4 +335,4 @@ end
 
 exports('ExploitBan', ExploitBan)
 
-exports('GetOnDuty', QBCore.Functions.GetDutyCount)
+exports('GetDutyCount', QBCore.Functions.GetDutyCount)
