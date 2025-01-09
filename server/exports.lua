@@ -334,3 +334,16 @@ local function ExploitBan(playerId, origin)
 end
 
 exports('ExploitBan', ExploitBan)
+
+local function GetOnDuty(jobName)
+    local amount = 0
+    local players = QBCore.Functions.GetQBPlayers()
+    for _, v in pairs(players) do
+        if v and v.PlayerData.job.name == jobName and v.PlayerData.job.onduty then
+            amount += 1
+        end
+    end
+    return amount
+end
+
+exports('GetOnDuty', GetOnDuty)
