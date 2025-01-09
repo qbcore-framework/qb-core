@@ -352,7 +352,7 @@ function QBCore.Functions.GetDutyCount(jobName)
     return result
 end
 
-exports('GetOnDuty', QBCore.Functions.GetOGetDutyCountnDuty)
+exports('GetDutyCount', QBCore.Functions.GetOGetDutyCountnDuty)
 
 -- Vehicle
 
