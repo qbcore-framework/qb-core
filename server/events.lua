@@ -284,6 +284,6 @@ end)
 -- https://github.com/qbcore-framework/qb-inventory/blob/e4ef156d93dd1727234d388c3f25110c350b3bcf/server/main.lua#L2066
 --end)
 
-QBCore.Functions.CreateCallback('QBCore:Server:GetDutyCount', function(_, cb, jobName)
-    cb(QBCore.Functions.GetDutyCount(jobName))
+QBCore.Functions.CreateCallback('QBCore:Server:GetDutyCount', function(_, cb, jobstring, isType)
+    cb(QBCore.Functions.GetDutyCount(jobstring, isType))
 end)

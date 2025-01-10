@@ -151,12 +151,15 @@ function QBCore.Functions.GetPlayersOnDuty(job)
 end
 
 ---Returns only the amount of players on duty for the specified job
----@param job string
+---@param jobstring string
+---@param isType boolean
 ---@return number
-function QBCore.Functions.GetDutyCount(job)
+function QBCore.Functions.GetDutyCount(jobstring, isType)
     local count = 0
     for _, Player in pairs(QBCore.Players) do
-        if Player.PlayerData.job.name == job and Player.PlayerData.job.onduty then
+        local job = Player.PlayerData.job
+        local matches = isType and job.type == jobstring or job.name == jobstring
+        if matches and job.onduty then
             count += 1
         end
     end
