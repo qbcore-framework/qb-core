@@ -1,4 +1,6 @@
 -- Event Handler
+local isExceptional = false
+
 
 AddEventHandler('chatMessage', function(_, _, message)
     if string.sub(message, 1, 1) == '/' then
@@ -44,6 +46,7 @@ if readyFunction ~= nil then
 end
 
 local function onPlayerConnecting(name, _, deferrals)
+    isExceptional = false
     local src = source
     deferrals.defer()
 
@@ -69,8 +72,22 @@ local function onPlayerConnecting(name, _, deferrals)
 
     if not license then
         return deferrals.done(Lang:t('error.no_valid_license'))
-    elseif QBCore.Config.Server.CheckDuplicateLicense and QBCore.Functions.IsLicenseInUse(license) then
-        return deferrals.done(Lang:t('error.duplicate_license'))
+    elseif QBCore.Config.Server.CheckDuplicateLicense then
+        if QBCore.Functions.IsLicenseInUse(license) then
+            if QBCore.Config.Server.ExceptionalLicenses.enabled then
+                for _, v in pairs(QBCore.Config.Server.ExceptionalLicenses.licences) do
+                    if license == v then
+                        isExceptional = true
+                        break
+                    end
+                end
+                if not isExceptional then
+                    return deferrals.done(Lang:t('error.duplicate_license'))
+                end
+            else
+                return deferrals.done(Lang:t('error.duplicate_license'))
+            end
+        end
     end
 
     Wait(0)
