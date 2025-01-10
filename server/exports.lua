@@ -334,3 +334,5 @@ local function ExploitBan(playerId, origin)
 end
 
 exports('ExploitBan', ExploitBan)
+
+exports('GetDutyCount', QBCore.Functions.GetDutyCount)

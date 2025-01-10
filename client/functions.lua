@@ -354,6 +354,13 @@ function QBCore.Functions.GetClosestObject(coords)
     return closestObject, closestDistance
 end
 
+function QBCore.Functions.GetDutyCount(jobstring, isType)
+    local result = QBCore.Functions.TriggerCallback('QBCore:Server:GetDutyCount', jobstring, isType)
+    return result
+end
+
+exports('GetDutyCount', QBCore.Functions.GetDutyCount)
+
 -- Vehicle
 
 function QBCore.Functions.LoadModel(model)
