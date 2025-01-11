@@ -956,6 +956,14 @@ function QBCore.Functions.LoadAnimSet(animSet)
     end
 end
 
+function QBCore.Functions.LoadAnimDictt(animDict)
+    if HasAnimDictLoaded(animDict) then return end
+    RequestAnimDict(animDict)
+    while not HasAnimDictLoaded(animDict) do
+        Wait(0)
+    end
+end
+
 function QBCore.Functions.LoadParticleDictionary(dictionary)
     if HasNamedPtfxAssetLoaded(dictionary) then return end
     RequestNamedPtfxAsset(dictionary)
