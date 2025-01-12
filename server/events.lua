@@ -32,7 +32,7 @@ local databaseConnected, bansTableExists = readyFunction == nil, readyFunction =
 if readyFunction ~= nil then
     MySQL.ready(function()
         databaseConnected = true
-    
+
         local DatabaseInfo = QBCore.Functions.GetDatabaseInfo()
         if not DatabaseInfo or not DatabaseInfo.exists then return end
 
@@ -125,15 +125,23 @@ end)
 -- Client Callback
 RegisterNetEvent('QBCore:Server:TriggerClientCallback', function(name, ...)
     if QBCore.ClientCallbacks[name] then
-        QBCore.ClientCallbacks[name](...)
+        QBCore.ClientCallbacks[name].promise:resolve(...)
+
+        if QBCore.ClientCallbacks[name].callback then
+            QBCore.ClientCallbacks[name].callback(...)
+        end
+
         QBCore.ClientCallbacks[name] = nil
     end
 end)
 
 -- Server Callback
 RegisterNetEvent('QBCore:Server:TriggerCallback', function(name, ...)
+    if not QBCore.ServerCallbacks[name] then return end
+
     local src = source
-    QBCore.Functions.TriggerCallback(name, src, function(...)
+
+    QBCore.ServerCallbacks[name](src, function(...)
         TriggerClientEvent('QBCore:Client:TriggerCallback', src, name, ...)
     end, ...)
 end)
