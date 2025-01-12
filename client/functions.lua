@@ -956,7 +956,7 @@ function QBCore.Functions.LoadAnimSet(animSet)
     end
 end
 
-function QBCore.Functions.LoadAnimDictt(animDict)
+function QBCore.Functions.LoadAnimDict(animDict)
     if HasAnimDictLoaded(animDict) then return end
     RequestAnimDict(animDict)
     while not HasAnimDictLoaded(animDict) do
