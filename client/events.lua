@@ -3,10 +3,26 @@
 -- if LocalPlayer.state['isLoggedIn'] then
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     ShutdownLoadingScreenNui()
+    local pid = PlayerPedId()
     LocalPlayer.state:set('isLoggedIn', true, false)
     if not QBCore.Config.Server.PVP then return end
-    SetCanAttackFriendly(PlayerPedId(), true, false)
+    SetCanAttackFriendly(pid, true, false)
     NetworkSetFriendlyFireOption(true)
+
+    CreateThread(function ()
+        Wait(4000) -- Wait for the player to load in properly
+        local player = PlayerId()
+        SetEntityMaxHealth(pid, 200)
+        SetPlayerHealthRechargeMultiplier(player, 0.0)
+        SetPlayerHealthRechargeLimit(player, 0.0)
+        if QBConfig.Player.SaveArmor then
+            SetPedArmour(pid, QBCore.PlayerData.metadata['armor'])
+        end
+
+        if QBConfig.Player.SaveHealth then
+            SetEntityHealth(pid, QBCore.PlayerData.metadata['health'])
+        end
+    end)
 end)
 
 RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
