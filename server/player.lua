@@ -253,6 +253,11 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         return QBCore.Functions.HasItem(self.PlayerData.source, items, amount)
     end
 
+    function self.Functions.GetName()
+        local charinfo = self.PlayerData.charinfo
+        return charinfo.firstname .. ' ' .. charinfo.lastname
+    end
+
     function self.Functions.SetJobDuty(onDuty)
         self.PlayerData.job.onduty = not not onDuty
         TriggerEvent('QBCore:Server:OnJobUpdate', self.PlayerData.source, self.PlayerData.job)
