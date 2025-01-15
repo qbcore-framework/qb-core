@@ -956,6 +956,15 @@ function QBCore.Functions.LoadAnimSet(animSet)
     end
 end
 
+function QBCore.Functions.LoadAnimDict(animDict)
+    if not DoesAnimDictExist(animDict) then return print(("^1ANIMDICT^7 %s does not exist"):format(animDict)) end
+    if HasAnimDictLoaded(animDict) then return end
+    RequestAnimDict(animDict)
+    while not HasAnimDictLoaded(animDict) do
+        Wait(0)
+    end
+end
+
 function QBCore.Functions.LoadParticleDictionary(dictionary)
     if HasNamedPtfxAssetLoaded(dictionary) then return end
     RequestNamedPtfxAsset(dictionary)
