@@ -1094,3 +1094,12 @@ function QBCore.Functions.GetGroundHash(entity)
     local retval, success, endCoords, surfaceNormal, materialHash, entityHit = GetShapeTestResultEx(num)
     return materialHash, entityHit, surfaceNormal, endCoords, success, retval
 end
+
+for functionName, func in pairs(QBCore.Functions) do
+    if type(func) == 'function' then
+        exports(functionName, func)
+    end
+end
+
+-- Access a specific function directly:
+-- exports['qb-core']:Notify('Hello Player!')
