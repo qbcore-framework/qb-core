@@ -231,6 +231,8 @@ QBShared.Items = {
     twerks_candy                 = { name = 'twerks_candy', label = 'Twerks', weight = 100, type = 'item', image = 'twerks_candy.png', unique = false, useable = true, shouldClose = true, description = 'Some delicious candy :O' },
     snikkel_candy                = { name = 'snikkel_candy', label = 'Snikkel', weight = 100, type = 'item', image = 'snikkel_candy.png', unique = false, useable = true, shouldClose = true, description = 'Some delicious candy :O' },
     sandwich                     = { name = 'sandwich', label = 'Sandwich', weight = 200, type = 'item', image = 'sandwich.png', unique = false, useable = true, shouldClose = true, description = 'Nice bread for your stomach' },
+    momo                         = { name = 'momo', label = 'Momo', weight = 200, type = 'item', image = 'momo.png', unique = false, useable = true, shouldClose = true, description = 'Authentic Nepali Momo' },
+
 
     -- Drink ITEMS
     water_bottle                 = { name = 'water_bottle', label = 'Bottle of Water', weight = 500, type = 'item', image = 'water_bottle.png', unique = false, useable = true, shouldClose = true, description = 'For all the thirsty out there' },
