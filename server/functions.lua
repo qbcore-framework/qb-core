@@ -394,33 +394,30 @@ function QBCore.Functions.CreateVehicle(source, model, vehtype, coords, warp)
     return veh
 end
 
----Paychecks (standalone - don't touch)
 function PaycheckInterval()
-    if next(QBCore.Players) then
-        for _, Player in pairs(QBCore.Players) do
-            if Player then
-                local payment = QBShared.Jobs[Player.PlayerData.job.name]['grades'][tostring(Player.PlayerData.job.grade.level)].payment
-                if not payment then payment = Player.PlayerData.job.payment end
-                if Player.PlayerData.job and payment > 0 and (QBShared.Jobs[Player.PlayerData.job.name].offDutyPay or Player.PlayerData.job.onduty) then
-                    if QBCore.Config.Money.PayCheckSociety then
-                        local account = exports['qb-banking']:GetAccountBalance(Player.PlayerData.job.name)
-                        if account ~= 0 then          -- Checks if player is employed by a society
-                            if account < payment then -- Checks if company has enough money to pay society
-                                TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, Lang:t('error.company_too_poor'), 'error')
-                            else
-                                Player.Functions.AddMoney('bank', payment, 'paycheck')
-                                exports['qb-banking']:RemoveMoney(Player.PlayerData.job.name, payment, 'Employee Paycheck')
-                                TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, Lang:t('info.received_paycheck', { value = payment }))
-                            end
-                        else
-                            Player.Functions.AddMoney('bank', payment, 'paycheck')
-                            TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, Lang:t('info.received_paycheck', { value = payment }))
-                        end
+    if not next(QBCore.Players) then return end
+    for _, Player in pairs(QBCore.Players) do
+        if not Player then return end
+        local payment = QBShared.Jobs[Player.PlayerData.job.name]['grades'][tostring(Player.PlayerData.job.grade.level)].payment
+        if not payment then payment = Player.PlayerData.job.payment end
+        if Player.PlayerData.job and payment > 0 and (QBShared.Jobs[Player.PlayerData.job.name].offDutyPay or Player.PlayerData.job.onduty) then
+            if QBCore.Config.Money.PayCheckSociety then
+                local account = exports['qb-banking']:GetAccountBalance(Player.PlayerData.job.name)
+                if account ~= 0 then
+                    if account < payment then
+                        TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, Lang:t('error.company_too_poor'), 'error')
                     else
                         Player.Functions.AddMoney('bank', payment, 'paycheck')
+                        exports['qb-banking']:RemoveMoney(Player.PlayerData.job.name, payment, 'Employee Paycheck')
                         TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, Lang:t('info.received_paycheck', { value = payment }))
                     end
+                else
+                    Player.Functions.AddMoney('bank', payment, 'paycheck')
+                    TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, Lang:t('info.received_paycheck', { value = payment }))
                 end
+            else
+                Player.Functions.AddMoney('bank', payment, 'paycheck')
+                TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, Lang:t('info.received_paycheck', { value = payment }))
             end
         end
     end
@@ -471,7 +468,7 @@ end
 function QBCore.Functions.CreateUseableItem(item, data)
     local rawFunc = nil
 
-    if type(data) == "table" then
+    if type(data) == 'table' then
         if rawget(data, '__cfx_functionReference') then
             rawFunc = data
         elseif data.cb and rawget(data.cb, '__cfx_functionReference') then
@@ -479,7 +476,7 @@ function QBCore.Functions.CreateUseableItem(item, data)
         elseif data.callback and rawget(data.callback, '__cfx_functionReference') then
             rawFunc = data.callback
         end
-    elseif type(data) == "function" then
+    elseif type(data) == 'function' then
         rawFunc = data
     end
 
@@ -654,23 +651,23 @@ end
 function QBCore.Functions.GetDatabaseInfo()
     local details = {
         exists = false,
-        database = "",
+        database = '',
     }
-    local connectionString = GetConvar("mysql_connection_string", "")
+    local connectionString = GetConvar('mysql_connection_string', '')
 
-    if connectionString == "" then
+    if connectionString == '' then
         return details
-    elseif connectionString:find("mysql://") then
+    elseif connectionString:find('mysql://') then
         connectionString = connectionString:sub(9, -1)
-        details.database = connectionString:sub(connectionString:find("/") + 1, -1):gsub("[%?]+[%w%p]*$", "")
+        details.database = connectionString:sub(connectionString:find('/') + 1, -1):gsub('[%?]+[%w%p]*$', '')
         details.exists = true
         return details
     else
-        connectionString = { string.strsplit(";", connectionString) }
+        connectionString = { string.strsplit(';', connectionString) }
 
         for i = 1, #connectionString do
             local v = connectionString[i]
-            if v:match("database") then
+            if v:match('database') then
                 details.database = v:sub(10, #v)
                 details.exists = true
                 return details
@@ -788,3 +785,12 @@ function QBCore.Functions.TransferMoney(sourcecid, sourcemoneytype, targetcid, t
 
     return true
 end
+
+for functionName, func in pairs(QBCore.Functions) do
+    if type(func) == 'function' then
+        exports(functionName, func)
+    end
+end
+
+-- Access a specific function directly:
+-- exports['qb-core']:Notify(source, 'Hello Player!')
