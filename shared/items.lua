@@ -60,6 +60,7 @@ local Items = {
     weapon_minismg               = { label = 'Mini SMG', weight = 1000, type = 'weapon', ammotype = 'AMMO_SMG', unique = true, description = 'A mini handheld light                                                                                                                                                                                                                                                                                                                                                        weight machine gun' },
     weapon_raycarbine            = { label = 'Unholy Hellbringer', weight = 1000, type = 'weapon', ammotype = 'AMMO_SMG', unique = true, useable = true, description = 'Weapon Raycarbine' },
 
+
     -- Shotguns
     weapon_pumpshotgun           = { label = 'Pump Shotgun', weight = 1000, type = 'weapon', ammotype = 'AMMO_SHOTGUN', unique = true, description = 'A pump-action smoothbore gun for firing small shot at short range' },
     weapon_sawnoffshotgun        = { label = 'Sawn-off Shotgun', weight = 1000, type = 'weapon', ammotype = 'AMMO_SHOTGUN', unique = true, description = 'A sawn-off smoothbore gun for firing small shot at short range' },

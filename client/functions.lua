@@ -6,14 +6,26 @@ function QBCore.Functions.CreateClientCallback(name, cb)
     QBCore.ClientCallbacks[name] = cb
 end
 
-function QBCore.Functions.TriggerClientCallback(name, cb, ...)
-    if not QBCore.ClientCallbacks[name] then return end
-    QBCore.ClientCallbacks[name](cb, ...)
-end
+function QBCore.Functions.TriggerCallback(name, ...)
+    local cb = nil
+    local args = { ... }
 
-function QBCore.Functions.TriggerCallback(name, cb, ...)
-    QBCore.ServerCallbacks[name] = cb
-    TriggerServerEvent('QBCore:Server:TriggerCallback', name, ...)
+    if QBCore.Shared.IsFunction(args[1]) then
+        cb = args[1]
+        table.remove(args, 1)
+    end
+
+    QBCore.ServerCallbacks[name] = {
+        callback = cb,
+        promise = promise.new()
+    }
+
+    TriggerServerEvent('QBCore:Server:TriggerCallback', name, table.unpack(args))
+
+    if cb == nil then
+        Citizen.Await(QBCore.ServerCallbacks[name].promise)
+        return QBCore.ServerCallbacks[name].promise.value
+    end
 end
 
 function QBCore.Debug(resource, obj, depth)
@@ -34,6 +46,13 @@ end
 
 function QBCore.Functions.HasItem(items, amount)
     return exports['qb-inventory']:HasItem(items, amount)
+end
+
+---Returns the full character name
+---@return string
+function QBCore.Functions.GetName()
+    local charinfo = QBCore.PlayerData.charinfo
+    return charinfo.firstname .. ' ' .. charinfo.lastname
 end
 
 ---@param entity number - The entity to look at
@@ -1075,3 +1094,12 @@ function QBCore.Functions.GetGroundHash(entity)
     local retval, success, endCoords, surfaceNormal, materialHash, entityHit = GetShapeTestResultEx(num)
     return materialHash, entityHit, surfaceNormal, endCoords, success, retval
 end
+
+for functionName, func in pairs(QBCore.Functions) do
+    if type(func) == 'function' then
+        exports(functionName, func)
+    end
+end
+
+-- Access a specific function directly:
+-- exports['qb-core']:Notify('Hello Player!')
