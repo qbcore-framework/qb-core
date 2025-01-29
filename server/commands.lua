@@ -220,7 +220,7 @@ end, 'admin')
 -- Money
 
 QBCore.Commands.Add('givemoney', Lang:t('command.givemoney.help'), { { name = Lang:t('command.givemoney.params.id.name'), help = Lang:t('command.givemoney.params.id.help') }, { name = Lang:t('command.givemoney.params.moneytype.name'), help = Lang:t('command.givemoney.params.moneytype.help') }, { name = Lang:t('command.givemoney.params.amount.name'), help = Lang:t('command.givemoney.params.amount.help') } }, true, function(source, args)
-    local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
+    local Player = QBCore.Functions.GetPlayerByPlayerId(tonumber(args[1]))
     if Player then
         Player.Functions.AddMoney(tostring(args[2]), tonumber(args[3]), 'Admin give money')
     else
@@ -229,7 +229,7 @@ QBCore.Commands.Add('givemoney', Lang:t('command.givemoney.help'), { { name = La
 end, 'admin')
 
 QBCore.Commands.Add('setmoney', Lang:t('command.setmoney.help'), { { name = Lang:t('command.setmoney.params.id.name'), help = Lang:t('command.setmoney.params.id.help') }, { name = Lang:t('command.setmoney.params.moneytype.name'), help = Lang:t('command.setmoney.params.moneytype.help') }, { name = Lang:t('command.setmoney.params.amount.name'), help = Lang:t('command.setmoney.params.amount.help') } }, true, function(source, args)
-    local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
+    local Player = QBCore.Functions.GetPlayerByPlayerId(tonumber(args[1]))
     if Player then
         Player.Functions.SetMoney(tostring(args[2]), tonumber(args[3]))
     else
@@ -245,7 +245,7 @@ QBCore.Commands.Add('job', Lang:t('command.job.help'), {}, false, function(sourc
 end, 'user')
 
 QBCore.Commands.Add('setjob', Lang:t('command.setjob.help'), { { name = Lang:t('command.setjob.params.id.name'), help = Lang:t('command.setjob.params.id.help') }, { name = Lang:t('command.setjob.params.job.name'), help = Lang:t('command.setjob.params.job.help') }, { name = Lang:t('command.setjob.params.grade.name'), help = Lang:t('command.setjob.params.grade.help') } }, true, function(source, args)
-    local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
+    local Player = QBCore.Functions.GetPlayerByPlayerId(tonumber(args[1]))
     if Player then
         Player.Functions.SetJob(tostring(args[2]), tonumber(args[3]))
     else
@@ -261,7 +261,7 @@ QBCore.Commands.Add('gang', Lang:t('command.gang.help'), {}, false, function(sou
 end, 'user')
 
 QBCore.Commands.Add('setgang', Lang:t('command.setgang.help'), { { name = Lang:t('command.setgang.params.id.name'), help = Lang:t('command.setgang.params.id.help') }, { name = Lang:t('command.setgang.params.gang.name'), help = Lang:t('command.setgang.params.gang.help') }, { name = Lang:t('command.setgang.params.grade.name'), help = Lang:t('command.setgang.params.grade.help') } }, true, function(source, args)
-    local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
+    local Player = QBCore.Functions.GetPlayerByPlayerId(tonumber(args[1]))
     if Player then
         Player.Functions.SetGang(tostring(args[2]), tonumber(args[3]))
     else

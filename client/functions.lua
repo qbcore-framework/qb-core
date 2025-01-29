@@ -28,6 +28,7 @@ function QBCore.Functions.TriggerCallback(name, ...)
     end
 end
 
+---@diagnostic disable-next-line: duplicate-set-field
 function QBCore.Debug(resource, obj, depth)
     TriggerServerEvent('QBCore:DebugSomething', resource, obj, depth)
 end
@@ -39,11 +40,13 @@ function QBCore.Functions.GetPlayerData(cb)
     cb(QBCore.PlayerData)
 end
 
+---@diagnostic disable-next-line: duplicate-set-field
 function QBCore.Functions.GetCoords(entity)
     local coords = GetEntityCoords(entity)
     return vector4(coords.x, coords.y, coords.z, GetEntityHeading(entity))
 end
 
+---@diagnostic disable-next-line: duplicate-set-field
 function QBCore.Functions.HasItem(items, amount)
     return exports['qb-inventory']:HasItem(items, amount)
 end
@@ -105,7 +108,7 @@ function QBCore.Functions.LookAtEntity(entity, timeout, speed)
 end
 
 -- Function to run an animation
---- @param animDic string: The name of the animation dictionary
+--- @param animDict string: The name of the animation dictionary
 --- @param animName string - The name of the animation within the dictionary
 --- @param duration number - The duration of the animation in milliseconds. -1 will play the animation indefinitely
 --- @param upperbodyOnly boolean - If true, the animation will only affect the upper body of the ped
@@ -167,7 +170,7 @@ function QBCore.Functions.IsWearingGloves()
 end
 
 -- NUI Calls
-
+---@diagnostic disable-next-line: duplicate-set-field
 function QBCore.Functions.Notify(text, texttype, length, icon)
     local message = {
         action = 'notify',
@@ -224,6 +227,7 @@ function QBCore.Functions.GetObjects()
     return GetGamePool('CObject')
 end
 
+---@diagnostic disable-next-line: duplicate-set-field
 function QBCore.Functions.GetPlayers()
     return GetActivePlayers()
 end
@@ -248,6 +252,7 @@ function QBCore.Functions.GetPlayersFromCoords(coords, distance)
     return closePlayers
 end
 
+---@diagnostic disable-next-line: duplicate-set-field
 function QBCore.Functions.GetClosestPlayer(coords)
     local ped = PlayerPedId()
     if coords then
@@ -288,6 +293,7 @@ function QBCore.Functions.GetPeds(ignoreList)
     return peds
 end
 
+---@diagnostic disable-next-line: duplicate-set-field
 function QBCore.Functions.GetClosestPed(coords, ignoreList)
     local ped = PlayerPedId()
     if coords then
@@ -311,6 +317,7 @@ function QBCore.Functions.GetClosestPed(coords, ignoreList)
     return closestPed, closestDistance
 end
 
+---@diagnostic disable-next-line: duplicate-set-field
 function QBCore.Functions.GetClosestVehicle(coords)
     local ped = PlayerPedId()
     local vehicles = GetGamePool('CVehicle')
@@ -333,6 +340,7 @@ function QBCore.Functions.GetClosestVehicle(coords)
     return closestVehicle, closestDistance
 end
 
+---@diagnostic disable-next-line: duplicate-set-field
 function QBCore.Functions.GetClosestObject(coords)
     local ped = PlayerPedId()
     local objects = GetGamePool('CObject')
@@ -364,6 +372,7 @@ function QBCore.Functions.LoadModel(model)
     end
 end
 
+---@diagnostic disable-next-line: duplicate-set-field
 function QBCore.Functions.SpawnVehicle(model, cb, coords, isnetworked, teleportInto)
     local ped = PlayerPedId()
     model = type(model) == 'string' and joaat(model) or model
