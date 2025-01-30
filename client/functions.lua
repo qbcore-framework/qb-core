@@ -6,14 +6,26 @@ function QBCore.Functions.CreateClientCallback(name, cb)
     QBCore.ClientCallbacks[name] = cb
 end
 
-function QBCore.Functions.TriggerClientCallback(name, cb, ...)
-    if not QBCore.ClientCallbacks[name] then return end
-    QBCore.ClientCallbacks[name](cb, ...)
-end
+function QBCore.Functions.TriggerCallback(name, ...)
+    local cb = nil
+    local args = { ... }
 
-function QBCore.Functions.TriggerCallback(name, cb, ...)
-    QBCore.ServerCallbacks[name] = cb
-    TriggerServerEvent('QBCore:Server:TriggerCallback', name, ...)
+    if QBCore.Shared.IsFunction(args[1]) then
+        cb = args[1]
+        table.remove(args, 1)
+    end
+
+    QBCore.ServerCallbacks[name] = {
+        callback = cb,
+        promise = promise.new()
+    }
+
+    TriggerServerEvent('QBCore:Server:TriggerCallback', name, table.unpack(args))
+
+    if cb == nil then
+        Citizen.Await(QBCore.ServerCallbacks[name].promise)
+        return QBCore.ServerCallbacks[name].promise.value
+    end
 end
 
 function QBCore.Debug(resource, obj, depth)
@@ -36,6 +48,13 @@ function QBCore.Functions.HasItem(items, amount)
     return exports['qb-inventory']:HasItem(items, amount)
 end
 
+---Returns the full character name
+---@return string
+function QBCore.Functions.GetName()
+    local charinfo = QBCore.PlayerData.charinfo
+    return charinfo.firstname .. ' ' .. charinfo.lastname
+end
+
 ---@param entity number - The entity to look at
 ---@param timeout number - The time in milliseconds before the function times out
 ---@param speed number - The speed at which the entity should turn
@@ -43,16 +62,13 @@ end
 function QBCore.Functions.LookAtEntity(entity, timeout, speed)
     local involved = GetInvokingResource()
     if not DoesEntityExist(entity) then
-        turnPromise:reject(involved .. ' :^1  Entity does not exist')
-        return turnPromise.value
+        return involved .. ' :^1  Entity does not exist'
     end
-    if not type(entity) == 'number' then
-        turnPromise:reject(involved .. ' :^1  Entity must be a number')
-        return turnPromise.value
+    if type(entity) ~= 'number' then
+        return involved .. ' :^1  Entity must be a number'
     end
-    if not type(speed) == 'number' then
-        turnPromise:reject(involved .. ' :^1  Speed must be a number')
-        return turnPromise.value
+    if type(speed) ~= 'number' then
+        return involved .. ' :^1  Speed must be a number'
     end
     if speed > 5.0 then speed = 5.0 end
     if timeout > 5000 then timeout = 5000 end
@@ -62,7 +78,7 @@ function QBCore.Functions.LookAtEntity(entity, timeout, speed)
     local dx = targetPos.x - playerPos.x
     local dy = targetPos.y - playerPos.y
     local targetHeading = GetHeadingFromVector_2d(dx, dy)
-    local turnSpeed = speed
+    local turnSpeed
     local startTimeout = GetGameTimer()
     while true do
         local currentHeading = GetEntityHeading(ped)
@@ -569,7 +585,7 @@ function QBCore.Functions.SetVehicleProperties(vehicle, props)
             SetVehicleEngineHealth(vehicle, props.engineHealth + 0.0)
         end
         if props.tankHealth then
-            SetVehiclePetrolTankHealth(vehicle, props.tankHealth)
+            SetVehiclePetrolTankHealth(vehicle, props.tankHealth + 0.0)
         end
         if props.fuelLevel then
             SetVehicleFuelLevel(vehicle, props.fuelLevel + 0.0)
@@ -578,7 +594,7 @@ function QBCore.Functions.SetVehicleProperties(vehicle, props)
             SetVehicleDirtLevel(vehicle, props.dirtLevel + 0.0)
         end
         if props.oilLevel then
-            SetVehicleOilLevel(vehicle, props.oilLevel)
+            SetVehicleOilLevel(vehicle, props.oilLevel + 0.0)
         end
         if props.color1 then
             if type(props.color1) == 'number' then
@@ -1078,3 +1094,12 @@ function QBCore.Functions.GetGroundHash(entity)
     local retval, success, endCoords, surfaceNormal, materialHash, entityHit = GetShapeTestResultEx(num)
     return materialHash, entityHit, surfaceNormal, endCoords, success, retval
 end
+
+for functionName, func in pairs(QBCore.Functions) do
+    if type(func) == 'function' then
+        exports(functionName, func)
+    end
+end
+
+-- Access a specific function directly:
+-- exports['qb-core']:Notify('Hello Player!')

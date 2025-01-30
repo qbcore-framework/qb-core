@@ -253,6 +253,11 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         return QBCore.Functions.HasItem(self.PlayerData.source, items, amount)
     end
 
+    function self.Functions.GetName()
+        local charinfo = self.PlayerData.charinfo
+        return charinfo.firstname .. ' ' .. charinfo.lastname
+    end
+
     function self.Functions.SetJobDuty(onDuty)
         self.PlayerData.job.onduty = not not onDuty
         TriggerEvent('QBCore:Server:OnJobUpdate', self.PlayerData.source, self.PlayerData.job)
@@ -341,6 +346,7 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
                 end
             end
         end
+        if self.PlayerData.money[moneytype] - amount < QBCore.Config.Money.MinusLimit then return false end
         self.PlayerData.money[moneytype] = self.PlayerData.money[moneytype] - amount
 
         if not self.Offline then
