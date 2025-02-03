@@ -358,22 +358,6 @@ function QBCore.Functions.GetDutyCount(jobstring, istype)
     return GlobalState.dutyInfo[istype and 'type_'..jobstring or jobstring] or 0
 end
 
---- Recalculate the duty info for all players
---- @param exclude number?
-function QBCore.Functions.CalculateDutyInfo(exclude)
-    if exclude then exlude = tonumber(exclude) end
-    if not GlobalState.dutyInfo then GlobalState.dutyInfo = {} end
-    local dutyInfo = {}
-    for _, Player in pairs(QBCore.Players) do
-        if exclude and exlude == Player.PlayerData.source then goto continue end
-        local job = Player.PlayerData.job
-        dutyInfo[job.name] = (dutyInfo[job.name] or 0) + (job.onduty and 1 or 0)
-        if job.type and job.type ~= 'none' then dutyInfo['type_'..job.type] = (dutyInfo['type_'..job.type] or 0) + (job.onduty and 1 or 0) end
-        GlobalState:set('dutyInfo', dutyInfo, true)
-        ::continue::
-    end
-end
-
 -- Vehicle
 
 function QBCore.Functions.LoadModel(model)
