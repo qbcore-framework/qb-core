@@ -45,8 +45,8 @@ end
 ---@param source any
 ---@return table
 function QBCore.Functions.GetPlayer(source)
-    if type(source) == 'number' then
-        return QBCore.Players[source]
+    if tonumber(source) ~= nil then -- If a number is a string ("1"), this will still correctly identify the index to use.
+        return QBCore.Players[tonumber(source)]
     else
         return QBCore.Players[QBCore.Functions.GetSource(source)]
     end
