@@ -262,6 +262,22 @@ RegisterNetEvent('QBCore:CallCommand', function(command, args)
     end
 end)
 
+RegisterNetEvent('QBCore:Server:OnPlayerUnload', function (source)
+    QBCore.Functions.CalculateDutyInfo(source)
+end)
+
+RegisterNetEvent('QBCore:Server:PlayerLoaded', function ()
+    QBCore.Functions.CalculateDutyInfo()
+end)
+
+RegisterNetEvent('QBCore:Server:OnJobUpdate', function ()
+    QBCore.Functions.CalculateDutyInfo()
+end)
+
+RegisterNetEvent('QBCore:Server:PlayerDropped', function (Player)
+    QBCore.Functions.CalculateDutyInfo(Player.PlayerData.source)
+end)
+
 -- Use this for player vehicle spawning
 -- Vehicle server-side spawning callback (netId)
 -- use the netid on the client with the NetworkGetEntityFromNetworkId native
@@ -283,7 +299,3 @@ end)
 --QBCore.Functions.CreateCallback('QBCore:HasItem', function(source, cb, items, amount)
 -- https://github.com/qbcore-framework/qb-inventory/blob/e4ef156d93dd1727234d388c3f25110c350b3bcf/server/main.lua#L2066
 --end)
-
-QBCore.Functions.CreateCallback('QBCore:Server:GetDutyCount', function(_, cb, jobstring, isType)
-    cb(QBCore.Functions.GetDutyCount(jobstring, isType))
-end)
