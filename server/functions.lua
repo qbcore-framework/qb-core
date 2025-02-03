@@ -150,20 +150,30 @@ function QBCore.Functions.GetPlayersOnDuty(job)
     return players, count
 end
 
----Returns only the amount of players on duty for the specified job
----@param job string
+---Returns only the amount of players on duty for the specified job or job type
+---@param jobstring string
+---@param istype? boolean
 ---@return number
-function QBCore.Functions.GetDutyCount(job)
-    local count = 0
-    for _, Player in pairs(QBCore.Players) do
-        if Player.PlayerData.job.name == job then
-            if Player.PlayerData.job.onduty then
-                count += 1
-            end
-        end
-    end
-    return count
+function QBCore.Functions.GetDutyCount(jobstring, istype)
+    return GlobalState.dutyInfo[istype and 'type_'..jobstring or jobstring] or 0
 end
+
+--- Recalculate the duty info for all players
+--- @param exclude number?
+function QBCore.Functions.CalculateDutyInfo(exclude)
+    if exclude then exclude = tonumber(exclude) end
+    if not GlobalState.dutyInfo then GlobalState.dutyInfo = {} end
+    local dutyInfo = {}
+    for _, Player in pairs(QBCore.Players) do
+        if exclude and exclude == Player.PlayerData.source then goto continue end
+        local job = Player.PlayerData.job
+        dutyInfo[job.name] = (dutyInfo[job.name] or 0) + (job.onduty and 1 or 0)
+        if job.type and job.type ~= 'none' then dutyInfo['type_'..job.type] = (dutyInfo['type_'..job.type] or 0) + (job.onduty and 1 or 0) end
+        GlobalState:set('dutyInfo', dutyInfo, true)
+        ::continue::
+    end
+end
+
 
 --- @param source number source player's server ID.
 --- @param coords vector The coordinates to calculate the distance from. Can be a table with x, y, z fields or a vector3. If not provided, the source player's Ped's coordinates are used.

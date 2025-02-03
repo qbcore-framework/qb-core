@@ -262,6 +262,22 @@ RegisterNetEvent('QBCore:CallCommand', function(command, args)
     end
 end)
 
+RegisterNetEvent('QBCore:Server:OnPlayerUnload', function (source)
+    QBCore.Functions.CalculateDutyInfo(source)
+end)
+
+RegisterNetEvent('QBCore:Server:PlayerLoaded', function ()
+    QBCore.Functions.CalculateDutyInfo()
+end)
+
+RegisterNetEvent('QBCore:Server:OnJobUpdate', function ()
+    QBCore.Functions.CalculateDutyInfo()
+end)
+
+RegisterNetEvent('QBCore:Server:PlayerDropped', function (Player)
+    QBCore.Functions.CalculateDutyInfo(Player.PlayerData.source)
+end)
+
 -- Use this for player vehicle spawning
 -- Vehicle server-side spawning callback (netId)
 -- use the netid on the client with the NetworkGetEntityFromNetworkId native
