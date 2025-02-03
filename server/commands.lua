@@ -104,8 +104,9 @@ QBCore.Commands.Add('tp', Lang:t('command.tp.help'), { { name = Lang:t('command.
             local x = tonumber((args[1]:gsub(',', ''))) + .0
             local y = tonumber((args[2]:gsub(',', ''))) + .0
             local z = tonumber((args[3]:gsub(',', ''))) + .0
+            local heading = args[4] and tonumber((args[4]:gsub(',', ''))) + .0 or false
             if x ~= 0 and y ~= 0 and z ~= 0 then
-                TriggerClientEvent('QBCore:Command:TeleportToCoords', source, x, y, z)
+                TriggerClientEvent('QBCore:Command:TeleportToCoords', source, x, y, z, heading)
             else
                 TriggerClientEvent('QBCore:Notify', source, Lang:t('error.wrong_format'), 'error')
             end
