@@ -150,20 +150,22 @@ function QBCore.Functions.GetPlayersOnDuty(job)
     return players, count
 end
 
----Returns only the amount of players on duty for the specified job
+---Returns only the amount of players on duty for the specified job or job type
 ---@param jobstring string
----@param isType boolean
+---@param istype? boolean
 ---@return number
-function QBCore.Functions.GetDutyCount(jobstring, isType)
-    local count = 0
+function QBCore.Functions.GetDutyCount(jobstring, istype)
+    return GlobalState.dutyInfo[istype and 'type_'..jobstring or jobstring] or 0
+end
+
+--- Recalculate the duty info for all players
+function QBCore.Functions.CalculateDutyInfo()
+    if not GlobalState.dutyInfo then GlobalState.dutyInfo = {} end
     for _, Player in pairs(QBCore.Players) do
         local job = Player.PlayerData.job
-        local matches = isType and job.type == jobstring or job.name == jobstring
-        if matches and job.onduty then
-            count += 1
-        end
+        GlobalState.dutyInfo[job.name] = (GlobalState.dutyInfo[job.name] or 0) + (job.onduty and 1 or 0)
+        GlobalState.dutyInfo[job.type] = (GlobalState.dutyInfo[job.type] or 0) + (job.onduty and 1 or 0)
     end
-    return count
 end
 
 --- @param source number source player's server ID.
