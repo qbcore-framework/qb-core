@@ -880,14 +880,6 @@ function QBCore.Functions.DrawText3D(x, y, z, text)
     ClearDrawOrigin()
 end
 
-function QBCore.Functions.RequestAnimDict(animDict)
-    if HasAnimDictLoaded(animDict) then return end
-    RequestAnimDict(animDict)
-    while not HasAnimDictLoaded(animDict) do
-        Wait(0)
-    end
-end
-
 function QBCore.Functions.GetClosestBone(entity, list)
     local playerCoords, bone, coords, distance = GetEntityCoords(PlayerPedId())
     for _, element in pairs(list) do
@@ -964,6 +956,9 @@ function QBCore.Functions.LoadAnimDict(animDict)
         Wait(0)
     end
 end
+
+-- backward compatibility
+QBCore.Functions.RequestAnimDict = QBCore.Functions.LoadAnimDict
 
 function QBCore.Functions.LoadParticleDictionary(dictionary)
     if HasNamedPtfxAssetLoaded(dictionary) then return end
