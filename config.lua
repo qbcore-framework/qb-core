@@ -13,7 +13,6 @@ QBConfig.Money.PayCheckTimeOut = 10                                 -- The time 
 QBConfig.Money.PayCheckSociety = false                              -- If true paycheck will come from the society account that the player is employed at, requires qb-management
 
 QBConfig.Player = {}
-QBConfig.Player.SaveHealth = true -- Save player health on respawn.
 QBConfig.Player.SaveArmor = true -- Save player armor on respawn.
 QBConfig.Player.HungerRate = 4.2 -- Rate at which hunger goes down.
 QBConfig.Player.ThirstRate = 3.8 -- Rate at which thirst goes down.
@@ -69,7 +68,6 @@ QBConfig.Player.PlayerDefaults = {
         isdead = false,
         inlaststand = false,
         armor = 0,
-        health = 200,
         ishandcuffed = false,
         tracker = false,
         injail = 0,

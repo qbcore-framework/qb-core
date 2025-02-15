@@ -10,17 +10,13 @@ RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     NetworkSetFriendlyFireOption(true)
 
     CreateThread(function ()
-        Wait(4000) -- Wait for the player to load in properly
+        Wait(3000) -- Wait for the player to load in properly
         local player = PlayerId()
         SetEntityMaxHealth(pid, 200)
         SetPlayerHealthRechargeMultiplier(player, 0.0)
         SetPlayerHealthRechargeLimit(player, 0.0)
         if QBConfig.Player.SaveArmor then
             SetPedArmour(pid, QBCore.PlayerData.metadata['armor'])
-        end
-
-        if QBConfig.Player.SaveHealth then
-            SetEntityHealth(pid, QBCore.PlayerData.metadata['health'])
         end
     end)
 end)

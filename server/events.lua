@@ -16,11 +16,6 @@ AddEventHandler('playerDropped', function(reason)
 
     local ped = GetPlayerPed(src)
 
-    if QBConfig.Player.SaveHealth and ped then
-        local health = GetEntityHealth(ped)
-        Player.Functions.SetMetaData('health', health)
-    end
-
     if QBConfig.Player.SaveArmor and ped then
         local armour = GetPedArmour(ped)
         Player.Functions.SetMetaData('armor', armour)
@@ -176,11 +171,6 @@ RegisterNetEvent('QBCore:UpdatePlayer', function()
     end
     Player.Functions.SetMetaData('thirst', newThirst)
     Player.Functions.SetMetaData('hunger', newHunger)
-
-    if QBConfig.Player.SaveHealth and ped then
-        local health = GetEntityHealth(ped)
-        Player.Functions.SetMetaData('health', health)
-    end
 
     if QBConfig.Player.SaveArmor and ped then
         local armour = GetPedArmour(ped)
