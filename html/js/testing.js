@@ -1,4 +1,7 @@
-// Will register dev utilities on window
+/**
+ * Will register dev utilities on window
+ * @returns {void}
+ */
 export const registerWindowMethods = () => {
   window.SendNotification = (data) => {
     window.dispatchEvent(

@@ -6,6 +6,12 @@ QBCore.Player = {}
 -- Will cause major issues!
 
 local resourceName = GetCurrentResourceName()
+
+--- Logs in a player
+--- @param source number | string
+--- @param citizenid string
+--- @param newData table
+--- @return boolean
 function QBCore.Player.Login(source, citizenid, newData)
     if source and source ~= '' then
         if citizenid then
@@ -20,7 +26,7 @@ function QBCore.Player.Login(source, citizenid, newData)
                 PlayerData.charinfo = json.decode(PlayerData.charinfo)
                 QBCore.Player.CheckPlayerData(source, PlayerData)
             else
-                DropPlayer(source, Lang:t('info.exploit_dropped'))
+                DropPlayer(tostring(source), Lang:t('info.exploit_dropped'))
                 TriggerEvent('qb-log:server:CreateLog', 'anticheat', 'Anti-Cheat', 'white', GetPlayerName(source) .. ' Has Been Dropped For Character Joining Exploit', false)
             end
         else
@@ -33,6 +39,9 @@ function QBCore.Player.Login(source, citizenid, newData)
     end
 end
 
+--- Gets an offline character by their citizenid
+--- @param citizenid string
+--- @return table?
 function QBCore.Player.GetOfflinePlayer(citizenid)
     if citizenid then
         local PlayerData = MySQL.prepare.await('SELECT * FROM players where citizenid = ?', { citizenid })
@@ -49,6 +58,9 @@ function QBCore.Player.GetOfflinePlayer(citizenid)
     return nil
 end
 
+--- Gets a character by their license
+--- @param license string
+--- @return table?
 function QBCore.Player.GetPlayerByLicense(license)
     if license then
         local source = QBCore.Functions.GetSource(license)
@@ -61,6 +73,9 @@ function QBCore.Player.GetPlayerByLicense(license)
     return nil
 end
 
+--- Gets an offline character by their license
+--- @param license string
+--- @return table?
 function QBCore.Player.GetOfflinePlayerByLicense(license)
     if license then
         local PlayerData = MySQL.prepare.await('SELECT * FROM players where license = ?', { license })
@@ -77,6 +92,9 @@ function QBCore.Player.GetOfflinePlayerByLicense(license)
     return nil
 end
 
+--- Applies the default values to player data
+--- @param playerData table
+--- @param defaults table
 local function applyDefaults(playerData, defaults)
     for key, value in pairs(defaults) do
         if type(value) == 'function' then
@@ -90,6 +108,9 @@ local function applyDefaults(playerData, defaults)
     end
 end
 
+--- Checks the player data and applies defaults
+--- @param source? number
+--- @param PlayerData table
 function QBCore.Player.CheckPlayerData(source, PlayerData)
     PlayerData = PlayerData or {}
     local Offline = not source
@@ -155,6 +176,8 @@ end
 
 -- On player logout
 
+--- Logs out a player
+--- @param source number | string
 function QBCore.Player.Logout(source)
     TriggerClientEvent('QBCore:Client:OnPlayerUnload', source)
     TriggerEvent('QBCore:Server:OnPlayerUnload', source)
@@ -167,18 +190,26 @@ end
 -- Don't touch any of this unless you know what you are doing
 -- Will cause major issues!
 
+--- Creates a new player
+--- @param PlayerData table
+--- @param Offline boolean
 function QBCore.Player.CreatePlayer(PlayerData, Offline)
     local self = {}
     self.Functions = {}
     self.PlayerData = PlayerData
     self.Offline = Offline
 
+    --- Updates the player data
     function self.Functions.UpdatePlayerData()
         if self.Offline then return end
         TriggerEvent('QBCore:Player:SetPlayerData', self.PlayerData)
         TriggerClientEvent('QBCore:Player:SetPlayerData', self.PlayerData.source, self.PlayerData)
     end
 
+    --- Sets the player's job
+    --- @param job string
+    --- @param grade string
+    --- @return boolean
     function self.Functions.SetJob(job, grade)
         job = job:lower()
         grade = grade or '0'
@@ -214,6 +245,10 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         return true
     end
 
+    --- Sets the player's gang
+    --- @param gang string
+    --- @param grade string
+    --- @return boolean
     function self.Functions.SetGang(gang, grade)
         gang = gang:lower()
         grade = grade or '0'
@@ -245,32 +280,50 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         return true
     end
 
+    --- Notifies the player
+    --- @param text string
+    --- @param type? string
+    --- @param length? number
     function self.Functions.Notify(text, type, length)
         TriggerClientEvent('QBCore:Notify', self.PlayerData.source, text, type, length)
     end
 
+    --- Returns whether the player has an item or items
+    --- @param items string | string[]
+    --- @param amount number
+    --- @return boolean
     function self.Functions.HasItem(items, amount)
         return QBCore.Functions.HasItem(self.PlayerData.source, items, amount)
     end
 
+    --- Returns the player's full name
+    --- @return string
     function self.Functions.GetName()
         local charinfo = self.PlayerData.charinfo
         return charinfo.firstname .. ' ' .. charinfo.lastname
     end
 
+    --- Set the player's job duty
+    --- @param onDuty boolean
     function self.Functions.SetJobDuty(onDuty)
-        self.PlayerData.job.onduty = not not onDuty
+        self.PlayerData.job.onduty = onDuty
         TriggerEvent('QBCore:Server:OnJobUpdate', self.PlayerData.source, self.PlayerData.job)
         TriggerClientEvent('QBCore:Client:OnJobUpdate', self.PlayerData.source, self.PlayerData.job)
         self.Functions.UpdatePlayerData()
     end
 
+    --- Sets a field in the player's data
+    --- @param key string
+    --- @param val any
     function self.Functions.SetPlayerData(key, val)
         if not key or type(key) ~= 'string' then return end
         self.PlayerData[key] = val
         self.Functions.UpdatePlayerData()
     end
 
+    --- Sets a metadata field in the player's data
+    --- @param meta string
+    --- @param val any
     function self.Functions.SetMetaData(meta, val)
         if not meta or type(meta) ~= 'string' then return end
         if meta == 'hunger' or meta == 'thirst' then
@@ -280,11 +333,17 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         self.Functions.UpdatePlayerData()
     end
 
+    --- Gets a metadata field from the player's data
+    --- @param meta string
+    --- @return any
     function self.Functions.GetMetaData(meta)
         if not meta or type(meta) ~= 'string' then return end
         return self.PlayerData.metadata[meta]
     end
 
+    --- Add rep points to the player
+    --- @param rep string
+    --- @param amount number
     function self.Functions.AddRep(rep, amount)
         if not rep or not amount then return end
         local addAmount = tonumber(amount)
@@ -293,6 +352,9 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         self.Functions.UpdatePlayerData()
     end
 
+    --- Remove rep points from the player
+    --- @param rep string
+    --- @param amount number
     function self.Functions.RemoveRep(rep, amount)
         if not rep or not amount then return end
         local removeAmount = tonumber(amount)
@@ -305,16 +367,23 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         self.Functions.UpdatePlayerData()
     end
 
+    --- Get rep points from the player
+    --- @param rep string
     function self.Functions.GetRep(rep)
         if not rep then return end
         return self.PlayerData.metadata['rep'][rep] or 0
     end
 
+    --- Add money to the player
+    --- @param moneytype string
+    --- @param amount number
+    --- @param reason? string
+    --- @return boolean
     function self.Functions.AddMoney(moneytype, amount, reason)
         reason = reason or 'unknown'
         moneytype = moneytype:lower()
-        amount = tonumber(amount)
-        if amount < 0 then return end
+        amount = tonumber(amount) or 0
+        if amount < 0 then return false end
         if not self.PlayerData.money[moneytype] then return false end
         self.PlayerData.money[moneytype] = self.PlayerData.money[moneytype] + amount
 
@@ -333,11 +402,16 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         return true
     end
 
+    --- Remove money from the player
+    --- @param moneytype string
+    --- @param amount number
+    --- @param reason? string
+    --- @return boolean
     function self.Functions.RemoveMoney(moneytype, amount, reason)
         reason = reason or 'unknown'
         moneytype = moneytype:lower()
-        amount = tonumber(amount)
-        if amount < 0 then return end
+        amount = tonumber(amount) or 0
+        if amount < 0 then return false end
         if not self.PlayerData.money[moneytype] then return false end
         for _, mtype in pairs(QBCore.Config.Money.DontAllowMinus) do
             if mtype == moneytype then
@@ -367,10 +441,15 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         return true
     end
 
+    --- Set money for the player
+    --- @param moneytype string
+    --- @param amount number
+    --- @param reason? string
+    --- @return boolean
     function self.Functions.SetMoney(moneytype, amount, reason)
         reason = reason or 'unknown'
         moneytype = moneytype:lower()
-        amount = tonumber(amount)
+        amount = tonumber(amount) or 0
         if amount < 0 then return false end
         if not self.PlayerData.money[moneytype] then return false end
         local difference = amount - self.PlayerData.money[moneytype]
@@ -387,12 +466,15 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         return true
     end
 
+    --- Get the of the player
+    --- @param moneytype string
     function self.Functions.GetMoney(moneytype)
         if not moneytype then return false end
         moneytype = moneytype:lower()
         return self.PlayerData.money[moneytype]
     end
 
+    --- Saves the player
     function self.Functions.Save()
         if self.Offline then
             QBCore.Player.SaveOffline(self.PlayerData)
@@ -401,15 +483,18 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         end
     end
 
+    --- Logs out the player
     function self.Functions.Logout()
         if self.Offline then return end
         QBCore.Player.Logout(self.PlayerData.source)
     end
 
+    --- Adds a method to the player class
     function self.Functions.AddMethod(methodName, handler)
         self.Functions[methodName] = handler
     end
 
+    --- Adds a field to the player class
     function self.Functions.AddField(fieldName, data)
         self[fieldName] = data
     end
@@ -434,6 +519,10 @@ end
     end)
 ]]
 
+--- Adds a new method to the player class
+--- @param ids number | number[]
+--- @param methodName string
+--- @param handler function
 function QBCore.Functions.AddPlayerMethod(ids, methodName, handler)
     local idType = type(ids)
     if idType == 'number' then
@@ -461,6 +550,10 @@ end
     end)
 ]]
 
+--- Adds a new field to the player class
+--- @param ids number | number[]
+--- @param fieldName string
+--- @param data any
 function QBCore.Functions.AddPlayerField(ids, fieldName, data)
     local idType = type(ids)
     if idType == 'number' then
@@ -482,6 +575,8 @@ end
 
 -- Save player info to database (make sure citizenid is the primary key in your database)
 
+--- Saves the player
+--- @param source number | string
 function QBCore.Player.Save(source)
     local ped = GetPlayerPed(source)
     local pcoords = GetEntityCoords(ped)
@@ -506,6 +601,8 @@ function QBCore.Player.Save(source)
     end
 end
 
+--- Saves an offline player
+--- @param PlayerData table
 function QBCore.Player.SaveOffline(PlayerData)
     if PlayerData then
         MySQL.insert('INSERT INTO players (citizenid, cid, license, name, money, charinfo, job, gang, position, metadata) VALUES (:citizenid, :cid, :license, :name, :money, :charinfo, :job, :gang, :position, :metadata) ON DUPLICATE KEY UPDATE cid = :cid, name = :name, money = :money, charinfo = :charinfo, job = :job, gang = :gang, position = :position, metadata = :metadata', {
@@ -544,6 +641,9 @@ local playertables = { -- Add tables as needed
     { table = 'player_vehicles' }
 }
 
+--- Deletes a character
+--- @param source number | string
+--- @param citizenid string
 function QBCore.Player.DeleteCharacter(source, citizenid)
     local license = QBCore.Functions.GetIdentifier(source, 'license')
     local result = MySQL.scalar.await('SELECT license FROM players where citizenid = ?', { citizenid })
@@ -568,6 +668,8 @@ function QBCore.Player.DeleteCharacter(source, citizenid)
     end
 end
 
+--- Force deletes a character
+--- @param citizenid string
 function QBCore.Player.ForceDeleteCharacter(citizenid)
     local result = MySQL.scalar.await('SELECT license FROM players where citizenid = ?', { citizenid })
     if result then
@@ -594,26 +696,43 @@ end
 
 -- Inventory Backwards Compatibility
 
+--- Saves the player's inventory
+--- @param source number | string
+--- @deprecated
 function QBCore.Player.SaveInventory(source)
     if GetResourceState('qb-inventory') == 'missing' then return end
     exports['qb-inventory']:SaveInventory(source, false)
 end
 
+--- Saves the player's offline inventory
+--- @param PlayerData table
+--- @deprecated
 function QBCore.Player.SaveOfflineInventory(PlayerData)
     if GetResourceState('qb-inventory') == 'missing' then return end
     exports['qb-inventory']:SaveInventory(PlayerData, true)
 end
 
+--- Gets the current total weight of some items
+--- @param items table
+--- @return number?
 function QBCore.Player.GetTotalWeight(items)
     if GetResourceState('qb-inventory') == 'missing' then return end
     return exports['qb-inventory']:GetTotalWeight(items)
 end
 
+--- Gets all the slots of an item
+--- @param items table
+--- @param itemName string
+--- @return number[]?
 function QBCore.Player.GetSlotsByItem(items, itemName)
     if GetResourceState('qb-inventory') == 'missing' then return end
     return exports['qb-inventory']:GetSlotsByItem(items, itemName)
 end
 
+--- Gets the first slot of an item
+--- @param items table
+--- @param itemName string
+--- @return number?
 function QBCore.Player.GetFirstSlotByItem(items, itemName)
     if GetResourceState('qb-inventory') == 'missing' then return end
     return exports['qb-inventory']:GetFirstSlotByItem(items, itemName)
@@ -621,6 +740,8 @@ end
 
 -- Util Functions
 
+--- Generates a random citizenid
+--- @return string
 function QBCore.Player.CreateCitizenId()
     local CitizenId = tostring(QBCore.Shared.RandomStr(3) .. QBCore.Shared.RandomInt(5)):upper()
     local result = MySQL.prepare.await('SELECT EXISTS(SELECT 1 FROM players WHERE citizenid = ?) AS uniqueCheck', { CitizenId })
@@ -628,6 +749,8 @@ function QBCore.Player.CreateCitizenId()
     return QBCore.Player.CreateCitizenId()
 end
 
+--- Generates a random account number
+--- @return string
 function QBCore.Functions.CreateAccountNumber()
     local AccountNumber = 'US0' .. math.random(1, 9) .. 'QBCore' .. math.random(1111, 9999) .. math.random(1111, 9999) .. math.random(11, 99)
     local result = MySQL.prepare.await('SELECT EXISTS(SELECT 1 FROM players WHERE JSON_UNQUOTE(JSON_EXTRACT(charinfo, "$.account")) = ?) AS uniqueCheck', { AccountNumber })
@@ -635,6 +758,8 @@ function QBCore.Functions.CreateAccountNumber()
     return QBCore.Functions.CreateAccountNumber()
 end
 
+--- Generates a random phone number
+--- @return string
 function QBCore.Functions.CreatePhoneNumber()
     local PhoneNumber = math.random(100, 999) .. math.random(1000000, 9999999)
     local result = MySQL.prepare.await('SELECT EXISTS(SELECT 1 FROM players WHERE JSON_UNQUOTE(JSON_EXTRACT(charinfo, "$.phone")) = ?) AS uniqueCheck', { PhoneNumber })
@@ -642,6 +767,8 @@ function QBCore.Functions.CreatePhoneNumber()
     return QBCore.Functions.CreatePhoneNumber()
 end
 
+--- Generates a random fingerprint
+--- @return string
 function QBCore.Player.CreateFingerId()
     local FingerId = tostring(QBCore.Shared.RandomStr(2) .. QBCore.Shared.RandomInt(3) .. QBCore.Shared.RandomStr(1) .. QBCore.Shared.RandomInt(2) .. QBCore.Shared.RandomStr(3) .. QBCore.Shared.RandomInt(4))
     local result = MySQL.prepare.await('SELECT EXISTS(SELECT 1 FROM players WHERE JSON_UNQUOTE(JSON_EXTRACT(metadata, "$.fingerprint")) = ?) AS uniqueCheck', { FingerId })
@@ -649,6 +776,8 @@ function QBCore.Player.CreateFingerId()
     return QBCore.Player.CreateFingerId()
 end
 
+--- Generates a random wallet id
+--- @return string
 function QBCore.Player.CreateWalletId()
     local WalletId = 'QB-' .. math.random(11111111, 99999999)
     local result = MySQL.prepare.await('SELECT EXISTS(SELECT 1 FROM players WHERE JSON_UNQUOTE(JSON_EXTRACT(metadata, "$.walletid")) = ?) AS uniqueCheck', { WalletId })
@@ -656,6 +785,8 @@ function QBCore.Player.CreateWalletId()
     return QBCore.Player.CreateWalletId()
 end
 
+--- Generates a random serial number
+--- @return number
 function QBCore.Player.CreateSerialNumber()
     local SerialNumber = math.random(11111111, 99999999)
     local result = MySQL.prepare.await('SELECT EXISTS(SELECT 1 FROM players WHERE JSON_UNQUOTE(JSON_EXTRACT(metadata, "$.phonedata.SerialNumber")) = ?) AS uniqueCheck', { SerialNumber })

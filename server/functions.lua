@@ -167,7 +167,7 @@ end
 
 --- @param source number source player's server ID.
 --- @param coords vector The coordinates to calculate the distance from. Can be a table with x, y, z fields or a vector3. If not provided, the source player's Ped's coordinates are used.
---- @return string closestPlayer - The Player that is closest to the source player (or the provided coordinates). Returns -1 if no Players are found.
+--- @return number closestPlayer - The Player that is closest to the source player (or the provided coordinates). Returns -1 if no Players are found.
 --- @return number closestDistance - The distance to the closest Player. Returns -1 if no Players are found.
 function QBCore.Functions.GetClosestPlayer(source, coords)
     local ped = GetPlayerPed(source)
@@ -176,7 +176,7 @@ function QBCore.Functions.GetClosestPlayer(source, coords)
     if coords then coords = type(coords) == 'table' and vector3(coords.x, coords.y, coords.z) or coords end
     if not coords then coords = GetEntityCoords(ped) end
     for i = 1, #players do
-        local playerId = players[i]
+        local playerId = tonumber(players[i]) or 0
         local playerPed = GetPlayerPed(playerId)
         if playerPed ~= ped then
             local playerCoords = GetEntityCoords(playerPed)
@@ -268,15 +268,14 @@ end
 ---@param bucket any
 ---@return boolean
 function QBCore.Functions.SetPlayerBucket(source, bucket)
-    if source and bucket then
-        local plicense = QBCore.Functions.GetIdentifier(source, 'license')
-        Player(source).state:set('instance', bucket, true)
-        SetPlayerRoutingBucket(source, bucket)
-        QBCore.Player_Buckets[plicense] = { id = source, bucket = bucket }
-        return true
-    else
-        return false
-    end
+    if not source or not bucket then return false end
+    local plicense = QBCore.Functions.GetIdentifier(source, 'license')
+    if not plicense then return false end
+
+    Player(source).state:set('instance', bucket, true)
+    SetPlayerRoutingBucket(source, bucket)
+    QBCore.Player_Buckets[plicense] = { id = source, bucket = bucket }
+    return true
 end
 
 ---Will set any entity into the provided bucket, for example peds / vehicles / props / etc.
@@ -284,13 +283,11 @@ end
 ---@param bucket number
 ---@return boolean
 function QBCore.Functions.SetEntityBucket(entity, bucket)
-    if entity and bucket then
-        SetEntityRoutingBucket(entity, bucket)
-        QBCore.Entity_Buckets[entity] = { id = entity, bucket = bucket }
-        return true
-    else
-        return false
-    end
+    if not entity or not bucket then return false end
+
+    SetEntityRoutingBucket(entity, bucket)
+    QBCore.Entity_Buckets[entity] = { id = entity, bucket = bucket }
+    return true
 end
 
 ---Will return an array of all the player ids inside the current bucket
@@ -298,16 +295,14 @@ end
 ---@return table|boolean
 function QBCore.Functions.GetPlayersInBucket(bucket)
     local curr_bucket_pool = {}
-    if QBCore.Player_Buckets and next(QBCore.Player_Buckets) then
-        for _, v in pairs(QBCore.Player_Buckets) do
-            if v.bucket == bucket then
-                curr_bucket_pool[#curr_bucket_pool + 1] = v.id
-            end
+    if not QBCore.Player_Buckets or not next(QBCore.Player_Buckets) then return false end
+
+    for _, v in pairs(QBCore.Player_Buckets) do
+        if v.bucket == bucket then
+            curr_bucket_pool[#curr_bucket_pool + 1] = v.id
         end
-        return curr_bucket_pool
-    else
-        return false
     end
+    return curr_bucket_pool
 end
 
 ---Will return an array of all the entities inside the current bucket
@@ -316,16 +311,14 @@ end
 ---@return table|boolean
 function QBCore.Functions.GetEntitiesInBucket(bucket)
     local curr_bucket_pool = {}
-    if QBCore.Entity_Buckets and next(QBCore.Entity_Buckets) then
-        for _, v in pairs(QBCore.Entity_Buckets) do
-            if v.bucket == bucket then
-                curr_bucket_pool[#curr_bucket_pool + 1] = v.id
-            end
+    if not QBCore.Entity_Buckets or not next(QBCore.Entity_Buckets) then return false end
+
+    for _, v in pairs(QBCore.Entity_Buckets) do
+        if v.bucket == bucket then
+            curr_bucket_pool[#curr_bucket_pool + 1] = v.id
         end
-        return curr_bucket_pool
-    else
-        return false
     end
+    return curr_bucket_pool
 end
 
 ---Server side vehicle creation with optional callback
@@ -343,7 +336,7 @@ function QBCore.Functions.SpawnVehicle(source, model, coords, warp)
     local veh = CreateVehicle(model, coords.x, coords.y, coords.z, heading, true, true)
     while not DoesEntityExist(veh) do Wait(0) end
     if warp then
-        while GetVehiclePedIsIn(ped) ~= veh do
+        while GetVehiclePedIsIn(ped, false) ~= veh do
             Wait(0)
             TaskWarpPedIntoVehicle(ped, veh, -1)
         end
@@ -365,7 +358,8 @@ function QBCore.Functions.CreateAutomobile(source, model, coords, warp)
     model = type(model) == 'string' and joaat(model) or model
     if not coords then coords = GetEntityCoords(GetPlayerPed(source)) end
     local heading = coords.w and coords.w or 0.0
-    local CreateAutomobile = `CREATE_AUTOMOBILE`
+    local CreateAutomobile = tonumber(`CREATE_AUTOMOBILE`)
+    if not CreateAutomobile then return -1 end
     local veh = Citizen.InvokeNative(CreateAutomobile, model, coords, heading, true, true)
     while not DoesEntityExist(veh) do Wait(0) end
     if warp then TaskWarpPedIntoVehicle(GetPlayerPed(source), veh, -1) end
@@ -373,14 +367,13 @@ function QBCore.Functions.CreateAutomobile(source, model, coords, warp)
 end
 
 --- New & more reliable server side native for creating vehicles
----comment
 ---@param source any
 ---@param model any
 ---@param vehtype any
 -- The appropriate vehicle type for the model info.
 -- Can be one of automobile, bike, boat, heli, plane, submarine, trailer, and (potentially), train.
 -- This should be the same type as the type field in vehicles.meta.
----@param coords vector
+---@param coords vector3 | vector4
 ---@param warp boolean
 ---@return number
 function QBCore.Functions.CreateVehicle(source, model, vehtype, coords, warp)
@@ -388,12 +381,13 @@ function QBCore.Functions.CreateVehicle(source, model, vehtype, coords, warp)
     vehtype = type(vehtype) == 'string' and tostring(vehtype) or vehtype
     if not coords then coords = GetEntityCoords(GetPlayerPed(source)) end
     local heading = coords.w and coords.w or 0.0
-    local veh = CreateVehicleServerSetter(model, vehtype, coords, heading)
+    local veh = CreateVehicleServerSetter(model, vehtype, coords.x, coords.y, coords.z, heading)
     while not DoesEntityExist(veh) do Wait(0) end
     if warp then TaskWarpPedIntoVehicle(GetPlayerPed(source), veh, -1) end
     return veh
 end
 
+--- Do the paycheck interval
 function PaycheckInterval()
     if not next(QBCore.Players) then return end
     for _, Player in pairs(QBCore.Players) do
@@ -429,8 +423,7 @@ end
 ---Trigger Client Callback
 ---@param name string
 ---@param source any
----@param cb function
----@param ... any
+---@param ... any first element can be a function (optional)
 function QBCore.Functions.TriggerClientCallback(name, source, ...)
     local cb = nil
     local args = { ... }
@@ -506,8 +499,8 @@ end
 ---Kick Player
 ---@param source any
 ---@param reason string
----@param setKickReason boolean
----@param deferrals boolean
+---@param setKickReason? boolean
+---@param deferrals? boolean | table
 function QBCore.Functions.Kick(source, reason, setKickReason, deferrals)
     reason = '\n' .. reason .. '\n🔸 Check our Discord for further information: ' .. QBCore.Config.Server.Discord
     if setKickReason then
@@ -663,6 +656,7 @@ function QBCore.Functions.GetDatabaseInfo()
         details.exists = true
         return details
     else
+        ---@diagnostic disable-next-line: cast-local-type
         connectionString = { string.strsplit(';', connectionString) }
 
         for i = 1, #connectionString do
@@ -674,6 +668,7 @@ function QBCore.Functions.GetDatabaseInfo()
             end
         end
     end
+    return details
 end
 
 ---Check for duplicate license
@@ -696,7 +691,7 @@ end
 ---@param amount number
 ---@return boolean
 function QBCore.Functions.HasItem(source, items, amount)
-    if GetResourceState('qb-inventory') == 'missing' then return end
+    if GetResourceState('qb-inventory') == 'missing' then return false end
     return exports['qb-inventory']:HasItem(source, items, amount)
 end
 

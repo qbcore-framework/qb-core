@@ -1,9 +1,13 @@
+--- Hides the displayed text
 local function hideText()
     SendNUIMessage({
         action = 'HIDE_TEXT',
     })
 end
 
+--- Draws text on the screen
+--- @param text string
+--- @param position? 'left' | 'right' | 'top' default 'left'
 local function drawText(text, position)
     if type(position) ~= 'string' then position = 'left' end
 
@@ -16,6 +20,9 @@ local function drawText(text, position)
     })
 end
 
+--- Changes the text on the screen
+--- @param text string
+--- @param position? 'left' | 'right' | 'top' default 'left'
 local function changeText(text, position)
     if type(position) ~= 'string' then position = 'left' end
 
@@ -28,6 +35,7 @@ local function changeText(text, position)
     })
 end
 
+--- Displays an animation on key press and then hides the currently displayed text
 local function keyPressed()
     CreateThread(function() -- Not sure if a thread is needed but why not eh?
         SendNUIMessage({

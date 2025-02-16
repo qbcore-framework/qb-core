@@ -1,3 +1,6 @@
+--- Prints a table in a readable format to the console
+--- @param tbl table
+--- @param indent number
 local function tPrint(tbl, indent)
     indent = indent or 0
     if type(tbl) == 'table' then
