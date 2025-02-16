@@ -1037,9 +1037,7 @@ function QBCore.Functions.GetBoneDistance(entity, boneType, boneIndex)
     local bone
     if boneType == 1 then
         bone = GetPedBoneIndex(entity, tonumber(boneIndex) or 0)
-        bone = GetPedBoneIndex(entity, tonumber(boneIndex) or 0)
     else
-        bone = GetEntityBoneIndexByName(entity, tostring(boneIndex) or '')
         bone = GetEntityBoneIndexByName(entity, tostring(boneIndex) or '')
     end
     local boneCoords = GetWorldPositionOfEntityBone(entity, bone)
@@ -1063,8 +1061,6 @@ function QBCore.Functions.AttachProp(ped, model, boneId, x, y, z, xR, yR, zR, ve
     local modelHash = type(model) == 'string' and joaat(model) or model
     local bone = GetPedBoneIndex(ped, boneId)
     QBCore.Functions.LoadModel(modelHash)
-    local prop = CreateObject(modelHash, 1.0, 1.0, 1.0, true, true, false)
-    AttachEntityToEntity(prop, ped, bone, x, y, z, xR, yR, zR, true, true, false, true, not vertex and 2 or 0, true)
     local prop = CreateObject(modelHash, 1.0, 1.0, 1.0, true, true, false)
     AttachEntityToEntity(prop, ped, bone, x, y, z, xR, yR, zR, true, true, false, true, not vertex and 2 or 0, true)
     SetModelAsNoLongerNeeded(modelHash)
@@ -1137,7 +1133,6 @@ function QBCore.Functions.StartParticleAtCoord(dict, ptName, looped, coords, rot
     local particleHandle
     if looped then
         particleHandle = StartParticleFxLoopedAtCoord(ptName, coords.x, coords.y, coords.z, rot.x, rot.y, rot.z, scale or 1.0, false, false, false, false)
-        particleHandle = StartParticleFxLoopedAtCoord(ptName, coords.x, coords.y, coords.z, rot.x, rot.y, rot.z, scale or 1.0, false, false, false, false)
         if color then
             SetParticleFxLoopedColour(particleHandle, color.r, color.g, color.b, false)
         end
@@ -1145,14 +1140,12 @@ function QBCore.Functions.StartParticleAtCoord(dict, ptName, looped, coords, rot
         if duration then
             Wait(duration)
             StopParticleFxLooped(particleHandle, false)
-            StopParticleFxLooped(particleHandle, false)
         end
     else
         SetParticleFxNonLoopedAlpha(alpha or 10.0)
         if color then
             SetParticleFxNonLoopedColour(color.r, color.g, color.b)
         end
-        StartParticleFxNonLoopedAtCoord(ptName, coords.x, coords.y, coords.z, rot.x, rot.y, rot.z, scale or 1.0, false, false, false)
         StartParticleFxNonLoopedAtCoord(ptName, coords.x, coords.y, coords.z, rot.x, rot.y, rot.z, scale or 1.0, false, false, false)
     end
     return particleHandle
@@ -1170,9 +1163,7 @@ function QBCore.Functions.StartParticleOnEntity(dict, ptName, looped, entity, bo
     if looped then
         if bone then
             particleHandle = StartParticleFxLoopedOnEntityBone(ptName, entity, offset.x, offset.y, offset.z, rot.x, rot.y, rot.z, boneID, scale, false, false, false)
-            particleHandle = StartParticleFxLoopedOnEntityBone(ptName, entity, offset.x, offset.y, offset.z, rot.x, rot.y, rot.z, boneID, scale, false, false, false)
         else
-            particleHandle = StartParticleFxLoopedOnEntity(ptName, entity, offset.x, offset.y, offset.z, rot.x, rot.y, rot.z, scale, false, false, false)
             particleHandle = StartParticleFxLoopedOnEntity(ptName, entity, offset.x, offset.y, offset.z, rot.x, rot.y, rot.z, scale, false, false, false)
         end
         if evolution then
@@ -1194,9 +1185,7 @@ function QBCore.Functions.StartParticleOnEntity(dict, ptName, looped, entity, bo
         end
         if bone then
             StartParticleFxNonLoopedOnPedBone(ptName, entity, offset.x, offset.y, offset.z, rot.x, rot.y, rot.z, boneID, scale, false, false, false)
-            StartParticleFxNonLoopedOnPedBone(ptName, entity, offset.x, offset.y, offset.z, rot.x, rot.y, rot.z, boneID, scale, false, false, false)
         else
-            StartParticleFxNonLoopedOnEntity(ptName, entity, offset.x, offset.y, offset.z, rot.x, rot.y, rot.z, scale, false, false, false)
             StartParticleFxNonLoopedOnEntity(ptName, entity, offset.x, offset.y, offset.z, rot.x, rot.y, rot.z, scale, false, false, false)
         end
     end
@@ -1261,7 +1250,6 @@ end
 function QBCore.Functions.GetGroundZCoord(coords)
     if not coords then return end
 
-    local retval, groundZ = GetGroundZFor_3dCoord(coords.x, coords.y, coords.z, false)
     local retval, groundZ = GetGroundZFor_3dCoord(coords.x, coords.y, coords.z, false)
     if retval then
         return vector3(coords.x, coords.y, groundZ)
