@@ -395,9 +395,9 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
 
     function self.Functions.Save()
         if self.Offline then
-            QBCore.Player.SaveOffline(self.PlayerData)
+            return QBCore.Player.SaveOffline(self.PlayerData)
         else
-            QBCore.Player.Save(self.PlayerData.source)
+            return QBCore.Player.Save(self.PlayerData.source)
         end
     end
 
@@ -417,8 +417,8 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
     if self.Offline then
         return self
     else
+        self.PlayerData = QBCore.Player.Save(self.PlayerData.source, self.PlayerData)
         QBCore.Players[self.PlayerData.source] = self
-        QBCore.Player.Save(self.PlayerData.source)
         TriggerEvent('QBCore:Server:PlayerLoaded', self)
         self.Functions.UpdatePlayerData()
     end
@@ -481,50 +481,52 @@ function QBCore.Functions.AddPlayerField(ids, fieldName, data)
 end
 
 -- Save player info to database (make sure citizenid is the primary key in your database)
+---@param source number
+---@param PlayerData table | nil
+---@return table | nil
+function QBCore.Player.Save(source, PlayerData)
+    PlayerData = PlayerData or QBCore.Players[source].PlayerData
+    if not PlayerData then return QBCore.ShowError(resourceName, 'ERROR QBCORE.PLAYER.SAVE - PLAYERDATA IS EMPTY!') end
 
-function QBCore.Player.Save(source)
     local ped = GetPlayerPed(source)
     local pcoords = GetEntityCoords(ped)
-    local PlayerData = QBCore.Players[source].PlayerData
-    if PlayerData then
-        MySQL.insert('INSERT INTO players (citizenid, cid, license, name, money, charinfo, job, gang, position, metadata) VALUES (:citizenid, :cid, :license, :name, :money, :charinfo, :job, :gang, :position, :metadata) ON DUPLICATE KEY UPDATE cid = :cid, name = :name, money = :money, charinfo = :charinfo, job = :job, gang = :gang, position = :position, metadata = :metadata', {
-            citizenid = PlayerData.citizenid,
-            cid = tonumber(PlayerData.cid),
-            license = PlayerData.license,
-            name = PlayerData.name,
-            money = json.encode(PlayerData.money),
-            charinfo = json.encode(PlayerData.charinfo),
-            job = json.encode(PlayerData.job),
-            gang = json.encode(PlayerData.gang),
-            position = json.encode(pcoords),
-            metadata = json.encode(PlayerData.metadata)
-        })
-        if GetResourceState('qb-inventory') ~= 'missing' then exports['qb-inventory']:SaveInventory(source) end
-        QBCore.ShowSuccess(resourceName, PlayerData.name .. ' PLAYER SAVED!')
-    else
-        QBCore.ShowError(resourceName, 'ERROR QBCORE.PLAYER.SAVE - PLAYERDATA IS EMPTY!')
-    end
+    PlayerData.playerid = MySQL.insert('INSERT INTO players (citizenid, cid, license, name, money, charinfo, job, gang, position, metadata) VALUES (:citizenid, :cid, :license, :name, :money, :charinfo, :job, :gang, :position, :metadata) ON DUPLICATE KEY UPDATE cid = :cid, name = :name, money = :money, charinfo = :charinfo, job = :job, gang = :gang, position = :position, metadata = :metadata', {
+        citizenid = PlayerData.citizenid,
+        cid = tonumber(PlayerData.cid),
+        license = PlayerData.license,
+        name = PlayerData.name,
+        money = json.encode(PlayerData.money),
+        charinfo = json.encode(PlayerData.charinfo),
+        job = json.encode(PlayerData.job),
+        gang = json.encode(PlayerData.gang),
+        position = json.encode(pcoords),
+        metadata = json.encode(PlayerData.metadata)
+    })
+    if GetResourceState('qb-inventory') ~= 'missing' then exports['qb-inventory']:SaveInventory(source) end
+    QBCore.ShowSuccess(resourceName, PlayerData.name .. ' PLAYER SAVED!')
+    return PlayerData
 end
 
+---@param PlayerData table
+---@return table | nil
 function QBCore.Player.SaveOffline(PlayerData)
-    if PlayerData then
-        MySQL.insert('INSERT INTO players (citizenid, cid, license, name, money, charinfo, job, gang, position, metadata) VALUES (:citizenid, :cid, :license, :name, :money, :charinfo, :job, :gang, :position, :metadata) ON DUPLICATE KEY UPDATE cid = :cid, name = :name, money = :money, charinfo = :charinfo, job = :job, gang = :gang, position = :position, metadata = :metadata', {
-            citizenid = PlayerData.citizenid,
-            cid = tonumber(PlayerData.cid),
-            license = PlayerData.license,
-            name = PlayerData.name,
-            money = json.encode(PlayerData.money),
-            charinfo = json.encode(PlayerData.charinfo),
-            job = json.encode(PlayerData.job),
-            gang = json.encode(PlayerData.gang),
-            position = json.encode(PlayerData.position),
-            metadata = json.encode(PlayerData.metadata)
-        })
-        if GetResourceState('qb-inventory') ~= 'missing' then exports['qb-inventory']:SaveInventory(PlayerData, true) end
-        QBCore.ShowSuccess(resourceName, PlayerData.name .. ' OFFLINE PLAYER SAVED!')
-    else
-        QBCore.ShowError(resourceName, 'ERROR QBCORE.PLAYER.SAVEOFFLINE - PLAYERDATA IS EMPTY!')
-    end
+    if not PlayerData then return QBCore.ShowError(resourceName, 'ERROR QBCORE.PLAYER.SAVEOFFLINE - PLAYERDATA IS EMPTY!') end
+
+    PlayerData.playerid = MySQL.insert('INSERT INTO players (citizenid, cid, license, name, money, charinfo, job, gang, position, metadata) VALUES (:citizenid, :cid, :license, :name, :money, :charinfo, :job, :gang, :position, :metadata) ON DUPLICATE KEY UPDATE cid = :cid, name = :name, money = :money, charinfo = :charinfo, job = :job, gang = :gang, position = :position, metadata = :metadata', {
+        citizenid = PlayerData.citizenid,
+        cid = tonumber(PlayerData.cid),
+        license = PlayerData.license,
+        name = PlayerData.name,
+        money = json.encode(PlayerData.money),
+        charinfo = json.encode(PlayerData.charinfo),
+        job = json.encode(PlayerData.job),
+        gang = json.encode(PlayerData.gang),
+        position = json.encode(PlayerData.position),
+        metadata = json.encode(PlayerData.metadata)
+    })
+    if GetResourceState('qb-inventory') ~= 'missing' then exports['qb-inventory']:SaveInventory(PlayerData, true) end
+    QBCore.ShowSuccess(resourceName, PlayerData.name .. ' OFFLINE PLAYER SAVED!')
+    return PlayerData
 end
 
 -- Delete character
