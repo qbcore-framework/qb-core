@@ -13,6 +13,14 @@ AddEventHandler('playerDropped', function(reason)
     local Player = QBCore.Players[src]
     TriggerEvent('qb-log:server:CreateLog', 'joinleave', 'Dropped', 'red', '**' .. GetPlayerName(src) .. '** (' .. Player.PlayerData.license .. ') left..' .. '\n **Reason:** ' .. reason)
     TriggerEvent('QBCore:Server:PlayerDropped', Player)
+
+    local ped = GetPlayerPed(src)
+
+    if QBConfig.Player.SaveArmor and ped then
+        local armour = GetPedArmour(ped)
+        Player.Functions.SetMetaData('armor', armour)
+    end
+
     Player.Functions.Save()
     QBCore.Player_Buckets[Player.PlayerData.license] = nil
     QBCore.Players[src] = nil
@@ -151,6 +159,7 @@ end)
 RegisterNetEvent('QBCore:UpdatePlayer', function()
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
+    local ped = GetPlayerPed(src)
     if not Player then return end
     local newHunger = Player.PlayerData.metadata['hunger'] - QBCore.Config.Player.HungerRate
     local newThirst = Player.PlayerData.metadata['thirst'] - QBCore.Config.Player.ThirstRate
@@ -162,6 +171,12 @@ RegisterNetEvent('QBCore:UpdatePlayer', function()
     end
     Player.Functions.SetMetaData('thirst', newThirst)
     Player.Functions.SetMetaData('hunger', newHunger)
+
+    if QBConfig.Player.SaveArmor and ped then
+        local armour = GetPedArmour(ped)
+        Player.Functions.SetMetaData('armor', armour)
+    end
+
     TriggerClientEvent('hud:client:UpdateNeeds', src, newHunger, newThirst)
     Player.Functions.Save()
 end)
