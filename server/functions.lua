@@ -11,6 +11,7 @@ QBCore.UsableItems = {}
 ---Gets the coordinates of an entity
 ---@param entity number
 ---@return vector4
+---@diagnostic disable-next-line: duplicate-set-field
 function QBCore.Functions.GetCoords(entity)
     local coords = GetEntityCoords(entity, false)
     local heading = GetEntityHeading(entity)
@@ -19,7 +20,7 @@ end
 
 ---Gets player identifier of the given type
 ---@param source any
----@param idtype string
+---@param idtype? string
 ---@return string?
 function QBCore.Functions.GetIdentifier(source, idtype)
     if GetConvarInt('sv_fxdkMode', 0) == 1 then return 'license:fxdk' end
@@ -30,6 +31,7 @@ end
 ---@param identifier string
 ---@return number
 function QBCore.Functions.GetSource(identifier)
+    if not identifier then return 0 end
     for src, _ in pairs(QBCore.Players) do
         local idens = GetPlayerIdentifiers(src)
         for _, id in pairs(idens) do
@@ -45,6 +47,7 @@ end
 ---@param source any
 ---@return table
 function QBCore.Functions.GetPlayer(source)
+    if not source then return nil end
     if type(source) == 'number' then
         return QBCore.Players[source]
     else
@@ -56,8 +59,23 @@ end
 ---@param citizenid string
 ---@return table?
 function QBCore.Functions.GetPlayerByCitizenId(citizenid)
+    if not citizenid then return nil end
     for src in pairs(QBCore.Players) do
         if QBCore.Players[src].PlayerData.citizenid == citizenid then
+            return QBCore.Players[src]
+        end
+    end
+    return nil
+end
+
+---Get player by player id
+---@param playerid number
+---@return table?
+function QBCore.Functions.GetPlayerByPlayerId(playerid)
+    playerid = tonumber(playerid)
+    if not playerid then return nil end
+    for src in pairs(QBCore.Players) do
+        if QBCore.Players[src].PlayerData.playerid == playerid then
             return QBCore.Players[src]
         end
     end
@@ -118,6 +136,7 @@ end
 
 ---Get all players. Returns the server ids of all players.
 ---@return table
+---@diagnostic disable-next-line: duplicate-set-field
 function QBCore.Functions.GetPlayers()
     local sources = {}
     for k in pairs(QBCore.Players) do
@@ -169,6 +188,7 @@ end
 --- @param coords vector The coordinates to calculate the distance from. Can be a table with x, y, z fields or a vector3. If not provided, the source player's Ped's coordinates are used.
 --- @return string closestPlayer - The Player that is closest to the source player (or the provided coordinates). Returns -1 if no Players are found.
 --- @return number closestDistance - The distance to the closest Player. Returns -1 if no Players are found.
+---@diagnostic disable-next-line: duplicate-set-field
 function QBCore.Functions.GetClosestPlayer(source, coords)
     local ped = GetPlayerPed(source)
     local players = GetPlayers()
@@ -194,6 +214,7 @@ end
 --- @param coords vector The coordinates to calculate the distance from. Can be a table with x, y, z fields or a vector3. If not provided, the source player's Ped's coordinates are used.
 --- @return number closestObject - The Object that is closest to the source player (or the provided coordinates). Returns -1 if no Objects are found.
 --- @return number closestDistance - The distance to the closest Object. Returns -1 if no Objects are found.
+---@diagnostic disable-next-line: duplicate-set-field
 function QBCore.Functions.GetClosestObject(source, coords)
     local ped = GetPlayerPed(source)
     local objects = GetAllObjects()
@@ -215,6 +236,7 @@ end
 --- @param coords vector The coordinates to calculate the distance from. Can be a table with x, y, z fields or a vector3. If not provided, the source player's Ped's coordinates are used.
 --- @return number closestVehicle - The Vehicle that is closest to the source player (or the provided coordinates). Returns -1 if no Vehicles are found.
 --- @return number closestDistance - The distance to the closest Vehicle. Returns -1 if no Vehicles are found.
+---@diagnostic disable-next-line: duplicate-set-field
 function QBCore.Functions.GetClosestVehicle(source, coords)
     local ped = GetPlayerPed(source)
     local vehicles = GetAllVehicles()
@@ -236,6 +258,7 @@ end
 --- @param coords vector The coordinates to calculate the distance from. Can be a table with x, y, z fields or a vector3. If not provided, the source player's Ped's coordinates are used.
 --- @return number closestPed - The Ped that is closest to the source player (or the provided coordinates). Returns -1 if no Peds are found.
 --- @return number closestDistance - The distance to the closest Ped. Returns -1 if no Peds are found.
+---@diagnostic disable-next-line: duplicate-set-field
 function QBCore.Functions.GetClosestPed(source, coords)
     local ped = GetPlayerPed(source)
     local peds = GetAllPeds()
@@ -335,6 +358,7 @@ end
 ---@param coords vector
 ---@param warp boolean
 ---@return number
+---@diagnostic disable-next-line: duplicate-set-field
 function QBCore.Functions.SpawnVehicle(source, model, coords, warp)
     local ped = GetPlayerPed(source)
     model = type(model) == 'string' and joaat(model) or model
@@ -429,7 +453,6 @@ end
 ---Trigger Client Callback
 ---@param name string
 ---@param source any
----@param cb function
 ---@param ... any
 function QBCore.Functions.TriggerClientCallback(name, source, ...)
     local cb = nil
@@ -695,6 +718,7 @@ end
 ---@param items table|string
 ---@param amount number
 ---@return boolean
+---@diagnostic disable-next-line: duplicate-set-field
 function QBCore.Functions.HasItem(source, items, amount)
     if GetResourceState('qb-inventory') == 'missing' then return end
     return exports['qb-inventory']:HasItem(source, items, amount)
@@ -705,6 +729,7 @@ end
 ---@param text string
 ---@param type string
 ---@param length number
+---@diagnostic disable-next-line: duplicate-set-field
 function QBCore.Functions.Notify(source, text, type, length)
     TriggerClientEvent('QBCore:Notify', source, text, type, length)
 end
