@@ -3,6 +3,70 @@ QBCore.Player_Buckets = {}
 QBCore.Entity_Buckets = {}
 QBCore.UsableItems = {}
 
+-- Create a table with the most commons Identifier
+local playerIndices          = {
+    citizenid = {},
+    license = {},
+    phone = {},
+    account = {}
+}
+
+local function updatePlayerIdentifiers(player, oldData)
+    if oldData then
+        if oldData.citizenid then playerIndices.citizenid[oldData.citizenid] = nil end
+        if oldData.license then playerIndices.license[oldData.license] = nil end
+        if oldData.charinfo and oldData.charinfo.phone then playerIndices.phone[oldData.charinfo.phone] = nil end
+        if oldData.charinfo and oldData.charinfo.account then playerIndices.account[oldData.charinfo.account] = nil end
+    end
+
+    if player and player.PlayerData then
+        if player.PlayerData.citizenid then
+            playerIndices.citizenid[player.PlayerData.citizenid] = player.PlayerData.source
+        end
+        if player.PlayerData.license then
+            playerIndices.license[player.PlayerData.license] = player.PlayerData.source
+        end
+        if player.PlayerData.charinfo then
+            if player.PlayerData.charinfo.phone then
+                playerIndices.phone[player.PlayerData.charinfo.phone] = player.PlayerData.source
+            end
+            if player.PlayerData.charinfo.account then
+                playerIndices.account[player.PlayerData.charinfo.account] = player.PlayerData.source
+            end
+        end
+    end
+end
+
+-------------------------------------------------
+-- Hooks to get the player updated
+-----------------------------------------------------
+
+AddEventHandler('QBCore:Server:PlayerLoaded', function(player)
+    updatePlayerIdentifiers(player)
+end)
+
+-- Clean the Identifier from the table
+AddEventHandler('QBCore:Server:OnPlayerUnload', function(source)
+   local Player = QBCore.Functions.GetPlayer(source)
+   if Player then
+        local oldData = Player.PlayerData
+        if playerIndices.citizenid[oldData.citizenid] then
+            if oldData.citizenid then playerIndices.citizenid[oldData.citizenid] = nil end
+            if oldData.license then playerIndices.license[oldData.license] = nil end
+            if oldData.charinfo and oldData.charinfo.phone then playerIndices.phone[oldData.charinfo.phone] = nil end
+            if oldData.charinfo and oldData.charinfo.account then playerIndices.account[oldData.charinfo.account] = nil end
+        end
+   end
+end)
+
+-- Not sure about this one because we already have the Identifier on player load
+-- AddEventHandler('QBCore:Player:SetPlayerData', function(player)
+--     if player then
+--         updatePlayerIdentifiers(player, player.PlayerData)
+--     end
+-- end)
+
+
 -- Getters
 -- Get your player first and then trigger a function on them
 -- ex: local player = QBCore.Functions.GetPlayer(source)
@@ -56,12 +120,8 @@ end
 ---@param citizenid string
 ---@return table?
 function QBCore.Functions.GetPlayerByCitizenId(citizenid)
-    for src in pairs(QBCore.Players) do
-        if QBCore.Players[src].PlayerData.citizenid == citizenid then
-            return QBCore.Players[src]
-        end
-    end
-    return nil
+    local source = playerIndices.citizenid[citizenid]
+    return source and QBCore.Players[source] or nil
 end
 
 ---Get offline player by citizen id
@@ -75,31 +135,24 @@ end
 ---@param license string
 ---@return table?
 function QBCore.Functions.GetPlayerByLicense(license)
-    return QBCore.Player.GetPlayerByLicense(license)
+    local source = playerIndices.license[license]
+    return source and QBCore.Players[source] or nil
 end
 
 ---Get player by phone number
 ---@param number number
 ---@return table?
 function QBCore.Functions.GetPlayerByPhone(number)
-    for src in pairs(QBCore.Players) do
-        if QBCore.Players[src].PlayerData.charinfo.phone == number then
-            return QBCore.Players[src]
-        end
-    end
-    return nil
+    local source = playerIndices.phone[number]
+    return source and QBCore.Players[source] or nil
 end
 
 ---Get player by account id
 ---@param account string
 ---@return table?
 function QBCore.Functions.GetPlayerByAccount(account)
-    for src in pairs(QBCore.Players) do
-        if QBCore.Players[src].PlayerData.charinfo.account == account then
-            return QBCore.Players[src]
-        end
-    end
-    return nil
+    local source = playerIndices.account[account]
+    return source and QBCore.Players[source] or nil
 end
 
 ---Get player passing property and value to check exists
