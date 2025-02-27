@@ -12,7 +12,7 @@ local playerIndices          = {
 }
 
 local function updatePlayerIdentifiers(player, oldData)
-    if oldData then
+    if not player and oldData then
         if oldData.citizenid then playerIndices.citizenid[oldData.citizenid] = nil end
         if oldData.license then playerIndices.license[oldData.license] = nil end
         if oldData.charinfo and oldData.charinfo.phone then playerIndices.phone[oldData.charinfo.phone] = nil end
@@ -51,10 +51,7 @@ AddEventHandler('QBCore:Server:OnPlayerUnload', function(source)
    if Player then
         local oldData = Player.PlayerData
         if playerIndices.citizenid[oldData.citizenid] then
-            if oldData.citizenid then playerIndices.citizenid[oldData.citizenid] = nil end
-            if oldData.license then playerIndices.license[oldData.license] = nil end
-            if oldData.charinfo and oldData.charinfo.phone then playerIndices.phone[oldData.charinfo.phone] = nil end
-            if oldData.charinfo and oldData.charinfo.account then playerIndices.account[oldData.charinfo.account] = nil end
+            updatePlayerIdentifiers(nil,oldData)
         end
    end
 end)
