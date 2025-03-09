@@ -354,6 +354,10 @@ function QBCore.Functions.GetClosestObject(coords)
     return closestObject, closestDistance
 end
 
+function QBCore.Functions.GetDutyCount(jobstring, istype)
+    return GlobalState.dutyInfo[istype and 'type_'..jobstring or jobstring] or 0
+end
+
 -- Vehicle
 
 function QBCore.Functions.LoadModel(model)
