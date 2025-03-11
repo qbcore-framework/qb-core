@@ -10,6 +10,9 @@ QBCore.ServerCallbacks = {}
 -- Get only specific parts of QBCore:
 -- local QBCore = GetCoreObject({'Players', 'Config'})
 
+--- Gets the QBCore object
+--- @param filters table
+--- @return table
 local function GetCoreObject(filters)
     if not filters then return QBCore end
     local results = {}
@@ -23,26 +26,36 @@ local function GetCoreObject(filters)
 end
 exports('GetCoreObject', GetCoreObject)
 
+--- Gets the QBCore Items
+--- @return table
 local function GetSharedItems()
     return QBShared.Items
 end
 exports('GetSharedItems', GetSharedItems)
 
+--- Gets the QBCore Vehicles
+--- @return table
 local function GetSharedVehicles()
     return QBShared.Vehicles
 end
 exports('GetSharedVehicles', GetSharedVehicles)
 
+--- Gets the QBCore Weapons
+--- @return table
 local function GetSharedWeapons()
     return QBShared.Weapons
 end
 exports('GetSharedWeapons', GetSharedWeapons)
 
+--- Gets the QBCore Jobs
+--- @return table
 local function GetSharedJobs()
     return QBShared.Jobs
 end
 exports('GetSharedJobs', GetSharedJobs)
 
+--- Gets the QBCore Gangs
+--- @return table
 local function GetSharedGangs()
     return QBShared.Gangs
 end
