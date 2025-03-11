@@ -85,7 +85,11 @@ function QBShared.SetDefaultVehicleExtras(vehicle, config)
     end
 
     for id, enabled in pairs(config) do
-        QBShared.ChangeVehicleExtra(vehicle, tonumber(id), type(enabled) == 'boolean' and enabled or true)
+        if type(enabled) ~= 'boolean' then
+            enabled = true
+        end
+
+        QBShared.ChangeVehicleExtra(vehicle, tonumber(id), enabled)
     end
 end
 
