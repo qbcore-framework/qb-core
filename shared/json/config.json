@@ -1,0 +1,44 @@
+{
+    "General": {
+        "cash": {
+            "amount": 500,
+            "allowminus": false,
+            "minuslimit": -5000
+        },
+        "bank": {
+            "amount": 5000,
+            "allowminus": false,
+            "minuslimit": -50000
+        },
+        "crypto": {
+            "amount": 0,
+            "allowminus": false,
+            "minuslimit": -5000
+        },
+        "DefaultSpawn": { "x": -1035.71, "y": -2731.87, "z": 12.86, "h": 0.0 },
+        "UpdateInterval": 5,
+        "StatusInterval": 5000,
+        "ForceJobDefaultDutyAtLogin": true,
+        "HungerRate": 4.2,
+        "ThirstRate": 3.8,
+        "PayCheckTimeOut": 10,
+        "PayCheckSociety": false,
+        "Bloodtypes": ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
+        "items": [
+            { "item": "driver_license", "amount": 1 },
+            { "item": "id_card", "amount": 1 },
+            { "item": "phone", "amount": 1 }
+        ]
+    },
+    "Server": {
+        "Closed": false,
+        "ClosedReason": "Server Closed",
+        "Uptime": 0,
+        "Whitelist": false,
+        "WhitelistPermission": "admin",
+        "PVP": true,
+        "Discord": "",
+        "CheckDuplicateLicense": true,
+        "Permissions": ["god", "admin", "mod"]
+    }
+}

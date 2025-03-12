@@ -1,0 +1,884 @@
+[
+    {
+        "name": "weapon_unarmed",
+        "label": "Fists",
+        "weapontype": "Melee",
+        "ammotype": null,
+        "damagereason": "Melee killed / Whacked / Executed / Beat down / Murdered / Battered"
+    },
+    {
+        "name": "weapon_dagger",
+        "label": "Dagger",
+        "weapontype": "Melee",
+        "ammotype": null,
+        "damagereason": "Knifed / Stabbed / Eviscerated"
+    },
+    {
+        "name": "weapon_bat",
+        "label": "Bat",
+        "weapontype": "Melee",
+        "ammotype": null,
+        "damagereason": "Melee killed / Whacked / Executed / Beat down / Murdered / Battered"
+    },
+    {
+        "name": "weapon_bottle",
+        "label": "Broken Bottle",
+        "weapontype": "Melee",
+        "ammotype": null,
+        "damagereason": "Knifed / Stabbed / Eviscerated"
+    },
+    {
+        "name": "weapon_crowbar",
+        "label": "Crowbar",
+        "weapontype": "Melee",
+        "ammotype": null,
+        "damagereason": "Melee killed / Whacked / Executed / Beat down / Murdered / Battered"
+    },
+    {
+        "name": "weapon_flashlight",
+        "label": "Flashlight",
+        "weapontype": "Melee",
+        "ammotype": null,
+        "damagereason": "Melee killed / Whacked / Executed / Beat down / Murdered / Battered"
+    },
+    {
+        "name": "weapon_golfclub",
+        "label": "Golfclub",
+        "weapontype": "Melee",
+        "ammotype": null,
+        "damagereason": "Melee killed / Whacked / Executed / Beat down / Murdered / Battered"
+    },
+    {
+        "name": "weapon_hammer",
+        "label": "Hammer",
+        "weapontype": "Melee",
+        "ammotype": null,
+        "damagereason": "Melee killed / Whacked / Executed / Beat down / Murdered / Battered"
+    },
+    {
+        "name": "weapon_hatchet",
+        "label": "Hatchet",
+        "weapontype": "Melee",
+        "ammotype": null,
+        "damagereason": "Knifed / Stabbed / Eviscerated"
+    },
+    {
+        "name": "weapon_knuckle",
+        "label": "Knuckle",
+        "weapontype": "Melee",
+        "ammotype": null,
+        "damagereason": "Melee killed / Whacked / Executed / Beat down / Murdered / Battered"
+    },
+    {
+        "name": "weapon_knife",
+        "label": "Knife",
+        "weapontype": "Melee",
+        "ammotype": null,
+        "damagereason": "Knifed / Stabbed / Eviscerated"
+    },
+    {
+        "name": "weapon_machete",
+        "label": "Machete",
+        "weapontype": "Melee",
+        "ammotype": null,
+        "damagereason": "Knifed / Stabbed / Eviscerated"
+    },
+    {
+        "name": "weapon_switchblade",
+        "label": "Switchblade",
+        "weapontype": "Melee",
+        "ammotype": null,
+        "damagereason": "Knifed / Stabbed / Eviscerated"
+    },
+    {
+        "name": "weapon_nightstick",
+        "label": "Nightstick",
+        "weapontype": "Melee",
+        "ammotype": null,
+        "damagereason": "Melee killed / Whacked / Executed / Beat down / Murdered / Battered"
+    },
+    {
+        "name": "weapon_wrench",
+        "label": "Wrench",
+        "weapontype": "Melee",
+        "ammotype": null,
+        "damagereason": "Melee killed / Whacked / Executed / Beat down / Murdered / Battered"
+    },
+    {
+        "name": "weapon_battleaxe",
+        "label": "Battle Axe",
+        "weapontype": "Melee",
+        "ammotype": null,
+        "damagereason": "Knifed / Stabbed / Eviscerated"
+    },
+    {
+        "name": "weapon_poolcue",
+        "label": "Poolcue",
+        "weapontype": "Melee",
+        "ammotype": null,
+        "damagereason": "Melee killed / Whacked / Executed / Beat down / Murdered / Battered"
+    },
+    {
+        "name": "weapon_briefcase",
+        "label": "Briefcase",
+        "weapontype": "Melee",
+        "ammotype": null,
+        "damagereason": "Melee killed / Whacked / Executed / Beat down / Murdered / Battered"
+    },
+    {
+        "name": "weapon_briefcase_02",
+        "label": "Briefcase",
+        "weapontype": "Melee",
+        "ammotype": null,
+        "damagereason": "Melee killed / Whacked / Executed / Beat down / Murdered / Battered"
+    },
+    {
+        "name": "weapon_garbagebag",
+        "label": "Garbage Bag",
+        "weapontype": "Melee",
+        "ammotype": null,
+        "damagereason": "Melee killed / Whacked / Executed / Beat down / Murdered / Battered"
+    },
+    {
+        "name": "weapon_handcuffs",
+        "label": "Handcuffs",
+        "weapontype": "Melee",
+        "ammotype": null,
+        "damagereason": "Melee killed / Whacked / Executed / Beat down / Murdered / Battered"
+    },
+    {
+        "name": "weapon_bread",
+        "label": "Baquette",
+        "weapontype": "Melee",
+        "ammotype": null,
+        "damagereason": "Melee killed / Whacked / Executed / Beat down / Murdered / Battered"
+    },
+    {
+        "name": "weapon_stone_hatchet",
+        "label": "Stone Hatchet",
+        "weapontype": "Melee",
+        "ammotype": null,
+        "damagereason": "Knifed / Stabbed / Eviscerated"
+    },
+    {
+        "name": "weapon_candycane",
+        "label": "Candy Cane",
+        "weapontype": "Melee",
+        "ammotype": null,
+        "damagereason": "Melee Killed / Whacked / Executed / Beat down / Musrdered / Battered / Candy Caned"
+    },
+    {
+        "name": "weapon_pistol",
+        "label": "Pistol",
+        "weapontype": "Pistol",
+        "ammotype": "AMMO_PISTOL",
+        "damagereason": "Pistoled / Blasted / Plugged / Bust a cap in"
+    },
+    {
+        "name": "weapon_pistol_mk2",
+        "label": "Pistol Mk2",
+        "weapontype": "Pistol",
+        "ammotype": "AMMO_PISTOL",
+        "damagereason": "Pistoled / Blasted / Plugged / Bust a cap in"
+    },
+    {
+        "name": "weapon_combatpistol",
+        "label": "Combat Pistol",
+        "weapontype": "Pistol",
+        "ammotype": "AMMO_PISTOL",
+        "damagereason": "Pistoled / Blasted / Plugged / Bust a cap in"
+    },
+    {
+        "name": "weapon_appistol",
+        "label": "AP Pistol",
+        "weapontype": "Pistol",
+        "ammotype": "AMMO_PISTOL",
+        "damagereason": "Pistoled / Blasted / Plugged / Bust a cap in"
+    },
+    {
+        "name": "weapon_stungun",
+        "label": "Taser",
+        "weapontype": "Pistol",
+        "ammotype": "AMMO_STUNGUN",
+        "damagereason": "Died"
+    },
+    {
+        "name": "weapon_pistol50",
+        "label": "Pistol .50 Cal",
+        "weapontype": "Pistol",
+        "ammotype": "AMMO_PISTOL",
+        "damagereason": "Pistoled / Blasted / Plugged / Bust a cap in"
+    },
+    {
+        "name": "weapon_snspistol",
+        "label": "SNS Pistol",
+        "weapontype": "Pistol",
+        "ammotype": "AMMO_PISTOL",
+        "damagereason": "Pistoled / Blasted / Plugged / Bust a cap in"
+    },
+    {
+        "name": "weapon_snspistol_mk2",
+        "label": "SNS Pistol MK2",
+        "weapontype": "Pistol",
+        "ammotype": "AMMO_PISTOL",
+        "damagereason": "Pistoled / Blasted / Plugged / Bust a cap in"
+    },
+    {
+        "name": "weapon_heavypistol",
+        "label": "Heavy Pistol",
+        "weapontype": "Pistol",
+        "ammotype": "AMMO_PISTOL",
+        "damagereason": "Pistoled / Blasted / Plugged / Bust a cap in"
+    },
+    {
+        "name": "weapon_vintagepistol",
+        "label": "Vintage Pistol",
+        "weapontype": "Pistol",
+        "ammotype": "AMMO_PISTOL",
+        "damagereason": "Pistoled / Blasted / Plugged / Bust a cap in"
+    },
+    {
+        "name": "weapon_flaregun",
+        "label": "Flare Gun",
+        "weapontype": "Pistol",
+        "ammotype": "AMMO_FLARE",
+        "damagereason": "Died"
+    },
+    {
+        "name": "weapon_marksmanpistol",
+        "label": "Marksman Pistol",
+        "weapontype": "Pistol",
+        "ammotype": "AMMO_PISTOL",
+        "damagereason": "Pistoled / Blasted / Plugged / Bust a cap in"
+    },
+    {
+        "name": "weapon_revolver",
+        "label": "Revolver",
+        "weapontype": "Pistol",
+        "ammotype": "AMMO_PISTOL",
+        "damagereason": "Pistoled / Blasted / Plugged / Bust a cap in"
+    },
+    {
+        "name": "weapon_revolver_mk2",
+        "label": "Revolver MK2",
+        "weapontype": "Pistol",
+        "ammotype": "AMMO_PISTOL",
+        "damagereason": "Pistoled / Blasted / Plugged / Bust a cap in"
+    },
+    {
+        "name": "weapon_doubleaction",
+        "label": "Double Action Revolver",
+        "weapontype": "Pistol",
+        "ammotype": "AMMO_PISTOL",
+        "damagereason": "Pistoled / Blasted / Plugged / Bust a cap in"
+    },
+    {
+        "name": "weapon_raypistol",
+        "label": "Ray Pistol",
+        "weapontype": "Pistol",
+        "ammotype": "AMMO_PISTOL",
+        "damagereason": "Pistoled / Blasted / Plugged / Bust a cap in"
+    },
+    {
+        "name": "weapon_ceramicpistol",
+        "label": "Ceramic Pistol",
+        "weapontype": "Pistol",
+        "ammotype": "AMMO_PISTOL",
+        "damagereason": "Pistoled / Blasted / Plugged / Bust a cap in"
+    },
+    {
+        "name": "weapon_navyrevolver",
+        "label": "Navy Revolver",
+        "weapontype": "Pistol",
+        "ammotype": "AMMO_PISTOL",
+        "damagereason": "Pistoled / Blasted / Plugged / Bust a cap in"
+    },
+    {
+        "name": "weapon_gadgetpistol",
+        "label": "Gadget Pistol",
+        "weapontype": "Pistol",
+        "ammotype": "AMMO_PISTOL",
+        "damagereason": "Pistoled / Blasted / Plugged / Bust a cap in"
+    },
+    {
+        "name": "weapon_stungun_mp",
+        "label": "Taser",
+        "weapontype": "Pistol",
+        "ammotype": "AMMO_STUNGUN",
+        "damagereason": "Died"
+    },
+    {
+        "name": "weapon_pistolxm3",
+        "label": "Pistol XM3",
+        "weapontype": "Pistol",
+        "ammotype": "AMMO_PISTOL",
+        "damagereason": "Pistoled / Blasted / Plaugged / Bust a cap in"
+    },
+    {
+        "name": "weapon_microsmg",
+        "label": "Micro SMG",
+        "weapontype": "Submachine Gun",
+        "ammotype": "AMMO_SMG",
+        "damagereason": "Riddled / Drilled / Finished / Submachine Gunned"
+    },
+    {
+        "name": "weapon_smg",
+        "label": "SMG",
+        "weapontype": "Submachine Gun",
+        "ammotype": "AMMO_SMG",
+        "damagereason": "Riddled / Drilled / Finished / Submachine Gunned"
+    },
+    {
+        "name": "weapon_smg_mk2",
+        "label": "SMG MK2",
+        "weapontype": "Submachine Gun",
+        "ammotype": "AMMO_SMG",
+        "damagereason": "Riddled / Drilled / Finished / Submachine Gunned"
+    },
+    {
+        "name": "weapon_assaultsmg",
+        "label": "Assault SMG",
+        "weapontype": "Submachine Gun",
+        "ammotype": "AMMO_SMG",
+        "damagereason": "Riddled / Drilled / Finished / Submachine Gunned"
+    },
+    {
+        "name": "weapon_combatpdw",
+        "label": "Combat PDW",
+        "weapontype": "Submachine Gun",
+        "ammotype": "AMMO_SMG",
+        "damagereason": "Riddled / Drilled / Finished / Submachine Gunned"
+    },
+    {
+        "name": "weapon_machinepistol",
+        "label": "Tec-9",
+        "weapontype": "Submachine Gun",
+        "ammotype": "AMMO_PISTOL",
+        "damagereason": "Riddled / Drilled / Finished / Submachine Gunned"
+    },
+    {
+        "name": "weapon_minismg",
+        "label": "Mini SMG",
+        "weapontype": "Submachine Gun",
+        "ammotype": "AMMO_SMG",
+        "damagereason": "Riddled / Drilled / Finished / Submachine Gunned"
+    },
+    {
+        "name": "weapon_raycarbine",
+        "label": "Raycarbine",
+        "weapontype": "Submachine Gun",
+        "ammotype": "AMMO_SMG",
+        "damagereason": "Riddled / Drilled / Finished / Submachine Gunned"
+    },
+    {
+        "name": "weapon_pumpshotgun",
+        "label": "Pump Shotgun",
+        "weapontype": "Shotgun",
+        "ammotype": "AMMO_SHOTGUN",
+        "damagereason": "Devastated / Pulverized / Shotgunned"
+    },
+    {
+        "name": "weapon_pumpshotgun_mk2",
+        "label": "Pump Shotgun MK2",
+        "weapontype": "Shotgun",
+        "ammotype": "AMMO_SHOTGUN",
+        "damagereason": "Devastated / Pulverized / Shotgunned"
+    },
+    {
+        "name": "weapon_sawnoffshotgun",
+        "label": "Sawn-off Shotgun",
+        "weapontype": "Shotgun",
+        "ammotype": "AMMO_SHOTGUN",
+        "damagereason": "Devastated / Pulverized / Shotgunned"
+    },
+    {
+        "name": "weapon_assaultshotgun",
+        "label": "Assault Shotgun",
+        "weapontype": "Shotgun",
+        "ammotype": "AMMO_SHOTGUN",
+        "damagereason": "Devastated / Pulverized / Shotgunned"
+    },
+    {
+        "name": "weapon_bullpupshotgun",
+        "label": "Bullpup Shotgun",
+        "weapontype": "Shotgun",
+        "ammotype": "AMMO_SHOTGUN",
+        "damagereason": "Devastated / Pulverized / Shotgunned"
+    },
+    {
+        "name": "weapon_musket",
+        "label": "Musket",
+        "weapontype": "Shotgun",
+        "ammotype": "AMMO_SHOTGUN",
+        "damagereason": "Devastated / Pulverized / Shotgunned"
+    },
+    {
+        "name": "weapon_heavyshotgun",
+        "label": "Heavy Shotgun",
+        "weapontype": "Shotgun",
+        "ammotype": "AMMO_SHOTGUN",
+        "damagereason": "Devastated / Pulverized / Shotgunned"
+    },
+    {
+        "name": "weapon_dbshotgun",
+        "label": "Double-barrel Shotgun",
+        "weapontype": "Shotgun",
+        "ammotype": "AMMO_SHOTGUN",
+        "damagereason": "Devastated / Pulverized / Shotgunned"
+    },
+    {
+        "name": "weapon_autoshotgun",
+        "label": "Auto Shotgun",
+        "weapontype": "Shotgun",
+        "ammotype": "AMMO_SHOTGUN",
+        "damagereason": "Devastated / Pulverized / Shotgunned"
+    },
+    {
+        "name": "weapon_combatshotgun",
+        "label": "Combat Shotgun",
+        "weapontype": "Shotgun",
+        "ammotype": "AMMO_SHOTGUN",
+        "damagereason": "Devastated / Pulverized / Shotgunned"
+    },
+    {
+        "name": "weapon_assaultrifle",
+        "label": "Assault Rifle",
+        "weapontype": "Assault Rifle",
+        "ammotype": "AMMO_RIFLE",
+        "damagereason": "Ended / Rifled / Shot down / Floored"
+    },
+    {
+        "name": "weapon_assaultrifle_mk2",
+        "label": "Assault Rifle MK2",
+        "weapontype": "Assault Rifle",
+        "ammotype": "AMMO_RIFLE",
+        "damagereason": "Ended / Rifled / Shot down / Floored"
+    },
+    {
+        "name": "weapon_carbinerifle",
+        "label": "Carbine Rifle",
+        "weapontype": "Assault Rifle",
+        "ammotype": "AMMO_RIFLE",
+        "damagereason": "Ended / Rifled / Shot down / Floored"
+    },
+    {
+        "name": "weapon_carbinerifle_mk2",
+        "label": "Carbine Rifle MK2",
+        "weapontype": "Assault Rifle",
+        "ammotype": "AMMO_RIFLE",
+        "damagereason": "Ended / Rifled / Shot down / Floored"
+    },
+    {
+        "name": "weapon_advancedrifle",
+        "label": "Advanced Rifle",
+        "weapontype": "Assault Rifle",
+        "ammotype": "AMMO_RIFLE",
+        "damagereason": "Ended / Rifled / Shot down / Floored"
+    },
+    {
+        "name": "weapon_specialcarbine",
+        "label": "Special Carbine",
+        "weapontype": "Assault Rifle",
+        "ammotype": "AMMO_RIFLE",
+        "damagereason": "Ended / Rifled / Shot down / Floored"
+    },
+    {
+        "name": "weapon_specialcarbine_mk2",
+        "label": "Specialcarbine MK2",
+        "weapontype": "Assault Rifle",
+        "ammotype": "AMMO_RIFLE",
+        "damagereason": "Ended / Rifled / Shot down / Floored"
+    },
+    {
+        "name": "weapon_bullpuprifle",
+        "label": "Bullpup Rifle",
+        "weapontype": "Assault Rifle",
+        "ammotype": "AMMO_RIFLE",
+        "damagereason": "Ended / Rifled / Shot down / Floored"
+    },
+    {
+        "name": "weapon_bullpuprifle_mk2",
+        "label": "Bull Puprifle MK2",
+        "weapontype": "Assault Rifle",
+        "ammotype": "AMMO_RIFLE",
+        "damagereason": "Ended / Rifled / Shot down / Floored"
+    },
+    {
+        "name": "weapon_compactrifle",
+        "label": "Compact Rifle",
+        "weapontype": "Assault Rifle",
+        "ammotype": "AMMO_RIFLE",
+        "damagereason": "Ended / Rifled / Shot down / Floored"
+    },
+    {
+        "name": "weapon_militaryrifle",
+        "label": "Military Rifle",
+        "weapontype": "Assault Rifle",
+        "ammotype": "AMMO_RIFLE",
+        "damagereason": "Ended / Rifled / Shot down / Floored"
+    },
+    {
+        "name": "weapon_heavyrifle",
+        "label": "Heavy Rifle",
+        "weapontype": "Assault Rifle",
+        "ammotype": "AMMO_RIFLE",
+        "damagereason": "Ended / Rifled / Shot down / Floored"
+    },
+    {
+        "name": "weapon_mg",
+        "label": "Machinegun",
+        "weapontype": "Light Machine Gun",
+        "ammotype": "AMMO_MG",
+        "damagereason": "Machine gunned / Sprayed / Ruined"
+    },
+    {
+        "name": "weapon_combatmg",
+        "label": "Combat MG",
+        "weapontype": "Light Machine Gun",
+        "ammotype": "AMMO_MG",
+        "damagereason": "Machine gunned / Sprayed / Ruined"
+    },
+    {
+        "name": "weapon_combatmg_mk2",
+        "label": "Combat MG MK2",
+        "weapontype": "Light Machine Gun",
+        "ammotype": "AMMO_MG",
+        "damagereason": "Machine gunned / Sprayed / Ruined"
+    },
+    {
+        "name": "weapon_gusenberg",
+        "label": "Thompson SMG",
+        "weapontype": "Light Machine Gun",
+        "ammotype": "AMMO_MG",
+        "damagereason": "Machine gunned / Sprayed / Ruined"
+    },
+    {
+        "name": "weapon_sniperrifle",
+        "label": "Sniper Rifle",
+        "weapontype": "Sniper Rifle",
+        "ammotype": "AMMO_SNIPER",
+        "damagereason": "Sniped / Picked off / Scoped"
+    },
+    {
+        "name": "weapon_heavysniper",
+        "label": "Heavy Sniper",
+        "weapontype": "Sniper Rifle",
+        "ammotype": "AMMO_SNIPER",
+        "damagereason": "Sniped / Picked off / Scoped"
+    },
+    {
+        "name": "weapon_heavysniper_mk2",
+        "label": "Heavysniper MK2",
+        "weapontype": "Sniper Rifle",
+        "ammotype": "AMMO_SNIPER",
+        "damagereason": "Sniped / Picked off / Scoped"
+    },
+    {
+        "name": "weapon_marksmanrifle",
+        "label": "Marksman Rifle",
+        "weapontype": "Sniper Rifle",
+        "ammotype": "AMMO_SNIPER",
+        "damagereason": "Sniped / Picked off / Scoped"
+    },
+    {
+        "name": "weapon_marksmanrifle_mk2",
+        "label": "Marksman Rifle MK2",
+        "weapontype": "Sniper Rifle",
+        "ammotype": "AMMO_SNIPER",
+        "damagereason": "Sniped / Picked off / Scoped"
+    },
+    {
+        "name": "weapon_remotesniper",
+        "label": "Remote Sniper",
+        "weapontype": "Sniper Rifle",
+        "ammotype": "AMMO_SNIPER_REMOTE",
+        "damagereason": "Sniped / Picked off / Scoped"
+    },
+    {
+        "name": "weapon_rpg",
+        "label": "RPG",
+        "weapontype": "Heavy Weapons",
+        "ammotype": "AMMO_RPG",
+        "damagereason": "Killed / Exploded / Obliterated / Destroyed / Erased / Annihilated"
+    },
+    {
+        "name": "weapon_grenadelauncher",
+        "label": "Grenade Launcher",
+        "weapontype": "Heavy Weapons",
+        "ammotype": "AMMO_GRENADELAUNCHER",
+        "damagereason": "Killed / Exploded / Obliterated / Destroyed / Erased / Annihilated"
+    },
+    {
+        "name": "weapon_grenadelauncher_smoke",
+        "label": "Smoke Grenade Launcher",
+        "weapontype": "Heavy Weapons",
+        "ammotype": "AMMO_GRENADELAUNCHER",
+        "damagereason": "Killed / Exploded / Obliterated / Destroyed / Erased / Annihilated"
+    },
+    {
+        "name": "weapon_minigun",
+        "label": "Minigun",
+        "weapontype": "Heavy Weapons",
+        "ammotype": "AMMO_MINIGUN",
+        "damagereason": "Killed / Exploded / Obliterated / Destroyed / Erased / Annihilated"
+    },
+    {
+        "name": "weapon_firework",
+        "label": "Firework Launcher",
+        "weapontype": "Heavy Weapons",
+        "ammotype": null,
+        "damagereason": "Killed / Exploded / Obliterated / Destroyed / Erased / Annihilated"
+    },
+    {
+        "name": "weapon_railgun",
+        "label": "Railgun",
+        "weapontype": "Heavy Weapons",
+        "ammotype": null,
+        "damagereason": "Killed / Exploded / Obliterated / Destroyed / Erased / Annihilated"
+    },
+    {
+        "name": "weapon_railgunxm3",
+        "label": "Railgun XM3",
+        "weapontype": "Heavy Weapons",
+        "ammotype": null,
+        "damagereason": "Killed / Exploded / Obliterated / Destroyed / Erased / Annihilated"
+    },
+    {
+        "name": "weapon_hominglauncher",
+        "label": "Homing Launcher",
+        "weapontype": "Heavy Weapons",
+        "ammotype": "AMMO_STINGER",
+        "damagereason": "Killed / Exploded / Obliterated / Destroyed / Erased / Annihilated"
+    },
+    {
+        "name": "weapon_compactlauncher",
+        "label": "Compact Launcher",
+        "weapontype": "Heavy Weapons",
+        "ammotype": null,
+        "damagereason": "Killed / Exploded / Obliterated / Destroyed / Erased / Annihilated"
+    },
+    {
+        "name": "weapon_rayminigun",
+        "label": "Ray Minigun",
+        "weapontype": "Heavy Weapons",
+        "ammotype": "AMMO_MINIGUN",
+        "damagereason": "Killed / Exploded / Obliterated / Destroyed / Erased / Annihilated"
+    },
+    {
+        "name": "weapon_emplauncher",
+        "label": "EMP Launcher",
+        "weapontype": "Heavy Weapons",
+        "ammotype": "AMMO_EMPLAUNCHER",
+        "damagereason": "Died"
+    },
+    {
+        "name": "weapon_grenade",
+        "label": "Grenade",
+        "weapontype": "Throwable",
+        "ammotype": null,
+        "damagereason": "Bombed / Exploded / Detonated / Blew up"
+    },
+    {
+        "name": "weapon_bzgas",
+        "label": "BZ Gas",
+        "weapontype": "Throwable",
+        "ammotype": null,
+        "damagereason": "Died"
+    },
+    {
+        "name": "weapon_molotov",
+        "label": "Molotov",
+        "weapontype": "Throwable",
+        "ammotype": null,
+        "damagereason": "Torched / Flambeed / Barbecued"
+    },
+    {
+        "name": "weapon_stickybomb",
+        "label": "C4",
+        "weapontype": "Throwable",
+        "ammotype": null,
+        "damagereason": "Bombed / Exploded / Detonated / Blew up"
+    },
+    {
+        "name": "weapon_proxmine",
+        "label": "Proxmine Grenade",
+        "weapontype": "Throwable",
+        "ammotype": null,
+        "damagereason": "Bombed / Exploded / Detonated / Blew up"
+    },
+    {
+        "name": "weapon_snowball",
+        "label": "Snowball",
+        "weapontype": "Throwable",
+        "ammotype": null,
+        "damagereason": "Died"
+    },
+    {
+        "name": "weapon_pipebomb",
+        "label": "Pipe Bomb",
+        "weapontype": "Throwable",
+        "ammotype": null,
+        "damagereason": "Bombed / Exploded / Detonated / Blew up"
+    },
+    {
+        "name": "weapon_ball",
+        "label": "Ball",
+        "weapontype": "Throwable",
+        "ammotype": "AMMO_BALL",
+        "damagereason": "Died"
+    },
+    {
+        "name": "weapon_smokegrenade",
+        "label": "Smoke Grenade",
+        "weapontype": "Throwable",
+        "ammotype": null,
+        "damagereason": "Died"
+    },
+    {
+        "name": "weapon_flare",
+        "label": "Flare pistol",
+        "weapontype": "Throwable",
+        "ammotype": "AMMO_FLARE",
+        "damagereason": "Died"
+    },
+    {
+        "name": "weapon_petrolcan",
+        "label": "Petrol Can",
+        "weapontype": "Miscellaneous",
+        "ammotype": "AMMO_PETROLCAN",
+        "damagereason": "Died"
+    },
+    {
+        "name": "gadget_parachute",
+        "label": "Parachute",
+        "weapontype": "Miscellaneous",
+        "ammotype": null,
+        "damagereason": "Died"
+    },
+    {
+        "name": "weapon_fireextinguisher",
+        "label": "Fire Extinguisher",
+        "weapontype": "Miscellaneous",
+        "ammotype": null,
+        "damagereason": "Died"
+    },
+    {
+        "name": "weapon_hazardcan",
+        "label": "Hazardcan",
+        "weapontype": "Miscellaneous",
+        "ammotype": "AMMO_PETROLCAN",
+        "damagereason": "Died"
+    },
+    {
+        "name": "weapon_fertilizercan",
+        "label": "Fertilizer Can",
+        "weapontype": "Miscellaneous",
+        "ammotype": "AMMO_FERTILIZERCAN",
+        "damagereason": "Died"
+    },
+    {
+        "name": "weapon_barbed_wire",
+        "label": "Barbed Wire",
+        "weapontype": "Miscellaneous",
+        "ammotype": null,
+        "damagereason": "Prodded"
+    },
+    {
+        "name": "weapon_drowning",
+        "label": "Drowning",
+        "weapontype": "Miscellaneous",
+        "ammotype": null,
+        "damagereason": "Died"
+    },
+    {
+        "name": "weapon_drowning_in_vehicle",
+        "label": "Drowning in a Vehicle",
+        "weapontype": "Miscellaneous",
+        "ammotype": null,
+        "damagereason": "Died"
+    },
+    {
+        "name": "weapon_bleeding",
+        "label": "Bleeding",
+        "weapontype": "Miscellaneous",
+        "ammotype": null,
+        "damagereason": "Bled out"
+    },
+    {
+        "name": "weapon_electric_fence",
+        "label": "Electric Fence",
+        "weapontype": "Miscellaneous",
+        "ammotype": null,
+        "damagereason": "Fried"
+    },
+    {
+        "name": "weapon_explosion",
+        "label": "Explosion",
+        "weapontype": "Miscellaneous",
+        "ammotype": null,
+        "damagereason": "Killed / Exploded / Obliterated / Destroyed / Erased / Annihilated"
+    },
+    {
+        "name": "weapon_fall",
+        "label": "Fall",
+        "weapontype": "Miscellaneous",
+        "ammotype": null,
+        "damagereason": "Committed suicide"
+    },
+    {
+        "name": "weapon_exhaustion",
+        "label": "Exhaustion",
+        "weapontype": "Miscellaneous",
+        "ammotype": null,
+        "damagereason": "Died"
+    },
+    {
+        "name": "weapon_hit_by_water_cannon",
+        "label": "Water Cannon",
+        "weapontype": "Miscellaneous",
+        "ammotype": null,
+        "damagereason": "Died"
+    },
+    {
+        "name": "weapon_rammed_by_car",
+        "label": "Rammed - Vehicle",
+        "weapontype": "Miscellaneous",
+        "ammotype": null,
+        "damagereason": "Flattened / Ran over / Ran down"
+    },
+    {
+        "name": "weapon_run_over_by_car",
+        "label": "Run Over - Vehicle",
+        "weapontype": "Miscellaneous",
+        "ammotype": null,
+        "damagereason": "Flattened / Ran over / Ran down"
+    },
+    {
+        "name": "weapon_heli_crash",
+        "label": "Heli Crash",
+        "weapontype": "Miscellaneous",
+        "ammotype": null,
+        "damagereason": "Helicopter Crash"
+    },
+    {
+        "name": "weapon_fire",
+        "label": "Fire",
+        "weapontype": "Miscellaneous",
+        "ammotype": null,
+        "damagereason": "Torched / Flambeed / Barbecued"
+    },
+    {
+        "name": "weapon_animal",
+        "label": "Animal",
+        "weapontype": "Animals",
+        "ammotype": null,
+        "damagereason": "Mauled"
+    },
+    {
+        "name": "weapon_cougar",
+        "label": "Cougar",
+        "weapontype": "Animals",
+        "ammotype": null,
+        "damagereason": "Mauled"
+    }
+]
