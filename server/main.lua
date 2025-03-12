@@ -72,39 +72,3 @@ AddEventHandler('playerDropped', function(reason)
     end
     QBCore.Player_Buckets[license] = nil
 end)
-
--- Config Editor
-
-RegisterNetEvent('qb-core:server:configEditor', function(fileName, fileData)
-    local src = source
-    local Player = QBCore.Functions.GetPlayer(src)
-    if not Player then return end
-    if not QBCore.Functions.HasPermission('god') then
-        local filePaths = {
-            ['config'] = 'shared/json/config.json',
-            ['gangs'] = 'shared/json/gangs.json',
-            ['items'] = 'shared/json/items.json',
-            ['jobs'] = 'shared/json/jobs.json',
-            ['playerdata'] = 'shared/json/player_defaults.json',
-            ['vehicles'] = 'shared/json/vehicles.json',
-            ['weapons'] = 'shared/json/weapons.json'
-        }
-        local filePath = filePaths[fileName]
-        if not filePath then
-            print('^1[QBCore] Invalid file name: ' .. fileName)
-            return
-        end
-        local encodedData = json.encode(fileData, { indent = true })
-        local saved = SaveResourceFile('qb-core', filePath, encodedData, -1)
-        if saved then
-            print('^2[QBCore] Player ' .. GetPlayerName(src) .. ' (ID: ' .. src .. ') successfully saved ' .. fileName .. ' configuration')
-            TriggerClientEvent('QBCore:Notify', src, 'Configuration saved successfully', 'success')
-        else
-            print('^1[QBCore] Failed to save ' .. fileName .. ' configuration')
-            TriggerClientEvent('QBCore:Notify', src, 'Failed to save configuration', 'error')
-        end
-    else
-        print('^1[QBCore] Player ' .. GetPlayerName(src) .. ' (ID: ' .. src .. ') attempted to save ' .. fileName .. ' configuration without permission')
-        TriggerClientEvent('QBCore:Notify', src, 'You don\'t have permission to edit configs', 'error')
-    end
-end)
