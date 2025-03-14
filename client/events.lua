@@ -159,14 +159,33 @@ RegisterNetEvent('QBCore:Command:DeleteVehicle', function()
     end
 end)
 
-RegisterNetEvent('QBCore:Client:VehicleInfo', function(info)
-    local plate = QBCore.Functions.GetPlate(info.vehicle)
-    local hasKeys = true
 
-    if GetResourceState('qb-vehiclekeys') == 'started' then
-        hasKeys = exports['qb-vehiclekeys']:HasKeys(plate)
+RegisterNetEvent('QBCore:Client:VehicleInfo', function(info)
+    -- Check if info.vehicle exists before proceeding
+    if not info.vehicle then
+        print("Error: info.vehicle is nil!") -- Prevents script from breaking if vehicle data is missing
+        return
     end
 
+    -- Retrieve the vehicle's plate number
+    local plate = QBCore.Functions.GetPlate(info.vehicle)
+    if not plate or plate == "" then
+        print("Error: plate is nil or empty!") -- Prevents calling HasKeys with nil or empty plate
+        return
+    end
+
+    local hasKeys = true
+    print("Vehicle Plate:", plate) -- Debugging log to verify plate number
+
+    -- Ensure qb-vehiclekeys resource is running before calling its export
+    if GetResourceState('qb-vehiclekeys') == 'started' then
+        print("qb-vehiclekeys is running") -- Debugging log to confirm resource is active
+        hasKeys = exports['qb-vehiclekeys']:HasKeys(plate)
+    else
+        print("qb-vehiclekeys is NOT running") -- Prevents errors if resource is missing
+    end
+
+    -- Construct the data table with validated values
     local data = {
         vehicle = info.vehicle,
         seat = info.seat,
@@ -177,8 +196,10 @@ RegisterNetEvent('QBCore:Client:VehicleInfo', function(info)
         haskeys = hasKeys
     }
 
+    -- Trigger the event with the processed data
     TriggerEvent('QBCore:Client:' .. info.event .. 'Vehicle', data)
 end)
+
 
 -- Other stuff
 
