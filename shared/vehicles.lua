@@ -766,6 +766,7 @@ local Vehicles = {
 }
 
 QBShared.VehicleHashes = QBShared.VehicleHashes or {}
+
 for i = 1, #Vehicles do
     local hash = joaat(Vehicles[i].model)
     QBShared.Vehicles[Vehicles[i].model] = {
@@ -779,5 +780,6 @@ for i = 1, #Vehicles do
         type = Vehicles[i].type,
         shop = Vehicles[i].shop
     }
+
     QBShared.VehicleHashes[hash] = QBShared.Vehicles[Vehicles[i].model]
 end
