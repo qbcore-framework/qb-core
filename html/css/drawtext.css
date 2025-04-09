@@ -1,9 +1,36 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;500&display=swap");
-
 :root {
+    /* Typography */
+    --font-primary: "Exo 2", sans-serif;
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-bold: 700;
+    --font-weight-light: 300;
+    /* Colors */
+    --md-primary: #1c75d2;
+    --md-primary-container: #6facec;
+    --md-error: #c10114;
+    --md-error-container: #fe4255;
+    --md-success: #20bb44;
+    --md-success-container: #6ae587;
+    --md-warning: #ff9800;
+    --md-warning-container: #ffc107;
+    --md-info: #2197f2;
+    --md-info-container: #7ac1f7;
+    --md-surface: #fffbff;
+    --md-on-surface: #1c1b1f;
+
+    /* Custom Variables */
     --primary-bg: rgba(23, 23, 23, 90%);
-    --active-bg: #dc143c;
+    --active-bg: var(--md-error);
     --font-color: white;
+
+    /* Elevation */
+    --md-elevation-1: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+
+    /* Border Radius */
+    --md-radius-small: 5px;
+    --md-radius-medium: 10px;
+    --md-radius-extra-small: 0.15rem;
 }
 
 #drawtext-container {
@@ -13,8 +40,8 @@
     overflow: hidden;
     padding: 0;
     margin: 0;
-    font-family: "Poppins", sans-serif !important;
-    font-weight: 300;
+    font-family: var(--font-primary) !important;
+    font-weight: var(--font-weight-light);
 }
 
 .text {
@@ -23,8 +50,8 @@
     color: var(--font-color);
     margin-top: 0.5rem;
     padding: 0.45rem;
-    border-radius: 0.15rem;
-    box-shadow: 0rem 0rem 0.1rem 0.05rem #000000;
+    border-radius: var(--md-radius-extra-small);
+    box-shadow: var(--md-elevation-1);
 }
 
 @media (width: 3840px) and (height: 2160px) {
@@ -35,8 +62,8 @@
         overflow: hidden;
         padding: 0;
         margin: 0;
-        font-family: "Poppins", sans-serif !important;
-        font-weight: 300;
+        font-family: var(--font-primary) !important;
+        font-weight: var(--font-weight-light);
         font-size: 1.5vh;
     }
 }
