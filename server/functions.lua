@@ -389,9 +389,9 @@ end
 
 --- Do the paycheck interval
 function PaycheckInterval()
-    if not next(QBCore.Players) then 
+    if not next(QBCore.Players) then
         SetTimeout(QBCore.Config.Money.PayCheckTimeOut * (60 * 1000), PaycheckInterval) -- Prevent paychecks from stopping forever once 0 players
-        return 
+        return
     end
     for _, Player in pairs(QBCore.Players) do
         if not Player then return end
