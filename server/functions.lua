@@ -45,8 +45,8 @@ end
 ---@param source any
 ---@return table
 function QBCore.Functions.GetPlayer(source)
-    if type(source) == 'number' then
-        return QBCore.Players[source]
+    if tonumber(source) ~= nil then -- If a number is a string ("1"), this will still correctly identify the index to use.
+        return QBCore.Players[tonumber(source)]
     else
         return QBCore.Players[QBCore.Functions.GetSource(source)]
     end
@@ -395,7 +395,10 @@ function QBCore.Functions.CreateVehicle(source, model, vehtype, coords, warp)
 end
 
 function PaycheckInterval()
-    if not next(QBCore.Players) then return end
+    if not next(QBCore.Players) then 
+        SetTimeout(QBCore.Config.Money.PayCheckTimeOut * (60 * 1000), PaycheckInterval) -- Prevent paychecks from stopping forever once 0 players
+        return 
+    end
     for _, Player in pairs(QBCore.Players) do
         if not Player then return end
         local payment = QBShared.Jobs[Player.PlayerData.job.name]['grades'][tostring(Player.PlayerData.job.grade.level)].payment
