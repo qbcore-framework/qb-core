@@ -1,4 +1,7 @@
--- Add or change (a) method(s) in the QBCore.Functions table
+--- Add or change (a) method(s) in the QBCore.Functions table
+--- @param methodName string
+--- @param handler function
+--- @return boolean, string
 local function SetMethod(methodName, handler)
     if type(methodName) ~= 'string' then
         return false, 'invalid_method_name'
@@ -14,7 +17,10 @@ end
 QBCore.Functions.SetMethod = SetMethod
 exports('SetMethod', SetMethod)
 
--- Add or change (a) field(s) in the QBCore table
+--- Add or change (a) field(s) in the QBCore table
+--- @param fieldName string
+--- @param data any
+--- @return boolean, string
 local function SetField(fieldName, data)
     if type(fieldName) ~= 'string' then
         return false, 'invalid_field_name'
@@ -30,7 +36,10 @@ end
 QBCore.Functions.SetField = SetField
 exports('SetField', SetField)
 
--- Single add job function which should only be used if you planning on adding a single job
+--- Single add job function which should only be used if you planning on adding a single job
+--- @param jobName string
+--- @param job table
+--- @return boolean, string
 local function AddJob(jobName, job)
     if type(jobName) ~= 'string' then
         return false, 'invalid_job_name'
@@ -50,7 +59,9 @@ end
 QBCore.Functions.AddJob = AddJob
 exports('AddJob', AddJob)
 
--- Multiple Add Jobs
+--- Multiple Add Jobs
+--- @param jobs table
+--- @return boolean, string, table?
 local function AddJobs(jobs)
     local shouldContinue = true
     local message = 'success'
@@ -83,7 +94,9 @@ end
 QBCore.Functions.AddJobs = AddJobs
 exports('AddJobs', AddJobs)
 
--- Single Remove Job
+--- Single Remove Job
+--- @param jobName string
+--- @return boolean, string
 local function RemoveJob(jobName)
     if type(jobName) ~= 'string' then
         return false, 'invalid_job_name'
@@ -103,7 +116,10 @@ end
 QBCore.Functions.RemoveJob = RemoveJob
 exports('RemoveJob', RemoveJob)
 
--- Single Update Job
+--- Single Update Job
+--- @param jobName string
+--- @param job table
+--- @return boolean, string
 local function UpdateJob(jobName, job)
     if type(jobName) ~= 'string' then
         return false, 'invalid_job_name'
@@ -123,7 +139,10 @@ end
 QBCore.Functions.UpdateJob = UpdateJob
 exports('UpdateJob', UpdateJob)
 
--- Single add item
+--- Single add item
+--- @param itemName string
+--- @param item table
+--- @return boolean, string
 local function AddItem(itemName, item)
     if type(itemName) ~= 'string' then
         return false, 'invalid_item_name'
@@ -143,7 +162,10 @@ end
 QBCore.Functions.AddItem = AddItem
 exports('AddItem', AddItem)
 
--- Single update item
+--- Single update item
+--- @param itemName string
+--- @param item table
+--- @return boolean, string
 local function UpdateItem(itemName, item)
     if type(itemName) ~= 'string' then
         return false, 'invalid_item_name'
@@ -160,7 +182,9 @@ end
 QBCore.Functions.UpdateItem = UpdateItem
 exports('UpdateItem', UpdateItem)
 
--- Multiple Add Items
+--- Multiple Add Items
+--- @param items table
+--- @return boolean, string, table?
 local function AddItems(items)
     local shouldContinue = true
     local message = 'success'
@@ -193,7 +217,9 @@ end
 QBCore.Functions.AddItems = AddItems
 exports('AddItems', AddItems)
 
--- Single Remove Item
+--- Single Remove Item
+--- @param itemName string
+--- @return boolean, string
 local function RemoveItem(itemName)
     if type(itemName) ~= 'string' then
         return false, 'invalid_item_name'
@@ -213,7 +239,10 @@ end
 QBCore.Functions.RemoveItem = RemoveItem
 exports('RemoveItem', RemoveItem)
 
--- Single Add Gang
+--- Single Add Gang
+--- @param gangName string
+--- @param gang table
+--- @return boolean, string
 local function AddGang(gangName, gang)
     if type(gangName) ~= 'string' then
         return false, 'invalid_gang_name'
@@ -233,7 +262,9 @@ end
 QBCore.Functions.AddGang = AddGang
 exports('AddGang', AddGang)
 
--- Multiple Add Gangs
+--- Multiple Add Gangs
+--- @param gangs table
+--- @return boolean, string, table?
 local function AddGangs(gangs)
     local shouldContinue = true
     local message = 'success'
@@ -266,7 +297,9 @@ end
 QBCore.Functions.AddGangs = AddGangs
 exports('AddGangs', AddGangs)
 
--- Single Remove Gang
+--- Single Remove Gang
+--- @param gangName string
+--- @return boolean, string
 local function RemoveGang(gangName)
     if type(gangName) ~= 'string' then
         return false, 'invalid_gang_name'
@@ -286,7 +319,10 @@ end
 QBCore.Functions.RemoveGang = RemoveGang
 exports('RemoveGang', RemoveGang)
 
--- Single Update Gang
+--- Single Update Gang
+--- @param gangName string
+--- @param gang table
+--- @return boolean, string
 local function UpdateGang(gangName, gang)
     if type(gangName) ~= 'string' then
         return false, 'invalid_gang_name'
@@ -307,8 +343,12 @@ QBCore.Functions.UpdateGang = UpdateGang
 exports('UpdateGang', UpdateGang)
 
 local resourceName = GetCurrentResourceName()
+
+--- Get the version of the core
+--- @param InvokingResource string
+--- @return string
 local function GetCoreVersion(InvokingResource)
-    local resourceVersion = GetResourceMetadata(resourceName, 'version')
+    local resourceVersion = GetResourceMetadata(resourceName, 'version', 0)
     if InvokingResource and InvokingResource ~= '' then
         print(('%s called qbcore version check: %s'):format(InvokingResource or 'Unknown Resource', resourceVersion))
     end
@@ -318,6 +358,9 @@ end
 QBCore.Functions.GetCoreVersion = GetCoreVersion
 exports('GetCoreVersion', GetCoreVersion)
 
+--- Ban a player for exploiting
+--- @param playerId number | string
+--- @param origin string
 local function ExploitBan(playerId, origin)
     local name = GetPlayerName(playerId)
     MySQL.insert('INSERT INTO bans (name, license, discord, ip, reason, expire, bannedby) VALUES (?, ?, ?, ?, ?, ?, ?)', {
@@ -329,7 +372,7 @@ local function ExploitBan(playerId, origin)
         2147483647,
         'Anti Cheat'
     })
-    DropPlayer(playerId, Lang:t('info.exploit_banned', { discord = QBCore.Config.Server.Discord }))
+    DropPlayer(tostring(playerId), Lang:t('info.exploit_banned', { discord = QBCore.Config.Server.Discord }))
     TriggerEvent('qb-log:server:CreateLog', 'anticheat', 'Anti-Cheat', 'red', name .. ' has been banned for exploiting ' .. origin, true)
 end
 
