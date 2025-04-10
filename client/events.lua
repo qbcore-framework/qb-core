@@ -160,23 +160,34 @@ RegisterNetEvent('QBCore:Command:DeleteVehicle', function()
 end)
 
 RegisterNetEvent('QBCore:Client:VehicleInfo', function(info)
-    local plate = QBCore.Functions.GetPlate(info.vehicle)
-    local hasKeys = true
+    -- Check if the info object and vehicle data exist
+    if not info or not info.vehicle then return end
 
-    if GetResourceState('qb-vehiclekeys') == 'started' then
-        hasKeys = exports['qb-vehiclekeys']:HasKeys(plate)
+    -- Get the license plate from info.plate or via fallback function
+    local plate = info.plate or QBCore.Functions.GetPlate(info.vehicle)
+    if not plate then
+        print('[ERROR] Failed to get plate from vehicle')
+        return
     end
 
+    -- Check if the player has keys (if the resource is running)
+    local hasKeys = true
+    if GetResourceState('qb-vehiclekeys') == 'started' then
+        hasKeys = exports['qb-vehiclekeys']:HasKeys(plate) -- Optional dependency check
+    end
+
+    -- Collect all necessary vehicle info
     local data = {
         vehicle = info.vehicle,
         seat = info.seat,
-        name = info.modelName,
+        name = info.modelName or GetDisplayNameFromVehicleModel(GetEntityModel(info.vehicle)),
         plate = plate,
         driver = GetPedInVehicleSeat(info.vehicle, -1),
         inseat = GetPedInVehicleSeat(info.vehicle, info.seat),
         haskeys = hasKeys
     }
 
+    -- Trigger the event with collected data
     TriggerEvent('QBCore:Client:' .. info.event .. 'Vehicle', data)
 end)
 
