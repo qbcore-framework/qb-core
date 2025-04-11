@@ -733,6 +733,5 @@ for functionName, func in pairs(QBCore.Functions) do
         exports(functionName, func)
     end
 end
-
 -- Access a specific function directly:
 -- exports['qb-core']:Notify(source, 'Hello Player!')
