@@ -387,6 +387,10 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         return true
     end
 
+    function self.Functions.TransferMoneyTo(sourcemoneytype, targetcid, targetmoneytype, amount, reason)
+        return QBCore.Functions.TransferMoney(self.PlayerData.source, sourcemoneytype, targetcid, targetmoneytype, amount, reason)
+    end
+
     function self.Functions.GetMoney(moneytype)
         if not moneytype then return false end
         moneytype = moneytype:lower()
