@@ -1,103 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
+<html>
     <head>
-        <meta charset="UTF-8"/>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-        <title>QB Config Editor</title>
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet"/>
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0"/>
-        <link rel="stylesheet" href="style.css"/>
+        <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+        <link href="https://cdn.jsdelivr.net/npm/quasar@2.12.0/dist/quasar.prod.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet" type="text/css" />
+        <link href="css/style.css" rel="stylesheet" />
+        <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.prod.js" defer></script>
+        <script src="https://cdn.jsdelivr.net/npm/quasar@2.12.0/dist/quasar.umd.prod.js" defer></script>
+        <script type="module" src="js/app.js"></script>
+        <script src="js/drawtext.js"></script>
+        <link rel="stylesheet" href="css/drawtext.css" />
     </head>
     <body>
-        <div id="editor-container">
-            <header>
-                <h1>QB Config Editor</h1>
-                <div class="controls">
-                    <button id="save-btn">
-                        <span class="material-symbols-rounded">save</span>
-                        Save Changes
-                    </button>
-                    <button id="close-btn">
-                        <span class="material-symbols-rounded">close</span>
-                        Close
-                    </button>
-                </div>
-            </header>
-
-            <div class="content">
-                <div class="sidebar">
-                    <h2>Files</h2>
-                    <ul class="file-list">
-                        <li data-file="config">
-                            <span class="material-symbols-rounded">settings</span>
-                            Server Config
-                        </li>
-                        <li data-file="playerdata">
-                            <span class="material-symbols-rounded">account_circle</span>
-                            Player Data
-                        </li>
-                        <li data-file="jobs">
-                            <span class="material-symbols-rounded">work</span>
-                            Jobs
-                        </li>
-                        <li data-file="gangs">
-                            <span class="material-symbols-rounded">work</span>
-                            Gangs
-                        </li>
-                        <li data-file="items">
-                            <span class="material-symbols-rounded">inventory_2</span>
-                            Items
-                        </li>
-                        <li data-file="vehicles">
-                            <span class="material-symbols-rounded">directions_car</span>
-                            Vehicles
-                        </li>
-                        <li data-file="weapons">
-                            <span class="material-symbols-rounded">bolt</span>
-                            Weapons
-                        </li>
-                    </ul>
-                </div>
-
-                <div class="main-content">
-                    <div class="search-container">
-                        <div class="search-wrapper">
-                            <span class="material-symbols-rounded search-icon">search</span>
-                            <input type="text" id="search-input" placeholder="Search..." aria-label="Search through config items"/>
-                        </div>
-                    </div>
-
-                    <div id="data-container"></div>
-                </div>
-            </div>
-
-            <div id="edit-modal" class="hidden">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h2>Edit Item</h2>
-                        <button id="close-modal-btn" aria-label="Close Modal">
-                            <span class="material-symbols-rounded">close</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div id="editor-form"></div>
-                    </div>
-                    <div class="modal-footer">
-                        <button id="cancel-edit-btn">Cancel</button>
-                        <button id="save-item-btn">
-                            <span class="material-symbols-rounded">check</span>
-                            Save
-                        </button>
-                    </div>
-                </div>
-            </div>
+        <div id="q-app" style="min-height: 100vh"></div>
+        <div id="drawtext-container">
+            <div id="text" class="text"></div>
         </div>
-
-        <!-- Floating Action Button -->
-        <button id="add-item-fab" class="fab" aria-label="Add New Item">
-            <span class="material-symbols-rounded">add</span>
-        </button>
-
-        <script src="script.js"></script>
     </body>
 </html>
