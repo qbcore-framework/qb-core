@@ -1,0 +1,674 @@
+@import url("https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700&display=swap");
+
+:root {
+    /* Primary colors */
+    --md-primary: #f44336;
+    --md-on-primary: #ffffff;
+    --md-primary-container: #ffdad6;
+    --md-on-primary-container: #410002;
+
+    /* Secondary colors */
+    --md-secondary: #d32f2f;
+    --md-on-secondary: #ffffff;
+    --md-secondary-container: #ffdad5;
+    --md-on-secondary-container: #410001;
+
+    /* Tertiary colors */
+    --md-tertiary: #ff8a65;
+    --md-on-tertiary: #ffffff;
+    --md-tertiary-container: #ffdacc;
+    --md-on-tertiary-container: #410002;
+
+    /* Surface colors (dark theme) */
+    --md-surface: #1c1b1f;
+    --md-on-surface: #e6e1e5;
+    --md-surface-variant: #49454f;
+    --md-on-surface-variant: #c9c5d0;
+    --md-surface-container-lowest: #0f0d13;
+    --md-surface-container-low: #1d1b20;
+    --md-surface-container: #211f26;
+    --md-surface-container-high: #2b2930;
+    --md-surface-container-highest: #36343b;
+
+    /* Error colors */
+    --md-error: #b3261e;
+    --md-on-error: #ffffff;
+    --md-error-container: #93000a;
+    --md-on-error-container: #ffdad5;
+
+    /* Notification colors */
+    --md-success: #9bd880;
+    --md-on-success: #193800;
+    --md-success-container: #275000;
+    --md-on-success-container: #b6f397;
+
+    --md-warning: #ffba47;
+    --md-on-warning: #422b00;
+    --md-warning-container: #5f3f00;
+    --md-on-warning-container: #ffddb0;
+
+    --md-info: #b3c5ff;
+    --md-on-info: #002a77;
+    --md-info-container: #003ea7;
+    --md-on-info-container: #dae1ff;
+
+    /* Neutrals */
+    --md-outline: #79747e;
+    --md-outline-variant: #49454f;
+    --md-inverse-surface: #e6e1e5;
+    --md-inverse-on-surface: #1c1b1f;
+    --md-scrim: rgba(0, 0, 0, 0.6);
+    --md-shadow: rgba(0, 0, 0, 0.15);
+
+    /* Elevation */
+    --md-elevation-1: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+    --md-elevation-2: 0px 2px 6px 2px rgba(0, 0, 0, 0.15);
+    --md-elevation-3: 0px 4px 8px 3px rgba(0, 0, 0, 0.15);
+
+    /* Shapes */
+    --md-radius-small: 8px;
+    --md-radius-medium: 12px;
+    --md-radius-large: 16px;
+
+    /* Typography */
+    --font-primary: "Exo 2", sans-serif;
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-bold: 700;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--font-primary);
+}
+
+body {
+    background-color: transparent;
+    color: var(--md-on-surface);
+    overflow: hidden;
+}
+
+#editor-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80vw;
+    height: 80vh;
+    background-color: var(--md-surface);
+    border-radius: var(--md-radius-medium);
+    box-shadow: var(--md-elevation-3);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Header */
+header {
+    padding: 16px;
+    background-color: var(--md-surface-container-high);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    font-size: 22px;
+    color: var(--md-primary);
+}
+
+.controls {
+    display: flex;
+    gap: 12px;
+}
+
+button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: var(--md-radius-small);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    transition: background-color 0.2s;
+}
+
+#save-btn {
+    background-color: var(--md-success);
+    color: var(--md-on-success);
+}
+
+#save-btn:hover {
+    box-shadow: var(--md-elevation-1);
+    filter: brightness(1.1);
+}
+
+#close-btn {
+    background-color: var(--md-secondary);
+    color: var(--md-on-secondary);
+}
+
+#close-btn:hover {
+    box-shadow: var(--md-elevation-1);
+    filter: brightness(1.1);
+}
+
+/* Floating Action Button */
+.fab {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background-color: var(--md-primary);
+    color: var(--md-on-primary);
+    box-shadow: var(--md-elevation-3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.fab:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--md-elevation-2);
+}
+
+.fab:active {
+    transform: translateY(0);
+}
+
+/* Content layout */
+.content {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    height: calc(100vh - 130px);
+    max-height: calc(100% - 60px);
+}
+
+.sidebar {
+    background-color: var(--md-surface-container-high);
+    width: 220px;
+    padding: 16px;
+}
+
+.sidebar h2 {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 16px;
+    color: var(--md-on-surface);
+}
+
+.file-list {
+    list-style: none;
+}
+
+.file-list li {
+    padding: 12px;
+    border-radius: var(--md-radius-small);
+    cursor: pointer;
+    display: flex;
+    gap: 12px;
+}
+
+.file-list li .material-symbols-rounded {
+    font-size: 20px;
+}
+
+.file-list li:hover {
+    background-color: var(--md-surface-container-high);
+    transform: translateY(-2px);
+    box-shadow: var(--md-elevation-1);
+}
+
+.file-list li.active {
+    background-color: var(--md-primary);
+    color: var(--md-on-primary);
+    transform: translateY(-2px);
+    box-shadow: var(--md-elevation-1);
+}
+
+.main-content {
+    flex: 1;
+    padding: 16px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--md-surface-container-low);
+}
+
+/* Search Input */
+.search-container {
+    margin-bottom: 16px;
+}
+
+.search-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.search-icon {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--md-outline);
+    pointer-events: none;
+}
+
+#search-input {
+    width: 100%;
+    padding: 12px 12px 12px 40px;
+    border: 1px solid var(--md-outline-variant);
+    border-radius: var(--md-radius-small);
+    background-color: var(--md-surface-container);
+    color: var(--md-on-surface);
+}
+
+#search-input:focus {
+    border-color: var(--md-primary);
+    outline: none;
+}
+
+#data-container {
+    flex: 1;
+    overflow-y: auto;
+    max-height: calc(100vh - 200px);
+    scrollbar-width: thin; /* For Firefox */
+    scrollbar-color: var(--md-outline-variant) transparent;
+}
+
+#data-container::-webkit-scrollbar {
+    width: 6px; /* Scrollbar width for WebKit browsers */
+}
+
+#data-container::-webkit-scrollbar-thumb {
+    background-color: var(--md-outline-variant); /* Thumb color */
+    border-radius: 3px; /* Rounded corners for the thumb */
+}
+
+#data-container::-webkit-scrollbar-track {
+    background-color: transparent; /* Track color */
+}
+
+/* Cards for displaying data items */
+.data-card {
+    background-color: var(--md-surface-container);
+    border-radius: var(--md-radius-medium);
+    padding: 16px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    overflow: hidden;
+    word-break: break-word;
+    position: relative;
+}
+
+.data-card::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--md-primary);
+    opacity: 0;
+    transition: opacity 0.2s;
+    pointer-events: none;
+}
+
+.data-card:hover {
+    background-color: var(--md-surface-container-high);
+    transform: translateY(-2px);
+    box-shadow: var(--md-elevation-1);
+}
+
+.data-card:hover::after {
+    opacity: 0.05;
+}
+
+.data-card h3 {
+    color: var(--md-primary);
+    margin-bottom: 12px;
+    font-weight: 500;
+}
+
+.data-properties {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 12px;
+}
+
+.property {
+    display: flex;
+    flex-direction: column;
+}
+
+.property-label {
+    font-size: 12px;
+    color: var(--md-outline);
+}
+
+.property-value {
+    font-size: 14px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+}
+
+/* Modal */
+#edit-modal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    place-items: center; /* Perfectly centers the modal */
+    background-color: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(2px);
+    z-index: 1000;
+}
+
+#edit-modal.hidden {
+    animation: modal-disappear 0.2s ease-out forwards;
+    display: none;
+}
+
+.modal-content {
+    background-color: var(--md-surface-container);
+    border-radius: var(--md-radius-large);
+    width: 600px;
+    max-width: 90%;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: var(--md-elevation-3);
+    animation: modal-appear 0.2s ease-out;
+    overflow: hidden;
+}
+
+.modal-header {
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--md-outline-variant);
+    background-color: var(--md-surface-container-high);
+}
+
+.modal-header h2 {
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--md-primary);
+}
+
+#close-modal-btn {
+    background: none;
+    color: var(--md-on-surface-variant);
+    font-size: 24px;
+    padding: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+
+#close-modal-btn:hover {
+    color: var(--md-error);
+    background-color: var(--md-surface-container-high);
+}
+
+.modal-body {
+    padding: 24px;
+    overflow-y: auto;
+    max-height: 60vh;
+    scrollbar-width: thin;
+    scrollbar-color: var(--md-outline-variant) transparent;
+}
+
+.modal-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+    background-color: var(--md-outline-variant);
+    border-radius: 3px;
+}
+
+.modal-footer {
+    padding: 16px 24px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    border-top: 1px solid var(--md-outline-variant);
+    background-color: var(--md-surface-container-high);
+}
+
+#save-item-btn {
+    background-color: var(--md-success);
+    color: var(--md-on-success);
+}
+
+#save-item-btn:hover {
+    box-shadow: var(--md-elevation-1);
+    filter: brightness(1.1);
+}
+
+#cancel-edit-btn {
+    background-color: var(--md-secondary);
+    color: var(--md-on-secondary);
+}
+
+#cancel-edit-btn:hover {
+    box-shadow: var(--md-elevation-1);
+}
+
+/* Form elements */
+.form-group {
+    margin-bottom: 16px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: var(--md-on-surface);
+    font-size: 14px;
+}
+
+.form-control {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--md-outline-variant);
+    border-radius: var(--md-radius-small);
+    background-color: var(--md-surface-container-low);
+    color: var(--md-on-surface);
+    transition: border-color 0.2s;
+    scrollbar-width: thin;
+    scrollbar-color: var(--md-outline-variant) transparent;
+}
+
+.form-control:focus {
+    border-color: var(--md-primary);
+    outline: none;
+}
+
+textarea.form-control {
+    min-height: 100px;
+    font-family: monospace;
+}
+
+.form-control::-webkit-scrollbar {
+    width: 6px;
+}
+
+.form-control::-webkit-scrollbar-thumb {
+    background-color: var(--md-outline-variant);
+    border-radius: 3px;
+}
+
+.complex-object {
+    border: 1px solid var(--md-outline-variant);
+    border-radius: var(--md-radius-small);
+    padding: 12px;
+    margin-top: 8px;
+    background-color: var(--md-surface-container);
+}
+
+.complex-object-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.complex-object-title {
+    font-weight: 500;
+    color: var(--md-primary);
+}
+
+.add-item-btn {
+    background-color: var(--md-primary-container);
+    color: var(--md-on-primary-container);
+    padding: 4px 8px;
+    font-size: 12px;
+    border-radius: var(--md-radius-small);
+}
+
+.add-item-btn:hover {
+    filter: brightness(1.1);
+}
+
+/* For handling arrays */
+.array-item {
+    border: 1px solid var(--md-outline-variant);
+    border-radius: var(--md-radius-small);
+    padding: 12px;
+    margin-bottom: 12px;
+    position: relative;
+    background-color: var(--md-surface-container-low);
+}
+
+.remove-item-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background-color: var(--md-error-container);
+    color: var(--md-on-error-container);
+    width: 24px;
+    height: 24px;
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s;
+}
+
+.remove-item-btn:hover {
+    filter: brightness(1.1);
+}
+
+/* Improved checkbox styling */
+input[type="checkbox"] {
+    /* Remove default styling */
+    appearance: none;
+    -webkit-appearance: none;
+
+    /* Create custom checkbox */
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--md-outline-variant);
+    border-radius: 4px;
+    background-color: var(--md-surface-container-low);
+    position: relative;
+    cursor: pointer;
+    vertical-align: middle;
+    margin-right: 8px;
+    transition: all 0.2s;
+}
+
+/* Checked state */
+input[type="checkbox"]:checked {
+    background-color: var(--md-primary);
+    border-color: var(--md-primary);
+}
+
+/* Checkmark */
+input[type="checkbox"]:checked::after {
+    content: "✓";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--md-on-primary);
+    font-size: 14px;
+    opacity: 0;
+    animation: fadeIn 0.2s forwards;
+}
+
+/* Hover state */
+input[type="checkbox"]:hover {
+    border-color: var(--md-primary);
+}
+
+input[type="checkbox"]:active {
+    transform: scale(0.9);
+}
+
+/* Add this to the form-group for boolean/checkbox fields */
+.form-group.checkbox-group {
+    display: flex;
+    align-items: center;
+}
+
+.form-group.checkbox-group label {
+    margin-bottom: 0;
+    margin-left: 8px;
+    order: 2;
+}
+
+.form-group.checkbox-group input {
+    order: 1;
+}
+
+@keyframes modal-appear {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes modal-disappear {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -60%);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}

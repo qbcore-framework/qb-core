@@ -1,9 +1,7 @@
-QBShared = QBShared or {}
-
 local StringCharset = {}
 local NumberCharset = {}
 
-QBShared.StarterItems = {
+QBCore.Shared.StarterItems = {
     ['phone'] = { amount = 1, item = 'phone' },
     ['id_card'] = { amount = 1, item = 'id_card' },
     ['driver_license'] = { amount = 1, item = 'driver_license' },
@@ -13,17 +11,17 @@ for i = 48, 57 do NumberCharset[#NumberCharset + 1] = string.char(i) end
 for i = 65, 90 do StringCharset[#StringCharset + 1] = string.char(i) end
 for i = 97, 122 do StringCharset[#StringCharset + 1] = string.char(i) end
 
-function QBShared.RandomStr(length)
+function QBCore.Shared.RandomStr(length)
     if length <= 0 then return '' end
-    return QBShared.RandomStr(length - 1) .. StringCharset[math.random(1, #StringCharset)]
+    return QBCore.Shared.RandomStr(length - 1) .. StringCharset[math.random(1, #StringCharset)]
 end
 
-function QBShared.RandomInt(length)
+function QBCore.Shared.RandomInt(length)
     if length <= 0 then return '' end
-    return QBShared.RandomInt(length - 1) .. NumberCharset[math.random(1, #NumberCharset)]
+    return QBCore.Shared.RandomInt(length - 1) .. NumberCharset[math.random(1, #NumberCharset)]
 end
 
-function QBShared.SplitStr(str, delimiter)
+function QBCore.Shared.SplitStr(str, delimiter)
     local result = {}
     local from = 1
     local delim_from, delim_to = string.find(str, delimiter, from)
@@ -36,47 +34,47 @@ function QBShared.SplitStr(str, delimiter)
     return result
 end
 
-function QBShared.Trim(value)
+function QBCore.Shared.Trim(value)
     if not value then return nil end
     return (string.gsub(value, '^%s*(.-)%s*$', '%1'))
 end
 
-function QBShared.FirstToUpper(value)
+function QBCore.Shared.FirstToUpper(value)
     if not value then return nil end
-    return (value:gsub("^%l", string.upper))
+    return (value:gsub('^%l', string.upper))
 end
 
-function QBShared.Round(value, numDecimalPlaces)
+function QBCore.Shared.Round(value, numDecimalPlaces)
     if not numDecimalPlaces then return math.floor(value + 0.5) end
     local power = 10 ^ numDecimalPlaces
     return math.floor((value * power) + 0.5) / (power)
 end
 
-function QBShared.ChangeVehicleExtra(vehicle, extra, enable)
+function QBCore.Shared.ChangeVehicleExtra(vehicle, extra, enable)
     if DoesExtraExist(vehicle, extra) then
         if enable then
             SetVehicleExtra(vehicle, extra, false)
             if not IsVehicleExtraTurnedOn(vehicle, extra) then
-                QBShared.ChangeVehicleExtra(vehicle, extra, enable)
+                QBCore.Shared.ChangeVehicleExtra(vehicle, extra, enable)
             end
         else
             SetVehicleExtra(vehicle, extra, true)
             if IsVehicleExtraTurnedOn(vehicle, extra) then
-                QBShared.ChangeVehicleExtra(vehicle, extra, enable)
+                QBCore.Shared.ChangeVehicleExtra(vehicle, extra, enable)
             end
         end
     end
 end
 
-function QBShared.IsFunction(value)
+function QBCore.Shared.IsFunction(value)
     if type(value) == 'table' then
-        return value.__cfx_functionReference ~= nil and type(value.__cfx_functionReference) == "string"
+        return value.__cfx_functionReference ~= nil and type(value.__cfx_functionReference) == 'string'
     end
 
     return type(value) == 'function'
 end
 
-function QBShared.SetDefaultVehicleExtras(vehicle, config)
+function QBCore.Shared.SetDefaultVehicleExtras(vehicle, config)
     -- Clear Extras
     for i = 1, 20 do
         if DoesExtraExist(vehicle, i) then
@@ -89,11 +87,11 @@ function QBShared.SetDefaultVehicleExtras(vehicle, config)
             enabled = true
         end
 
-        QBShared.ChangeVehicleExtra(vehicle, tonumber(id), enabled)
+        QBCore.Shared.ChangeVehicleExtra(vehicle, tonumber(id), enabled)
     end
 end
 
-QBShared.MaleNoGloves = {
+QBCore.Shared.MaleNoGloves = {
     [0] = true,
     [1] = true,
     [2] = true,
@@ -131,7 +129,7 @@ QBShared.MaleNoGloves = {
     [132] = true
 }
 
-QBShared.FemaleNoGloves = {
+QBCore.Shared.FemaleNoGloves = {
     [0] = true,
     [1] = true,
     [2] = true,

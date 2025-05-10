@@ -3,24 +3,18 @@ game 'gta5'
 lua54 'yes'
 author 'Kakarot'
 description 'Core resource for the framework, contains all the core functionality and features'
-version '1.3.0'
+version '2.0.0'
 
 shared_scripts {
-    'config.lua',
     'shared/locale.lua',
     'locale/en.lua',
     'locale/*.lua',
-    'shared/main.lua',
-    'shared/items.lua',
-    'shared/jobs.lua',
-    'shared/vehicles.lua',
-    'shared/gangs.lua',
-    'shared/weapons.lua',
-    'shared/locations.lua'
+    'shared/core.lua',
+    'shared/loader.lua',
+    'shared/main.lua'
 }
 
 client_scripts {
-    'client/main.lua',
     'client/functions.lua',
     'client/loops.lua',
     'client/events.lua',
@@ -29,7 +23,6 @@ client_scripts {
 
 server_scripts {
     '@oxmysql/lib/MySQL.lua',
-    'server/main.lua',
     'server/functions.lua',
     'server/player.lua',
     'server/events.lua',
@@ -42,9 +35,13 @@ ui_page 'html/index.html'
 
 files {
     'html/index.html',
-    'html/css/style.css',
-    'html/css/drawtext.css',
-    'html/js/*.js'
+    'html/css/*.css',
+    'html/js/*.js',
+    'shared/jobs.json',
+    'shared/gangs.json',
+    'shared/items.json',
+    'shared/vehicles.json',
+    'shared/weapons.json'
 }
 
 dependency 'oxmysql'
