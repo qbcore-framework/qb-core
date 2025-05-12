@@ -1,0 +1,228 @@
+:root {
+    /* Light Theme */
+    --md-light-primary: #f44336;
+    --md-light-on-primary: #ffffff;
+    --md-light-primary-container: #ffdad6;
+    --md-light-on-primary-container: #410002;
+    --md-light-secondary: #d32f2f;
+    --md-light-on-secondary: #ffffff;
+    --md-light-secondary-container: #ffdad5;
+    --md-light-on-secondary-container: #410001;
+    --md-light-tertiary: #ff8a65;
+    --md-light-on-tertiary: #ffffff;
+    --md-light-tertiary-container: #ffdacc;
+    --md-light-on-tertiary-container: #410002;
+    --md-light-surface: #fffbff;
+    --md-light-on-surface: #1c1b1f;
+    --md-light-surface-variant: #e7e0ec;
+    --md-light-on-surface-variant: #49454f;
+    --md-light-surface-container-lowest: #ffffff;
+    --md-light-surface-container-low: #f7f2fa;
+    --md-light-surface-container: #f3edf7;
+    --md-light-surface-container-high: #ece8f0;
+    --md-light-surface-container-highest: #e6e1e5;
+    --md-light-error: #b3261e;
+    --md-light-on-error: #ffffff;
+    --md-light-error-container: #f9dedc;
+    --md-light-on-error-container: #410e0b;
+    --md-light-outline: #79747e;
+    --md-light-outline-variant: #c4c7c5;
+    --md-light-inverse-surface: #313033;
+    --md-light-inverse-on-surface: #f4eff4;
+    --md-light-scrim: rgba(0, 0, 0, 0.4);
+    --md-light-shadow: rgba(0, 0, 0, 0.08);
+    --md-light-success: #386a20;
+    --md-light-on-success: #ffffff;
+    --md-light-success-container: #b6f397;
+    --md-light-on-success-container: #0c2000;
+    --md-light-warning: #825500;
+    --md-light-on-warning: #ffffff;
+    --md-light-warning-container: #ffddb0;
+    --md-light-on-warning-container: #281800;
+    --md-light-info: #0055d5;
+    --md-light-on-info: #ffffff;
+    --md-light-info-container: #dae1ff;
+    --md-light-on-info-container: #001847;
+
+    /* Dark Theme (your existing variables) */
+    --md-dark-primary: #f44336;
+    --md-dark-on-primary: #ffffff;
+    --md-dark-primary-container: #ffdad6;
+    --md-dark-on-primary-container: #410002;
+    --md-dark-secondary: #d32f2f;
+    --md-dark-on-secondary: #ffffff;
+    --md-dark-secondary-container: #ffdad5;
+    --md-dark-on-secondary-container: #410001;
+    --md-dark-tertiary: #ff8a65;
+    --md-dark-on-tertiary: #ffffff;
+    --md-dark-tertiary-container: #ffdacc;
+    --md-dark-on-tertiary-container: #410002;
+    --md-dark-surface: #1c1b1f;
+    --md-dark-on-surface: #e6e1e5;
+    --md-dark-surface-container-lowest: #0f0d13;
+    --md-dark-surface-container-low: #1d1b20;
+    --md-dark-surface-container: #211f26;
+    --md-dark-surface-container-high: #2b2930;
+    --md-dark-surface-container-highest: #36343b;
+    --md-dark-error: #b3261e;
+    --md-dark-on-error: #ffffff;
+    --md-dark-error-container: #93000a;
+    --md-dark-on-error-container: #ffdad5;
+    --md-dark-outline: #79747e;
+    --md-dark-outline-variant: #49454f;
+    --md-dark-inverse-surface: #e6e1e5;
+    --md-dark-inverse-on-surface: #1c1b1f;
+    --md-dark-scrim: rgba(0, 0, 0, 0.6);
+    --md-dark-shadow: rgba(0, 0, 0, 0.15);
+    --md-dark-success: #9bd880;
+    --md-dark-on-success: #193800;
+    --md-dark-success-container: #275000;
+    --md-dark-on-success-container: #b6f397;
+    --md-dark-warning: #ffba47;
+    --md-dark-on-warning: #422b00;
+    --md-dark-warning-container: #5f3f00;
+    --md-dark-on-warning-container: #ffddb0;
+    --md-dark-info: #b3c5ff;
+    --md-dark-on-info: #002a77;
+    --md-dark-info-container: #003ea7;
+    --md-dark-on-info-container: #dae1ff;
+
+    /* System states */
+    --md-state-hover-light-opacity: 0.08;
+    --md-state-focus-light-opacity: 0.12;
+    --md-state-pressed-light-opacity: 0.12;
+    --md-state-dragged-light-opacity: 0.16;
+    --md-state-hover-dark-opacity: 0.08;
+    --md-state-focus-dark-opacity: 0.12;
+    --md-state-pressed-dark-opacity: 0.12;
+    --md-state-dragged-dark-opacity: 0.16;
+
+    /* Elevation */
+    --md-elevation-1: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+    --md-elevation-2: 0px 2px 6px 2px rgba(0, 0, 0, 0.15);
+    --md-elevation-3: 0px 4px 8px 3px rgba(0, 0, 0, 0.15);
+    --md-elevation-4: 0px 6px 10px 4px rgba(0, 0, 0, 0.15);
+    --md-elevation-5: 0px 8px 12px 6px rgba(0, 0, 0, 0.15);
+
+    /* Shapes */
+    --md-radius-small: 8px;
+    --md-radius-medium: 12px;
+    --md-radius-large: 16px;
+    --md-radius-extra-large: 28px;
+
+    /* Typography */
+    --md-typescale-display-large-size: 57px;
+    --md-typescale-display-medium-size: 45px;
+    --md-typescale-display-small-size: 36px;
+    --md-typescale-headline-large-size: 32px;
+    --md-typescale-headline-medium-size: 28px;
+    --md-typescale-headline-small-size: 24px;
+    --md-typescale-title-large-size: 22px;
+    --md-typescale-title-medium-size: 16px;
+    --md-typescale-title-small-size: 14px;
+    --md-typescale-body-large-size: 16px;
+    --md-typescale-body-medium-size: 14px;
+    --md-typescale-body-small-size: 12px;
+    --md-typescale-label-large-size: 14px;
+    --md-typescale-label-medium-size: 12px;
+    --md-typescale-label-small-size: 11px;
+
+    /* Exo 2 Typography */
+    /* @import url("https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700&display=swap"); */
+    --font-primary: "Exo 2", sans-serif;
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-bold: 700;
+}
+
+/* Default to light theme */
+:root {
+    --md-primary: var(--md-light-primary);
+    --md-on-primary: var(--md-light-on-primary);
+    --md-primary-container: var(--md-light-primary-container);
+    --md-on-primary-container: var(--md-light-on-primary-container);
+    --md-secondary: var(--md-light-secondary);
+    --md-on-secondary: var(--md-light-on-secondary);
+    --md-secondary-container: var(--md-light-secondary-container);
+    --md-on-secondary-container: var(--md-light-on-secondary-container);
+    --md-tertiary: var(--md-light-tertiary);
+    --md-on-tertiary: var(--md-light-on-tertiary);
+    --md-tertiary-container: var(--md-light-tertiary-container);
+    --md-on-tertiary-container: var(--md-light-on-tertiary-container);
+    --md-surface: var(--md-light-surface);
+    --md-on-surface: var(--md-light-on-surface);
+    --md-surface-variant: var(--md-light-surface-variant);
+    --md-on-surface-variant: var(--md-light-on-surface-variant);
+    --md-surface-container-lowest: var(--md-light-surface-container-lowest);
+    --md-surface-container-low: var(--md-light-surface-container-low);
+    --md-surface-container: var(--md-light-surface-container);
+    --md-surface-container-high: var(--md-light-surface-container-high);
+    --md-surface-container-highest: var(--md-light-surface-container-highest);
+    --md-error: var(--md-light-error);
+    --md-on-error: var(--md-light-on-error);
+    --md-error-container: var(--md-light-error-container);
+    --md-on-error-container: var(--md-light-on-error-container);
+    --md-outline: var(--md-light-outline);
+    --md-outline-variant: var(--md-light-outline-variant);
+    --md-inverse-surface: var(--md-light-inverse-surface);
+    --md-inverse-on-surface: var(--md-light-inverse-on-surface);
+    --md-scrim: var(--md-light-scrim);
+    --md-shadow: var(--md-light-shadow);
+    --md-success: var(--md-light-success);
+    --md-on-success: var(--md-light-on-success);
+    --md-success-container: var(--md-light-success-container);
+    --md-on-success-container: var(--md-light-on-success-container);
+    --md-warning: var(--md-light-warning);
+    --md-on-warning: var(--md-light-on-warning);
+    --md-warning-container: var(--md-light-warning-container);
+    --md-on-warning-container: var(--md-light-on-warning-container);
+    --md-info: var(--md-light-info);
+    --md-on-info: var(--md-light-on-info);
+    --md-info-container: var(--md-light-info-container);
+    --md-on-info-container: var(--md-light-on-info-container);
+}
+
+/* Dark theme class */
+.dark-theme {
+    --md-primary: var(--md-dark-primary);
+    --md-on-primary: var(--md-dark-on-primary);
+    --md-primary-container: var(--md-dark-primary-container);
+    --md-on-primary-container: var(--md-dark-on-primary-container);
+    --md-secondary: var(--md-dark-secondary);
+    --md-on-secondary: var(--md-dark-on-secondary);
+    --md-secondary-container: var(--md-dark-secondary-container);
+    --md-on-secondary-container: var(--md-dark-on-secondary-container);
+    --md-tertiary: var(--md-dark-tertiary);
+    --md-on-tertiary: var(--md-dark-on-tertiary);
+    --md-tertiary-container: var(--md-dark-tertiary-container);
+    --md-on-tertiary-container: var(--md-dark-on-tertiary-container);
+    --md-surface: var(--md-dark-surface);
+    --md-on-surface: var(--md-dark-on-surface);
+    --md-surface-container-lowest: var(--md-dark-surface-container-lowest);
+    --md-surface-container-low: var(--md-dark-surface-container-low);
+    --md-surface-container: var(--md-dark-surface-container);
+    --md-surface-container-high: var(--md-dark-surface-container-high);
+    --md-surface-container-highest: var(--md-dark-surface-container-highest);
+    --md-error: var(--md-dark-error);
+    --md-on-error: var(--md-dark-on-error);
+    --md-error-container: var(--md-dark-error-container);
+    --md-on-error-container: var(--md-dark-on-error-container);
+    --md-outline: var(--md-dark-outline);
+    --md-outline-variant: var(--md-dark-outline-variant);
+    --md-inverse-surface: var(--md-dark-inverse-surface);
+    --md-inverse-on-surface: var(--md-dark-inverse-on-surface);
+    --md-scrim: var(--md-dark-scrim);
+    --md-shadow: var(--md-dark-shadow);
+    --md-success: var(--md-dark-success);
+    --md-on-success: var(--md-dark-on-success);
+    --md-success-container: var(--md-dark-success-container);
+    --md-on-success-container: var(--md-dark-on-success-container);
+    --md-warning: var(--md-dark-warning);
+    --md-on-warning: var(--md-dark-on-warning);
+    --md-warning-container: var(--md-dark-warning-container);
+    --md-on-warning-container: var(--md-dark-on-warning-container);
+    --md-info: var(--md-dark-info);
+    --md-on-info: var(--md-dark-on-info);
+    --md-info-container: var(--md-dark-info-container);
+    --md-on-info-container: var(--md-dark-on-info-container);
+}

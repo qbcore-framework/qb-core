@@ -18,7 +18,8 @@ client_scripts {
     'client/functions.lua',
     'client/loops.lua',
     'client/events.lua',
-    'client/drawtext.lua'
+    'client/drawtext.lua',
+    'client/editor.lua'
 }
 
 server_scripts {
@@ -38,9 +39,11 @@ files {
     'html/index.html',
     'html/css/*.css',
     'html/js/*.js',
-    'shared/jobs.json',
+    'shared/config.json',
     'shared/gangs.json',
     'shared/items.json',
+    'shared/jobs.json',
+    'shared/player_defaults.json',
     'shared/vehicles.json',
     'shared/weapons.json'
 }

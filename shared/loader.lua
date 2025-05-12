@@ -2,12 +2,10 @@ local resourceName = GetCurrentResourceName()
 
 -- Load Config
 
-if IsDuplicityVersion() then
-    local configData = LoadResourceFile(resourceName, 'shared/config.json')
-    if not configData then return print('^1[QBCore] Failed to Load Config JSON File') end
-    QBCore.Config = json.decode(configData) or {}
-    print('^2[QBCore] Loaded Config.json')
-end
+local Config = LoadResourceFile(resourceName, 'shared/config.json')
+if not Config then return print('^1[QBCore] Failed to Load Config JSON File') end
+QBCore.Config = json.decode(Config) or {}
+print('^2[QBCore] Loaded Config.json')
 
 -- Load Vehicles
 
