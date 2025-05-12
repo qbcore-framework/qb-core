@@ -1,52 +1,43 @@
-QBCore.Players = {}
-QBCore.Player = {}
-
--- On player login get their data or set defaults
--- Don't touch any of this unless you know what you are doing
--- Will cause major issues!
-
 local resourceName = GetCurrentResourceName()
+
 function QBCore.Player.Login(source, citizenid, newData)
-    if source and source ~= '' then
-        if citizenid then
-            local license = QBCore.Functions.GetIdentifier(source, 'license')
-            local PlayerData = MySQL.prepare.await('SELECT * FROM players where citizenid = ?', { citizenid })
-            if PlayerData and license == PlayerData.license then
-                PlayerData.money = json.decode(PlayerData.money)
-                PlayerData.job = json.decode(PlayerData.job)
-                PlayerData.gang = json.decode(PlayerData.gang)
-                PlayerData.position = json.decode(PlayerData.position)
-                PlayerData.metadata = json.decode(PlayerData.metadata)
-                PlayerData.charinfo = json.decode(PlayerData.charinfo)
-                QBCore.Player.CheckPlayerData(source, PlayerData)
-            else
-                DropPlayer(source, Lang:t('info.exploit_dropped'))
-                TriggerEvent('qb-log:server:CreateLog', 'anticheat', 'Anti-Cheat', 'white', GetPlayerName(source) .. ' Has Been Dropped For Character Joining Exploit', false)
-            end
-        else
-            QBCore.Player.CheckPlayerData(source, newData)
-        end
-        return true
-    else
+    if not source or source == '' then
         QBCore.ShowError(resourceName, 'ERROR QBCORE.PLAYER.LOGIN - NO SOURCE GIVEN!')
         return false
     end
+
+    if citizenid then
+        local license = QBCore.Functions.GetIdentifier(source, 'license')
+        local row = MySQL.prepare.await('SELECT * FROM players WHERE citizenid = ?', { citizenid })
+        if not row or license ~= row.license then
+            DropPlayer(source, Lang:t('info.exploit_dropped'))
+            TriggerEvent('qb-log:server:CreateLog', 'anticheat', 'Anti-Cheat', 'white', GetPlayerName(source) .. ' exploit attempt', false)
+            return false
+        end
+        row.money    = json.decode(row.money) or {}
+        row.job      = json.decode(row.job) or {}
+        row.gang     = json.decode(row.gang) or {}
+        row.position = json.decode(row.position) or {}
+        row.metadata = json.decode(row.metadata) or {}
+        row.charinfo = json.decode(row.charinfo) or {}
+        QBCore.Player.CheckPlayerData(source, row)
+    else
+        QBCore.Player.CheckPlayerData(source, newData)
+    end
+    return true
 end
 
 function QBCore.Player.GetOfflinePlayer(citizenid)
-    if citizenid then
-        local PlayerData = MySQL.prepare.await('SELECT * FROM players where citizenid = ?', { citizenid })
-        if PlayerData then
-            PlayerData.money = json.decode(PlayerData.money)
-            PlayerData.job = json.decode(PlayerData.job)
-            PlayerData.gang = json.decode(PlayerData.gang)
-            PlayerData.position = json.decode(PlayerData.position)
-            PlayerData.metadata = json.decode(PlayerData.metadata)
-            PlayerData.charinfo = json.decode(PlayerData.charinfo)
-            return QBCore.Player.CheckPlayerData(nil, PlayerData)
-        end
-    end
-    return nil
+    if not citizenid then return nil end
+    local row = MySQL.prepare.await('SELECT * FROM players WHERE citizenid = ?', { citizenid })
+    if not row then return nil end
+    row.money    = json.decode(row.money) or {}
+    row.job      = json.decode(row.job) or {}
+    row.gang     = json.decode(row.gang) or {}
+    row.position = json.decode(row.position) or {}
+    row.metadata = json.decode(row.metadata) or {}
+    row.charinfo = json.decode(row.charinfo) or {}
+    return QBCore.Player.CheckPlayerData(nil, row)
 end
 
 function QBCore.Player.GetPlayerByLicense(license)
@@ -77,15 +68,82 @@ function QBCore.Player.GetOfflinePlayerByLicense(license)
     return nil
 end
 
-local function applyDefaults(playerData, defaults)
-    for key, value in pairs(defaults) do
-        if type(value) == 'function' then
-            playerData[key] = playerData[key] or value()
-        elseif type(value) == 'table' then
-            playerData[key] = playerData[key] or {}
-            applyDefaults(playerData[key], value)
+-- JSON DEFAULTS
+
+local DynamicDefaults = {
+    citizenid    = QBCore.Functions.CreateCitizenId,
+    phone        = QBCore.Functions.CreatePhoneNumber,
+    account      = QBCore.Functions.CreateAccountNumber,
+    fingerprint  = QBCore.Functions.CreateFingerId,
+    walletid     = QBCore.Functions.CreateWalletId,
+    SerialNumber = QBCore.Functions.CreateSerialNumber,
+    bloodtype    = function()
+        return QBCore.Shared.GetRandomElement(QBCore.Config.Player.Bloodtypes)
+    end
+}
+
+local function applyDynamicDefaults(tbl)
+    for k, v in pairs(tbl) do
+        if type(v) == 'table' then
+            applyDynamicDefaults(v)
+        elseif v == '__GENERATED__' then
+            local gen = DynamicDefaults[k]
+            if gen then
+                tbl[k] = gen()
+            end
+        end
+    end
+end
+
+local function mergeDefaults(dest, src)
+    for k, v in pairs(src) do
+        if type(v) == 'table' then
+            if type(dest[k]) ~= 'table' then
+                dest[k] = {}
+            end
+            mergeDefaults(dest[k], v)
         else
-            playerData[key] = playerData[key] or value
+            if dest[k] == nil then
+                dest[k] = v
+            end
+        end
+    end
+end
+
+local function mergeWithGenerators(dest, src)
+    for k, v in pairs(src) do
+        if type(v) == 'table' then
+            if type(dest[k]) ~= 'table' then
+                dest[k] = {}
+            end
+            mergeWithGenerators(dest[k], v)
+        else
+            -- only act if dest is missing
+            if dest[k] == nil then
+                if v == '__GENERATED__' then
+                    local gen = DynamicDefaults[k]
+                    if gen then
+                        dest[k] = gen()
+                    else
+                        -- fallback to literal, or warn
+                        dest[k] = v
+                        print(("Warning: no generator for '%s'"):format(k))
+                    end
+                else
+                    -- static default
+                    dest[k] = v
+                end
+            end
+        end
+    end
+end
+
+local function pruneExtras(dest, src)
+    for k, v in pairs(dest) do
+        if src[k] == nil then
+            dest[k] = nil
+        elseif type(v) == 'table' and type(src[k]) == 'table' then
+            pruneExtras(v, src[k])
         end
     end
 end
@@ -94,57 +152,21 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
     PlayerData = PlayerData or {}
     local Offline = not source
 
+    local defaults = json.decode(LoadResourceFile(resourceName, 'shared/player_defaults.json'))
+
+    if not PlayerData.citizenid then
+        applyDynamicDefaults(defaults)
+        mergeDefaults(PlayerData, defaults)
+    else
+        pruneExtras(PlayerData, defaults)
+        mergeWithGenerators(PlayerData, defaults)
+    end
+
     if source then
-        PlayerData.source = source
-        PlayerData.license = PlayerData.license or QBCore.Functions.GetIdentifier(source, 'license')
-        PlayerData.name = GetPlayerName(source)
+        PlayerData.source  = source
+        PlayerData.license = PlayerData.license or GetPlayerIdentifierByType(source, 'license')
+        PlayerData.name    = GetPlayerName(source)
     end
-
-    local validatedJob = false
-    if PlayerData.job and PlayerData.job.name ~= nil and PlayerData.job.grade and PlayerData.job.grade.level ~= nil then
-        local jobInfo = QBCore.Shared.Jobs[PlayerData.job.name]
-
-        if jobInfo then
-            local jobGradeInfo = jobInfo.grades[tostring(PlayerData.job.grade.level)]
-            if jobGradeInfo then
-                PlayerData.job.label = jobInfo.label
-                PlayerData.job.grade.name = jobGradeInfo.name
-                PlayerData.job.payment = jobGradeInfo.payment
-                PlayerData.job.grade.isboss = jobGradeInfo.isboss or false
-                PlayerData.job.isboss = jobGradeInfo.isboss or false
-                validatedJob = true
-            end
-        end
-    end
-
-    if validatedJob == false then
-        -- set to nil, as the default job (unemployed) will be added by `applyDefaults`
-        PlayerData.job = nil
-    end
-
-    local validatedGang = false
-    if PlayerData.gang and PlayerData.gang.name ~= nil and PlayerData.gang.grade and PlayerData.gang.grade.level ~= nil then
-        local gangInfo = QBCore.Shared.Gangs[PlayerData.gang.name]
-
-        if gangInfo then
-            local gangGradeInfo = gangInfo.grades[tostring(PlayerData.gang.grade.level)]
-            if gangGradeInfo then
-                PlayerData.gang.label = gangInfo.label
-                PlayerData.gang.grade.name = gangGradeInfo.name
-                PlayerData.gang.payment = gangGradeInfo.payment
-                PlayerData.gang.grade.isboss = gangGradeInfo.isboss or false
-                PlayerData.gang.isboss = gangGradeInfo.isboss or false
-                validatedGang = true
-            end
-        end
-    end
-
-    if validatedGang == false then
-        -- set to nil, as the default gang (unemployed) will be added by `applyDefaults`
-        PlayerData.gang = nil
-    end
-
-    applyDefaults(PlayerData, QBCore.Config.Player.PlayerDefaults)
 
     if GetResourceState('qb-inventory') ~= 'missing' then
         PlayerData.items = exports['qb-inventory']:LoadInventory(PlayerData.source, PlayerData.citizenid)
@@ -424,62 +446,6 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
     end
 end
 
--- Add a new function to the Functions table of the player class
--- Use-case:
---[[
-    AddEventHandler('QBCore:Server:PlayerLoaded', function(Player)
-        QBCore.Functions.AddPlayerMethod(Player.PlayerData.source, "functionName", function(oneArg, orMore)
-            -- do something here
-        end)
-    end)
-]]
-
-function QBCore.Functions.AddPlayerMethod(ids, methodName, handler)
-    local idType = type(ids)
-    if idType == 'number' then
-        if ids == -1 then
-            for _, v in pairs(QBCore.Players) do
-                v.Functions.AddMethod(methodName, handler)
-            end
-        else
-            if not QBCore.Players[ids] then return end
-
-            QBCore.Players[ids].Functions.AddMethod(methodName, handler)
-        end
-    elseif idType == 'table' and table.type(ids) == 'array' then
-        for i = 1, #ids do
-            QBCore.Functions.AddPlayerMethod(ids[i], methodName, handler)
-        end
-    end
-end
-
--- Add a new field table of the player class
--- Use-case:
---[[
-    AddEventHandler('QBCore:Server:PlayerLoaded', function(Player)
-        QBCore.Functions.AddPlayerField(Player.PlayerData.source, "fieldName", "fieldData")
-    end)
-]]
-
-function QBCore.Functions.AddPlayerField(ids, fieldName, data)
-    local idType = type(ids)
-    if idType == 'number' then
-        if ids == -1 then
-            for _, v in pairs(QBCore.Players) do
-                v.Functions.AddField(fieldName, data)
-            end
-        else
-            if not QBCore.Players[ids] then return end
-
-            QBCore.Players[ids].Functions.AddField(fieldName, data)
-        end
-    elseif idType == 'table' and table.type(ids) == 'array' then
-        for i = 1, #ids do
-            QBCore.Functions.AddPlayerField(ids[i], fieldName, data)
-        end
-    end
-end
-
 -- Save player info to database (make sure citizenid is the primary key in your database)
 
 function QBCore.Player.Save(source)
@@ -617,50 +583,6 @@ end
 function QBCore.Player.GetFirstSlotByItem(items, itemName)
     if GetResourceState('qb-inventory') == 'missing' then return end
     return exports['qb-inventory']:GetFirstSlotByItem(items, itemName)
-end
-
--- Util Functions
-
-function QBCore.Player.CreateCitizenId()
-    local CitizenId = tostring(QBCore.Shared.RandomStr(3) .. QBCore.Shared.RandomInt(5)):upper()
-    local result = MySQL.prepare.await('SELECT EXISTS(SELECT 1 FROM players WHERE citizenid = ?) AS uniqueCheck', { CitizenId })
-    if result == 0 then return CitizenId end
-    return QBCore.Player.CreateCitizenId()
-end
-
-function QBCore.Functions.CreateAccountNumber()
-    local AccountNumber = 'US0' .. math.random(1, 9) .. 'QBCore' .. math.random(1111, 9999) .. math.random(1111, 9999) .. math.random(11, 99)
-    local result = MySQL.prepare.await('SELECT EXISTS(SELECT 1 FROM players WHERE JSON_UNQUOTE(JSON_EXTRACT(charinfo, "$.account")) = ?) AS uniqueCheck', { AccountNumber })
-    if result == 0 then return AccountNumber end
-    return QBCore.Functions.CreateAccountNumber()
-end
-
-function QBCore.Functions.CreatePhoneNumber()
-    local PhoneNumber = math.random(100, 999) .. math.random(1000000, 9999999)
-    local result = MySQL.prepare.await('SELECT EXISTS(SELECT 1 FROM players WHERE JSON_UNQUOTE(JSON_EXTRACT(charinfo, "$.phone")) = ?) AS uniqueCheck', { PhoneNumber })
-    if result == 0 then return PhoneNumber end
-    return QBCore.Functions.CreatePhoneNumber()
-end
-
-function QBCore.Player.CreateFingerId()
-    local FingerId = tostring(QBCore.Shared.RandomStr(2) .. QBCore.Shared.RandomInt(3) .. QBCore.Shared.RandomStr(1) .. QBCore.Shared.RandomInt(2) .. QBCore.Shared.RandomStr(3) .. QBCore.Shared.RandomInt(4))
-    local result = MySQL.prepare.await('SELECT EXISTS(SELECT 1 FROM players WHERE JSON_UNQUOTE(JSON_EXTRACT(metadata, "$.fingerprint")) = ?) AS uniqueCheck', { FingerId })
-    if result == 0 then return FingerId end
-    return QBCore.Player.CreateFingerId()
-end
-
-function QBCore.Player.CreateWalletId()
-    local WalletId = 'QB-' .. math.random(11111111, 99999999)
-    local result = MySQL.prepare.await('SELECT EXISTS(SELECT 1 FROM players WHERE JSON_UNQUOTE(JSON_EXTRACT(metadata, "$.walletid")) = ?) AS uniqueCheck', { WalletId })
-    if result == 0 then return WalletId end
-    return QBCore.Player.CreateWalletId()
-end
-
-function QBCore.Player.CreateSerialNumber()
-    local SerialNumber = math.random(11111111, 99999999)
-    local result = MySQL.prepare.await('SELECT EXISTS(SELECT 1 FROM players WHERE JSON_UNQUOTE(JSON_EXTRACT(metadata, "$.phonedata.SerialNumber")) = ?) AS uniqueCheck', { SerialNumber })
-    if result == 0 then return SerialNumber end
-    return QBCore.Player.CreateSerialNumber()
 end
 
 PaycheckInterval() -- This starts the paycheck system

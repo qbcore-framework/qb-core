@@ -28,7 +28,8 @@ server_scripts {
     'server/events.lua',
     'server/commands.lua',
     'server/exports.lua',
-    'server/debug.lua'
+    'server/debug.lua',
+    'server/editor.lua'
 }
 
 ui_page 'html/index.html'

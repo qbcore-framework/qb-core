@@ -1,5 +1,5 @@
 {
-    "citizenid": null,
+    "citizenid": "__GENERATED__",
     "cid": 1,
     "money": {
         "cash": 500,
@@ -44,24 +44,24 @@
         "hunger": 100,
         "thirst": 100,
         "stress": 0,
+        "armor": 0,
         "isdead": false,
         "inlaststand": false,
-        "armor": 0,
         "ishandcuffed": false,
         "tracker": false,
         "injail": 0,
-        "jailitems": [],
+        "jailitems": {},
         "status": {},
         "phone": {},
         "rep": {},
-        "currentapartment": null,
+        "currentapartment": false,
         "callsign": "NO CALLSIGN",
-        "bloodtype": null,
-        "fingerprint": null,
-        "walletid": null,
+        "bloodtype": "__GENERATED__",
+        "fingerprint": "__GENERATED__",
+        "walletid": "__GENERATED__",
         "criminalrecord": {
             "hasRecord": false,
-            "date": null
+            "date": "00-00-0000"
         },
         "licences": {
             "driver": true,
@@ -69,15 +69,15 @@
             "weapon": false
         },
         "inside": {
-            "house": null,
+            "house": {},
             "apartment": {
-                "apartmentType": null,
-                "apartmentId": null
+                "apartmentType": {},
+                "apartmentId": {}
             }
         },
         "phonedata": {
-            "SerialNumber": null,
-            "InstalledApps": []
+            "SerialNumber": "__GENERATED__",
+            "InstalledApps": {}
         }
     },
     "position": {
@@ -86,5 +86,5 @@
         "z": 1000,
         "h": 1000
     },
-    "items": []
+    "items": {}
 }

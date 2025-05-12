@@ -1,12 +1,12 @@
 RegisterCommand('qbeditor', function(source)
     local files = {
-        config = LoadResourceFile('qb-core', 'shared/json/config.json'),
-        gangs = LoadResourceFile('qb-core', 'shared/json/gangs.json'),
-        items = LoadResourceFile('qb-core', 'shared/json/items.json'),
-        jobs = LoadResourceFile('qb-core', 'shared/json/jobs.json'),
-        playerdata = LoadResourceFile('qb-core', 'shared/json/player_defaults.json'),
-        vehicles = LoadResourceFile('qb-core', 'shared/json/vehicles.json'),
-        weapons = LoadResourceFile('qb-core', 'shared/json/weapons.json'),
+        config = LoadResourceFile('qb-core', 'shared/config.json'),
+        gangs = LoadResourceFile('qb-core', 'shared/gangs.json'),
+        items = LoadResourceFile('qb-core', 'shared/items.json'),
+        jobs = LoadResourceFile('qb-core', 'shared/jobs.json'),
+        playerdata = LoadResourceFile('qb-core', 'shared/player_defaults.json'),
+        vehicles = LoadResourceFile('qb-core', 'shared/vehicles.json'),
+        weapons = LoadResourceFile('qb-core', 'shared/weapons.json'),
     }
 
     local allData = {}
@@ -27,13 +27,13 @@ RegisterNetEvent('qb-core:server:configEditor', function(fileName, fileData)
     if not Player then return end
     if not QBCore.Functions.HasPermission('god') then
         local filePaths = {
-            ['config'] = 'shared/json/config.json',
-            ['gangs'] = 'shared/json/gangs.json',
-            ['items'] = 'shared/json/items.json',
-            ['jobs'] = 'shared/json/jobs.json',
-            ['playerdata'] = 'shared/json/player_defaults.json',
-            ['vehicles'] = 'shared/json/vehicles.json',
-            ['weapons'] = 'shared/json/weapons.json'
+            ['config'] = 'shared/config.json',
+            ['gangs'] = 'shared/gangs.json',
+            ['items'] = 'shared/items.json',
+            ['jobs'] = 'shared/jobs.json',
+            ['playerdata'] = 'shared/player_defaults.json',
+            ['vehicles'] = 'shared/vehicles.json',
+            ['weapons'] = 'shared/weapons.json'
         }
         local filePath = filePaths[fileName]
         if not filePath then

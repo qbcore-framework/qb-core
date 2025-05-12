@@ -1,8 +1,3 @@
-QBCore.Functions = {}
-QBCore.Player_Buckets = {}
-QBCore.Entity_Buckets = {}
-QBCore.UsableItems = {}
-
 -- Getters
 -- Get your player first and then trigger a function on them
 -- ex: local player = QBCore.Functions.GetPlayer(source)
@@ -727,6 +722,104 @@ function QBCore.Functions.PrepForSQL(source, data, pattern)
         return false
     end
     return true
+end
+
+function QBCore.Functions.CreateCitizenId()
+    local CitizenId = tostring(QBCore.Shared.RandomStr(3) .. QBCore.Shared.RandomInt(5)):upper()
+    local result = MySQL.prepare.await('SELECT EXISTS(SELECT 1 FROM players WHERE citizenid = ?) AS uniqueCheck', { CitizenId })
+    if result == 0 then return CitizenId end
+    return QBCore.Functions.CreateCitizenId()
+end
+
+function QBCore.Functions.CreateAccountNumber()
+    local AccountNumber = 'US0' .. math.random(1, 9) .. 'QBCore' .. math.random(1111, 9999) .. math.random(1111, 9999) .. math.random(11, 99)
+    local result = MySQL.prepare.await('SELECT EXISTS(SELECT 1 FROM players WHERE JSON_UNQUOTE(JSON_EXTRACT(charinfo, "$.account")) = ?) AS uniqueCheck', { AccountNumber })
+    if result == 0 then return AccountNumber end
+    return QBCore.Functions.CreateAccountNumber()
+end
+
+function QBCore.Functions.CreatePhoneNumber()
+    local PhoneNumber = math.random(100, 999) .. math.random(1000000, 9999999)
+    local result = MySQL.prepare.await('SELECT EXISTS(SELECT 1 FROM players WHERE JSON_UNQUOTE(JSON_EXTRACT(charinfo, "$.phone")) = ?) AS uniqueCheck', { PhoneNumber })
+    if result == 0 then return PhoneNumber end
+    return QBCore.Functions.CreatePhoneNumber()
+end
+
+function QBCore.Functions.CreateFingerId()
+    local FingerId = tostring(QBCore.Shared.RandomStr(2) .. QBCore.Shared.RandomInt(3) .. QBCore.Shared.RandomStr(1) .. QBCore.Shared.RandomInt(2) .. QBCore.Shared.RandomStr(3) .. QBCore.Shared.RandomInt(4))
+    local result = MySQL.prepare.await('SELECT EXISTS(SELECT 1 FROM players WHERE JSON_UNQUOTE(JSON_EXTRACT(metadata, "$.fingerprint")) = ?) AS uniqueCheck', { FingerId })
+    if result == 0 then return FingerId end
+    return QBCore.Functions.CreateFingerId()
+end
+
+function QBCore.Functions.CreateWalletId()
+    local WalletId = 'QB-' .. math.random(11111111, 99999999)
+    local result = MySQL.prepare.await('SELECT EXISTS(SELECT 1 FROM players WHERE JSON_UNQUOTE(JSON_EXTRACT(metadata, "$.walletid")) = ?) AS uniqueCheck', { WalletId })
+    if result == 0 then return WalletId end
+    return QBCore.Functions.CreateWalletId()
+end
+
+function QBCore.Functions.CreateSerialNumber()
+    local SerialNumber = math.random(11111111, 99999999)
+    local result = MySQL.prepare.await('SELECT EXISTS(SELECT 1 FROM players WHERE JSON_UNQUOTE(JSON_EXTRACT(metadata, "$.phonedata.SerialNumber")) = ?) AS uniqueCheck', { SerialNumber })
+    if result == 0 then return SerialNumber end
+    return QBCore.Functions.CreateSerialNumber()
+end
+
+-- Add a new function to the Functions table of the player class
+-- Use-case:
+--[[
+    AddEventHandler('QBCore:Server:PlayerLoaded', function(Player)
+        QBCore.Functions.AddPlayerMethod(Player.PlayerData.source, "functionName", function(oneArg, orMore)
+            -- do something here
+        end)
+    end)
+]]
+
+function QBCore.Functions.AddPlayerMethod(ids, methodName, handler)
+    local idType = type(ids)
+    if idType == 'number' then
+        if ids == -1 then
+            for _, v in pairs(QBCore.Players) do
+                v.Functions.AddMethod(methodName, handler)
+            end
+        else
+            if not QBCore.Players[ids] then return end
+
+            QBCore.Players[ids].Functions.AddMethod(methodName, handler)
+        end
+    elseif idType == 'table' and table.type(ids) == 'array' then
+        for i = 1, #ids do
+            QBCore.Functions.AddPlayerMethod(ids[i], methodName, handler)
+        end
+    end
+end
+
+-- Add a new field table of the player class
+-- Use-case:
+--[[
+    AddEventHandler('QBCore:Server:PlayerLoaded', function(Player)
+        QBCore.Functions.AddPlayerField(Player.PlayerData.source, "fieldName", "fieldData")
+    end)
+]]
+
+function QBCore.Functions.AddPlayerField(ids, fieldName, data)
+    local idType = type(ids)
+    if idType == 'number' then
+        if ids == -1 then
+            for _, v in pairs(QBCore.Players) do
+                v.Functions.AddField(fieldName, data)
+            end
+        else
+            if not QBCore.Players[ids] then return end
+
+            QBCore.Players[ids].Functions.AddField(fieldName, data)
+        end
+    elseif idType == 'table' and table.type(ids) == 'array' then
+        for i = 1, #ids do
+            QBCore.Functions.AddPlayerField(ids[i], fieldName, data)
+        end
+    end
 end
 
 for functionName, func in pairs(QBCore.Functions) do

@@ -21,6 +21,10 @@ function QBCore.Shared.RandomInt(length)
     return QBCore.Shared.RandomInt(length - 1) .. NumberCharset[math.random(1, #NumberCharset)]
 end
 
+function QBCore.Shared.GetRandomElement(tbl)
+    return tbl[math.random(1, #tbl)]
+end
+
 function QBCore.Shared.SplitStr(str, delimiter)
     local result = {}
     local from = 1

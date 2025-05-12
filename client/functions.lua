@@ -1,5 +1,3 @@
-QBCore.Functions = {}
-
 -- Callbacks
 
 function QBCore.Functions.CreateClientCallback(name, cb)

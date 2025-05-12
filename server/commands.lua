@@ -1,10 +1,3 @@
-QBCore.Commands = {}
-QBCore.Commands.List = {}
-QBCore.Commands.IgnoreList = { -- Ignore old perm levels while keeping backwards compatibility
-    ['god'] = true,            -- We don't need to create an ace because god is allowed all commands
-    ['user'] = true            -- We don't need to create an ace because builtin.everyone
-}
-
 CreateThread(function() -- Add ace to node for perm checking
     local permissions = QBCore.Config.Server.Permissions
     for i = 1, #permissions do
