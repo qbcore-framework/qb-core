@@ -17,6 +17,7 @@ local Translations = {
         no_permission               = 'இதற்கான அனுமதி உங்களிடம் இல்லை..',
         no_waypoint                 = 'வழிப்பாதை அமைக்கப்படவில்லை.',
         tp_error                    = 'டெலிபோர்ட் செய்யும் போது பிழை.',
+        ban_table_not_found         = '[QBCORE] - தரவுத்தளத்தில் தடை அட்டவணையைக் கண்டுபிடிக்க முடியவில்லை. SQL கோப்பை சரியாக இறக்குமதி செய்துள்ளீர்களா என்பதை உறுதிப்படுத்தவும்.',
         connecting_database_error   = '[QBCORE] - சேவையகத்துடன் இணைக்கும் போது தரவுத்தளப் பிழை ஏற்பட்டது. (SQL சர்வர் இயக்கத்தில் உள்ளதா?)',
         connecting_database_timeout = '[QBCORE] - தரவுத்தளத்திற்கான இணைப்பு நேரம் முடிந்தது. (SQL சர்வர் இயக்கத்தில் உள்ளதா?)',
     },
@@ -123,10 +124,7 @@ local Translations = {
     },
 }
 
-if GetConvar('qb_locale', 'en') == 'ta' then
-    Lang = Locale:new({
-        phrases = Translations,
-        warnOnMissing = true,
-        fallbackLang = Lang,
-    })
-end
+Lang = Lang or Locale:new({
+    phrases = Translations,
+    warnOnMissing = true
+})
