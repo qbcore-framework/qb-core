@@ -27,9 +27,16 @@ AddEventHandler('playerDropped', function(reason)
         end
     end
 
+    local discord = QBCore.Functions.GetIdentifier(src, 'discord')
+    local license = Player.PlayerData.license
+    local citizenid = Player.PlayerData.citizenid
+
     TriggerEvent('qb-log:server:CreateLog', 'joinleave', 'Dropped', 'red',
-        '**' .. GetPlayerName(src) .. '** (' .. Player.PlayerData.license .. ') left..' ..
-        '\n **Reason:** ' .. reason)
+        '**' .. GetPlayerName(src) .. '** (<@' .. (discord and discord:gsub('discord:', '') or 'unknown') .. '> | ' ..
+        '||' .. (QBCore.Functions.GetIdentifier(src, 'ip') or 'undefined') .. '|| | ' ..
+        (license or 'undefined') .. ' | ' .. (citizenid or 'undefined') .. ' | ' .. src .. ') left..' ..
+        '\n**Reason:** ' .. reason
+    )
 
     TriggerEvent('QBCore:Server:PlayerDropped', Player)
     Player.Functions.Save()
