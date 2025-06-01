@@ -493,38 +493,6 @@ function QBCore.Functions.CanUseItem(item)
     return QBCore.UsableItems[item]
 end
 
--- Inventory Backwards Compatibility
-
-function QBCore.Functions.UseItem(source, item)
-    if GetResourceState('qb-inventory') == 'missing' then return end
-    exports['qb-inventory']:UseItem(source, item)
-end
-
-function QBCore.Functions.SaveInventory(source)
-    if GetResourceState('qb-inventory') == 'missing' then return end
-    exports['qb-inventory']:SaveInventory(source, false)
-end
-
-function QBCore.Functions.SaveOfflineInventory(PlayerData)
-    if GetResourceState('qb-inventory') == 'missing' then return end
-    exports['qb-inventory']:SaveInventory(PlayerData, true)
-end
-
-function QBCore.Functions.GetTotalWeight(items)
-    if GetResourceState('qb-inventory') == 'missing' then return end
-    return exports['qb-inventory']:GetTotalWeight(items)
-end
-
-function QBCore.Functions.GetSlotsByItem(items, itemName)
-    if GetResourceState('qb-inventory') == 'missing' then return end
-    return exports['qb-inventory']:GetSlotsByItem(items, itemName)
-end
-
-function QBCore.Functions.GetFirstSlotByItem(items, itemName)
-    if GetResourceState('qb-inventory') == 'missing' then return end
-    return exports['qb-inventory']:GetFirstSlotByItem(items, itemName)
-end
-
 ---Kick Player
 ---@param source any
 ---@param reason string
@@ -710,18 +678,6 @@ function QBCore.Functions.IsLicenseInUse(license)
     return false
 end
 
--- Utility functions
-
----Check if a player has an item [deprecated]
----@param source any
----@param items table|string
----@param amount number
----@return boolean
-function QBCore.Functions.HasItem(source, items, amount)
-    if GetResourceState('qb-inventory') == 'missing' then return end
-    return exports['qb-inventory']:HasItem(source, items, amount)
-end
-
 ---Notify
 ---@param source any
 ---@param text string
@@ -729,23 +685,6 @@ end
 ---@param length number
 function QBCore.Functions.Notify(source, text, type, length)
     TriggerClientEvent('QBCore:Notify', source, text, type, length)
-end
-
----???? ... ok
----@param source any
----@param data any
----@param pattern any
----@return boolean
-function QBCore.Functions.PrepForSQL(source, data, pattern)
-    data = tostring(data)
-    local src = source
-    local player = QBCore.Functions.GetPlayer(src)
-    local result = string.match(data, pattern)
-    if not result or string.len(result) ~= string.len(data) then
-        TriggerEvent('qb-log:server:CreateLog', 'anticheat', 'SQL Exploit Attempted', 'red', string.format('%s attempted to exploit SQL!', player.PlayerData.license))
-        return false
-    end
-    return true
 end
 
 function QBCore.Functions.CreateCitizenId()
