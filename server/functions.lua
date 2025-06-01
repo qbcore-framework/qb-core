@@ -493,12 +493,36 @@ function QBCore.Functions.CanUseItem(item)
     return QBCore.UsableItems[item]
 end
 
----Use item
----@param source any
----@param item string
+-- Inventory Backwards Compatibility
+
 function QBCore.Functions.UseItem(source, item)
     if GetResourceState('qb-inventory') == 'missing' then return end
     exports['qb-inventory']:UseItem(source, item)
+end
+
+function QBCore.Functions.SaveInventory(source)
+    if GetResourceState('qb-inventory') == 'missing' then return end
+    exports['qb-inventory']:SaveInventory(source, false)
+end
+
+function QBCore.Functions.SaveOfflineInventory(PlayerData)
+    if GetResourceState('qb-inventory') == 'missing' then return end
+    exports['qb-inventory']:SaveInventory(PlayerData, true)
+end
+
+function QBCore.Functions.GetTotalWeight(items)
+    if GetResourceState('qb-inventory') == 'missing' then return end
+    return exports['qb-inventory']:GetTotalWeight(items)
+end
+
+function QBCore.Functions.GetSlotsByItem(items, itemName)
+    if GetResourceState('qb-inventory') == 'missing' then return end
+    return exports['qb-inventory']:GetSlotsByItem(items, itemName)
+end
+
+function QBCore.Functions.GetFirstSlotByItem(items, itemName)
+    if GetResourceState('qb-inventory') == 'missing' then return end
+    return exports['qb-inventory']:GetFirstSlotByItem(items, itemName)
 end
 
 ---Kick Player

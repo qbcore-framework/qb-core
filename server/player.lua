@@ -27,6 +27,14 @@ function QBCore.Player.Login(source, citizenid, newData)
     return true
 end
 
+function QBCore.Player.Logout(source)
+    TriggerClientEvent('QBCore:Client:OnPlayerUnload', source)
+    TriggerEvent('QBCore:Server:OnPlayerUnload', source)
+    TriggerClientEvent('QBCore:Player:UpdatePlayerData', source)
+    Wait(200)
+    QBCore.Players[source] = nil
+end
+
 -- JSON DEFAULTS
 
 local DynamicDefaults = {
@@ -134,19 +142,48 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
     return QBCore.Player.CreatePlayer(PlayerData, Offline)
 end
 
--- On player logout
+-- Util Function
 
-function QBCore.Player.Logout(source)
-    TriggerClientEvent('QBCore:Client:OnPlayerUnload', source)
-    TriggerEvent('QBCore:Server:OnPlayerUnload', source)
-    TriggerClientEvent('QBCore:Player:UpdatePlayerData', source)
-    Wait(200)
-    QBCore.Players[source] = nil
+local function LogAndSyncMoneyChange(self, moneytype, amount, changeType, reason, diff)
+    local source = self.PlayerData.source
+    local citizenid = self.PlayerData.citizenid
+    local balance = self.PlayerData.money[moneytype]
+    local name = GetPlayerName(source)
+    local colorMap = { add = 'lightgreen', remove = 'red', set = 'green' }
+    local color = colorMap[changeType] or 'white'
+    local action = ({
+        add = 'added',
+        remove = 'removed',
+        set = 'set'
+    })[changeType]
+
+    local logMessage = ('**%s (citizenid: %s | id: %s)** $%s (%s) %s, new %s balance: %s reason: %s'):format(
+        name, citizenid, source, amount, moneytype, action, moneytype, balance, reason
+    )
+
+    local logLabel = ({
+        add = 'AddMoney',
+        remove = 'RemoveMoney',
+        set = 'SetMoney'
+    })[changeType]
+
+    local notifyAmount = 100000
+    TriggerEvent('qb-log:server:CreateLog', 'playermoney', logLabel, color, logMessage, amount > notifyAmount)
+
+    -- HUD & Client events
+    local isRemoval = changeType == 'remove'
+    local showAmount = changeType == 'set' and math.abs(diff or 0) or amount
+
+    TriggerClientEvent('hud:client:OnMoneyChange', source, moneytype, showAmount, isRemoval)
+    TriggerClientEvent('QBCore:Client:OnMoneyChange', source, moneytype, amount, changeType, reason)
+    TriggerEvent('QBCore:Server:OnMoneyChange', source, moneytype, amount, changeType, reason)
+
+    if isRemoval and moneytype == 'bank' then
+        TriggerClientEvent('qb-phone:client:RemoveBankMoney', source, amount)
+    end
 end
 
 -- Create a new character
--- Don't touch any of this unless you know what you are doing
--- Will cause major issues!
 
 local Player = {}
 Player.__index = Player
@@ -172,90 +209,42 @@ function Player.new(PlayerData, Offline)
     return self
 end
 
+-- Add/Edit Player Functions Below
+
 function Player:UpdatePlayerData()
     if self.Offline then return end
     TriggerEvent('QBCore:Player:SetPlayerData', self.PlayerData)
     TriggerClientEvent('QBCore:Player:SetPlayerData', self.PlayerData.source, self.PlayerData)
 end
 
-function Player:SetJob(job, grade)
-    job = job:lower()
-    grade = grade or '0'
-    if not QBCore.Shared.Jobs[job] then return false end
-    self.PlayerData.job = {
-        name = job,
-        label = QBCore.Shared.Jobs[job].label,
-        onduty = QBCore.Shared.Jobs[job].defaultDuty,
-        type = QBCore.Shared.Jobs[job].type or 'none',
-        grade = {
-            name = 'No Grades',
-            level = 0,
-            payment = 30,
-            isboss = false
-        }
-    }
-    local gradeKey = tostring(grade)
-    local jobGradeInfo = QBCore.Shared.Jobs[job].grades[gradeKey]
-    if jobGradeInfo then
-        self.PlayerData.job.grade.name = jobGradeInfo.name
-        self.PlayerData.job.grade.level = tonumber(gradeKey)
-        self.PlayerData.job.grade.payment = jobGradeInfo.payment
-        self.PlayerData.job.grade.isboss = jobGradeInfo.isboss or false
-        self.PlayerData.job.isboss = jobGradeInfo.isboss or false
-    end
-
-    if not self.Offline then
-        self:UpdatePlayerData()
-        TriggerEvent('QBCore:Server:OnJobUpdate', self.PlayerData.source, self.PlayerData.job)
-        TriggerClientEvent('QBCore:Client:OnJobUpdate', self.PlayerData.source, self.PlayerData.job)
-    end
-
-    return true
-end
-
-function Player:SetGang(gang, grade)
-    gang = gang:lower()
-    grade = grade or '0'
-    if not QBCore.Shared.Gangs[gang] then return false end
-    self.PlayerData.gang = {
-        name = gang,
-        label = QBCore.Shared.Gangs[gang].label,
-        grade = {
-            name = 'No Grades',
-            level = 0,
-            isboss = false
-        }
-    }
-    local gradeKey = tostring(grade)
-    local gangGradeInfo = QBCore.Shared.Gangs[gang].grades[gradeKey]
-    if gangGradeInfo then
-        self.PlayerData.gang.grade.name = gangGradeInfo.name
-        self.PlayerData.gang.grade.level = tonumber(gradeKey)
-        self.PlayerData.gang.grade.isboss = gangGradeInfo.isboss or false
-        self.PlayerData.gang.isboss = gangGradeInfo.isboss or false
-    end
-
-    if not self.Offline then
-        self:UpdatePlayerData()
-        TriggerEvent('QBCore:Server:OnGangUpdate', self.PlayerData.source, self.PlayerData.gang)
-        TriggerClientEvent('QBCore:Client:OnGangUpdate', self.PlayerData.source, self.PlayerData.gang)
-    end
-
-    return true
-end
-
 function Player:Notify(text, type, length)
     TriggerClientEvent('QBCore:Notify', self.PlayerData.source, text, type, length)
 end
 
-function Player:HasItem(items, amount)
-    return QBCore.Functions.HasItem(self.PlayerData.source, items, amount)
-end
+-- Player Data Getters
 
 function Player:GetName()
     local charinfo = self.PlayerData.charinfo
     return charinfo.firstname .. ' ' .. charinfo.lastname
 end
+
+function Player:GetMetaData(meta)
+    if not meta or type(meta) ~= 'string' then return end
+    return self.PlayerData.metadata[meta]
+end
+
+function Player:GetRep(rep)
+    if not rep then return end
+    return self.PlayerData.metadata['rep'][rep] or 0
+end
+
+function Player:GetMoney(moneytype)
+    if not moneytype then return false end
+    moneytype = moneytype:lower()
+    return self.PlayerData.money[moneytype]
+end
+
+-- Job and Gang Functions
 
 function Player:SetJobDuty(onDuty)
     self.PlayerData.job.onduty = not not onDuty
@@ -263,6 +252,77 @@ function Player:SetJobDuty(onDuty)
     TriggerClientEvent('QBCore:Client:OnJobUpdate', self.PlayerData.source, self.PlayerData.job)
     self:UpdatePlayerData()
 end
+
+function Player:SetJob(job, grade)
+    if type(job) ~= 'string' then return false end
+
+    job = job:lower()
+    grade = tostring(grade or '0')
+
+    local jobData = QBCore.Shared.Jobs[job]
+    local gradeData = jobData and jobData.grades[grade]
+
+    if not jobData then return false end
+
+    local jobInfo = {
+        name = job,
+        label = jobData.label,
+        onduty = jobData.defaultDuty,
+        type = jobData.type or 'none',
+        grade = {
+            name = gradeData and gradeData.name or 'No Grades',
+            level = gradeData and tonumber(grade) or 0,
+            payment = gradeData and gradeData.payment or 30,
+            isboss = gradeData and (gradeData.isboss or false) or false
+        },
+        isboss = gradeData and (gradeData.isboss or false) or false
+    }
+
+    self.PlayerData.job = jobInfo
+
+    if not self.Offline then
+        self:UpdatePlayerData()
+        TriggerEvent('QBCore:Server:OnJobUpdate', self.PlayerData.source, jobInfo)
+        TriggerClientEvent('QBCore:Client:OnJobUpdate', self.PlayerData.source, jobInfo)
+    end
+
+    return true
+end
+
+function Player:SetGang(gang, grade)
+    if type(gang) ~= 'string' then return false end
+
+    gang = gang:lower()
+    grade = tostring(grade or '0')
+
+    local gangData = QBCore.Shared.Gangs[gang]
+    local gradeData = gangData and gangData.grades[grade]
+
+    if not gangData then return false end
+
+    local gangInfo = {
+        name = gang,
+        label = gangData.label,
+        grade = {
+            name = gradeData and gradeData.name or 'No Grades',
+            level = gradeData and tonumber(grade) or 0,
+            isboss = gradeData and (gradeData.isboss or false) or false
+        },
+        isboss = gradeData and (gradeData.isboss or false) or false
+    }
+
+    self.PlayerData.gang = gangInfo
+
+    if not self.Offline then
+        self:UpdatePlayerData()
+        TriggerEvent('QBCore:Server:OnGangUpdate', self.PlayerData.source, gangInfo)
+        TriggerClientEvent('QBCore:Client:OnGangUpdate', self.PlayerData.source, gangInfo)
+    end
+
+    return true
+end
+
+-- Player Data Functions
 
 function Player:SetPlayerData(key, val)
     if not key or type(key) ~= 'string' then return end
@@ -273,62 +333,50 @@ end
 function Player:SetMetaData(meta, val)
     if not meta or type(meta) ~= 'string' then return end
     if meta == 'hunger' or meta == 'thirst' then
-        val = val > 100 and 100 or val
+        val = math.min(math.max(val, 0), 100)
     end
     self.PlayerData.metadata[meta] = val
     self:UpdatePlayerData()
 end
 
-function Player:GetMetaData(meta)
-    if not meta or type(meta) ~= 'string' then return end
-    return self.PlayerData.metadata[meta]
-end
+-- Reputation Functions
 
 function Player:AddRep(rep, amount)
-    if not rep or not amount then return end
-    local addAmount = tonumber(amount)
+    if not rep then return end
+    local addAmount = tonumber(amount) or 1
     local currentRep = self.PlayerData.metadata['rep'][rep] or 0
     self.PlayerData.metadata['rep'][rep] = currentRep + addAmount
     self:UpdatePlayerData()
 end
 
 function Player:RemoveRep(rep, amount)
-    if not rep or not amount then return end
-    local removeAmount = tonumber(amount)
+    if not rep then return end
+    local removeAmount = tonumber(amount) or 1
     local currentRep = self.PlayerData.metadata['rep'][rep] or 0
-    if currentRep - removeAmount < 0 then
-        self.PlayerData.metadata['rep'][rep] = 0
-    else
-        self.PlayerData.metadata['rep'][rep] = currentRep - removeAmount
-    end
+    self.PlayerData.metadata['rep'][rep] = math.max(currentRep - removeAmount, 0)
     self:UpdatePlayerData()
 end
 
-function Player:GetRep(rep)
+function Player:SetRep(rep, amount)
     if not rep then return end
-    return self.PlayerData.metadata['rep'][rep] or 0
+    local setAmount = math.max(tonumber(amount) or 0, 0)
+    self.PlayerData.metadata['rep'][rep] = setAmount
+    self:UpdatePlayerData()
 end
+
+-- Money Functions
 
 function Player:AddMoney(moneytype, amount, reason)
     reason = reason or 'unknown'
     moneytype = moneytype:lower()
     amount = tonumber(amount)
-    if amount < 0 then return end
+    if not amount or amount < 0 then return end
     if not self.PlayerData.money[moneytype] then return false end
     self.PlayerData.money[moneytype] = self.PlayerData.money[moneytype] + amount
-
     if not self.Offline then
         self:UpdatePlayerData()
-        if amount > 100000 then
-            TriggerEvent('qb-log:server:CreateLog', 'playermoney', 'AddMoney', 'lightgreen', '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')** $' .. amount .. ' (' .. moneytype .. ') added, new ' .. moneytype .. ' balance: ' .. self.PlayerData.money[moneytype] .. ' reason: ' .. reason, true)
-        else
-            TriggerEvent('qb-log:server:CreateLog', 'playermoney', 'AddMoney', 'lightgreen', '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')** $' .. amount .. ' (' .. moneytype .. ') added, new ' .. moneytype .. ' balance: ' .. self.PlayerData.money[moneytype] .. ' reason: ' .. reason)
-        end
-        TriggerClientEvent('hud:client:OnMoneyChange', self.PlayerData.source, moneytype, amount, false)
-        TriggerClientEvent('QBCore:Client:OnMoneyChange', self.PlayerData.source, moneytype, amount, 'add', reason)
-        TriggerEvent('QBCore:Server:OnMoneyChange', self.PlayerData.source, moneytype, amount, 'add', reason)
+        LogAndSyncMoneyChange(self, moneytype, amount, 'add', reason)
     end
-
     return true
 end
 
@@ -336,33 +384,19 @@ function Player:RemoveMoney(moneytype, amount, reason)
     reason = reason or 'unknown'
     moneytype = moneytype:lower()
     amount = tonumber(amount)
-    if amount < 0 then return end
+    if not amount or amount < 0 then return end
     if not self.PlayerData.money[moneytype] then return false end
     for _, mtype in pairs(QBCore.Config.Money.DontAllowMinus) do
-        if mtype == moneytype then
-            if (self.PlayerData.money[moneytype] - amount) < 0 then
-                return false
-            end
+        if mtype == moneytype and (self.PlayerData.money[moneytype] - amount) < 0 then
+            return false
         end
     end
     if self.PlayerData.money[moneytype] - amount < QBCore.Config.Money.MinusLimit then return false end
     self.PlayerData.money[moneytype] = self.PlayerData.money[moneytype] - amount
-
     if not self.Offline then
         self:UpdatePlayerData()
-        if amount > 100000 then
-            TriggerEvent('qb-log:server:CreateLog', 'playermoney', 'RemoveMoney', 'red', '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')** $' .. amount .. ' (' .. moneytype .. ') removed, new ' .. moneytype .. ' balance: ' .. self.PlayerData.money[moneytype] .. ' reason: ' .. reason, true)
-        else
-            TriggerEvent('qb-log:server:CreateLog', 'playermoney', 'RemoveMoney', 'red', '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')** $' .. amount .. ' (' .. moneytype .. ') removed, new ' .. moneytype .. ' balance: ' .. self.PlayerData.money[moneytype] .. ' reason: ' .. reason)
-        end
-        TriggerClientEvent('hud:client:OnMoneyChange', self.PlayerData.source, moneytype, amount, true)
-        if moneytype == 'bank' then
-            TriggerClientEvent('qb-phone:client:RemoveBankMoney', self.PlayerData.source, amount)
-        end
-        TriggerClientEvent('QBCore:Client:OnMoneyChange', self.PlayerData.source, moneytype, amount, 'remove', reason)
-        TriggerEvent('QBCore:Server:OnMoneyChange', self.PlayerData.source, moneytype, amount, 'remove', reason)
+        LogAndSyncMoneyChange(self, moneytype, amount, 'remove', reason)
     end
-
     return true
 end
 
@@ -370,26 +404,15 @@ function Player:SetMoney(moneytype, amount, reason)
     reason = reason or 'unknown'
     moneytype = moneytype:lower()
     amount = tonumber(amount)
-    if amount < 0 then return false end
+    if not amount or amount < 0 then return end
     if not self.PlayerData.money[moneytype] then return false end
     local difference = amount - self.PlayerData.money[moneytype]
     self.PlayerData.money[moneytype] = amount
-
     if not self.Offline then
         self:UpdatePlayerData()
-        TriggerEvent('qb-log:server:CreateLog', 'playermoney', 'SetMoney', 'green', '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')** $' .. amount .. ' (' .. moneytype .. ') set, new ' .. moneytype .. ' balance: ' .. self.PlayerData.money[moneytype] .. ' reason: ' .. reason)
-        TriggerClientEvent('hud:client:OnMoneyChange', self.PlayerData.source, moneytype, math.abs(difference), difference < 0)
-        TriggerClientEvent('QBCore:Client:OnMoneyChange', self.PlayerData.source, moneytype, amount, 'set', reason)
-        TriggerEvent('QBCore:Server:OnMoneyChange', self.PlayerData.source, moneytype, amount, 'set', reason)
+        LogAndSyncMoneyChange(self, moneytype, amount, 'set', reason, difference)
     end
-
     return true
-end
-
-function Player:GetMoney(moneytype)
-    if not moneytype then return false end
-    moneytype = moneytype:lower()
-    return self.PlayerData.money[moneytype]
 end
 
 function Player:Save()
@@ -497,9 +520,9 @@ function QBCore.Player.DeleteCharacter(source, citizenid, force)
         local tableCount = #playertables
         local queries = table.create(tableCount, 0)
 
-        local Player = QBCore.Functions.GetPlayerByCitizenId(citizenid)
-        if force and Player then
-            DropPlayer(Player.PlayerData.source, 'An admin deleted the character which you are currently using')
+        local player = QBCore.Functions.GetPlayerByCitizenId(citizenid)
+        if force and player then
+            DropPlayer(player.PlayerData.source, 'An admin deleted the character which you are currently using')
         end
 
         for i = 1, tableCount do
@@ -520,31 +543,4 @@ function QBCore.Player.DeleteCharacter(source, citizenid, force)
         DropPlayer(source, Lang:t('info.exploit_dropped'))
         TriggerEvent('qb-log:server:CreateLog', 'anticheat', 'Anti-Cheat', 'white', GetPlayerName(source) .. ' Has Been Dropped For Character Deletion Exploit', true)
     end
-end
-
--- Inventory Backwards Compatibility
-
-function QBCore.Player.SaveInventory(source)
-    if GetResourceState('qb-inventory') == 'missing' then return end
-    exports['qb-inventory']:SaveInventory(source, false)
-end
-
-function QBCore.Player.SaveOfflineInventory(PlayerData)
-    if GetResourceState('qb-inventory') == 'missing' then return end
-    exports['qb-inventory']:SaveInventory(PlayerData, true)
-end
-
-function QBCore.Player.GetTotalWeight(items)
-    if GetResourceState('qb-inventory') == 'missing' then return end
-    return exports['qb-inventory']:GetTotalWeight(items)
-end
-
-function QBCore.Player.GetSlotsByItem(items, itemName)
-    if GetResourceState('qb-inventory') == 'missing' then return end
-    return exports['qb-inventory']:GetSlotsByItem(items, itemName)
-end
-
-function QBCore.Player.GetFirstSlotByItem(items, itemName)
-    if GetResourceState('qb-inventory') == 'missing' then return end
-    return exports['qb-inventory']:GetFirstSlotByItem(items, itemName)
 end
