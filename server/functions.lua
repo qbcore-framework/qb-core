@@ -62,15 +62,48 @@ end
 ---Get offline player by citizen id
 ---@param citizenid string
 ---@return table?
-function QBCore.Functions.GetOfflinePlayerByCitizenId(citizenid)
-    return QBCore.Player.GetOfflinePlayer(citizenid)
+function QBCore.Functions.GetOfflinePlayer(citizenid)
+    if not citizenid then return nil end
+    local row = MySQL.prepare.await('SELECT * FROM players WHERE citizenid = ?', { citizenid })
+    if not row then return nil end
+    row.money    = json.decode(row.money) or {}
+    row.job      = json.decode(row.job) or {}
+    row.gang     = json.decode(row.gang) or {}
+    row.position = json.decode(row.position) or {}
+    row.metadata = json.decode(row.metadata) or {}
+    row.charinfo = json.decode(row.charinfo) or {}
+    return QBCore.Player.CheckPlayerData(nil, row)
 end
 
 ---Get player by license
 ---@param license string
 ---@return table?
 function QBCore.Functions.GetPlayerByLicense(license)
-    return QBCore.Player.GetPlayerByLicense(license)
+    if license then
+        local source = QBCore.Functions.GetSource(license)
+        if source > 0 then
+            return QBCore.Players[source]
+        else
+            return QBCore.Player.GetOfflinePlayerByLicense(license)
+        end
+    end
+    return nil
+end
+
+function QBCore.Functions.GetOfflinePlayerByLicense(license)
+    if license then
+        local PlayerData = MySQL.prepare.await('SELECT * FROM players where license = ?', { license })
+        if PlayerData then
+            PlayerData.money = json.decode(PlayerData.money)
+            PlayerData.job = json.decode(PlayerData.job)
+            PlayerData.gang = json.decode(PlayerData.gang)
+            PlayerData.position = json.decode(PlayerData.position)
+            PlayerData.metadata = json.decode(PlayerData.metadata)
+            PlayerData.charinfo = json.decode(PlayerData.charinfo)
+            return QBCore.Player.CheckPlayerData(nil, PlayerData)
+        end
+    end
+    return nil
 end
 
 ---Get player by phone number
