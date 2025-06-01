@@ -85,7 +85,7 @@ QBCore.Commands.Add('tp', Lang:t('command.tp.help'), { { name = Lang:t('command.
                 TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
             end
         else
-            local location = QBShared.Locations[args[1]]
+            local location = QBCore.Shared.Locations[args[1]]
             if location then
                 TriggerClientEvent('QBCore:Command:TeleportToCoords', source, location.x, location.y, location.z, location.w)
             else

@@ -584,5 +584,3 @@ function QBCore.Player.GetFirstSlotByItem(items, itemName)
     if GetResourceState('qb-inventory') == 'missing' then return end
     return exports['qb-inventory']:GetFirstSlotByItem(items, itemName)
 end
-
-PaycheckInterval() -- This starts the paycheck system
