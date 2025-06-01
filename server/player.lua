@@ -211,16 +211,6 @@ end
 
 -- Add/Edit Player Functions Below
 
-function Player:UpdatePlayerData()
-    if self.Offline then return end
-    TriggerEvent('QBCore:Player:SetPlayerData', self.PlayerData)
-    TriggerClientEvent('QBCore:Player:SetPlayerData', self.PlayerData.source, self.PlayerData)
-end
-
-function Player:Notify(text, type, length)
-    TriggerClientEvent('QBCore:Notify', self.PlayerData.source, text, type, length)
-end
-
 -- Player Data Getters
 
 function Player:GetName()
@@ -247,10 +237,14 @@ end
 -- Job and Gang Functions
 
 function Player:SetJobDuty(onDuty)
-    self.PlayerData.job.onduty = not not onDuty
+    if not self.PlayerData.job then return false end
+    local newDuty = onDuty == true
+    if self.PlayerData.job.onduty == newDuty then return false end
+    self.PlayerData.job.onduty = newDuty
+    self:UpdatePlayerData()
     TriggerEvent('QBCore:Server:OnJobUpdate', self.PlayerData.source, self.PlayerData.job)
     TriggerClientEvent('QBCore:Client:OnJobUpdate', self.PlayerData.source, self.PlayerData.job)
-    self:UpdatePlayerData()
+    return true
 end
 
 function Player:SetJob(job, grade)
@@ -325,43 +319,50 @@ end
 -- Player Data Functions
 
 function Player:SetPlayerData(key, val)
-    if not key or type(key) ~= 'string' then return end
+    if not key or type(key) ~= 'string' then return false end
+    if self.PlayerData[key] == nil then return false end
     self.PlayerData[key] = val
     self:UpdatePlayerData()
+    return true
 end
 
 function Player:SetMetaData(meta, val)
-    if not meta or type(meta) ~= 'string' then return end
+    if not meta or type(meta) ~= 'string' then return false end
+    if self.PlayerData.metadata[meta] == nil then return false end
     if meta == 'hunger' or meta == 'thirst' then
         val = math.min(math.max(val, 0), 100)
     end
     self.PlayerData.metadata[meta] = val
     self:UpdatePlayerData()
+    return true
 end
 
 -- Reputation Functions
 
 function Player:AddRep(rep, amount)
-    if not rep then return end
+    if not rep then return false end
     local addAmount = tonumber(amount) or 1
     local currentRep = self.PlayerData.metadata['rep'][rep] or 0
     self.PlayerData.metadata['rep'][rep] = currentRep + addAmount
     self:UpdatePlayerData()
+    return true
 end
 
 function Player:RemoveRep(rep, amount)
-    if not rep then return end
+    if not rep then return false end
     local removeAmount = tonumber(amount) or 1
     local currentRep = self.PlayerData.metadata['rep'][rep] or 0
     self.PlayerData.metadata['rep'][rep] = math.max(currentRep - removeAmount, 0)
     self:UpdatePlayerData()
+    return true
 end
 
 function Player:SetRep(rep, amount)
-    if not rep then return end
+    if not rep then return false end
     local setAmount = math.max(tonumber(amount) or 0, 0)
     self.PlayerData.metadata['rep'][rep] = setAmount
     self:UpdatePlayerData()
+    return true
 end
 
 -- Money Functions
@@ -415,6 +416,36 @@ function Player:SetMoney(moneytype, amount, reason)
     return true
 end
 
+-- Utility Functions
+
+function Player:Notify(text, type, length)
+    TriggerClientEvent('QBCore:Notify', self.PlayerData.source, text, type, length)
+end
+
+function Player:AddMethod(methodName, handler)
+    if self.Functions[methodName] or Player[methodName] then
+        return false
+    end
+    self.Functions[methodName] = handler
+    return true
+end
+
+function Player:AddField(fieldName, data)
+    if self[fieldName] ~= nil or Player[fieldName] ~= nil then
+        return false
+    end
+    self[fieldName] = data
+    return true
+end
+
+-- Player Handler Functions
+
+function Player:UpdatePlayerData()
+    if self.Offline then return end
+    TriggerEvent('QBCore:Player:SetPlayerData', self.PlayerData)
+    TriggerClientEvent('QBCore:Player:SetPlayerData', self.PlayerData.source, self.PlayerData)
+end
+
 function Player:Save()
     if self.Offline then
         QBCore.Player.SaveOffline(self.PlayerData)
@@ -426,14 +457,6 @@ end
 function Player:Logout()
     if self.Offline then return end
     QBCore.Player.Logout(self.PlayerData.source)
-end
-
-function Player:AddMethod(methodName, handler)
-    self.Functions[methodName] = handler
-end
-
-function Player:AddField(fieldName, data)
-    self[fieldName] = data
 end
 
 function QBCore.Player.CreatePlayer(PlayerData, Offline)
