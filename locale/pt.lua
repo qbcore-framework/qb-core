@@ -23,7 +23,7 @@ local Translations = {
     success = {
         server_opened = 'O Servidor abriu',
         server_closed = 'O Servidor fechou',
-        teleported_waypoint = 'Teleportado para o waypoint.',
+        teleported_waypoint = 'Foste teletransportado para o waypoint.',
     },
     info = {
         received_paycheck = 'Recebeste o pagamento de %{value}€',
@@ -34,12 +34,12 @@ local Translations = {
         checking_ban = 'Olá %s. Estamos a verificar se estás banido.',
         join_server = 'Bem vindo %s ao {Server Name}.',
         checking_whitelisted = 'Bem vindo %s. Estamos a verificiar se estás na whitelist.',
-        exploit_banned = 'Foste banidos por cheats. Para mais informações visita o nosso discord: %{discord}',
-        exploit_dropped = 'Foste kickado por cheats!',
+        exploit_banned = 'Foste banido por cheats. Para mais informações visita o nosso discord: %{discord}',
+        exploit_dropped = 'Foste expulso por cheats!',
     },
     command = {
         tp = {
-            help = 'TP para jogador ou coordenadas (Apenas Admin)',
+            help = 'TP para um jogador ou coordenadas (Apenas Admin)',
             params = {
                 x = { name = 'id/x', help = 'ID do jogador ou posição X'},
                 y = { name = 'y', help = 'Posição Y'},
@@ -64,7 +64,7 @@ local Translations = {
         },
         openserver = { help = 'Abrir o Servidor para todos (Apenas Admin)' },
         closeserver = {
-            help = 'Fechar o servidor para todos excepto Admins (Apenas Admin)',
+            help = 'Fechar o servidor para todos exceto Admins (Apenas Admin)',
             params = {
                 reason = { name = 'reason', help = 'Razão para fechar(opcional)' },
             },
