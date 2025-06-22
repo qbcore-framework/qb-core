@@ -115,35 +115,6 @@ local function pruneExtras(dest, src)
     end
 end
 
-function QBCore.Player.CheckPlayerData(source, PlayerData)
-    PlayerData = PlayerData or {}
-    local Offline = not source
-
-    local defaults = json.decode(LoadResourceFile(resourceName, 'shared/player_defaults.json'))
-
-    if not PlayerData.citizenid then
-        applyDynamicDefaults(defaults)
-        mergeDefaults(PlayerData, defaults)
-    else
-        pruneExtras(PlayerData, defaults)
-        mergeWithGenerators(PlayerData, defaults)
-    end
-
-    if source then
-        PlayerData.source  = source
-        PlayerData.license = PlayerData.license or GetPlayerIdentifierByType(source, 'license')
-        PlayerData.name    = GetPlayerName(source)
-    end
-
-    if GetResourceState('qb-inventory') ~= 'missing' then
-        PlayerData.items = exports['qb-inventory']:LoadInventory(PlayerData.source, PlayerData.citizenid)
-    end
-
-    return QBCore.Player.CreatePlayer(PlayerData, Offline)
-end
-
--- Util Function
-
 local function LogAndSyncMoneyChange(self, moneytype, amount, changeType, reason, diff)
     local source = self.PlayerData.source
     local citizenid = self.PlayerData.citizenid
@@ -183,31 +154,35 @@ local function LogAndSyncMoneyChange(self, moneytype, amount, changeType, reason
     end
 end
 
--- Create a new character
+function QBCore.Player.CheckPlayerData(source, PlayerData)
+    PlayerData = PlayerData or {}
+    local Offline = not source
+
+    local defaults = json.decode(LoadResourceFile(resourceName, 'shared/player_defaults.json'))
+
+    if not PlayerData.citizenid then
+        applyDynamicDefaults(defaults)
+        mergeDefaults(PlayerData, defaults)
+    else
+        pruneExtras(PlayerData, defaults)
+        mergeWithGenerators(PlayerData, defaults)
+    end
+
+    if source then
+        PlayerData.source  = source
+        PlayerData.license = PlayerData.license or GetPlayerIdentifierByType(source, 'license')
+        PlayerData.name    = GetPlayerName(source)
+    end
+
+    if GetResourceState('qb-inventory') ~= 'missing' then
+        PlayerData.items = exports['qb-inventory']:LoadInventory(PlayerData.source, PlayerData.citizenid)
+    end
+
+    return QBCore.Player.CreatePlayer(PlayerData, Offline)
+end
 
 local Player = {}
 Player.__index = Player
-
-function Player.new(PlayerData, Offline)
-    local self = setmetatable({}, Player)
-    self.PlayerData = PlayerData
-    self.Offline = Offline
-
-    -- Compatibility layer for legacy .Functions calls
-    self.Functions = setmetatable({}, {
-        __index = function(_, key)
-            return function(_, ...)
-                if Player[key] then
-                    return Player[key](self, ...)
-                else
-                    error("Attempt to call undefined function '" .. key .. "'")
-                end
-            end
-        end
-    })
-
-    return self
-end
 
 -- Add/Edit Player Functions Below
 
@@ -423,18 +398,18 @@ function Player:Notify(text, type, length)
 end
 
 function Player:AddMethod(methodName, handler)
-    if self.Functions[methodName] or Player[methodName] then
+    if Player[methodName] then
         return false
     end
-    self.Functions[methodName] = handler
+    Player[methodName] = handler
     return true
 end
 
 function Player:AddField(fieldName, data)
-    if self[fieldName] ~= nil or Player[fieldName] ~= nil then
+    if Player[fieldName] then
         return false
     end
-    self[fieldName] = data
+    Player[fieldName] = data
     return true
 end
 
@@ -459,11 +434,21 @@ function Player:Logout()
     QBCore.Player.Logout(self.PlayerData.source)
 end
 
+function Player.new(PlayerData, Offline)
+    local self = {
+        PlayerData = PlayerData,
+        Offline = Offline
+    }
+    return setmetatable(self, Player)
+end
+
 function QBCore.Player.CreatePlayer(PlayerData, Offline)
     local player = Player.new(PlayerData, Offline)
+    QBCore.Debug(player)
     if not Offline then
-        QBCore.Players[PlayerData.source] = player
-        QBCore.Player.Save(PlayerData.source)
+        local src = PlayerData.source
+        QBCore.Players[src] = player
+        QBCore.Player.Save(src)
         TriggerEvent('QBCore:Server:PlayerLoaded', player)
         player:UpdatePlayerData()
     end
