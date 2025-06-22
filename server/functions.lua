@@ -132,66 +132,34 @@ function QBCore.Functions.GetQBPlayers()
     return QBCore.Players
 end
 
+--- Gets a list of all online players of a specified job or job type and the number
+--- @param job string
+--- @param checkOnDuty boolean If true, only players on duty will be returned
+function QBCore.Functions.GetPlayersByJob(job, checkOnDuty)
+    local players = {}
+    local count = 0
+    for src, Player in pairs(QBCore.Players) do
+        local playerData = Player.PlayerData
+        if playerData.job.name == job or playerData.job.type == job then
+            if checkOnDuty then
+                if playerData.job.onduty then
+                    players[#players + 1] = src
+                    count += 1
+                end
+            else
+                players[#players + 1] = src
+                count += 1
+            end
+        end
+    end
+    return players, count
+end
+
 ---Gets a list of all on duty players of a specified job and the number
 ---@param job string
 ---@return table, number
 function QBCore.Functions.GetPlayersOnDuty(job)
-    local players = {}
-    local count = 0
-    for src, Player in pairs(QBCore.Players) do
-        if Player.PlayerData.job.name == job then
-            if Player.PlayerData.job.onduty then
-                players[#players + 1] = src
-                count += 1
-            end
-        end
-    end
-    return players, count
-end
-
----Gets a list of all online players of a specified job and the number, with an option to check if they are on duty.
----@param job string
----@param checkOnDuty boolean
----@return table, number
-function QBCore.Functions.GetPlayersByJobName(job, checkOnDuty)
-    local players = {}
-    local count = 0
-    for src, Player in pairs(QBCore.Players) do
-        if Player.PlayerData.job.name == job then
-            if checkOnDuty then
-                if Player.PlayerData.job.onduty then
-                    players[#players + 1] = src
-                    count += 1
-                end
-            else
-                players[#players + 1] = src
-                count += 1
-            end
-        end
-    end
-    return players, count
-end
-
----Gets a list of all online players with a specified job type and the number, with an option to check if they are on duty.
----@param jobType string
----@param checkOnDuty boolean
----@return table, number
-function QBCore.Functions.GetPlayersByJobType(jobType, checkOnDuty)
-    local players = {}
-    local count = 0
-    for src, Player in pairs(QBCore.Players) do
-        if Player.PlayerData.job.type == jobType then
-            if checkOnDuty then
-                if Player.PlayerData.job.onduty then
-                    players[#players + 1] = src
-                    count += 1
-                end
-            else
-                players[#players + 1] = src
-                count += 1
-            end
-        end
-    end
+    local players, count = QBCore.Functions.GetPlayersByJob(job, true)
     return players, count
 end
 
@@ -199,14 +167,7 @@ end
 ---@param job string
 ---@return number
 function QBCore.Functions.GetDutyCount(job)
-    local count = 0
-    for _, Player in pairs(QBCore.Players) do
-        if Player.PlayerData.job.name == job then
-            if Player.PlayerData.job.onduty then
-                count += 1
-            end
-        end
-    end
+    local _, count = QBCore.Functions.GetPlayersByJob(job, true)
     return count
 end
 
