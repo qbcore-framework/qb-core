@@ -1,0 +1,75 @@
+name: Semantic Version Bump (Conventional Commits)
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  semver-bump:
+    runs-on: ubuntu-latest
+    if: github.event.head_commit.author.name != 'github-actions[bot]'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Determine bump type from commit message
+        id: bump
+        run: |
+          COMMIT_MSG="${{ github.event.head_commit.message }}"
+          echo "🔍 Commit message: $COMMIT_MSG"
+
+          if echo "$COMMIT_MSG" | grep -qE 'BREAKING CHANGE|!:'; then
+            echo "bump=major" >> $GITHUB_OUTPUT
+          elif echo "$COMMIT_MSG" | grep -qE '^feat(\(.+\))?:'; then
+            echo "bump=minor" >> $GITHUB_OUTPUT
+          elif echo "$COMMIT_MSG" | grep -qE '^fix(\(.+\))?:'; then
+            echo "bump=patch" >> $GITHUB_OUTPUT
+          else
+            echo "bump=none" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Bump version in fxmanifest.lua
+        if: steps.bump.outputs.bump != 'none'
+        run: |
+          FILE="fxmanifest.lua"
+          VERSION_LINE=$(grep -E "version ['\"]?[0-9]+\.[0-9]+\.[0-9]+['\"]?" "$FILE")
+          VERSION=$(echo "$VERSION_LINE" | grep -oE "[0-9]+\.[0-9]+\.[0-9]+")
+
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$VERSION"
+
+          case "${{ steps.bump.outputs.bump }}" in
+            major)
+              MAJOR=$((MAJOR + 1))
+              MINOR=0
+              PATCH=0
+              ;;
+            minor)
+              MINOR=$((MINOR + 1))
+              PATCH=0
+              ;;
+            patch)
+              PATCH=$((PATCH + 1))
+              ;;
+          esac
+
+          NEW_VERSION="$MAJOR.$MINOR.$PATCH"
+          sed -i "s/version ['\"]$VERSION['\"]/version '$NEW_VERSION'/" "$FILE"
+          echo "new_version=$NEW_VERSION" >> $GITHUB_ENV
+
+      - name: Commit and push version bump
+        if: steps.bump.outputs.bump != 'none'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add fxmanifest.lua
+
+          if git diff --cached --quiet; then
+            echo "⚠️ No version changes to commit."
+            exit 0
+          fi
+
+          COMMIT_MSG="${{ github.event.head_commit.message }}"
+          git commit -m "ci: bump fxmanifest version to ${{ env.new_version }} – $COMMIT_MSG"
+          git push

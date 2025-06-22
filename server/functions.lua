@@ -7,7 +7,6 @@ QBCore.UsableItems = {}
 -- Get your player first and then trigger a function on them
 -- ex: local player = QBCore.Functions.GetPlayer(source)
 -- ex: local example = player.Functions.functionname(parameter)
-
 ---Gets the coordinates of an entity
 ---@param entity number
 ---@return vector4
@@ -441,9 +440,9 @@ function QBCore.Functions.CreateVehicle(source, model, vehtype, coords, warp)
 end
 
 function PaycheckInterval()
-    if not next(QBCore.Players) then 
+    if not next(QBCore.Players) then
         SetTimeout(QBCore.Config.Money.PayCheckTimeOut * (60 * 1000), PaycheckInterval) -- Prevent paychecks from stopping forever once 0 players
-        return 
+        return
     end
     for _, Player in pairs(QBCore.Players) do
         if not Player then return end
@@ -780,6 +779,5 @@ for functionName, func in pairs(QBCore.Functions) do
         exports(functionName, func)
     end
 end
-
 -- Access a specific function directly:
 -- exports['qb-core']:Notify(source, 'Hello Player!')
