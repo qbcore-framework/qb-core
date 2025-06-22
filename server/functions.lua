@@ -7,7 +7,6 @@ QBCore.UsableItems = {}
 -- Get your player first and then trigger a function on them
 -- ex: local player = QBCore.Functions.GetPlayer(source)
 -- ex: local example = player.Functions.functionname(parameter)
-
 ---Gets the coordinates of an entity
 ---@param entity number
 ---@return vector4
@@ -734,6 +733,5 @@ for functionName, func in pairs(QBCore.Functions) do
         exports(functionName, func)
     end
 end
-
 -- Access a specific function directly:
 -- exports['qb-core']:Notify(source, 'Hello Player!')
