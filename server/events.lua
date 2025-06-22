@@ -9,14 +9,45 @@ end)
 
 AddEventHandler('playerDropped', function(reason)
     local src = source
-    if not QBCore.Players[src] then return end
     local Player = QBCore.Players[src]
-    TriggerEvent('qb-log:server:CreateLog', 'joinleave', 'Dropped', 'red', '**' .. GetPlayerName(src) .. '** (' .. Player.PlayerData.license .. ') left..' .. '\n **Reason:** ' .. reason)
+    if not Player then return end
+
+    local ped = GetPlayerPed(src)
+
+    if ped and DoesEntityExist(ped) then
+        local pos = GetEntityCoords(ped)
+        if pos then
+            local position = {
+                x = pos.x,
+                y = pos.y,
+                z = pos.z,
+            }
+            print(("[playerDropped] Saving position for %s: %s"):format(GetPlayerName(src), json.encode(position)))
+            Player.Functions.SetPlayerData("position", position)
+        end
+    end
+
+    local discord = QBCore.Functions.GetIdentifier(src, 'discord')
+    local license = Player.PlayerData.license
+    local citizenid = Player.PlayerData.citizenid
+
+    TriggerEvent('qb-log:server:CreateLog', 'joinleave', 'Dropped', 'red',
+        '**' .. GetPlayerName(src) .. '** (<@' .. (discord and discord:gsub('discord:', '') or 'unknown') .. '> | ' ..
+        '||' .. (QBCore.Functions.GetIdentifier(src, 'ip') or 'undefined') .. '|| | ' ..
+        (license or 'undefined') .. ' | ' .. (citizenid or 'undefined') .. ' | ' .. src .. ') left..' ..
+        '\n**Reason:** ' .. reason
+    )
+
     TriggerEvent('QBCore:Server:PlayerDropped', Player)
     Player.Functions.Save()
+
     QBCore.Player_Buckets[Player.PlayerData.license] = nil
     QBCore.Players[src] = nil
+
+    print(("[playerDropped] Disconnected: %s (%s)"):format(GetPlayerName(src), src))
 end)
+
+
 
 AddEventHandler("onResourceStop", function(resName)
     for i,v in pairs(QBCore.UsableItems) do
