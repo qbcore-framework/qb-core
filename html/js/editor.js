@@ -34,18 +34,18 @@ function buildEditor(data) {
         card.innerHTML = `<h3>${key}</h3>`;
 
         // value preview
-        const preview = document.createElement("div");
-        preview.className = "data-preview";
-        if (typeof value === "boolean") {
-            preview.textContent = value;
-        } else if (Array.isArray(value)) {
-            preview.textContent = `[${value.map((v) => (typeof v === "object" ? JSON.stringify(v) : v)).join(", ")}]`;
-        } else if (typeof value === "object" && value !== null) {
-            preview.textContent = JSON.stringify(value);
-        } else {
-            preview.textContent = value;
-        }
-        card.appendChild(preview);
+        // const preview = document.createElement("div");
+        // preview.className = "data-preview";
+        // if (typeof value === "boolean") {
+        //     preview.textContent = value;
+        // } else if (Array.isArray(value)) {
+        //     preview.textContent = `[${value.map((v) => (typeof v === "object" ? JSON.stringify(v) : v)).join(", ")}]`;
+        // } else if (typeof value === "object" && value !== null) {
+        //     preview.textContent = JSON.stringify(value);
+        // } else {
+        //     preview.textContent = value;
+        // }
+        // card.appendChild(preview);
 
         const editBtn = document.createElement("button");
         editBtn.className = "btn-edit";
@@ -59,65 +59,120 @@ function buildEditor(data) {
 
 // Recursive field builder
 function buildFormFields(container, data, prefix = "") {
-    Object.entries(data).forEach(([field, val]) => {
-        const group = document.createElement("div");
-        group.className = "form-group";
+    const entries = Object.entries(data);
 
-        const label = document.createElement("label");
-        label.htmlFor = "field-" + prefix + field;
-        label.textContent = field;
-        group.appendChild(label);
+    // Sort fields: booleans first, then other flat fields, then nested objects
+    const sorted = [
+        ...entries.filter(([_, val]) => typeof val === "boolean"),
+        ...entries.filter(([_, val]) => val !== null && typeof val !== "object" && typeof val !== "boolean"),
+        ...entries.filter(([_, val]) => val !== null && typeof val === "object")
+    ];
 
+    sorted.forEach(([field, val]) => {
         if (typeof val === "boolean") {
+            const group = document.createElement("div");
+            group.className = "form-group form-toggle-group";
+
+            const label = document.createElement("label");
+            label.htmlFor = "field-" + prefix + field;
+            label.textContent = field;
+            group.appendChild(label);
+
+            const toggleLabel = document.createElement("label");
+            toggleLabel.className = "toggle-wrapper";
+
             const input = document.createElement("input");
             input.type = "checkbox";
             input.checked = val;
             input.name = prefix + field;
             input.id = "field-" + prefix + field;
-            input.className = "form-control";
-            group.appendChild(input);
-        } else if (Array.isArray(val)) {
-            // Array handling: differentiate primitives and objects
-            val.forEach((item, idx) => {
-                if (item !== null && typeof item === "object") {
-                    // Nested object in array: use fieldset
-                    const fieldset = document.createElement("fieldset");
-                    fieldset.className = "nested-fieldset";
-                    const legend = document.createElement("legend");
-                    legend.textContent = `${field}[${idx}]`;
-                    fieldset.appendChild(legend);
-                    buildFormFields(fieldset, item, prefix + field + `[${idx}].`);
-                    group.appendChild(fieldset);
-                } else {
-                    // Primitive in array
-                    const itemGroup = document.createElement("div");
-                    itemGroup.className = "form-group";
-                    const itemLabel = document.createElement("label");
-                    itemLabel.htmlFor = `${prefix}${field}[${idx}]`;
-                    itemLabel.textContent = `${field}[${idx}]`;
 
-                    const input = document.createElement("input");
-                    input.type = typeof item === "boolean" ? "checkbox" : "text";
-                    if (typeof item === "boolean") input.checked = item;
-                    else input.value = item;
-                    input.name = `${prefix}${field}[${idx}]`;
-                    input.id = `field-${prefix}${field}[${idx}]`;
-                    input.className = "form-control";
+            const span = document.createElement("span");
+            span.className = "toggle-switch";
 
-                    itemGroup.append(itemLabel, input);
-                    group.appendChild(itemGroup);
-                }
-            });
+            toggleLabel.appendChild(input);
+            toggleLabel.appendChild(span);
+            group.appendChild(toggleLabel);
+
+            container.appendChild(group);
         } else if (val !== null && typeof val === "object") {
-            // Nested object
-            const fieldset = document.createElement("fieldset");
-            fieldset.className = "nested-fieldset";
-            const legend = document.createElement("legend");
-            legend.textContent = field;
-            fieldset.appendChild(legend);
-            buildFormFields(fieldset, val, prefix + field + ".");
-            group.appendChild(fieldset);
+            const group = document.createElement("div");
+            group.className = "form-group";
+
+            if (Array.isArray(val)) {
+                val.forEach((item, idx) => {
+                    if (item !== null && typeof item === "object") {
+                        const fieldset = document.createElement("fieldset");
+                        fieldset.className = "nested-fieldset";
+
+                        const legend = document.createElement("legend");
+                        legend.textContent = `${field}[${idx}]`;
+                        fieldset.appendChild(legend);
+
+                        buildFormFields(fieldset, item, `${prefix}${field}[${idx}].`);
+                        group.appendChild(fieldset);
+                    } else {
+                        const itemGroup = document.createElement("div");
+                        itemGroup.className = "form-group";
+
+                        const itemLabel = document.createElement("label");
+                        itemLabel.htmlFor = `field-${prefix}${field}[${idx}]`;
+                        itemLabel.textContent = `${field}[${idx}]`;
+                        itemGroup.appendChild(itemLabel);
+
+                        if (typeof item === "boolean") {
+                            itemGroup.classList.add("form-toggle-group");
+
+                            const toggleLabel = document.createElement("label");
+                            toggleLabel.className = "toggle-wrapper";
+
+                            const input = document.createElement("input");
+                            input.type = "checkbox";
+                            input.checked = item;
+                            input.name = `${prefix}${field}[${idx}]`;
+                            input.id = `field-${prefix}${field}[${idx}]`;
+
+                            const span = document.createElement("span");
+                            span.className = "toggle-switch";
+
+                            toggleLabel.appendChild(input);
+                            toggleLabel.appendChild(span);
+                            itemGroup.appendChild(toggleLabel);
+                        } else {
+                            const input = document.createElement("input");
+                            input.type = "text";
+                            input.value = item;
+                            input.name = `${prefix}${field}[${idx}]`;
+                            input.id = `field-${prefix}${field}[${idx}]`;
+                            input.className = "form-control";
+                            itemGroup.appendChild(input);
+                        }
+
+                        group.appendChild(itemGroup);
+                    }
+                });
+            } else {
+                const fieldset = document.createElement("fieldset");
+                fieldset.className = "nested-fieldset";
+
+                const legend = document.createElement("legend");
+                legend.textContent = field;
+                fieldset.appendChild(legend);
+
+                buildFormFields(fieldset, val, prefix + field + ".");
+                group.appendChild(fieldset);
+            }
+
+            container.appendChild(group);
         } else {
+            const group = document.createElement("div");
+            group.className = "form-group";
+
+            const label = document.createElement("label");
+            label.htmlFor = "field-" + prefix + field;
+            label.textContent = field;
+            group.appendChild(label);
+
             const input = document.createElement("input");
             input.type = "text";
             input.value = val;
@@ -125,15 +180,16 @@ function buildFormFields(container, data, prefix = "") {
             input.id = "field-" + prefix + field;
             input.className = "form-control";
             group.appendChild(input);
+
+            container.appendChild(group);
         }
-        container.appendChild(group);
     });
 }
 
 // Open modal to edit a key
 function openEditModal(key, value) {
     const modal = document.getElementById("edit-modal");
-    modal.querySelector("h2").textContent = `Edit '${key}'`;
+    modal.querySelector("h2").textContent = `${key}`;
     const formContainer = document.getElementById("editor-form");
     formContainer.innerHTML = "";
 
@@ -142,7 +198,7 @@ function openEditModal(key, value) {
 
     // Determine if value is object or primitive
     const isObj = value !== null && typeof value === "object";
-    const editableData = isObj ? value : { [key]: value };
+    const editableData = isObj ? value : {[key]: value};
     const prefix = isObj ? "" : key + ".";
 
     buildFormFields(form, editableData, prefix);
@@ -152,7 +208,7 @@ function openEditModal(key, value) {
     document.getElementById("save-item-btn").onclick = async (e) => {
         e.preventDefault();
         const formElem = document.getElementById("editor-form-inner");
-        const updated = { ...allData[currentFile] };
+        const updated = {...allData[currentFile]};
         const resultValue = {};
 
         Array.from(formElem.elements).forEach((el) => {
@@ -247,7 +303,7 @@ function openNewItemModal() {
                 val = raw;
             }
         } else val = raw;
-        const updated = { ...allData[currentFile] };
+        const updated = {...allData[currentFile]};
         updated[key] = val;
         await saveConfig(updated);
     };
@@ -261,8 +317,8 @@ async function saveConfig(configData) {
     try {
         const res = await fetch(`https://${GetParentResourceName()}/saveConfig`, {
             method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ file: currentFile, data: configData }),
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify({file: currentFile, data: configData}),
         });
         const result = await res.json();
         if (result === "ok") {

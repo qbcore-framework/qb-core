@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-        <link href="https://cdn.jsdelivr.net/npm/quasar@2.12.0/dist/quasar.prod.css" rel="stylesheet" type="text/css" />
+        <meta charset="UTF-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+        <link href="https://cdn.jsdelivr.net/npm/quasar@2.12.0/dist/quasar.prod.css" rel="stylesheet" type="text/css"/>
 
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" type="text/css" />
-        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" type="text/css"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0"/>
 
-        <link href="css/style.css" rel="stylesheet" />
-        <link href="css/editor.css" rel="stylesheet" />
-        <link href="css/drawtext.css" rel="stylesheet" />
+        <link href="css/style.css" rel="stylesheet"/>
+        <link href="css/editor.css" rel="stylesheet"/>
+        <link href="css/drawtext.css" rel="stylesheet"/>
 
         <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.prod.js" defer></script>
         <script src="https://cdn.jsdelivr.net/npm/quasar@2.12.0/dist/quasar.umd.prod.js" defer></script>
@@ -29,7 +29,7 @@
 
         <div id="editor-container">
             <header>
-                <h1>QB Config Editor</h1>
+                <h1>QBCore Config Editor</h1>
                 <div class="controls">
                     <button id="save-btn">
                         <span class="material-symbols-rounded">save</span>
@@ -79,7 +79,7 @@
                 <div class="main-content">
                     <div class="search-container">
                         <span class="material-symbols-rounded search-icon">search</span>
-                        <input type="text" id="search-input" placeholder="Search..." aria-label="Search through config items" />
+                        <input type="text" id="search-input" placeholder="Search..." aria-label="Search through config items"/>
                     </div>
 
                     <div id="data-container"></div>
@@ -98,11 +98,11 @@
                         <div id="editor-form"></div>
                     </div>
                     <div class="modal-footer">
-                        <button id="cancel-edit-btn">Cancel</button>
                         <button id="save-item-btn">
                             <span class="material-symbols-rounded">check</span>
                             Save
                         </button>
+                        <button id="cancel-edit-btn">Cancel</button>
                     </div>
                 </div>
             </div>
