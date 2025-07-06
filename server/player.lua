@@ -401,12 +401,20 @@ function Player:AddMethod(methodName, handler)
     if Player[methodName] then
         return false
     end
+    if type(handler) ~= 'function' then
+        print(('Error: Player:AddMethod - %s is not a function'):format(methodName))
+        return false
+    end
     Player[methodName] = handler
     return true
 end
 
 function Player:AddField(fieldName, data)
     if Player[fieldName] then
+        return false
+    end
+    if type(data) == 'function' then
+        print(('Error: Player:AddField - %s is a function, not a field'):format(fieldName))
         return false
     end
     Player[fieldName] = data
