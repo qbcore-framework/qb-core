@@ -421,6 +421,17 @@ function Player:AddField(fieldName, data)
     return true
 end
 
+function Player:AddPlayerData(key, value)
+    if type(key) ~= 'string' then
+        error('Player:AddPlayerData - key must be a string')
+    end
+    if self.PlayerData[key] then
+        return false
+    end
+    self.PlayerData[key] = value
+    return true
+end
+
 -- Player Handler Functions
 
 function Player:UpdatePlayerData()
@@ -443,11 +454,21 @@ function Player:Logout()
 end
 
 function Player.new(PlayerData, Offline)
+    if type(PlayerData) ~= 'table' then
+        error('Player.new param PlayerData must be a table')
+    end
+    if type(Offline) ~= 'boolean' then
+        error('Player.new param Offline must be a boolean')
+    end
+
     local self = setmetatable({}, Player)
     self.PlayerData = PlayerData
     self.Offline = Offline
     self.Functions = setmetatable({}, {
         __index = function(_, key)
+            if type(key) ~= 'string' or key:match('^__') then
+                error('Invalid function name: ' .. tostring(key))
+            end
             if Player[key] and type(Player[key]) == 'function' then
                 return function(...)
                     return Player[key](self, ...)
