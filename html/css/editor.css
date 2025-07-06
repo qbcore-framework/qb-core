@@ -353,6 +353,24 @@
     margin-left: 16px;
 }
 
+.add-button {
+    border: none;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: var(--md-radius-small);
+    background-color: var(--md-dark-success-container);
+    color: var(--md-dark-on-success-container);
+}
+
+.delete-button {
+    border: none;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: var(--md-radius-small);
+    background-color: var(--md-dark-error-container);
+    color: var(--md-dark-on-error-container);
+}
+
 /* Toggle Switch */
 .toggle-wrapper {
     display: inline-flex;
@@ -392,27 +410,4 @@
 
 .toggle-wrapper input:checked + .toggle-switch::before {
     transform: translateX(18px);
-}
-
-/* Floating Action Button */
-#add-item-fab {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    background-color: var(--md-dark-primary);
-    color: var(--md-dark-on-primary);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: var(--md-elevation-3);
-    transition: transform 0.2s;
-}
-
-#add-item-fab:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--md-elevation-2);
 }

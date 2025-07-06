@@ -110,6 +110,18 @@ function buildFormFields(container, data, prefix = "") {
                         fieldset.appendChild(legend);
 
                         buildFormFields(fieldset, item, `${prefix}${field}[${idx}].`);
+
+                        // Delete button
+                        const deleteBtn = document.createElement("button");
+                        deleteBtn.textContent = "Delete";
+                        deleteBtn.className = "delete-button";
+                        deleteBtn.onclick = () => {
+                            val.splice(idx, 1);
+                            container.innerHTML = "";
+                            buildFormFields(container, data, prefix);
+                        };
+                        fieldset.appendChild(deleteBtn);
+
                         group.appendChild(fieldset);
                     } else {
                         const itemGroup = document.createElement("div");
@@ -151,6 +163,17 @@ function buildFormFields(container, data, prefix = "") {
                         group.appendChild(itemGroup);
                     }
                 });
+
+                // Add button
+                const addBtn = document.createElement("button");
+                addBtn.textContent = "Add " + field;
+                addBtn.className = "add-button";
+                addBtn.onclick = () => {
+                    val.push({});
+                    container.innerHTML = "";
+                    buildFormFields(container, data, prefix);
+                };
+                group.appendChild(addBtn);
             } else {
                 const fieldset = document.createElement("fieldset");
                 fieldset.className = "nested-fieldset";
@@ -185,6 +208,7 @@ function buildFormFields(container, data, prefix = "") {
         }
     });
 }
+
 
 // Open modal to edit a key
 function openEditModal(key, value) {
@@ -368,7 +392,6 @@ window.addEventListener("DOMContentLoaded", () => {
         const file = li.dataset.file;
         li.addEventListener("click", () => selectFile(file, li));
     });
-    document.getElementById("add-item-fab").onclick = openNewItemModal;
     setupSearch();
     setupKeyboard();
 });
