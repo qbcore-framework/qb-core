@@ -435,11 +435,21 @@ function Player:Logout()
 end
 
 function Player.new(PlayerData, Offline)
-    local self = {
-        PlayerData = PlayerData,
-        Offline = Offline
-    }
-    return setmetatable(self, Player)
+    local self = setmetatable({}, Player)
+    self.PlayerData = PlayerData
+    self.Offline = Offline
+    self.Functions = setmetatable({}, {
+        __index = function(_, key)
+            if Player[key] and type(Player[key]) == 'function' then
+                return function(...)
+                    return Player[key](self, ...)
+                end
+            else
+                error("Attempt to call undefined function '" .. key .. "'")
+            end
+        end
+    })
+    return self
 end
 
 function QBCore.Player.CreatePlayer(PlayerData, Offline)
