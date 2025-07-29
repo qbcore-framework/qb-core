@@ -25,7 +25,7 @@ RegisterNetEvent('qb-core:server:configEditor', function(fileName, fileData)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     if not Player then return end
-    if not QBCore.Functions.HasPermission('god') then
+    if not QBCore.Functions.HasPermission(src, 'god') then
         local filePaths = {
             ['config'] = 'shared/config.json',
             ['gangs'] = 'shared/gangs.json',

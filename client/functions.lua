@@ -1,9 +1,15 @@
 -- Callbacks
 
+---Creates a client callback
+---@param name string: The name of the callback
+---@param cb function: The callback function to be executed when the callback is triggered
 function QBCore.Functions.CreateClientCallback(name, cb)
     QBCore.ClientCallbacks[name] = cb
 end
 
+---Triggers a server callback
+---@param name string: The name of the callback to trigger
+---@param ... any: The arguments to pass to the callback
 function QBCore.Functions.TriggerCallback(name, ...)
     local cb = nil
     local args = { ... }
@@ -28,16 +34,26 @@ end
 
 -- Player
 
+---Returns the player data
+---@param cb function: Optional callback function to receive the player data
 function QBCore.Functions.GetPlayerData(cb)
     if not cb then return QBCore.PlayerData end
     cb(QBCore.PlayerData)
 end
 
+---Returns coords for specified entity
+---@param entity number: The entity to get the coords for, can be a player, vehicle, or object
+---@return vector4: The coords of the entity in the form of a vector4 (x, y, z, heading)
+---@diagnostic disable-next-line: duplicate-set-field
 function QBCore.Functions.GetCoords(entity)
     local coords = GetEntityCoords(entity)
     return vector4(coords.x, coords.y, coords.z, GetEntityHeading(entity))
 end
 
+---Checks if the player has a certain item or items in their inventory with a specified amount.
+---@param items string | table - The item(s) to check for. Can be a table of items or a single item as a string.
+---@param amount number [optional] - The minimum amount required for each item. If not provided, any amount greater than 0 will be considered.
+---@return boolean - Returns true if the player has the item(s) with the specified amount, false otherwise.
 function QBCore.Functions.HasItem(items, amount)
     return exports['qb-inventory']:HasItem(items, amount)
 end
@@ -50,11 +66,11 @@ function QBCore.Functions.GetName()
 end
 
 -- Function to run an animation
---- @param animDic string: The name of the animation dictionary
---- @param animName string - The name of the animation within the dictionary
---- @param duration number - The duration of the animation in milliseconds. -1 will play the animation indefinitely
---- @param upperbodyOnly boolean - If true, the animation will only affect the upper body of the ped
---- @return number - The timestamp indicating when the animation concluded. For animations set to loop indefinitely, this will still return the maximum duration of the animation.
+---@param animDict string: The name of the animation dictionary
+---@param animName string - The name of the animation within the dictionary
+---@param duration number - The duration of the animation in milliseconds. -1 will play the animation indefinitely
+---@param upperbodyOnly boolean - If true, the animation will only affect the upper body of the ped
+---@return number - The timestamp indicating when the animation concluded. For animations set to loop indefinitely, this will still return the maximum duration of the animation.
 function QBCore.Functions.PlayAnim(animDict, animName, upperbodyOnly, duration)
     local invoked = GetInvokingResource()
     local animPromise = promise.new()
@@ -95,6 +111,8 @@ function QBCore.Functions.PlayAnim(animDict, animName, upperbodyOnly, duration)
     return animPromise.value
 end
 
+---Checks if the player is wearing gloves based on their ped model and arm index.
+---@return boolean: Returns true if the player is wearing gloves, false otherwise.
 function QBCore.Functions.IsWearingGloves()
     local ped = PlayerPedId()
     local armIndex = GetPedDrawableVariation(ped, 3)
@@ -113,6 +131,16 @@ end
 
 -- NUI Calls
 
+---@class QBCoreNotifyText
+---@field text string
+---@field caption string
+
+---Creates a notification message.
+---@param text string | QBCoreNotifyText
+---@param texttype? string
+---@param length? number
+---@param icon? string
+---@diagnostic disable-next-line: duplicate-set-field
 function QBCore.Functions.Notify(text, texttype, length, icon)
     local message = {
         action = 'notify',
@@ -134,6 +162,36 @@ function QBCore.Functions.Notify(text, texttype, length, icon)
     SendNUIMessage(message)
 end
 
+---@class ProgressControls
+---@field disableMovement boolean?: If true, movement controls are disabled during the progress bar
+---@field disableCarMovement boolean?: If true, car movement controls are disabled during the progress bar
+---@field disableMouse boolean?: If true, mouse controls are disabled during the progress bar
+---@field disableCombat boolean?: If true, combat controls are disabled during the progress bar
+
+---@class ProgressAnimation
+---@field animDict string?: The animation dictionary to use
+---@field anim string?: The animation name to play
+---@field flags number?: The flags to use for the animation
+---@field task number?: Name of scenario to play during the progress bar
+
+---@class ProgressProp
+---@field model string?: The model of the prop to use
+---@field bone number?: The bone index to attach the prop to
+---@field coords vector3?: Attach offset coords for the prop
+---@field rotation vector3?: Attach rotation of the prop
+
+---Creates a progress bar
+---@param name string: The name of the progress bar
+---@param label string?: The label to display on the progress bar
+---@param duration number?: The duration of the progress bar in milliseconds
+---@param useWhileDead boolean?: If true, the progress bar can be used while dead
+---@param canCancel boolean?: If true, the progress bar can be cancelled by the player
+---@param disableControls ProgressControls?: A table of controls to disable while the progress bar is active
+---@param animation ProgressAnimation?: The animation to play during the progress bar
+---@param prop ProgressProp?: The prop to attach to the player during the progress bar
+---@param propTwo ProgressProp?: An optional second prop to attach to the player during the progress bar
+---@param onFinish function?: A callback function to call when the progress bar finishes successfully
+---@param onCancel function?: A callback function to call when the progress bar is cancelled by the player
 function QBCore.Functions.Progressbar(name, label, duration, useWhileDead, canCancel, disableControls, animation, prop, propTwo, onFinish, onCancel)
     if GetResourceState('progressbar') ~= 'started' then error('progressbar needs to be started in order for QBCore.Functions.Progressbar to work') end
     exports['progressbar']:Progress({
@@ -161,18 +219,29 @@ end
 
 -- World Getters
 
+---Returns all vehicles in the game pool
+---@return number[]: Array containing all vehicles in the game pool
 function QBCore.Functions.GetVehicles()
     return GetGamePool('CVehicle')
 end
 
+---Returns all players in the game pool
+---@return number[]: Array containing all players in the game pool
 function QBCore.Functions.GetObjects()
     return GetGamePool('CObject')
 end
 
+---Returns all known players for client
+---@return number[]: Array containing all players
+---@diagnostic disable-next-line: duplicate-set-field
 function QBCore.Functions.GetPlayers()
     return GetActivePlayers()
 end
 
+---Returns all players within a certain distance from specified coordinates
+---@param coords vector3: The coordinates to check from, if nil, uses the player's current position
+---@param distance number?: The distance to check for players, default is 5
+---@return number[]: Array containing players within the specified distance
 function QBCore.Functions.GetPlayersFromCoords(coords, distance)
     local players = GetActivePlayers()
     local ped = PlayerPedId()
@@ -193,6 +262,10 @@ function QBCore.Functions.GetPlayersFromCoords(coords, distance)
     return closePlayers
 end
 
+---Returns the closest player to specified coordinates
+---@param coords vector3 | table?: The coordinates to check from, if nil, uses the player's current position
+---@return number, number: Returns `closestPlayer` and `closestDistance`
+---@diagnostic disable-next-line: duplicate-set-field
 function QBCore.Functions.GetClosestPlayer(coords)
     local ped = PlayerPedId()
     if coords then
@@ -217,6 +290,9 @@ function QBCore.Functions.GetClosestPlayer(coords)
     return closestPlayer, closestDistance
 end
 
+---Returns all peds in the game pool, excluding those in the ignore list
+---@param ignoreList table?: A list of peds to ignore, default is an empty table
+---@return number[]: Array containing all peds in the game pool, excluding those in the ignore list
 function QBCore.Functions.GetPeds(ignoreList)
     local pedPool = GetGamePool('CPed')
     local peds = {}
@@ -233,6 +309,11 @@ function QBCore.Functions.GetPeds(ignoreList)
     return peds
 end
 
+---Returns the closest ped to specified coordinates, excluding those in the ignore list
+---@param coords vector3 | table?: The coordinates to check from, if nil, uses the player's current position
+---@param ignoreList table?: A list of peds to ignore, default is an empty table
+---@return number, number: Returns `closestPed` and `closestDistance`
+---@diagnostic disable-next-line: duplicate-set-field
 function QBCore.Functions.GetClosestPed(coords, ignoreList)
     local ped = PlayerPedId()
     if coords then
@@ -256,6 +337,10 @@ function QBCore.Functions.GetClosestPed(coords, ignoreList)
     return closestPed, closestDistance
 end
 
+---Returns the closest vehicle to specified coordinates
+---@param coords vector3 | table?: The coordinates to check from, if nil, uses the player's current position
+---@return number, number: Returns `closestVehicle` and `closestDistance`
+---@diagnostic disable-next-line: duplicate-set-field
 function QBCore.Functions.GetClosestVehicle(coords)
     local ped = PlayerPedId()
     local vehicles = GetGamePool('CVehicle')
@@ -278,6 +363,10 @@ function QBCore.Functions.GetClosestVehicle(coords)
     return closestVehicle, closestDistance
 end
 
+---Returns the closest object to specified coordinates
+---@param coords vector3 | table?: The coordinates to check from, if nil, uses the player's current position
+---@return number, number: Returns `closestObject` and `closestDistance`
+---@diagnostic disable-next-line: duplicate-set-field
 function QBCore.Functions.GetClosestObject(coords)
     local ped = PlayerPedId()
     local objects = GetGamePool('CObject')
@@ -301,6 +390,8 @@ end
 
 -- Vehicle
 
+---Loads a model into the game memory
+---@param model string | number: The model to load, can be a string or a numeric hash
 function QBCore.Functions.LoadModel(model)
     if HasModelLoaded(model) then return end
     RequestModel(model)
@@ -309,7 +400,14 @@ function QBCore.Functions.LoadModel(model)
     end
 end
 
-function QBCore.Functions.SpawnVehicle(model, cb, coords, isnetworked, teleportInto)
+---Spawns a vehicle at specified coordinates
+---@param model string | number: The model of the vehicle to spawn, can be a string or a numeric hash
+---@param cb function: Callback function to execute once the vehicle is spawned
+---@param coords vector4 | table?: The coordinates to spawn the vehicle at, if nil, uses the player's current position
+---@param isNetworked boolean?: Whether the vehicle should be networked
+---@param teleportInto boolean?: Whether to teleport the player into the vehicle
+---@diagnostic disable-next-line: duplicate-set-field
+function QBCore.Functions.SpawnVehicle(model, cb, coords, isNetworked, teleportInto)
     local ped = PlayerPedId()
     model = type(model) == 'string' and joaat(model) or model
     if not IsModelInCdimage(model) then return end
@@ -318,9 +416,9 @@ function QBCore.Functions.SpawnVehicle(model, cb, coords, isnetworked, teleportI
     else
         coords = GetEntityCoords(ped)
     end
-    isnetworked = isnetworked == nil or isnetworked
+    isNetworked = isNetworked == nil or isNetworked
     QBCore.Functions.LoadModel(model)
-    local veh = CreateVehicle(model, coords.x, coords.y, coords.z, coords.w, isnetworked, false)
+    local veh = CreateVehicle(model, coords.x, coords.y, coords.z, coords.w, isNetworked, false)
     local netid = NetworkGetNetworkIdFromEntity(veh)
     SetVehicleHasBeenOwnedByPlayer(veh, true)
     SetNetworkIdCanMigrate(netid, true)
@@ -332,21 +430,32 @@ function QBCore.Functions.SpawnVehicle(model, cb, coords, isnetworked, teleportI
     if cb then cb(veh) end
 end
 
+---Deletes a vehicle entity
+---@param vehicle number: The vehicle entity to delete
 function QBCore.Functions.DeleteVehicle(vehicle)
     SetEntityAsMissionEntity(vehicle, true, true)
     DeleteVehicle(vehicle)
 end
 
+---Returns the vehicle plate of a specified vehicle
+---@param vehicle number: The vehicle entity to get the plate from
+---@return string | nil: The vehicle plate, trimmed of whitespace
 function QBCore.Functions.GetPlate(vehicle)
     if vehicle == 0 then return end
     return QBCore.Shared.Trim(GetVehicleNumberPlateText(vehicle))
 end
 
+---Returns the vehicle label of a specified vehicle
+---@param vehicle number: The vehicle entity to get the label from
+---@return string | nil: The vehicle label, or nil if the vehicle is not valid
 function QBCore.Functions.GetVehicleLabel(vehicle)
     if vehicle == nil or vehicle == 0 then return end
     return GetLabelText(GetDisplayNameFromVehicleModel(GetEntityModel(vehicle)))
 end
 
+---Returns the vehicle properties of a specified vehicle
+---@param vehicle number: The vehicle entity to get the properties from
+---@return table | nil: A table containing various properties of the vehicle, such as model, plate, health, colors, extras, and modifications
 function QBCore.Functions.GetVehicleProperties(vehicle)
     if DoesEntityExist(vehicle) then
         local pearlescentColor, wheelColor = GetVehicleExtraColours(vehicle)
@@ -354,11 +463,13 @@ function QBCore.Functions.GetVehicleProperties(vehicle)
         local colorPrimary, colorSecondary = GetVehicleColours(vehicle)
         if GetIsVehiclePrimaryColourCustom(vehicle) then
             local r, g, b = GetVehicleCustomPrimaryColour(vehicle)
+            ---@diagnostic disable-next-line: cast-local-type
             colorPrimary = { r, g, b }
         end
 
         if GetIsVehicleSecondaryColourCustom(vehicle) then
             local r, g, b = GetVehicleCustomSecondaryColour(vehicle)
+            ---@diagnostic disable-next-line: cast-local-type
             colorSecondary = { r, g, b }
         end
 
@@ -502,14 +613,17 @@ function QBCore.Functions.GetVehicleProperties(vehicle)
     end
 end
 
+---Sets the properties of a vehicle
+---@param vehicle number: The vehicle entity to set the properties for
+---@param props table: A table containing the properties to set, such as plate, health, colors, extras, and modifications
 function QBCore.Functions.SetVehicleProperties(vehicle, props)
     if DoesEntityExist(vehicle) then
         if props.extras then
             for id, enabled in pairs(props.extras) do
                 if enabled then
-                    SetVehicleExtra(vehicle, tonumber(id), 0)
+                    SetVehicleExtra(vehicle, tonumber(id) or 0, false)
                 else
-                    SetVehicleExtra(vehicle, tonumber(id), 1)
+                    SetVehicleExtra(vehicle, tonumber(id) or 0, true)
                 end
             end
         end
@@ -580,14 +694,14 @@ function QBCore.Functions.SetVehicleProperties(vehicle, props)
         if props.tireBurstState then
             for wheelIndex, burstState in pairs(props.tireBurstState) do
                 if burstState then
-                    SetVehicleTyreBurst(vehicle, tonumber(wheelIndex), false, 1000.0)
+                    SetVehicleTyreBurst(vehicle, tonumber(wheelIndex) or 0, false, 1000.0)
                 end
             end
         end
         if props.tireBurstCompletely then
             for wheelIndex, burstState in pairs(props.tireBurstCompletely) do
                 if burstState then
-                    SetVehicleTyreBurst(vehicle, tonumber(wheelIndex), true, 1000.0)
+                    SetVehicleTyreBurst(vehicle, tonumber(wheelIndex) or 0, true, 1000.0)
                 end
             end
         end
@@ -602,7 +716,7 @@ function QBCore.Functions.SetVehicleProperties(vehicle, props)
         if props.doorStatus then
             for doorIndex, breakDoor in pairs(props.doorStatus) do
                 if breakDoor then
-                    SetVehicleDoorBroken(vehicle, tonumber(doorIndex), true)
+                    SetVehicleDoorBroken(vehicle, tonumber(doorIndex) or 0, true)
                 end
             end
         end
@@ -798,6 +912,7 @@ function QBCore.Functions.SetVehicleProperties(vehicle, props)
 end
 
 -- Unused
+-- Since it's unused we wanna remove it or keep it for compatibility?
 
 function QBCore.Functions.DrawText(x, y, width, height, scale, r, g, b, a, text)
     -- Use local function instead
@@ -813,7 +928,7 @@ function QBCore.Functions.DrawText3D(x, y, z, text)
     -- Use local function instead
     SetTextScale(0.35, 0.35)
     SetTextFont(4)
-    SetTextProportional(1)
+    SetTextProportional(true)
     SetTextColour(255, 255, 255, 215)
     BeginTextCommandDisplayText('STRING')
     SetTextCentre(true)
@@ -868,8 +983,8 @@ function QBCore.Functions.AttachProp(ped, model, boneId, x, y, z, xR, yR, zR, ve
     local modelHash = type(model) == 'string' and joaat(model) or model
     local bone = GetPedBoneIndex(ped, boneId)
     QBCore.Functions.LoadModel(modelHash)
-    local prop = CreateObject(modelHash, 1.0, 1.0, 1.0, 1, 1, 0)
-    AttachEntityToEntity(prop, ped, bone, x, y, z, xR, yR, zR, 1, 1, 0, 1, not vertex and 2 or 0, 1)
+    local prop = CreateObject(modelHash, 1.0, 1.0, 1.0, true, true, false)
+    AttachEntityToEntity(prop, ped, bone, x, y, z, xR, yR, zR, true, true, false, true, not vertex and 2 or 0, true)
     SetModelAsNoLongerNeeded(modelHash)
     return prop
 end
@@ -920,21 +1035,21 @@ function QBCore.Functions.StartParticleAtCoord(dict, ptName, looped, coords, rot
     SetPtfxAssetNextCall(dict)
     local particleHandle
     if looped then
-        particleHandle = StartParticleFxLoopedAtCoord(ptName, coords.x, coords.y, coords.z, rot.x, rot.y, rot.z, scale or 1.0)
+        particleHandle = StartParticleFxLoopedAtCoord(ptName, coords.x, coords.y, coords.z, rot.x, rot.y, rot.z, scale or 1.0, false, false, false, false)
         if color then
             SetParticleFxLoopedColour(particleHandle, color.r, color.g, color.b, false)
         end
         SetParticleFxLoopedAlpha(particleHandle, alpha or 10.0)
         if duration then
             Wait(duration)
-            StopParticleFxLooped(particleHandle, 0)
+            StopParticleFxLooped(particleHandle, false)
         end
     else
         SetParticleFxNonLoopedAlpha(alpha or 10.0)
         if color then
             SetParticleFxNonLoopedColour(color.r, color.g, color.b)
         end
-        StartParticleFxNonLoopedAtCoord(ptName, coords.x, coords.y, coords.z, rot.x, rot.y, rot.z, scale or 1.0)
+        StartParticleFxNonLoopedAtCoord(ptName, coords.x, coords.y, coords.z, rot.x, rot.y, rot.z, scale or 1.0, false, false, false)
     end
     return particleHandle
 end
@@ -950,9 +1065,9 @@ function QBCore.Functions.StartParticleOnEntity(dict, ptName, looped, entity, bo
     end
     if looped then
         if bone then
-            particleHandle = StartParticleFxLoopedOnEntityBone(ptName, entity, offset.x, offset.y, offset.z, rot.x, rot.y, rot.z, boneID, scale)
+            particleHandle = StartParticleFxLoopedOnEntityBone(ptName, entity, offset.x, offset.y, offset.z, rot.x, rot.y, rot.z, boneID, scale, false, false, false)
         else
-            particleHandle = StartParticleFxLoopedOnEntity(ptName, entity, offset.x, offset.y, offset.z, rot.x, rot.y, rot.z, scale)
+            particleHandle = StartParticleFxLoopedOnEntity(ptName, entity, offset.x, offset.y, offset.z, rot.x, rot.y, rot.z, scale, false, false, false)
         end
         if evolution then
             SetParticleFxLoopedEvolution(particleHandle, evolution.name, evolution.amount, false)
@@ -963,7 +1078,7 @@ function QBCore.Functions.StartParticleOnEntity(dict, ptName, looped, entity, bo
         SetParticleFxLoopedAlpha(particleHandle, alpha)
         if duration then
             Wait(duration)
-            StopParticleFxLooped(particleHandle, 0)
+            StopParticleFxLooped(particleHandle, false)
         end
     else
         SetParticleFxNonLoopedAlpha(alpha or 10.0)
@@ -971,9 +1086,9 @@ function QBCore.Functions.StartParticleOnEntity(dict, ptName, looped, entity, bo
             SetParticleFxNonLoopedColour(color.r, color.g, color.b)
         end
         if bone then
-            StartParticleFxNonLoopedOnPedBone(ptName, entity, offset.x, offset.y, offset.z, rot.x, rot.y, rot.z, boneID, scale)
+            StartParticleFxNonLoopedOnPedBone(ptName, entity, offset.x, offset.y, offset.z, rot.x, rot.y, rot.z, boneID, scale, false, false, false)
         else
-            StartParticleFxNonLoopedOnEntity(ptName, entity, offset.x, offset.y, offset.z, rot.x, rot.y, rot.z, scale)
+            StartParticleFxNonLoopedOnEntity(ptName, entity, offset.x, offset.y, offset.z, rot.x, rot.y, rot.z, scale, false, false, false)
         end
     end
     return particleHandle
@@ -985,7 +1100,7 @@ function QBCore.Functions.GetStreetNametAtCoords(coords)
 end
 
 function QBCore.Functions.GetZoneAtCoords(coords)
-    return GetLabelText(GetNameOfZone(coords))
+    return GetLabelText(GetNameOfZone(coords.x, coords.y, coords.z))
 end
 
 function QBCore.Functions.GetCardinalDirection(entity)
@@ -1025,7 +1140,7 @@ end
 function QBCore.Functions.GetGroundZCoord(coords)
     if not coords then return end
 
-    local retval, groundZ = GetGroundZFor_3dCoord(coords.x, coords.y, coords.z, 0)
+    local retval, groundZ = GetGroundZFor_3dCoord(coords.x, coords.y, coords.z, false)
     if retval then
         return vector3(coords.x, coords.y, groundZ)
     else

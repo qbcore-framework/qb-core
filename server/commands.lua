@@ -77,7 +77,7 @@ end
 QBCore.Commands.Add('tp', Lang:t('command.tp.help'), { { name = Lang:t('command.tp.params.x.name'), help = Lang:t('command.tp.params.x.help') }, { name = Lang:t('command.tp.params.y.name'), help = Lang:t('command.tp.params.y.help') }, { name = Lang:t('command.tp.params.z.name'), help = Lang:t('command.tp.params.z.help') } }, false, function(source, args)
     if args[1] and not args[2] and not args[3] then
         if tonumber(args[1]) then
-            local target = GetPlayerPed(tonumber(args[1]))
+            local target = GetPlayerPed(tonumber(args[1]) or 0)
             if target ~= 0 then
                 local coords = GetEntityCoords(target)
                 TriggerClientEvent('QBCore:Command:TeleportToPlayer', source, coords)
@@ -151,7 +151,7 @@ QBCore.Commands.Add('openserver', Lang:t('command.openserver.help'), {}, false, 
         QBCore.Config.Server.Closed = false
         TriggerClientEvent('QBCore:Notify', source, Lang:t('success.server_opened'), 'success')
     else
-        QBCore.Functions.Kick(source, Lang:t('error.no_permission'), nil, nil)
+        QBCore.Functions.Kick(source, Lang:t('error.no_permission'))
     end
 end, 'admin')
 
@@ -166,12 +166,12 @@ QBCore.Commands.Add('closeserver', Lang:t('command.closeserver.help'), { { name 
         QBCore.Config.Server.ClosedReason = reason
         for k in pairs(QBCore.Players) do
             if not QBCore.Functions.HasPermission(k, QBCore.Config.Server.WhitelistPermission) then
-                QBCore.Functions.Kick(k, reason, nil, nil)
+                QBCore.Functions.Kick(k, reason)
             end
         end
         TriggerClientEvent('QBCore:Notify', source, Lang:t('success.server_closed'), 'success')
     else
-        QBCore.Functions.Kick(source, Lang:t('error.no_permission'), nil, nil)
+        QBCore.Functions.Kick(source, Lang:t('error.no_permission'))
     end
 end, 'admin')
 
@@ -187,6 +187,7 @@ end, 'admin')
 
 QBCore.Commands.Add('dvall', Lang:t('command.dvall.help'), {}, false, function()
     local vehicles = GetAllVehicles()
+    ---@diagnostic disable-next-line: param-type-mismatch
     for _, vehicle in ipairs(vehicles) do
         DeleteEntity(vehicle)
     end

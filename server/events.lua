@@ -248,6 +248,11 @@ end)
 -- convert it to a vehicle via the NetToVeh native
 QBCore.Functions.CreateCallback('QBCore:Server:SpawnVehicle', function(source, cb, model, coords, warp)
     local veh = QBCore.Functions.SpawnVehicle(source, model, coords, warp)
+
+    if not veh then
+        return cb(0)
+    end
+
     cb(NetworkGetNetworkIdFromEntity(veh))
 end)
 

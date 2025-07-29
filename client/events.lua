@@ -37,8 +37,7 @@ RegisterNetEvent('QBCore:Command:GoToMarker', function()
 
     local blipMarker <const> = GetFirstBlipInfoId(8)
     if not DoesBlipExist(blipMarker) then
-        QBCore.Functions.Notify(Lang:t('error.no_waypoint'), 'error', 5000)
-        return 'marker'
+        return QBCore.Functions.Notify(Lang:t('error.no_waypoint'), 'error', 5000)
     end
 
     -- Fade screen to hide how clients get teleported.
@@ -128,12 +127,14 @@ RegisterNetEvent('QBCore:Command:SpawnVehicle', function(vehName)
         Wait(0)
     end
 
-    if IsPedInAnyVehicle(ped) then
+    if IsPedInAnyVehicle(ped, false) then
         SetEntityAsMissionEntity(veh, true, true)
         DeleteVehicle(veh)
     end
 
-    local vehicle = CreateVehicle(hash, GetEntityCoords(ped), GetEntityHeading(ped), true, false)
+    local coords = GetEntityCoords(ped)
+    local vehicle = CreateVehicle(hash, coords.x, coords.y, coords.z, GetEntityHeading(ped), true, false)
+
     TaskWarpPedIntoVehicle(ped, vehicle, -1)
     SetVehicleFuelLevel(vehicle, 100.0)
     SetVehicleDirtLevel(vehicle, 0.0)
@@ -239,9 +240,9 @@ local function Draw3DText(coords, str)
         SetTextFont(4)
         SetTextColour(255, 255, 255, 255)
         SetTextEdge(2, 0, 0, 0, 150)
-        SetTextProportional(1)
+        SetTextProportional(true)
         SetTextOutline()
-        SetTextCentre(1)
+        SetTextCentre(true)
         BeginTextCommandDisplayText('STRING')
         AddTextComponentSubstringPlayerName(str)
         EndTextCommandDisplayText(worldX, worldY)

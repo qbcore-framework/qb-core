@@ -1,4 +1,6 @@
---- @class Locale
+---@class Locale
+---@field fallback Locale | false
+---@field warnOnMissing boolean
 Locale = {}
 Locale.__index = Locale
 
@@ -28,8 +30,8 @@ local function translateKey(phrase, subs)
 end
 
 --- Constructor function for a new Locale class instance
---- @param opts table<string, any> - Constructor opts param
---- @return Locale
+---@param opts table<string, any> - Constructor opts param
+---@return Locale
 function Locale.new(_, opts)
     local self = setmetatable({}, Locale)
 
@@ -48,9 +50,9 @@ end
 
 --- Method for extending an instances phrases map. This is also, used
 --- internally for initial population of phrases field.
---- @param phrases table<string, string> - Table of phrase definitions
---- @param prefix string | nil - Optional prefix used for recursive calls
---- @return nil
+---@param phrases table<string, string> - Table of phrase definitions
+---@param prefix string | nil - Optional prefix used for recursive calls
+---@return nil
 function Locale:extend(phrases, prefix)
     for key, phrase in pairs(phrases) do
         local prefixKey = prefix and ('%s.%s'):format(prefix, key) or key
@@ -65,13 +67,13 @@ end
 
 --- Clear locale instance phrases
 --- Might be useful for memory management of large phrase maps.
---- @return nil
+---@return nil
 function Locale:clear()
     self.phrases = {}
 end
 
 --- Clears all phrases and replaces it with the passed phrases table
---- @param phrases table<string, any>
+---@param phrases table<string, any>
 function Locale:replace(phrases)
     phrases = phrases or {}
     self:clear()
@@ -79,8 +81,8 @@ function Locale:replace(phrases)
 end
 
 --- Gets & Sets a locale depending on if an argument is passed
---- @param newLocale string - Optional new locale to set
---- @return string
+---@param newLocale string - Optional new locale to set
+---@return string
 function Locale:locale(newLocale)
     if (newLocale) then
         self.currentLocale = newLocale
@@ -89,9 +91,9 @@ function Locale:locale(newLocale)
 end
 
 --- Primary translation method for a phrase of given key
---- @param key string - The phrase key to target
---- @param subs table<string, any> | nil
---- @return string
+---@param key string - The phrase key to target
+---@param subs table<string, any> | nil
+---@return string
 function Locale:t(key, subs)
     local phrase, result
     subs = subs or {}
@@ -118,14 +120,14 @@ function Locale:t(key, subs)
 end
 
 --- Check if a phrase key has already been defined within the Locale instance phrase maps.
---- @return boolean
+---@return boolean
 function Locale:has(key)
     return self.phrases[key] ~= nil
 end
 
 --- Will remove phrase keys from a Locale instance, using recursion/
---- @param phraseTarget string | table
---- @param prefix string
+---@param phraseTarget string | table
+---@param prefix string
 function Locale:delete(phraseTarget, prefix)
     -- If the target is a string, we know that this is the end
     -- of nested table tree.

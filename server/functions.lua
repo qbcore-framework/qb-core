@@ -6,6 +6,7 @@
 ---Gets the coordinates of an entity
 ---@param entity number
 ---@return vector4
+---@diagnostic disable-next-line: duplicate-set-field
 function QBCore.Functions.GetCoords(entity)
     local coords = GetEntityCoords(entity, false)
     local heading = GetEntityHeading(entity)
@@ -90,6 +91,9 @@ function QBCore.Functions.GetPlayerByLicense(license)
     return nil
 end
 
+---Get offline player by license
+---@param license string
+---@return table?
 function QBCore.Functions.GetOfflinePlayerByLicense(license)
     if license then
         local PlayerData = MySQL.prepare.await('SELECT * FROM players where license = ?', { license })
@@ -146,6 +150,7 @@ end
 
 ---Get all players. Returns the server ids of all players.
 ---@return table
+---@diagnostic disable-next-line: duplicate-set-field
 function QBCore.Functions.GetPlayers()
     local sources = {}
     for k in pairs(QBCore.Players) do
@@ -193,14 +198,15 @@ function QBCore.Functions.GetDutyCount(job)
     return count
 end
 
---- @param source number source player's server ID.
---- @param coords vector The coordinates to calculate the distance from. Can be a table with x, y, z fields or a vector3. If not provided, the source player's Ped's coordinates are used.
---- @return string closestPlayer - The Player that is closest to the source player (or the provided coordinates). Returns -1 if no Players are found.
---- @return number closestDistance - The distance to the closest Player. Returns -1 if no Players are found.
+---@param source number source player's server ID.
+---@param coords vector The coordinates to calculate the distance from. Can be a table with x, y, z fields or a vector3. If not provided, the source player's Ped's coordinates are used.
+---@return string closestPlayer - The Player that is closest to the source player (or the provided coordinates). Returns -1 if no Players are found.
+---@return number closestDistance - The distance to the closest Player. Returns -1 if no Players are found.
+---@diagnostic disable-next-line: duplicate-set-field
 function QBCore.Functions.GetClosestPlayer(source, coords)
     local ped = GetPlayerPed(source)
     local players = GetPlayers()
-    local closestDistance, closestPlayer = -1, -1
+    local closestDistance, closestPlayer = -1, "-1"
     if coords then coords = type(coords) == 'table' and vector3(coords.x, coords.y, coords.z) or coords end
     if not coords then coords = GetEntityCoords(ped) end
     for i = 1, #players do
@@ -218,10 +224,11 @@ function QBCore.Functions.GetClosestPlayer(source, coords)
     return closestPlayer, closestDistance
 end
 
---- @param source number source player's server ID.
---- @param coords vector The coordinates to calculate the distance from. Can be a table with x, y, z fields or a vector3. If not provided, the source player's Ped's coordinates are used.
---- @return number closestObject - The Object that is closest to the source player (or the provided coordinates). Returns -1 if no Objects are found.
---- @return number closestDistance - The distance to the closest Object. Returns -1 if no Objects are found.
+---@param source number source player's server ID.
+---@param coords vector The coordinates to calculate the distance from. Can be a table with x, y, z fields or a vector3. If not provided, the source player's Ped's coordinates are used.
+---@return number closestObject - The Object that is closest to the source player (or the provided coordinates). Returns -1 if no Objects are found.
+---@return number closestDistance - The distance to the closest Object. Returns -1 if no Objects are found.
+---@diagnostic disable-next-line: duplicate-set-field
 function QBCore.Functions.GetClosestObject(source, coords)
     local ped = GetPlayerPed(source)
     local objects = GetAllObjects()
@@ -239,10 +246,11 @@ function QBCore.Functions.GetClosestObject(source, coords)
     return closestObject, closestDistance
 end
 
---- @param source number source player's server ID.
---- @param coords vector The coordinates to calculate the distance from. Can be a table with x, y, z fields or a vector3. If not provided, the source player's Ped's coordinates are used.
---- @return number closestVehicle - The Vehicle that is closest to the source player (or the provided coordinates). Returns -1 if no Vehicles are found.
---- @return number closestDistance - The distance to the closest Vehicle. Returns -1 if no Vehicles are found.
+---@param source number source player's server ID.
+---@param coords vector The coordinates to calculate the distance from. Can be a table with x, y, z fields or a vector3. If not provided, the source player's Ped's coordinates are used.
+---@return number closestVehicle - The Vehicle that is closest to the source player (or the provided coordinates). Returns -1 if no Vehicles are found.
+---@return number closestDistance - The distance to the closest Vehicle. Returns -1 if no Vehicles are found.
+---@diagnostic disable-next-line: duplicate-set-field
 function QBCore.Functions.GetClosestVehicle(source, coords)
     local ped = GetPlayerPed(source)
     local vehicles = GetAllVehicles()
@@ -260,10 +268,11 @@ function QBCore.Functions.GetClosestVehicle(source, coords)
     return closestVehicle, closestDistance
 end
 
---- @param source number source player's server ID.
---- @param coords vector The coordinates to calculate the distance from. Can be a table with x, y, z fields or a vector3. If not provided, the source player's Ped's coordinates are used.
---- @return number closestPed - The Ped that is closest to the source player (or the provided coordinates). Returns -1 if no Peds are found.
---- @return number closestDistance - The distance to the closest Ped. Returns -1 if no Peds are found.
+---@param source number source player's server ID.
+---@param coords vector The coordinates to calculate the distance from. Can be a table with x, y, z fields or a vector3. If not provided, the source player's Ped's coordinates are used.
+---@return number closestPed - The Ped that is closest to the source player (or the provided coordinates). Returns -1 if no Peds are found.
+---@return number closestDistance - The distance to the closest Ped. Returns -1 if no Peds are found.
+---@diagnostic disable-next-line: duplicate-set-field
 function QBCore.Functions.GetClosestPed(source, coords)
     local ped = GetPlayerPed(source)
     local peds = GetAllPeds()
@@ -298,13 +307,16 @@ end
 function QBCore.Functions.SetPlayerBucket(source, bucket)
     if source and bucket then
         local plicense = QBCore.Functions.GetIdentifier(source, 'license')
-        Player(source).state:set('instance', bucket, true)
-        SetPlayerRoutingBucket(source, bucket)
-        QBCore.Player_Buckets[plicense] = { id = source, bucket = bucket }
-        return true
-    else
-        return false
+
+        if plicense then
+            Player(source).state:set('instance', bucket, true)
+            SetPlayerRoutingBucket(source, bucket)
+            QBCore.Player_Buckets[plicense] = { id = source, bucket = bucket }
+            return true
+        end
     end
+
+    return false
 end
 
 ---Will set any entity into the provided bucket, for example peds / vehicles / props / etc.
@@ -363,6 +375,7 @@ end
 ---@param coords vector
 ---@param warp boolean
 ---@return number
+---@diagnostic disable-next-line: duplicate-set-field
 function QBCore.Functions.SpawnVehicle(source, model, coords, warp)
     local ped = GetPlayerPed(source)
     model = type(model) == 'string' and joaat(model) or model
@@ -371,7 +384,7 @@ function QBCore.Functions.SpawnVehicle(source, model, coords, warp)
     local veh = CreateVehicle(model, coords.x, coords.y, coords.z, heading, true, true)
     while not DoesEntityExist(veh) do Wait(0) end
     if warp then
-        while GetVehiclePedIsIn(ped) ~= veh do
+        while GetVehiclePedIsIn(ped, false) ~= veh do
             Wait(0)
             TaskWarpPedIntoVehicle(ped, veh, -1)
         end
@@ -393,7 +406,7 @@ function QBCore.Functions.CreateAutomobile(source, model, coords, warp)
     model = type(model) == 'string' and joaat(model) or model
     if not coords then coords = GetEntityCoords(GetPlayerPed(source)) end
     local heading = coords.w and coords.w or 0.0
-    local CreateAutomobile = `CREATE_AUTOMOBILE`
+    local CreateAutomobile = GetHashKey("CREATE_AUTOMOBILE")
     local veh = Citizen.InvokeNative(CreateAutomobile, model, coords, heading, true, true)
     while not DoesEntityExist(veh) do Wait(0) end
     if warp then TaskWarpPedIntoVehicle(GetPlayerPed(source), veh, -1) end
@@ -416,7 +429,7 @@ function QBCore.Functions.CreateVehicle(source, model, vehtype, coords, warp)
     vehtype = type(vehtype) == 'string' and tostring(vehtype) or vehtype
     if not coords then coords = GetEntityCoords(GetPlayerPed(source)) end
     local heading = coords.w and coords.w or 0.0
-    local veh = CreateVehicleServerSetter(model, vehtype, coords, heading)
+    local veh = CreateVehicleServerSetter(model, vehtype, coords.x, coords.y, coords.z, heading)
     while not DoesEntityExist(veh) do Wait(0) end
     if warp then TaskWarpPedIntoVehicle(GetPlayerPed(source), veh, -1) end
     return veh
@@ -427,7 +440,6 @@ end
 ---Trigger Client Callback
 ---@param name string
 ---@param source any
----@param cb function
 ---@param ... any
 function QBCore.Functions.TriggerClientCallback(name, source, ...)
     local cb = nil
@@ -496,8 +508,8 @@ end
 ---Kick Player
 ---@param source any
 ---@param reason string
----@param setKickReason boolean
----@param deferrals boolean
+---@param setKickReason? function
+---@param deferrals any
 function QBCore.Functions.Kick(source, reason, setKickReason, deferrals)
     reason = '\n' .. reason .. '\n🔸 Check our Discord for further information: ' .. QBCore.Config.Server.Discord
     if setKickReason then
@@ -637,13 +649,13 @@ function QBCore.Functions.IsPlayerBanned(source)
 end
 
 -- Retrieves information about the database connection.
---- @return table; A table containing the database information.
+---@return table | nil; A table containing the database information.
 function QBCore.Functions.GetDatabaseInfo()
+    local connectionString = GetConvar('mysql_connection_string', '')
     local details = {
         exists = false,
         database = '',
     }
-    local connectionString = GetConvar('mysql_connection_string', '')
 
     if connectionString == '' then
         return details
@@ -653,10 +665,10 @@ function QBCore.Functions.GetDatabaseInfo()
         details.exists = true
         return details
     else
-        connectionString = { string.strsplit(';', connectionString) }
+        local data = { string.strsplit(';', connectionString) }
 
-        for i = 1, #connectionString do
-            local v = connectionString[i]
+        for i = 1, #data do
+            local v = data[i]
             if v:match('database') then
                 details.database = v:sub(10, #v)
                 details.exists = true
@@ -683,10 +695,13 @@ end
 ---@param text string
 ---@param type string
 ---@param length number
+---@diagnostic disable-next-line: duplicate-set-field
 function QBCore.Functions.Notify(source, text, type, length)
     TriggerClientEvent('QBCore:Notify', source, text, type, length)
 end
 
+---Creates a citizen id
+---@return string
 function QBCore.Functions.CreateCitizenId()
     local CitizenId = tostring(QBCore.Shared.RandomStr(3) .. QBCore.Shared.RandomInt(5)):upper()
     local result = MySQL.prepare.await('SELECT EXISTS(SELECT 1 FROM players WHERE citizenid = ?) AS uniqueCheck', { CitizenId })
@@ -694,6 +709,8 @@ function QBCore.Functions.CreateCitizenId()
     return QBCore.Functions.CreateCitizenId()
 end
 
+---Creates a unique account number
+---@return string
 function QBCore.Functions.CreateAccountNumber()
     local AccountNumber = 'US0' .. math.random(1, 9) .. 'QBCore' .. math.random(1111, 9999) .. math.random(1111, 9999) .. math.random(11, 99)
     local result = MySQL.prepare.await('SELECT EXISTS(SELECT 1 FROM players WHERE JSON_UNQUOTE(JSON_EXTRACT(charinfo, "$.account")) = ?) AS uniqueCheck', { AccountNumber })
@@ -701,6 +718,8 @@ function QBCore.Functions.CreateAccountNumber()
     return QBCore.Functions.CreateAccountNumber()
 end
 
+---Creates a unique phone number
+---@return string
 function QBCore.Functions.CreatePhoneNumber()
     local PhoneNumber = math.random(100, 999) .. math.random(1000000, 9999999)
     local result = MySQL.prepare.await('SELECT EXISTS(SELECT 1 FROM players WHERE JSON_UNQUOTE(JSON_EXTRACT(charinfo, "$.phone")) = ?) AS uniqueCheck', { PhoneNumber })
@@ -708,6 +727,8 @@ function QBCore.Functions.CreatePhoneNumber()
     return QBCore.Functions.CreatePhoneNumber()
 end
 
+---Creates a unique fingerprint id
+---@return string
 function QBCore.Functions.CreateFingerId()
     local FingerId = tostring(QBCore.Shared.RandomStr(2) .. QBCore.Shared.RandomInt(3) .. QBCore.Shared.RandomStr(1) .. QBCore.Shared.RandomInt(2) .. QBCore.Shared.RandomStr(3) .. QBCore.Shared.RandomInt(4))
     local result = MySQL.prepare.await('SELECT EXISTS(SELECT 1 FROM players WHERE JSON_UNQUOTE(JSON_EXTRACT(metadata, "$.fingerprint")) = ?) AS uniqueCheck', { FingerId })
@@ -715,6 +736,8 @@ function QBCore.Functions.CreateFingerId()
     return QBCore.Functions.CreateFingerId()
 end
 
+---Creates a unique wallet id
+---@return string
 function QBCore.Functions.CreateWalletId()
     local WalletId = 'QB-' .. math.random(11111111, 99999999)
     local result = MySQL.prepare.await('SELECT EXISTS(SELECT 1 FROM players WHERE JSON_UNQUOTE(JSON_EXTRACT(metadata, "$.walletid")) = ?) AS uniqueCheck', { WalletId })
@@ -722,6 +745,8 @@ function QBCore.Functions.CreateWalletId()
     return QBCore.Functions.CreateWalletId()
 end
 
+---Creates a unique serial number for the phone
+---@return number
 function QBCore.Functions.CreateSerialNumber()
     local SerialNumber = math.random(11111111, 99999999)
     local result = MySQL.prepare.await('SELECT EXISTS(SELECT 1 FROM players WHERE JSON_UNQUOTE(JSON_EXTRACT(metadata, "$.phonedata.SerialNumber")) = ?) AS uniqueCheck', { SerialNumber })
@@ -739,6 +764,10 @@ end
     end)
 ]]
 
+---Adding new function to the player class
+---@param ids number|table
+---@param methodName string
+---@param handler function
 function QBCore.Functions.AddPlayerMethod(ids, methodName, handler)
     local idType = type(ids)
     if idType == 'number' then
@@ -766,6 +795,10 @@ end
     end)
 ]]
 
+---Adding new field to the player class
+---@param ids number|table
+---@param fieldName string
+---@param data any
 function QBCore.Functions.AddPlayerField(ids, fieldName, data)
     local idType = type(ids)
     if idType == 'number' then
