@@ -651,7 +651,7 @@ function QBCore.Functions.SetVehicleProperties(vehicle, props)
         end
         if props.windowStatus then
             for windowIndex, smashWindow in pairs(props.windowStatus) do
-                if not smashWindow then SmashVehicleWindow(vehicle, windowIndex) end
+                if not smashWindow then SmashVehicleWindow(vehicle, tonumber(windowIndex)) end
             end
         end
         if props.doorStatus then
