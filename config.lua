@@ -20,6 +20,7 @@ QBConfig.Player.Bloodtypes = {
 }
 
 QBConfig.Player.PlayerDefaults = {
+    userId = function() if QBConfig.Server.StaticId.Enabled then return QBCore.Player.CreatePlayerId() end end,
     citizenid = function() return QBCore.Player.CreateCitizenId() end,
     cid = 1,
     money = function()
@@ -114,6 +115,11 @@ QBConfig.Server.PVP = true                              -- Enable or disable pvp
 QBConfig.Server.Discord = ''                            -- Discord invite link
 QBConfig.Server.CheckDuplicateLicense = true            -- Check for duplicate rockstar license on join
 QBConfig.Server.Permissions = { 'god', 'admin', 'mod' } -- Add as many groups as you want here after creating them in your server.cfg
+
+QBConfig.Server.StaticId = {
+    Enabled = true,          -- Enable or disable the use of static ID's
+    UseInCommands = false    -- Use static ID's in commands like /givecash, /setjob etc. (Requires server restart after changing) ( Applys only if QBConfig.Server.StaticId.Enabled.Enabled is true  |  Applys only in commands from server/commands.lua )
+}
 
 QBConfig.Commands = {}                                  -- Command Configuration
 QBConfig.Commands.OOCColor = { 255, 151, 133 }          -- RGB color code for the OOC command

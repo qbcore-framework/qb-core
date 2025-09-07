@@ -47,3 +47,28 @@ local function GetSharedGangs()
     return QBShared.Gangs
 end
 exports('GetSharedGangs', GetSharedGangs)
+
+CreateThread(function()
+    local col = 'userId'
+    local tbl = 'players'
+    local exists = MySQL.prepare.await('SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_NAME = ? AND COLUMN_NAME = ?', { tbl, col })
+    if QBConfig.Server.StaticId.Enabled then
+        if exists == 0 then
+            MySQL.query.await('ALTER TABLE `players` ADD COLUMN `userId` INT NULL DEFAULT NULL, ADD INDEX `userId_idx` (`userId`)')
+        end
+        local rows = MySQL.query.await('SELECT citizenid, userId FROM players')
+        if rows then
+            for i = 1, #rows do
+                local r = rows[i]
+                if not r.userId or r.userId == 0 then
+                    local newId = QBCore.Player.CreatePlayerId()
+                    MySQL.update.await('UPDATE players SET userId = ? WHERE citizenid = ?', { newId, r.citizenid })
+                end
+            end
+        end
+    else
+        if exists > 0 then
+            MySQL.query.await('ALTER TABLE `players` DROP COLUMN `userId`')
+        end
+    end
+end)
