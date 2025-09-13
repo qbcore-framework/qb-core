@@ -3,7 +3,7 @@ game 'gta5'
 lua54 'yes'
 author 'Kakarot'
 description 'Core resource for the framework, contains all the core functionality and features'
-version '2.0.0'
+version '2.0.1'
 
 shared_scripts {
     'shared/locale.lua',

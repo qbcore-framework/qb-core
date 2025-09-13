@@ -341,20 +341,27 @@ async function saveConfig(configData) {
     try {
         const res = await fetch(`https://${GetParentResourceName()}/saveConfig`, {
             method: "POST",
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify({file: currentFile, data: configData}),
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ file: currentFile, data: configData }),
         });
-        const result = await res.json();
-        if (result === "ok") {
+
+        const raw = await res.text();
+        let result;
+        try { result = JSON.parse(raw); } catch { result = raw; }
+
+        if (result === "ok" || (result && result.status === "ok")) {
             allData[currentFile] = configData;
             console.log("Saved successfully!");
             closeModal();
             renderData();
-        } else throw new Error(result);
+        } else {
+            throw new Error(typeof result === "string" ? result : JSON.stringify(result));
+        }
     } catch (err) {
         console.error("Save failed.", err);
     }
 }
+
 
 // Modal close handlers
 function setupModalClose() {
@@ -363,6 +370,12 @@ function setupModalClose() {
         e.preventDefault();
         closeModal();
     };
+}
+
+function closeEditorUI() {
+    const editor = document.getElementById("editor-container");
+    editor.classList.add("hidden");
+    fetch(`https://${GetParentResourceName()}/closeEditor`, { method: "POST" });
 }
 
 function closeModal() {
@@ -382,9 +395,17 @@ function setupSearch() {
 // Keyboard shortcuts
 function setupKeyboard() {
     window.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") closeModal();
+        if (e.key === "Escape") {
+            const modal = document.getElementById("edit-modal");
+            if (modal && !modal.classList.contains("hidden")) {
+                closeModal();
+            } else {
+                closeEditorUI();
+            }
+        }
     });
 }
+
 
 // Initialize UI
 window.addEventListener("DOMContentLoaded", () => {
@@ -392,17 +413,45 @@ window.addEventListener("DOMContentLoaded", () => {
         const file = li.dataset.file;
         li.addEventListener("click", () => selectFile(file, li));
     });
+
+    const closeBtn = document.getElementById("close-btn");
+    if (closeBtn) {
+        closeBtn.addEventListener("click", closeEditorUI);
+    }
+
+    const saveBtn = document.getElementById("save-btn");
+    if (saveBtn) {
+        saveBtn.addEventListener("click", () => {
+            if (!currentFile) return;
+            const data = allData[currentFile];
+            if (!data) return;
+            saveConfig(data);
+        });
+    }
+
     setupSearch();
     setupKeyboard();
 });
+
 
 // Listen for NUI messages and auto-select first file
 window.addEventListener("message", (event) => {
     if (event.data.action === "populateData") {
         allData = event.data.data;
+        document.getElementById("editor-container").classList.remove("hidden");
         if (!currentFile) {
             const firstLi = document.querySelector(".file-list li");
             if (firstLi) firstLi.click();
         }
     }
+    if (event.data.action === "closeEditor") {
+        closeEditorUI();
+    }
+});
+
+document.getElementById("close-btn").addEventListener("click", () => {
+    document.getElementById("editor-container").classList.add("hidden");
+    fetch(`https://${GetParentResourceName()}/closeEditor`, {
+        method: "POST"
+    });
 });
