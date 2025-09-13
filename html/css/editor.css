@@ -1,6 +1,8 @@
 @import url("styleguide.css");
 
 /* Editor container base */
+.hidden { display: none !important; }
+
 #editor-container {
     position: absolute;
     top: 50%;

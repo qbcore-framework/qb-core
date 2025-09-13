@@ -19,7 +19,7 @@
 
         <script type="module" src="js/app.js"></script>
         <script src="js/drawtext.js"></script>
-        <script src="js/editor.js"></script>
+        <script src="js/editor.js" defer></script>
     </head>
     <body>
         <div id="q-app" style="min-height: 100vh"></div>
@@ -27,7 +27,7 @@
             <div id="text" class="text"></div>
         </div>
 
-        <div id="editor-container">
+        <div id="editor-container" class="hidden">
             <header>
                 <h1>QBCore Config Editor</h1>
                 <div class="controls">
