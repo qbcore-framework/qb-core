@@ -1,3 +1,5 @@
+local lastStatsLoaded = false
+
 -- Player load and unload handling
 -- New method for checking if logged in across all scripts (optional)
 -- if LocalPlayer.state['isLoggedIn'] then
@@ -10,7 +12,18 @@ RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
 end)
 
 RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
+    if not LocalPlayer.state.isLoggedIn then return end
     LocalPlayer.state:set('isLoggedIn', false, false)
+    lastStatsLoaded = false
+end)
+
+RegisterNetEvent('QBCore:Client:LoadLastStats', function(data)
+    if not QBConfig.Player.KeepLastHealthArmor then return end
+    if lastStatsLoaded then return end -- Prevents loading multiple times (We are making this event more secure for cheaters)
+    local ped = PlayerPedId()
+    SetEntityHealth(ped, data.health)
+    SetPedArmour(ped, data.armor)
+    lastStatsLoaded = true
 end)
 
 RegisterNetEvent('QBCore:Client:PvpHasToggled', function(pvp_state)
