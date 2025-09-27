@@ -410,8 +410,12 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         self.Functions[methodName] = handler
     end
 
-    function self.Functions.AddField(fieldName, data)
-        self[fieldName] = data
+    function self.Functions.AddField(fieldName, data, inPlayerData)
+        if inPlayerData then
+            self.PlayerData[fieldName] = data
+        else
+            self[fieldName] = data
+        end
     end
 
     if self.Offline then
@@ -461,21 +465,21 @@ end
     end)
 ]]
 
-function QBCore.Functions.AddPlayerField(ids, fieldName, data)
+function QBCore.Functions.AddPlayerField(ids, fieldName, data, inPlayerData)
     local idType = type(ids)
     if idType == 'number' then
         if ids == -1 then
             for _, v in pairs(QBCore.Players) do
-                v.Functions.AddField(fieldName, data)
+                v.Functions.AddField(fieldName, data, inPlayerData)
             end
         else
             if not QBCore.Players[ids] then return end
 
-            QBCore.Players[ids].Functions.AddField(fieldName, data)
+            QBCore.Players[ids].Functions.AddField(fieldName, data, inPlayerData)
         end
     elseif idType == 'table' and table.type(ids) == 'array' then
         for i = 1, #ids do
-            QBCore.Functions.AddPlayerField(ids[i], fieldName, data)
+            QBCore.Functions.AddPlayerField(ids[i], fieldName, data, inPlayerData)
         end
     end
 end
