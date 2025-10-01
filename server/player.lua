@@ -530,39 +530,25 @@ end
 -- Delete character
 
 local playertables = { -- Add tables as needed 
-    ---
     --- 'table' is the new SQL table name
     --- 'key' is the column name which contains the 'citizenid'
-    --- 
-    --Tables where primary key = 'citizenid'
+    
+    -- Tables where primary key = 'citizenid'    
     { table = 'players', key = 'citizenid' },
     { table = 'apartments', key = 'citizenid' },
     { table = 'bank_accounts', key = 'citizenid' },
-    { table = 'bank_statements', key = 'citizenid' },
     { table = 'crypto_transactions', key = 'citizenid' },
     { table = 'player_houses', key = 'citizenid' },
     { table = 'player_outfits', key = 'citizenid' },
     { table = 'player_vehicles', key = 'citizenid' },
     { table = 'playerskins', key = 'citizenid' },
+    { table = 'phone_invoices', key = 'citizenid' },
+    { table = 'phone_messages', key = 'citizenid' },
+    { table = 'player_contacts', key = 'citizenid' },
 
-    --Tables where primary key = 'cid'
-    { table = 'phone_invoices', key = 'cid' },
-    { table = 'phone_messages', key = 'cid' },
-
-     --Tables where primary key = 'identifier'
-    { table = 'player_contacts', key = 'identifier' },
-    { table = 'bank_cards', key = 'identifier' },
-    { table = 'bank_history', key = 'identifier' },
-    { table = 'casino_players', key = 'identifier' },
-    { table = 'cd_garage_privategarage', key = 'identifier' },
-    { table = 'inventory_clothes', key = 'identifier' },
-    { table = 'lation_detecting', key = 'identifier' },
-    { table = 'm_hunting', key = 'identifier' },
-    
-    --Tables with other citizenid labels
-    { table = 'bank_process',  key = 'owner' },
-    { table = 'mail_accounts', key = 'owner' },
-    { table = 'lation_chopshop', key = 'player_identifier' },
+    ---
+    --- Tables where primary key is not 'citizenid'
+    --- Example: { table = 'TABLE_NAME', key = 'CITIZEN_IDENTIFIER' },
 }
 
 function QBCore.Player.DeleteCharacter(source, citizenid)
