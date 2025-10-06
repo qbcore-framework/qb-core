@@ -441,6 +441,7 @@ end
 ---@param cb function
 ---@param ... any
 function QBCore.Functions.TriggerClientCallback(name, source, ...)
+    if not source then return end
     local cb = nil
     local args = { ... }
 
