@@ -63,6 +63,19 @@ function QBCore.Functions.GetPlayerByCitizenId(citizenid)
     return nil
 end
 
+---Get player by id
+---@param id number
+---@return table?
+function QBCore.Functions.GetPlayerById(id)
+    if not QBConfig.Server.StaticId.Enabled then return nil end
+    for src in pairs(QBCore.Players) do
+        if QBCore.Players[src].PlayerData.userId == id then
+            return QBCore.Players[src]
+        end
+    end
+    return nil
+end
+
 ---Get offline player by citizen id
 ---@param citizenid string
 ---@return table?

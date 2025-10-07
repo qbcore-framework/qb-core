@@ -15,6 +15,27 @@ end)
 
 -- Register & Refresh Commands
 
+local function ResolvePlayerArg(arg)
+    local id = tonumber(arg)
+    if not id then return nil end
+    if QBCore.Config.Server.StaticId.Enabled and QBCore.Config.Server.StaticId.UseInCommands then
+        return QBCore.Functions.GetPlayerById(id)
+    else
+        return QBCore.Functions.GetPlayer(id)
+    end
+end
+
+local function ResolveSourceArg(arg)
+    local id = tonumber(arg)
+    if not id then return nil end
+    if QBCore.Config.Server.StaticId.Enabled and QBCore.Config.Server.StaticId.UseInCommands then
+        local p = QBCore.Functions.GetPlayerById(id)
+        return p and p.PlayerData.source or nil
+    else
+        return id
+    end
+end
+
 function QBCore.Commands.Add(name, help, arguments, argsrequired, callback, permission, ...)
     local restricted = true                                  -- Default to restricted for all commands
     if not permission then permission = 'user' end           -- some commands don't pass permission level
@@ -84,7 +105,8 @@ end
 QBCore.Commands.Add('tp', Lang:t('command.tp.help'), { { name = Lang:t('command.tp.params.x.name'), help = Lang:t('command.tp.params.x.help') }, { name = Lang:t('command.tp.params.y.name'), help = Lang:t('command.tp.params.y.help') }, { name = Lang:t('command.tp.params.z.name'), help = Lang:t('command.tp.params.z.help') } }, false, function(source, args)
     if args[1] and not args[2] and not args[3] then
         if tonumber(args[1]) then
-            local target = GetPlayerPed(tonumber(args[1]))
+            local tgtSrc = ResolveSourceArg(args[1])
+            local target = tgtSrc and GetPlayerPed(tgtSrc) or 0
             if target ~= 0 then
                 local coords = GetEntityCoords(target)
                 TriggerClientEvent('QBCore:Command:TeleportToPlayer', source, coords)
@@ -128,7 +150,7 @@ end, 'admin')
 -- Permissions
 
 QBCore.Commands.Add('addpermission', Lang:t('command.addpermission.help'), { { name = Lang:t('command.addpermission.params.id.name'), help = Lang:t('command.addpermission.params.id.help') }, { name = Lang:t('command.addpermission.params.permission.name'), help = Lang:t('command.addpermission.params.permission.help') } }, true, function(source, args)
-    local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
+    local Player = ResolvePlayerArg(args[1])
     local permission = tostring(args[2]):lower()
     if Player then
         QBCore.Functions.AddPermission(Player.PlayerData.source, permission)
@@ -138,7 +160,7 @@ QBCore.Commands.Add('addpermission', Lang:t('command.addpermission.help'), { { n
 end, 'god')
 
 QBCore.Commands.Add('removepermission', Lang:t('command.removepermission.help'), { { name = Lang:t('command.removepermission.params.id.name'), help = Lang:t('command.removepermission.params.id.help') }, { name = Lang:t('command.removepermission.params.permission.name'), help = Lang:t('command.removepermission.params.permission.help') } }, true, function(source, args)
-    local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
+    local Player = ResolvePlayerArg(args[1])
     local permission = tostring(args[2]):lower()
     if Player then
         QBCore.Functions.RemovePermission(Player.PlayerData.source, permission)
@@ -220,7 +242,7 @@ end, 'admin')
 -- Money
 
 QBCore.Commands.Add('givemoney', Lang:t('command.givemoney.help'), { { name = Lang:t('command.givemoney.params.id.name'), help = Lang:t('command.givemoney.params.id.help') }, { name = Lang:t('command.givemoney.params.moneytype.name'), help = Lang:t('command.givemoney.params.moneytype.help') }, { name = Lang:t('command.givemoney.params.amount.name'), help = Lang:t('command.givemoney.params.amount.help') } }, true, function(source, args)
-    local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
+    local Player = ResolvePlayerArg(args[1])
     if Player then
         Player.Functions.AddMoney(tostring(args[2]), tonumber(args[3]), 'Admin give money')
     else
@@ -229,7 +251,7 @@ QBCore.Commands.Add('givemoney', Lang:t('command.givemoney.help'), { { name = La
 end, 'admin')
 
 QBCore.Commands.Add('setmoney', Lang:t('command.setmoney.help'), { { name = Lang:t('command.setmoney.params.id.name'), help = Lang:t('command.setmoney.params.id.help') }, { name = Lang:t('command.setmoney.params.moneytype.name'), help = Lang:t('command.setmoney.params.moneytype.help') }, { name = Lang:t('command.setmoney.params.amount.name'), help = Lang:t('command.setmoney.params.amount.help') } }, true, function(source, args)
-    local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
+    local Player = ResolvePlayerArg(args[1])
     if Player then
         Player.Functions.SetMoney(tostring(args[2]), tonumber(args[3]))
     else
@@ -245,7 +267,7 @@ QBCore.Commands.Add('job', Lang:t('command.job.help'), {}, false, function(sourc
 end, 'user')
 
 QBCore.Commands.Add('setjob', Lang:t('command.setjob.help'), { { name = Lang:t('command.setjob.params.id.name'), help = Lang:t('command.setjob.params.id.help') }, { name = Lang:t('command.setjob.params.job.name'), help = Lang:t('command.setjob.params.job.help') }, { name = Lang:t('command.setjob.params.grade.name'), help = Lang:t('command.setjob.params.grade.help') } }, true, function(source, args)
-    local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
+    local Player = ResolvePlayerArg(args[1])
     if Player then
         Player.Functions.SetJob(tostring(args[2]), tonumber(args[3]))
     else
@@ -261,7 +283,7 @@ QBCore.Commands.Add('gang', Lang:t('command.gang.help'), {}, false, function(sou
 end, 'user')
 
 QBCore.Commands.Add('setgang', Lang:t('command.setgang.help'), { { name = Lang:t('command.setgang.params.id.name'), help = Lang:t('command.setgang.params.id.help') }, { name = Lang:t('command.setgang.params.gang.name'), help = Lang:t('command.setgang.params.gang.help') }, { name = Lang:t('command.setgang.params.grade.name'), help = Lang:t('command.setgang.params.grade.help') } }, true, function(source, args)
-    local Player = QBCore.Functions.GetPlayer(tonumber(args[1]))
+    local Player = ResolvePlayerArg(args[1])
     if Player then
         Player.Functions.SetGang(tostring(args[2]), tonumber(args[3]))
     else

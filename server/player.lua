@@ -12,6 +12,13 @@ function QBCore.Player.Login(source, citizenid, newData)
             local license = QBCore.Functions.GetIdentifier(source, 'license')
             local PlayerData = MySQL.prepare.await('SELECT * FROM players where citizenid = ?', { citizenid })
             if PlayerData and license == PlayerData.license then
+                if QBConfig.Server.StaticId.Enabled and (not PlayerData.userId or PlayerData.userId == 0) then
+                    local newId = QBCore.Player.CreatePlayerId()
+                    if newId and newId > 0 then
+                        PlayerData.userId = newId
+                        MySQL.update.await('UPDATE players SET userId = ? WHERE citizenid = ?', { PlayerData.userId, PlayerData.citizenid })
+                    end
+                end
                 PlayerData.money = json.decode(PlayerData.money)
                 PlayerData.job = json.decode(PlayerData.job)
                 PlayerData.gang = json.decode(PlayerData.gang)
@@ -37,6 +44,13 @@ function QBCore.Player.GetOfflinePlayer(citizenid)
     if citizenid then
         local PlayerData = MySQL.prepare.await('SELECT * FROM players where citizenid = ?', { citizenid })
         if PlayerData then
+            if QBConfig.Server.StaticId.Enabled and (not PlayerData.userId or PlayerData.userId == 0) then
+                local newId = QBCore.Player.CreatePlayerId()
+                if newId and newId > 0 then
+                    PlayerData.userId = newId
+                    MySQL.update.await('UPDATE players SET userId = ? WHERE citizenid = ?', { PlayerData.userId, PlayerData.citizenid })
+                end
+            end
             PlayerData.money = json.decode(PlayerData.money)
             PlayerData.job = json.decode(PlayerData.job)
             PlayerData.gang = json.decode(PlayerData.gang)
@@ -77,6 +91,25 @@ function QBCore.Player.GetOfflinePlayerByLicense(license)
     return nil
 end
 
+function QBCore.Player.GetOfflinePlayerById(id)
+    if id then
+    if not QBConfig.Server.StaticId.Enabled then return nil end
+    local PlayerData = MySQL.prepare.await('SELECT * FROM players where userId = ?', { id })
+        if PlayerData then
+            PlayerData.money = json.decode(PlayerData.money)
+            PlayerData.job = json.decode(PlayerData.job)
+            PlayerData.faction = json.decode(PlayerData.faction)
+            PlayerData.gang = json.decode(PlayerData.gang)
+            PlayerData.position = json.decode(PlayerData.position)
+            PlayerData.metadata = json.decode(PlayerData.metadata)
+            PlayerData.charinfo = json.decode(PlayerData.charinfo)
+            PlayerData.staff = json.decode(PlayerData.staff)
+            return QBCore.Player.CheckPlayerData(nil, PlayerData)
+        end
+    end
+    return nil
+end
+
 local function applyDefaults(playerData, defaults)
     for key, value in pairs(defaults) do
         if type(value) == 'function' then
@@ -98,6 +131,16 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
         PlayerData.source = source
         PlayerData.license = PlayerData.license or QBCore.Functions.GetIdentifier(source, 'license')
         PlayerData.name = GetPlayerName(source)
+        if QBConfig.Server.StaticId.Enabled then
+            if not PlayerData.userId then
+                local newId = QBCore.Player.CreatePlayerId()
+                if newId and newId > 0 then
+                    PlayerData.userId = newId
+                end
+            end
+        else
+            PlayerData.userId = nil
+        end
     end
 
     local validatedJob = false
@@ -143,6 +186,7 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
         -- set to nil, as the default gang (unemployed) will be added by `applyDefaults`
         PlayerData.gang = nil
     end
+
 
     applyDefaults(PlayerData, QBCore.Config.Player.PlayerDefaults)
 
@@ -487,18 +531,36 @@ function QBCore.Player.Save(source)
     local pcoords = GetEntityCoords(ped)
     local PlayerData = QBCore.Players[source].PlayerData
     if PlayerData then
-        MySQL.insert('INSERT INTO players (citizenid, cid, license, name, money, charinfo, job, gang, position, metadata) VALUES (:citizenid, :cid, :license, :name, :money, :charinfo, :job, :gang, :position, :metadata) ON DUPLICATE KEY UPDATE cid = :cid, name = :name, money = :money, charinfo = :charinfo, job = :job, gang = :gang, position = :position, metadata = :metadata', {
-            citizenid = PlayerData.citizenid,
-            cid = tonumber(PlayerData.cid),
-            license = PlayerData.license,
-            name = PlayerData.name,
-            money = json.encode(PlayerData.money),
-            charinfo = json.encode(PlayerData.charinfo),
-            job = json.encode(PlayerData.job),
-            gang = json.encode(PlayerData.gang),
-            position = json.encode(pcoords),
-            metadata = json.encode(PlayerData.metadata)
-        })
+        if QBConfig.Server.StaticId.Enabled then
+            MySQL.insert('INSERT INTO players (userId, citizenid, cid, license, name, staff, money, charinfo, job, gang, position, metadata) VALUES (:userId, :citizenid, :cid, :license, :name, :staff, :money, :charinfo, :job, :gang, :position, :metadata) ON DUPLICATE KEY UPDATE userId = :userId, cid = :cid, name = :name, staff = :staff, money = :money, charinfo = :charinfo, job = :job, gang = :gang, position = :position, metadata = :metadata', {
+                userId = PlayerData.userId,
+                citizenid = PlayerData.citizenid,
+                cid = tonumber(PlayerData.cid),
+                license = PlayerData.license,
+                name = PlayerData.name,
+                staff = json.encode(PlayerData.staff),
+                money = json.encode(PlayerData.money),
+                charinfo = json.encode(PlayerData.charinfo),
+                job = json.encode(PlayerData.job),
+                gang = json.encode(PlayerData.gang),
+                position = json.encode(pcoords),
+                metadata = json.encode(PlayerData.metadata)
+            })
+        else
+            MySQL.insert('INSERT INTO players (citizenid, cid, license, name, staff, money, charinfo, job, gang, position, metadata) VALUES (:citizenid, :cid, :license, :name, :staff, :money, :charinfo, :job, :gang, :position, :metadata) ON DUPLICATE KEY UPDATE cid = :cid, name = :name, staff = :staff, money = :money, charinfo = :charinfo, job = :job, gang = :gang, position = :position, metadata = :metadata', {
+                citizenid = PlayerData.citizenid,
+                cid = tonumber(PlayerData.cid),
+                license = PlayerData.license,
+                name = PlayerData.name,
+                staff = json.encode(PlayerData.staff),
+                money = json.encode(PlayerData.money),
+                charinfo = json.encode(PlayerData.charinfo),
+                job = json.encode(PlayerData.job),
+                gang = json.encode(PlayerData.gang),
+                position = json.encode(pcoords),
+                metadata = json.encode(PlayerData.metadata)
+            })
+        end
         if GetResourceState('qb-inventory') ~= 'missing' then exports['qb-inventory']:SaveInventory(source) end
         QBCore.ShowSuccess(resourceName, PlayerData.name .. ' PLAYER SAVED!')
     else
@@ -508,18 +570,36 @@ end
 
 function QBCore.Player.SaveOffline(PlayerData)
     if PlayerData then
-        MySQL.insert('INSERT INTO players (citizenid, cid, license, name, money, charinfo, job, gang, position, metadata) VALUES (:citizenid, :cid, :license, :name, :money, :charinfo, :job, :gang, :position, :metadata) ON DUPLICATE KEY UPDATE cid = :cid, name = :name, money = :money, charinfo = :charinfo, job = :job, gang = :gang, position = :position, metadata = :metadata', {
-            citizenid = PlayerData.citizenid,
-            cid = tonumber(PlayerData.cid),
-            license = PlayerData.license,
-            name = PlayerData.name,
-            money = json.encode(PlayerData.money),
-            charinfo = json.encode(PlayerData.charinfo),
-            job = json.encode(PlayerData.job),
-            gang = json.encode(PlayerData.gang),
-            position = json.encode(PlayerData.position),
-            metadata = json.encode(PlayerData.metadata)
-        })
+        if QBConfig.Server.StaticId.Enabled then
+            MySQL.insert('INSERT INTO players (userId, citizenid, cid, license, name, staff, money, charinfo, job, gang, position, metadata) VALUES (:userId, :citizenid, :cid, :license, :name, :staff, :money, :charinfo, :job, :gang, :position, :metadata) ON DUPLICATE KEY UPDATE userId = :userId, cid = :cid, name = :name, staff = :staff, money = :money, charinfo = :charinfo, job = :job, gang = :gang, position = :position, metadata = :metadata', {
+                userId = PlayerData.userId,
+                citizenid = PlayerData.citizenid,
+                cid = tonumber(PlayerData.cid),
+                license = PlayerData.license,
+                name = PlayerData.name,
+                staff = json.encode(PlayerData.staff),
+                money = json.encode(PlayerData.money),
+                charinfo = json.encode(PlayerData.charinfo),
+                job = json.encode(PlayerData.job),
+                gang = json.encode(PlayerData.gang),
+                position = json.encode(PlayerData.position),
+                metadata = json.encode(PlayerData.metadata)
+            })
+        else
+            MySQL.insert('INSERT INTO players (citizenid, cid, license, name, staff, money, charinfo, job, gang, position, metadata) VALUES (:citizenid, :cid, :license, :name, :staff, :money, :charinfo, :job, :gang, :position, :metadata) ON DUPLICATE KEY UPDATE cid = :cid, name = :name, staff = :staff, money = :money, charinfo = :charinfo, job = :job, gang = :gang, position = :position, metadata = :metadata', {
+                citizenid = PlayerData.citizenid,
+                cid = tonumber(PlayerData.cid),
+                license = PlayerData.license,
+                name = PlayerData.name,
+                staff = json.encode(PlayerData.staff),
+                money = json.encode(PlayerData.money),
+                charinfo = json.encode(PlayerData.charinfo),
+                job = json.encode(PlayerData.job),
+                gang = json.encode(PlayerData.gang),
+                position = json.encode(PlayerData.position),
+                metadata = json.encode(PlayerData.metadata)
+            })
+        end
         if GetResourceState('qb-inventory') ~= 'missing' then exports['qb-inventory']:SaveInventory(PlayerData, true) end
         QBCore.ShowSuccess(resourceName, PlayerData.name .. ' OFFLINE PLAYER SAVED!')
     else
@@ -620,6 +700,15 @@ function QBCore.Player.GetFirstSlotByItem(items, itemName)
 end
 
 -- Util Functions
+
+function QBCore.Player.CreatePlayerId()
+    local col = 'userId'
+    local exists = MySQL.prepare.await('SELECT COUNT(*) FROM information_schema.COLUMNS WHERE TABLE_NAME = "players" AND COLUMN_NAME = ? AND TABLE_SCHEMA = DATABASE()', { col })
+    if exists == 0 then return 0 end
+    local query = MySQL.query.await('SELECT MAX(userId) as maxid FROM players')
+    local maxid = (query and query[1] and query[1].maxid) or 0
+    return (maxid or 0) + 1
+end
 
 function QBCore.Player.CreateCitizenId()
     local CitizenId = tostring(QBCore.Shared.RandomStr(3) .. QBCore.Shared.RandomInt(5)):upper()
