@@ -10,16 +10,25 @@ end)
 AddEventHandler('playerDropped', function(reason)
     local src = source
     if not QBCore.Players[src] then return end
+
     local Player = QBCore.Players[src]
+    local playerPed = GetPlayerPed(src)
+    local playerCoords = GetEntityCoords(playerPed)
+
+    QBCore.Players[src].metadata.armor = GetPedArmour(playerPed)
+    QBCore.Players[src].metadata.health = GetEntityHealth(playerPed)
+    QBCore.Players[src].position = vector4(playerCoords.x, playerCoords.y, playerCoords.z, GetEntityHeading(playerPed))
+
     TriggerEvent('qb-log:server:CreateLog', 'joinleave', 'Dropped', 'red', '**' .. GetPlayerName(src) .. '** (' .. Player.PlayerData.license .. ') left..' .. '\n **Reason:** ' .. reason)
     TriggerEvent('QBCore:Server:PlayerDropped', Player)
+
     Player.Functions.Save()
     QBCore.Player_Buckets[Player.PlayerData.license] = nil
     QBCore.Players[src] = nil
 end)
 
 AddEventHandler("onResourceStop", function(resName)
-    for i,v in pairs(QBCore.UsableItems) do
+    for i, v in pairs(QBCore.UsableItems) do
         if v.resource == resName then
             QBCore.UsableItems[i] = nil
         end
@@ -36,7 +45,7 @@ if readyFunction ~= nil then
         local DatabaseInfo = QBCore.Functions.GetDatabaseInfo()
         if not DatabaseInfo or not DatabaseInfo.exists then return end
 
-        local result = MySQL.query.await('SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = ? AND TABLE_NAME = "bans";', {DatabaseInfo.database})
+        local result = MySQL.query.await('SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = ? AND TABLE_NAME = "bans";', { DatabaseInfo.database })
         if result and result[1] then
             bansTableExists = true
         end

@@ -420,6 +420,12 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         QBCore.Players[self.PlayerData.source] = self
         QBCore.Player.Save(self.PlayerData.source)
         TriggerEvent('QBCore:Server:PlayerLoaded', self)
+        if QBConfig.Player.KeepLastHealthArmor then
+            TriggerClientEvent('QBCore:Client:LoadLastStats', self.PlayerData.source, {
+                health = self.PlayerData.metadata.health,
+                armor = self.PlayerData.metadata.armor
+            })
+        end
         self.Functions.UpdatePlayerData()
     end
 end
@@ -483,8 +489,6 @@ end
 -- Save player info to database (make sure citizenid is the primary key in your database)
 
 function QBCore.Player.Save(source)
-    local ped = GetPlayerPed(source)
-    local pcoords = GetEntityCoords(ped)
     local PlayerData = QBCore.Players[source].PlayerData
     if PlayerData then
         MySQL.insert('INSERT INTO players (citizenid, cid, license, name, money, charinfo, job, gang, position, metadata) VALUES (:citizenid, :cid, :license, :name, :money, :charinfo, :job, :gang, :position, :metadata) ON DUPLICATE KEY UPDATE cid = :cid, name = :name, money = :money, charinfo = :charinfo, job = :job, gang = :gang, position = :position, metadata = :metadata', {
@@ -496,7 +500,7 @@ function QBCore.Player.Save(source)
             charinfo = json.encode(PlayerData.charinfo),
             job = json.encode(PlayerData.job),
             gang = json.encode(PlayerData.gang),
-            position = json.encode(pcoords),
+            position = json.encode(PlayerData.position),
             metadata = json.encode(PlayerData.metadata)
         })
         if GetResourceState('qb-inventory') ~= 'missing' then exports['qb-inventory']:SaveInventory(source) end
