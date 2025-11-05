@@ -124,14 +124,15 @@ end)
 
 -- Client Callback
 RegisterNetEvent('QBCore:Server:TriggerClientCallback', function(name, ...)
-    if QBCore.ClientCallbacks[name] then
-        QBCore.ClientCallbacks[name].promise:resolve(...)
+    local ClientCallback = QBCore.ClientCallbacks[name..source]
+    if ClientCallback then
+        ClientCallback.promise:resolve(...)
 
-        if QBCore.ClientCallbacks[name].callback then
-            QBCore.ClientCallbacks[name].callback(...)
+        if ClientCallback.callback then
+            ClientCallback.callback(...)
         end
 
-        QBCore.ClientCallbacks[name] = nil
+        QBCore.ClientCallbacks[name..source] = nil
     end
 end)
 

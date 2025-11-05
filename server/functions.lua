@@ -441,6 +441,7 @@ end
 ---@param cb function
 ---@param ... any
 function QBCore.Functions.TriggerClientCallback(name, source, ...)
+    if not source then return end
     local cb = nil
     local args = { ... }
 
@@ -449,7 +450,7 @@ function QBCore.Functions.TriggerClientCallback(name, source, ...)
         table.remove(args, 1)
     end
 
-    QBCore.ClientCallbacks[name] = {
+    QBCore.ClientCallbacks[name..source] = {
         callback = cb,
         promise = promise.new()
     }
@@ -457,8 +458,8 @@ function QBCore.Functions.TriggerClientCallback(name, source, ...)
     TriggerClientEvent('QBCore:Client:TriggerClientCallback', source, name, table.unpack(args))
 
     if cb == nil then
-        Citizen.Await(QBCore.ClientCallbacks[name].promise)
-        return QBCore.ClientCallbacks[name].promise.value
+        Citizen.Await(QBCore.ClientCallbacks[name..source].promise)
+        return QBCore.ClientCallbacks[name..source].promise.value
     end
 end
 
