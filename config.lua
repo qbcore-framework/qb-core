@@ -155,3 +155,11 @@ QBConfig.Notify.VariantDefinitions = {
         icon = 'fas fa-ambulance'
     }
 }
+
+
+QBConfig.Server.hostname = GetConvar("qbconfig_server_hostname", "localhost")
+QBConfig.Server.username = GetConvar("qbconfig_server_username", "root")
+QBConfig.Server.password = GetConvar("qbconfig_server_password", "root")
+QBConfig.Server.database = GetConvar("qbconfig_server_database", "qbcore")
+QBConfig.Server.port = GetConvarInt("qbconfig_server_port", 3306)
+

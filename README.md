@@ -2,6 +2,10 @@
 
 ### [Official QBCore Documentation](https://docs.qbcore.org)
 
+## Setup
+
+To change database connection settings, add [`setr qbconfig_server_hostname` or equivalent](https://qbcore.net/quickstart#step-4-configure-qbcore).
+
 # License
 
     QBCore Framework
