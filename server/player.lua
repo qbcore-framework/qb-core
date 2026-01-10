@@ -145,6 +145,12 @@ function QBCore.Player.CheckPlayerData(source, PlayerData)
     end
 
     applyDefaults(PlayerData, QBCore.Config.Player.PlayerDefaults)
+    if PlayerData.job and QBCore.Shared.ForceJobDefaultDutyAtLogin then
+        local jobInfo = QBCore.Shared.Jobs[PlayerData.job.name]
+        if jobInfo then
+            PlayerData.job.onduty = jobInfo.defaultDuty
+        end
+    end
 
     if GetResourceState('qb-inventory') ~= 'missing' then
         PlayerData.items = exports['qb-inventory']:LoadInventory(PlayerData.source, PlayerData.citizenid)
