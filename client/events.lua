@@ -278,51 +278,63 @@ RegisterNetEvent('QBCore:Client:SharedUpdate', function(table)
     QBCore.Shared = table
 end)
 
-if GetResourceState('baseevents') ~= 'started' then
-    local isInVehicle = false
-    local isEnteringVehicle = false
-    local currentVehicle = 0
-    local currentSeat = 0
+local lastVehicleData = {}
+local THREAD_INTERVAl_CHECKER = 1000
 
-    CreateThread(function()
-        while true do
-            local ped = PlayerPedId()
-            if not isInVehicle and not IsPlayerDead(PlayerId()) then
-                if DoesEntityExist(GetVehiclePedIsTryingToEnter(ped)) and not isEnteringVehicle then
-                    local vehicle = GetVehiclePedIsTryingToEnter(ped)
-                    local seat = GetSeatPedIsTryingToEnter(ped)
-                    local netId = VehToNet(vehicle)
-                    isEnteringVehicle = true
-                    TriggerServerEvent('baseevents:enteringVehicle', vehicle, seat, GetDisplayNameFromVehicleModel(GetEntityModel(vehicle)), netId)
-                elseif not DoesEntityExist(GetVehiclePedIsTryingToEnter(ped)) and not IsPedInAnyVehicle(ped, true) and isEnteringVehicle then
-                    TriggerServerEvent('baseevents:enteringAborted')
-                    isEnteringVehicle = false
-                elseif IsPedInAnyVehicle(ped, false) then
-                    isEnteringVehicle = false
-                    isInVehicle = true
-                    currentVehicle = GetVehiclePedIsUsing(ped)
-                    currentSeat = GetPedVehicleSeat(ped)
-                    local netId = VehToNet(currentVehicle)
-                    TriggerServerEvent('baseevents:enteredVehicle', currentVehicle, currentSeat, GetDisplayNameFromVehicleModel(GetEntityModel(currentVehicle)), netId)
-                end
-            elseif isInVehicle then
-                if not IsPedInAnyVehicle(ped, false) or IsPlayerDead(PlayerId()) then
-                    local netId = VehToNet(currentVehicle)
-                    TriggerServerEvent('baseevents:leftVehicle', currentVehicle, currentSeat, GetDisplayNameFromVehicleModel(GetEntityModel(currentVehicle)), netId)
-                    isInVehicle = false
-                    currentVehicle = 0
-                    currentSeat = 0
-                end
+--- Vehicle thread to check changes in player state (enter/exit vehicle, change seat)
+--- @param inputVehicle number Vehicle entity
+local inVehicleThread = function(inputVehicle)
+    if lastVehicleData.vehicle ~= nil then return end
+    lastVehicleData.vehicle = inputVehicle
+    CreateThread(function() 
+        while lastVehicleData.vehicle ~= nil do
+            local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
+
+            if vehicle == 0 then
+                TriggerEvent('QBCore:Client:LeftVehicle', lastVehicleData.vehicle, lastVehicleData.seat, lastVehicleData.model)
+                TriggerEvent('QBCore:Server:LeftVehicle', NetworkGetNetworkIdFromEntity(lastVehicleData.vehicle), lastVehicleData.seat, lastVehicleData.model)
+                lastVehicleData = {}
+                break
             end
-            Wait(50)
+
+            if vehicle ~= lastVehicleData.vehicle then
+                TriggerEvent('QBCore:Client:LeftVehicle', lastVehicleData.vehicle, lastVehicleData.seat, lastVehicleData.model)
+                TriggerEvent('QBCore:Server:LeftVehicle', NetworkGetNetworkIdFromEntity(lastVehicleData.vehicle), lastVehicleData.seat, lastVehicleData.model)
+                lastVehicleData = {
+                    vehicle = vehicle,
+                    seat = QBCore.Functions.GetPedCurrentSeatInVehicle(vehicle),
+                    model = GetEntityModel(vehicle)
+                }
+                TriggerEvent('QBCore:Client:EnteredVehicle', lastVehicleData.vehicle, lastVehicleData.seat, lastVehicleData.model)
+                TriggerEvent('QBCore:Server:EnteredVehicle', NetworkGetNetworkIdFromEntity(lastVehicleData.vehicle), lastVehicleData.seat, lastVehicleData.model)
+            end
+
+            local currentSeat = QBCore.Functions.GetPedCurrentSeatInVehicle(vehicle)
+
+            if currentSeat ~= lastVehicleData.seat then
+                TriggerEvent('QBCore:Client:ChangeSeat', lastVehicleData.vehicle, lastVehicleData.seat, currentSeat)
+                TriggerEvent('QBCore:Server:ChangeSeat', NetworkGetNetworkIdFromEntity(lastVehicleData.vehicle), lastVehicleData.seat, currentSeat)
+                lastVehicleData.seat = currentSeat
+            end
+
+            Wait(THREAD_INTERVAl_CHECKER)
         end
     end)
-
-    function GetPedVehicleSeat(ped)
-        local vehicle = GetVehiclePedIsIn(ped, false)
-        for i=-2,GetVehicleMaxNumberOfPassengers(vehicle) do
-            if(GetPedInVehicleSeat(vehicle, i) == ped) then return i end
-        end
-        return -2
-    end
 end
+
+AddEventHandler('gameEventTriggered', function (name, args)
+    if name ~= "CEventNetworkPlayerEnteredVehicle" then return end
+    local vehicle = args[2]
+
+    if vehicle == lastVehicleData.vehicle then return end
+
+    lastVehicleData = {
+        vehicle = vehicle,
+        seat = QBCore.Functions.GetPedCurrentSeatInVehicle(vehicle),
+        model = GetEntityModel(vehicle)
+    }
+
+    TriggerEvent('QBCore:Client:EnteredVehicle', vehicle, lastVehicleData.seat, lastVehicleData.model)
+    TriggerEvent('QBCore:Server:EnteredVehicle', NetworkGetNetworkIdFromEntity(vehicle), lastVehicleData.seat, lastVehicleData.model)
+    inVehicleThread(vehicle)
+end)
