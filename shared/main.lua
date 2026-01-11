@@ -173,3 +173,13 @@ QBShared.FemaleNoGloves = {
     [161] = true,
     [165] = true
 }
+
+--- Get a shared item from a shared field
+--- @param namespace 'Vehicles' | 'VehicleHashes' | 'Items' | 'Gangs' | 'Jobs' | 'Locations' | 'Weapons'
+--- @param item string
+--- @return table
+function GetShared(namespace, item)
+    return QBCore.Shared[namespace]?[item]
+end
+
+exports('GetShared', GetShared)
