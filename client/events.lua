@@ -286,7 +286,7 @@ local THREAD_INTERVAl_CHECKER = 1000
 local inVehicleThread = function(inputVehicle)
     if lastVehicleData.vehicle ~= nil then return end
     lastVehicleData.vehicle = inputVehicle
-    CreateThread(function() 
+    CreateThread(function()
         while lastVehicleData.vehicle ~= nil do
             local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
 
