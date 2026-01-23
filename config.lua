@@ -67,6 +67,7 @@ QBConfig.Player.PlayerDefaults = {
         isdead = false,
         inlaststand = false,
         armor = 0,
+        health = 200,
         ishandcuffed = false,
         tracker = false,
         injail = 0,

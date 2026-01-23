@@ -11,6 +11,11 @@ AddEventHandler('playerDropped', function(reason)
     local src = source
     if not QBCore.Players[src] then return end
     local Player = QBCore.Players[src]
+    local ped = GetPlayerPed(src)
+    if ped and DoesEntityExist(ped) then
+        Player.Functions.SetMetaData('health', GetEntityHealth(ped))
+        Player.Functions.SetMetaData('armor', GetPedArmour(ped))
+    end
     TriggerEvent('qb-log:server:CreateLog', 'joinleave', 'Dropped', 'red', '**' .. GetPlayerName(src) .. '** (' .. Player.PlayerData.license .. ') left..' .. '\n **Reason:** ' .. reason)
     TriggerEvent('QBCore:Server:PlayerDropped', Player)
     Player.Functions.Save()
@@ -149,7 +154,7 @@ end)
 
 -- Player
 
-RegisterNetEvent('QBCore:UpdatePlayer', function()
+RegisterNetEvent('QBCore:UpdatePlayer', function(health, armor)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     if not Player then return end
@@ -163,6 +168,12 @@ RegisterNetEvent('QBCore:UpdatePlayer', function()
     end
     Player.Functions.SetMetaData('thirst', newThirst)
     Player.Functions.SetMetaData('hunger', newHunger)
+    if health then
+        Player.Functions.SetMetaData('health', health)
+    end
+    if armor then
+        Player.Functions.SetMetaData('armor', armor)
+    end
     TriggerClientEvent('hud:client:UpdateNeeds', src, newHunger, newThirst)
     Player.Functions.Save()
 end)

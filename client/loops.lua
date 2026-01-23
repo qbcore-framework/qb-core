@@ -3,7 +3,10 @@ CreateThread(function()
         local sleep = 0
         if LocalPlayer.state.isLoggedIn then
             sleep = (1000 * 60) * QBCore.Config.UpdateInterval
-            TriggerServerEvent('QBCore:UpdatePlayer')
+            local ped = PlayerPedId()
+            local health = GetEntityHealth(ped)
+            local armor = GetPedArmour(ped)
+            TriggerServerEvent('QBCore:UpdatePlayer', health, armor)
         end
         Wait(sleep)
     end

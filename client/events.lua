@@ -4,6 +4,21 @@
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     ShutdownLoadingScreenNui()
     LocalPlayer.state:set('isLoggedIn', true, false)
+
+    -- Restore saved health and armor after ped is ready
+    CreateThread(function()
+        Wait(1000) -- Wait for ped to be fully spawned
+        local ped = PlayerPedId()
+        local health = QBCore.PlayerData.metadata['health']
+        local armor = QBCore.PlayerData.metadata['armor']
+        if health and health > 0 then
+            SetEntityHealth(ped, health)
+        end
+        if armor and armor > 0 then
+            SetPedArmour(ped, armor)
+        end
+    end)
+
     if not QBCore.Config.Server.PVP then return end
     SetCanAttackFriendly(PlayerPedId(), true, false)
     NetworkSetFriendlyFireOption(true)
