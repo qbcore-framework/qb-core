@@ -329,7 +329,6 @@ AddEventHandler('gameEventTriggered', function (name, args)
     if vehicle == lastVehicleData.vehicle then return end
 
     lastVehicleData = {
-        vehicle = vehicle,
         seat = QBCore.Functions.GetPedCurrentSeatInVehicle(vehicle),
         model = GetEntityModel(vehicle)
     }
