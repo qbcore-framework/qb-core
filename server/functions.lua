@@ -55,9 +55,9 @@ end
 ---@param citizenid string
 ---@return table?
 function QBCore.Functions.GetPlayerByCitizenId(citizenid)
-    for src in pairs(QBCore.Players) do
-        if QBCore.Players[src].PlayerData.citizenid == citizenid then
-            return QBCore.Players[src]
+    for _, Player in pairs(QBCore.Players) do
+        if Player.PlayerData.citizenid == citizenid then
+            return Player
         end
     end
     return nil
@@ -81,9 +81,9 @@ end
 ---@param number number
 ---@return table?
 function QBCore.Functions.GetPlayerByPhone(number)
-    for src in pairs(QBCore.Players) do
-        if QBCore.Players[src].PlayerData.charinfo.phone == number then
-            return QBCore.Players[src]
+    for _, Player in pairs(QBCore.Players) do
+        if Player.PlayerData.charinfo.phone == number then
+            return Player
         end
     end
     return nil
@@ -93,9 +93,9 @@ end
 ---@param account string
 ---@return table?
 function QBCore.Functions.GetPlayerByAccount(account)
-    for src in pairs(QBCore.Players) do
-        if QBCore.Players[src].PlayerData.charinfo.account == account then
-            return QBCore.Players[src]
+    for _, Player in pairs(QBCore.Players) do
+        if Player.PlayerData.charinfo.account == account then
+            return Player
         end
     end
     return nil
@@ -106,10 +106,10 @@ end
 ---@param value string
 ---@return table?
 function QBCore.Functions.GetPlayerByCharInfo(property, value)
-    for src in pairs(QBCore.Players) do
-        local charinfo = QBCore.Players[src].PlayerData.charinfo
+    for _, Player in pairs(QBCore.Players) do
+        local charinfo = Player.PlayerData.charinfo
         if charinfo[property] ~= nil and charinfo[property] == value then
-            return QBCore.Players[src]
+            return Player
         end
     end
     return nil
@@ -450,7 +450,7 @@ function QBCore.Functions.TriggerClientCallback(name, source, ...)
         table.remove(args, 1)
     end
 
-    QBCore.ClientCallbacks[name..source] = {
+    QBCore.ClientCallbacks[name .. source] = {
         callback = cb,
         promise = promise.new()
     }
@@ -458,8 +458,8 @@ function QBCore.Functions.TriggerClientCallback(name, source, ...)
     TriggerClientEvent('QBCore:Client:TriggerClientCallback', source, name, table.unpack(args))
 
     if cb == nil then
-        Citizen.Await(QBCore.ClientCallbacks[name..source].promise)
-        return QBCore.ClientCallbacks[name..source].promise.value
+        Citizen.Await(QBCore.ClientCallbacks[name .. source].promise)
+        return QBCore.ClientCallbacks[name .. source].promise.value
     end
 end
 
