@@ -537,11 +537,11 @@ function QBCore.Functions.Kick(source, reason, setKickReason, deferrals)
                     if GetPlayerPing(source) >= 0 then
                         break
                     end
-                    Wait(100)
                     CreateThread(function()
                         DropPlayer(source, reason)
                     end)
                 end
+                Wait(100)
             end
             Wait(5000)
         end
