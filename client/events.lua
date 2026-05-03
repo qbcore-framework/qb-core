@@ -178,7 +178,7 @@ RegisterNetEvent('QBCore:Client:VehicleInfo', function(info)
     }
 
     TriggerEvent('QBCore:Client:' .. info.event .. 'Vehicle', data)
-    data.vehicle = NetworkGetEntityIsNetworked(vehicle) and NetworkGetNetworkIdFromEntity(info.vehicle) or 0
+    data.vehicle = NetworkGetEntityIsNetworked(info.vehicle) and NetworkGetNetworkIdFromEntity(info.vehicle) or 0
     TriggerServerEvent('QBCore:Server:' .. info.event .. 'Vehicle', data)
 end)
 
