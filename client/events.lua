@@ -186,6 +186,12 @@ RegisterNetEvent('QBCore:Player:SetPlayerData', function(val)
     QBCore.PlayerData = val
 end)
 
+RegisterNetEvent('QBCore:Player:UpdatePlayerDataField', function(key, val)
+    if QBCore.PlayerData and key then
+        QBCore.PlayerData[key] = val
+    end
+end)
+
 RegisterNetEvent('QBCore:Player:UpdatePlayerData', function()
     TriggerServerEvent('QBCore:UpdatePlayer')
 end)
