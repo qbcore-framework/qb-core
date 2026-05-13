@@ -55,9 +55,9 @@ end
 ---@param citizenid string
 ---@return table?
 function QBCore.Functions.GetPlayerByCitizenId(citizenid)
-    for src in pairs(QBCore.Players) do
-        if QBCore.Players[src].PlayerData.citizenid == citizenid then
-            return QBCore.Players[src]
+    for _, Player in pairs(QBCore.Players) do
+        if Player.PlayerData.citizenid == citizenid then
+            return Player
         end
     end
     return nil
@@ -81,9 +81,9 @@ end
 ---@param number number
 ---@return table?
 function QBCore.Functions.GetPlayerByPhone(number)
-    for src in pairs(QBCore.Players) do
-        if QBCore.Players[src].PlayerData.charinfo.phone == number then
-            return QBCore.Players[src]
+    for _, Player in pairs(QBCore.Players) do
+        if Player.PlayerData.charinfo.phone == number then
+            return Player
         end
     end
     return nil
@@ -93,9 +93,9 @@ end
 ---@param account string
 ---@return table?
 function QBCore.Functions.GetPlayerByAccount(account)
-    for src in pairs(QBCore.Players) do
-        if QBCore.Players[src].PlayerData.charinfo.account == account then
-            return QBCore.Players[src]
+    for _, Player in pairs(QBCore.Players) do
+        if Player.PlayerData.charinfo.account == account then
+            return Player
         end
     end
     return nil
@@ -106,10 +106,10 @@ end
 ---@param value string
 ---@return table?
 function QBCore.Functions.GetPlayerByCharInfo(property, value)
-    for src in pairs(QBCore.Players) do
-        local charinfo = QBCore.Players[src].PlayerData.charinfo
+    for _, Player in pairs(QBCore.Players) do
+        local charinfo = Player.PlayerData.charinfo
         if charinfo[property] ~= nil and charinfo[property] == value then
-            return QBCore.Players[src]
+            return Player
         end
     end
     return nil
@@ -405,31 +405,35 @@ function PaycheckInterval()
         SetTimeout(QBCore.Config.Money.PayCheckTimeOut * (60 * 1000), PaycheckInterval) -- Prevent paychecks from stopping forever once 0 players
         return
     end
-    for _, Player in pairs(QBCore.Players) do
-        if not Player then return end
-        local payment = QBShared.Jobs[Player.PlayerData.job.name]['grades'][tostring(Player.PlayerData.job.grade.level)].payment
-        if not payment then payment = Player.PlayerData.job.payment end
-        if Player.PlayerData.job and payment > 0 and (QBShared.Jobs[Player.PlayerData.job.name].offDutyPay or Player.PlayerData.job.onduty) then
-            if QBCore.Config.Money.PayCheckSociety then
-                local account = exports['qb-banking']:GetAccountBalance(Player.PlayerData.job.name)
-                if account ~= 0 then
-                    if account < payment then
-                        TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, Lang:t('error.company_too_poor'), 'error')
+    CreateThread(function()
+        for _, Player in pairs(QBCore.Players) do
+            if Player then
+                local payment = QBShared.Jobs[Player.PlayerData.job.name]['grades'][tostring(Player.PlayerData.job.grade.level)].payment
+                if not payment then payment = Player.PlayerData.job.payment end
+                if Player.PlayerData.job and payment > 0 and (QBShared.Jobs[Player.PlayerData.job.name].offDutyPay or Player.PlayerData.job.onduty) then
+                    if QBCore.Config.Money.PayCheckSociety then
+                        local account = exports['qb-banking']:GetAccountBalance(Player.PlayerData.job.name)
+                        if account ~= 0 then
+                            if account < payment then
+                                TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, Lang:t('error.company_too_poor'), 'error')
+                            else
+                                Player.Functions.AddMoney('bank', payment, 'paycheck')
+                                exports['qb-banking']:RemoveMoney(Player.PlayerData.job.name, payment, 'Employee Paycheck')
+                                TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, Lang:t('info.received_paycheck', { value = payment }))
+                            end
+                        else
+                            Player.Functions.AddMoney('bank', payment, 'paycheck')
+                            TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, Lang:t('info.received_paycheck', { value = payment }))
+                        end
                     else
                         Player.Functions.AddMoney('bank', payment, 'paycheck')
-                        exports['qb-banking']:RemoveMoney(Player.PlayerData.job.name, payment, 'Employee Paycheck')
                         TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, Lang:t('info.received_paycheck', { value = payment }))
                     end
-                else
-                    Player.Functions.AddMoney('bank', payment, 'paycheck')
-                    TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, Lang:t('info.received_paycheck', { value = payment }))
                 end
-            else
-                Player.Functions.AddMoney('bank', payment, 'paycheck')
-                TriggerClientEvent('QBCore:Notify', Player.PlayerData.source, Lang:t('info.received_paycheck', { value = payment }))
+                Wait(50)
             end
         end
-    end
+    end)
     SetTimeout(QBCore.Config.Money.PayCheckTimeOut * (60 * 1000), PaycheckInterval)
 end
 
@@ -450,7 +454,7 @@ function QBCore.Functions.TriggerClientCallback(name, source, ...)
         table.remove(args, 1)
     end
 
-    QBCore.ClientCallbacks[name..source] = {
+    QBCore.ClientCallbacks[name .. source] = {
         callback = cb,
         promise = promise.new()
     }
@@ -458,8 +462,8 @@ function QBCore.Functions.TriggerClientCallback(name, source, ...)
     TriggerClientEvent('QBCore:Client:TriggerClientCallback', source, name, table.unpack(args))
 
     if cb == nil then
-        Citizen.Await(QBCore.ClientCallbacks[name..source].promise)
-        return QBCore.ClientCallbacks[name..source].promise.value
+        Citizen.Await(QBCore.ClientCallbacks[name .. source].promise)
+        return QBCore.ClientCallbacks[name .. source].promise.value
     end
 end
 
@@ -537,11 +541,11 @@ function QBCore.Functions.Kick(source, reason, setKickReason, deferrals)
                     if GetPlayerPing(source) >= 0 then
                         break
                     end
-                    Wait(100)
                     CreateThread(function()
                         DropPlayer(source, reason)
                     end)
                 end
+                Wait(100)
             end
             Wait(5000)
         end

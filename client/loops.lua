@@ -1,6 +1,6 @@
 CreateThread(function()
     while true do
-        local sleep = 0
+        local sleep = 1000
         if LocalPlayer.state.isLoggedIn then
             sleep = (1000 * 60) * QBCore.Config.UpdateInterval
             local ped = PlayerPedId()

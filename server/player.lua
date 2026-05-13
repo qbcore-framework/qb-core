@@ -179,10 +179,14 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
     self.PlayerData = PlayerData
     self.Offline = Offline
 
-    function self.Functions.UpdatePlayerData()
+    function self.Functions.UpdatePlayerData(key, val)
         if self.Offline then return end
         TriggerEvent('QBCore:Player:SetPlayerData', self.PlayerData)
-        TriggerClientEvent('QBCore:Player:SetPlayerData', self.PlayerData.source, self.PlayerData)
+        if key and val then
+            TriggerClientEvent('QBCore:Player:UpdatePlayerDataField', self.PlayerData.source, key, val)
+        else
+            TriggerClientEvent('QBCore:Player:SetPlayerData', self.PlayerData.source, self.PlayerData)
+        end
     end
 
     function self.Functions.SetJob(job, grade)
@@ -212,7 +216,7 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         end
 
         if not self.Offline then
-            self.Functions.UpdatePlayerData()
+            self.Functions.UpdatePlayerData('job', self.PlayerData.job)
             TriggerEvent('QBCore:Server:OnJobUpdate', self.PlayerData.source, self.PlayerData.job)
             TriggerClientEvent('QBCore:Client:OnJobUpdate', self.PlayerData.source, self.PlayerData.job)
         end
@@ -243,7 +247,7 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         end
 
         if not self.Offline then
-            self.Functions.UpdatePlayerData()
+            self.Functions.UpdatePlayerData('gang', self.PlayerData.gang)
             TriggerEvent('QBCore:Server:OnGangUpdate', self.PlayerData.source, self.PlayerData.gang)
             TriggerClientEvent('QBCore:Client:OnGangUpdate', self.PlayerData.source, self.PlayerData.gang)
         end
@@ -268,13 +272,13 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         self.PlayerData.job.onduty = not not onDuty
         TriggerEvent('QBCore:Server:OnJobUpdate', self.PlayerData.source, self.PlayerData.job)
         TriggerClientEvent('QBCore:Client:OnJobUpdate', self.PlayerData.source, self.PlayerData.job)
-        self.Functions.UpdatePlayerData()
+        self.Functions.UpdatePlayerData('job', self.PlayerData.job)
     end
 
     function self.Functions.SetPlayerData(key, val)
         if not key or type(key) ~= 'string' then return end
         self.PlayerData[key] = val
-        self.Functions.UpdatePlayerData()
+        self.Functions.UpdatePlayerData(key, val)
     end
 
     function self.Functions.SetMetaData(meta, val)
@@ -283,7 +287,7 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
             val = val > 100 and 100 or val
         end
         self.PlayerData.metadata[meta] = val
-        self.Functions.UpdatePlayerData()
+        self.Functions.UpdatePlayerData('metadata', self.PlayerData.metadata)
     end
 
     function self.Functions.GetMetaData(meta)
@@ -296,7 +300,7 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         local addAmount = tonumber(amount)
         local currentRep = self.PlayerData.metadata['rep'][rep] or 0
         self.PlayerData.metadata['rep'][rep] = currentRep + addAmount
-        self.Functions.UpdatePlayerData()
+        self.Functions.UpdatePlayerData('metadata', self.PlayerData.metadata)
     end
 
     function self.Functions.RemoveRep(rep, amount)
@@ -308,7 +312,7 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         else
             self.PlayerData.metadata['rep'][rep] = currentRep - removeAmount
         end
-        self.Functions.UpdatePlayerData()
+        self.Functions.UpdatePlayerData('metadata', self.PlayerData.metadata)
     end
 
     function self.Functions.GetRep(rep)
@@ -325,7 +329,7 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         self.PlayerData.money[moneytype] = self.PlayerData.money[moneytype] + amount
 
         if not self.Offline then
-            self.Functions.UpdatePlayerData()
+            self.Functions.UpdatePlayerData('money', self.PlayerData.money)
             if amount > 100000 then
                 TriggerEvent('qb-log:server:CreateLog', 'playermoney', 'AddMoney', 'lightgreen', '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')** $' .. amount .. ' (' .. moneytype .. ') added, new ' .. moneytype .. ' balance: ' .. self.PlayerData.money[moneytype] .. ' reason: ' .. reason, true)
             else
@@ -356,7 +360,7 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         self.PlayerData.money[moneytype] = self.PlayerData.money[moneytype] - amount
 
         if not self.Offline then
-            self.Functions.UpdatePlayerData()
+            self.Functions.UpdatePlayerData('money', self.PlayerData.money)
             if amount > 100000 then
                 TriggerEvent('qb-log:server:CreateLog', 'playermoney', 'RemoveMoney', 'red', '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')** $' .. amount .. ' (' .. moneytype .. ') removed, new ' .. moneytype .. ' balance: ' .. self.PlayerData.money[moneytype] .. ' reason: ' .. reason, true)
             else
@@ -383,7 +387,7 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         self.PlayerData.money[moneytype] = amount
 
         if not self.Offline then
-            self.Functions.UpdatePlayerData()
+            self.Functions.UpdatePlayerData('money', self.PlayerData.money)
             TriggerEvent('qb-log:server:CreateLog', 'playermoney', 'SetMoney', 'green', '**' .. GetPlayerName(self.PlayerData.source) .. ' (citizenid: ' .. self.PlayerData.citizenid .. ' | id: ' .. self.PlayerData.source .. ')** $' .. amount .. ' (' .. moneytype .. ') set, new ' .. moneytype .. ' balance: ' .. self.PlayerData.money[moneytype] .. ' reason: ' .. reason)
             TriggerClientEvent('hud:client:OnMoneyChange', self.PlayerData.source, moneytype, math.abs(difference), difference < 0)
             TriggerClientEvent('QBCore:Client:OnMoneyChange', self.PlayerData.source, moneytype, amount, 'set', reason)
