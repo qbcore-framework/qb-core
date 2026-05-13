@@ -166,6 +166,22 @@ function QBCore.Functions.IsWearingGloves()
     return true
 end
 
+--- Returns the current seat of the player
+--- @param vehicle? number|nil The vehicle to check (if not specified, the player's current vehicle is used)
+--- @return number|nil seat The current seat of the player (nil if player is not in that vehicle)
+function QBCore.Functions.GetPedCurrentSeatInVehicle(vehicle)
+    local ped = PlayerPedId()
+    if not vehicle then vehicle = GetVehiclePedIsIn(ped, false) end
+
+    for i = -1, 6 do
+        if GetPedInVehicleSeat(vehicle, i) == ped then
+            return i
+        end
+    end
+
+    return nil
+end
+
 -- NUI Calls
 
 function QBCore.Functions.Notify(text, texttype, length, icon)
