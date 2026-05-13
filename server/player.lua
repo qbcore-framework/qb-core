@@ -193,6 +193,7 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         job = job:lower()
         grade = grade or '0'
         if not QBCore.Shared.Jobs[job] then return false end
+        local lastJob = self.PlayerData.job
         self.PlayerData.job = {
             name = job,
             label = QBCore.Shared.Jobs[job].label,
@@ -217,8 +218,8 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
 
         if not self.Offline then
             self.Functions.UpdatePlayerData('job', self.PlayerData.job)
-            TriggerEvent('QBCore:Server:OnJobUpdate', self.PlayerData.source, self.PlayerData.job)
-            TriggerClientEvent('QBCore:Client:OnJobUpdate', self.PlayerData.source, self.PlayerData.job)
+            TriggerEvent('QBCore:Server:OnJobUpdate', self.PlayerData.source, self.PlayerData.job, lastJob)
+            TriggerClientEvent('QBCore:Client:OnJobUpdate', self.PlayerData.source, self.PlayerData.job, lastJob)
         end
 
         return true
@@ -228,6 +229,7 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
         gang = gang:lower()
         grade = grade or '0'
         if not QBCore.Shared.Gangs[gang] then return false end
+        local lastGang = self.PlayerData.gang
         self.PlayerData.gang = {
             name = gang,
             label = QBCore.Shared.Gangs[gang].label,
@@ -248,8 +250,8 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
 
         if not self.Offline then
             self.Functions.UpdatePlayerData('gang', self.PlayerData.gang)
-            TriggerEvent('QBCore:Server:OnGangUpdate', self.PlayerData.source, self.PlayerData.gang)
-            TriggerClientEvent('QBCore:Client:OnGangUpdate', self.PlayerData.source, self.PlayerData.gang)
+            TriggerEvent('QBCore:Server:OnGangUpdate', self.PlayerData.source, self.PlayerData.gang, lastGang)
+            TriggerClientEvent('QBCore:Client:OnGangUpdate', self.PlayerData.source, self.PlayerData.gang, lastGang)
         end
 
         return true
@@ -270,8 +272,8 @@ function QBCore.Player.CreatePlayer(PlayerData, Offline)
 
     function self.Functions.SetJobDuty(onDuty)
         self.PlayerData.job.onduty = not not onDuty
-        TriggerEvent('QBCore:Server:OnJobUpdate', self.PlayerData.source, self.PlayerData.job)
-        TriggerClientEvent('QBCore:Client:OnJobUpdate', self.PlayerData.source, self.PlayerData.job)
+        TriggerEvent('QBCore:Server:SetDuty', self.PlayerData.source, self.PlayerData.job.onduty)
+        TriggerClientEvent('QBCore:Client:SetDuty', self.PlayerData.source, self.PlayerData.job.onduty)
         self.Functions.UpdatePlayerData('job', self.PlayerData.job)
     end
 
