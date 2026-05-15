@@ -4,6 +4,10 @@
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     ShutdownLoadingScreenNui()
     LocalPlayer.state:set('isLoggedIn', true, false)
+    local savedHealth = QBCore.PlayerData.metadata['health']
+    if savedHealth and savedHealth > 0 and not QBCore.PlayerData.metadata['isdead'] and not QBCore.PlayerData.metadata['inlaststand'] then
+        SetEntityHealth(PlayerPedId(), savedHealth)
+    end
     if not QBCore.Config.Server.PVP then return end
     SetCanAttackFriendly(PlayerPedId(), true, false)
     NetworkSetFriendlyFireOption(true)

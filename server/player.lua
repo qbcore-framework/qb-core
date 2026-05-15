@@ -506,6 +506,7 @@ function QBCore.Player.Save(source)
     local pcoords    = GetEntityCoords(ped)
     local PlayerData = QBCore.Players[source].PlayerData
     if PlayerData then
+        PlayerData.metadata['health'] = GetEntityHealth(ped)
         MySQL.insert('INSERT INTO players (citizenid, cid, license, name, money, charinfo, job, gang, position, metadata) VALUES (:citizenid, :cid, :license, :name, :money, :charinfo, :job, :gang, :position, :metadata) ON DUPLICATE KEY UPDATE cid = :cid, name = :name, money = :money, charinfo = :charinfo, job = :job, gang = :gang, position = :position, metadata = :metadata', {
             citizenid = PlayerData.citizenid,
             cid       = tonumber(PlayerData.cid),
