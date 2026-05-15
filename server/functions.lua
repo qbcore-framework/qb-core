@@ -55,12 +55,7 @@ end
 ---@param citizenid string
 ---@return table?
 function QBCore.Functions.GetPlayerByCitizenId(citizenid)
-    for _, Player in pairs(QBCore.Players) do
-        if Player.PlayerData.citizenid == citizenid then
-            return Player
-        end
-    end
-    return nil
+    return QBCore.PlayersByCitizenId[citizenid]
 end
 
 ---Get offline player by citizen id
@@ -740,8 +735,15 @@ function QBCore.Functions.PrepForSQL(source, data, pattern)
     return true
 end
 
+local playerExports = {
+    GetPlayer = true,
+    GetPlayerByCitizenId = true,
+    GetOfflinePlayerByCitizenId = true,
+    GetPlayerByLicense = true,
+    GetOfflinePlayerByLicense = true,
+}
 for functionName, func in pairs(QBCore.Functions) do
-    if type(func) == 'function' then
+    if type(func) == 'function' and not playerExports[functionName] then
         exports(functionName, func)
     end
 end
