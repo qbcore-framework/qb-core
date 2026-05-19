@@ -29,7 +29,7 @@ local function changeText(text, position)
 end
 
 local function keyPressed()
-    CreateThread(function() -- Not sure if a thread is needed but why not eh?
+    CreateThread(function()
         SendNUIMessage({
             action = 'KEY_PRESSED',
         })

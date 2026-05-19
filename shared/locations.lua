@@ -1,4 +1,4 @@
-QBShared.Locations = {
+QBCore.Shared.Locations = {
     -- Base game MLO interiors
     aircraft_carrier_int = vector4(3081.0042, -4693.6875, 15.2623, 76.8169),
     apt_1_int = vector4(-1452.4602, -540.2056, 74.0443, 31.9129),

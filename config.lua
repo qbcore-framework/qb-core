@@ -1,30 +1,31 @@
-QBConfig = {}
+QBCore = {}
+QBCore.Config = {}
 
-QBConfig.MaxPlayers = GetConvarInt('sv_maxclients', 48) -- Gets max players from config file, default 48
-QBConfig.DefaultSpawn = vector4(-1035.71, -2731.87, 12.86, 0.0)
-QBConfig.UpdateInterval = 5                             -- how often to update player data in minutes
-QBConfig.StatusInterval = 5000                          -- how often to check hunger/thirst status in milliseconds
+QBCore.Config.MaxPlayers = GetConvarInt('sv_maxclients', 48) -- Gets max players from config file, default 48
+QBCore.Config.DefaultSpawn = vector4(-1035.71, -2731.87, 12.86, 0.0)
+QBCore.Config.UpdateInterval = 5                             -- how often to update player data in minutes
+QBCore.Config.StatusInterval = 5000                          -- how often to check hunger/thirst status in milliseconds
 
-QBConfig.Money = {}
-QBConfig.Money.MoneyTypes = { cash = 500, bank = 5000, crypto = 0 } -- type = startamount - Add or remove money types for your server (for ex. blackmoney = 0), remember once added it will not be removed from the database!
-QBConfig.Money.DontAllowMinus = { 'cash', 'crypto' }                -- Money that is not allowed going in minus
-QBConfig.Money.MinusLimit = -5000                                    -- The maximum amount you can be negative 
-QBConfig.Money.PayCheckTimeOut = 10                                 -- The time in minutes that it will give the paycheck
-QBConfig.Money.PayCheckSociety = false                              -- If true paycheck will come from the society account that the player is employed at, requires qb-management
+QBCore.Config.Money = {}
+QBCore.Config.Money.MoneyTypes = { cash = 500, bank = 5000, crypto = 0 } -- type = startamount - Add or remove money types for your server (for ex. blackmoney = 0), remember once added it will not be removed from the database!
+QBCore.Config.Money.DontAllowMinus = { 'cash', 'crypto' }                -- Money that is not allowed going in minus
+QBCore.Config.Money.MinusLimit = -5000                                   -- The maximum amount you can be negative
+QBCore.Config.Money.PayCheckTimeOut = 10                                 -- The time in minutes that it will give the paycheck
+QBCore.Config.Money.PayCheckSociety = false                              -- If true paycheck will come from the society account that the player is employed at, requires qb-management
 
-QBConfig.Player = {}
-QBConfig.Player.HungerRate = 4.2 -- Rate at which hunger goes down.
-QBConfig.Player.ThirstRate = 3.8 -- Rate at which thirst goes down.
-QBConfig.Player.Bloodtypes = {
+QBCore.Config.Player = {}
+QBCore.Config.Player.HungerRate = 4.2 -- Rate at which hunger goes down.
+QBCore.Config.Player.ThirstRate = 3.8 -- Rate at which thirst goes down.
+QBCore.Config.Player.Bloodtypes = {
     'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-',
 }
 
-QBConfig.Player.PlayerDefaults = {
+QBCore.Config.Player.PlayerDefaults = {
     citizenid = function() return QBCore.Player.CreateCitizenId() end,
     cid = 1,
     money = function()
         local moneyDefaults = {}
-        for moneytype, startamount in pairs(QBConfig.Money.MoneyTypes) do
+        for moneytype, startamount in pairs(QBCore.Config.Money.MoneyTypes) do
             moneyDefaults[moneytype] = startamount
         end
         return moneyDefaults
@@ -76,7 +77,7 @@ QBConfig.Player.PlayerDefaults = {
         rep = {},
         currentapartment = nil,
         callsign = 'NO CALLSIGN',
-        bloodtype = function() return QBConfig.Player.Bloodtypes[math.random(1, #QBConfig.Player.Bloodtypes)] end,
+        bloodtype = function() return QBCore.Config.Player.Bloodtypes[math.random(1, #QBCore.Config.Player.Bloodtypes)] end,
         fingerprint = function() return QBCore.Player.CreateFingerId() end,
         walletid = function() return QBCore.Player.CreateWalletId() end,
         criminalrecord = {
@@ -100,27 +101,27 @@ QBConfig.Player.PlayerDefaults = {
             InstalledApps = {}
         }
     },
-    position = QBConfig.DefaultSpawn,
+    position = QBCore.Config.DefaultSpawn,
     items = {},
 }
 
-QBConfig.Server = {}                                    -- General server config
-QBConfig.Server.Closed = false                          -- Set server closed (no one can join except people with ace permission 'qbadmin.join')
-QBConfig.Server.ClosedReason = 'Server Closed'          -- Reason message to display when people can't join the server
-QBConfig.Server.Uptime = 0                              -- Time the server has been up.
-QBConfig.Server.Whitelist = false                       -- Enable or disable whitelist on the server
-QBConfig.Server.WhitelistPermission = 'admin'           -- Permission that's able to enter the server when the whitelist is on
-QBConfig.Server.PVP = true                              -- Enable or disable pvp on the server (Ability to shoot other players)
-QBConfig.Server.Discord = ''                            -- Discord invite link
-QBConfig.Server.CheckDuplicateLicense = true            -- Check for duplicate rockstar license on join
-QBConfig.Server.Permissions = { 'god', 'admin', 'mod' } -- Add as many groups as you want here after creating them in your server.cfg
+QBCore.Config.Server = {}                                    -- General server config
+QBCore.Config.Server.Closed = false                          -- Set server closed (no one can join except people with ace permission 'qbadmin.join')
+QBCore.Config.Server.ClosedReason = 'Server Closed'          -- Reason message to display when people can't join the server
+QBCore.Config.Server.Uptime = 0                              -- Time the server has been up.
+QBCore.Config.Server.Whitelist = false                       -- Enable or disable whitelist on the server
+QBCore.Config.Server.WhitelistPermission = 'admin'           -- Permission that's able to enter the server when the whitelist is on
+QBCore.Config.Server.PVP = true                              -- Enable or disable pvp on the server (Ability to shoot other players)
+QBCore.Config.Server.Discord = ''                            -- Discord invite link
+QBCore.Config.Server.CheckDuplicateLicense = true            -- Check for duplicate rockstar license on join
+QBCore.Config.Server.Permissions = { 'god', 'admin', 'mod' } -- Add as many groups as you want here after creating them in your server.cfg
 
-QBConfig.Commands = {}                                  -- Command Configuration
-QBConfig.Commands.OOCColor = { 255, 151, 133 }          -- RGB color code for the OOC command
+QBCore.Config.Commands = {}                                  -- Command Configuration
+QBCore.Config.Commands.OOCColor = { 255, 151, 133 }          -- RGB color code for the OOC command
 
-QBConfig.Notify = {}
+QBCore.Config.Notify = {}
 
-QBConfig.Notify.NotificationStyling = {
+QBCore.Config.Notify.NotificationStyling = {
     group = false,      -- Allow notifications to stack with a badge instead of repeating
     position = 'right', -- top-left | top-right | bottom-left | bottom-right | top | bottom | left | right | center
     progress = true     -- Display Progress Bar
@@ -129,7 +130,7 @@ QBConfig.Notify.NotificationStyling = {
 -- These are how you define different notification variants
 -- The "color" key is background of the notification
 -- The "icon" key is the css-icon code, this project uses `Material Icons` & `Font Awesome`
-QBConfig.Notify.VariantDefinitions = {
+QBCore.Config.Notify.VariantDefinitions = {
     success = {
         classes = 'success',
         icon = 'check_circle'

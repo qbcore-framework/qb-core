@@ -1,3 +1,4 @@
+QBCore.PlayerData = {}
 QBCore.Functions = {}
 
 -- Callbacks

@@ -1,5 +1,4 @@
-QBShared = QBShared or {}
-QBShared.Vehicles = QBShared.Vehicles or {}
+QBCore.Shared.Vehicles = QBCore.Shared.Vehicles or {}
 
 local Vehicles = {
     --- Compacts (0)
@@ -765,10 +764,10 @@ local Vehicles = {
     { model = 'formula',         name = 'PR4',                           brand = 'Progen',          price = 100000,  category = 'openwheel',      type = 'automobile', shop = 'none' },
 }
 
-QBShared.VehicleHashes = QBShared.VehicleHashes or {}
+QBCore.Shared.VehicleHashes = QBCore.Shared.VehicleHashes or {}
 for i = 1, #Vehicles do
     local hash = joaat(Vehicles[i].model)
-    QBShared.Vehicles[Vehicles[i].model] = {
+    QBCore.Shared.Vehicles[Vehicles[i].model] = {
         spawncode = Vehicles[i].model,
         name = Vehicles[i].name,
         brand = Vehicles[i].brand,
@@ -779,5 +778,5 @@ for i = 1, #Vehicles do
         type = Vehicles[i].type,
         shop = Vehicles[i].shop
     }
-    QBShared.VehicleHashes[hash] = QBShared.Vehicles[Vehicles[i].model]
+    QBCore.Shared.VehicleHashes[hash] = QBCore.Shared.Vehicles[Vehicles[i].model]
 end
