@@ -17,12 +17,14 @@ local function GetCoreObject(filters)
 end
 exports('GetCoreObject', GetCoreObject)
 
---- @param namespace 'Vehicles' | 'VehicleHashes' | 'Items' | 'Gangs' | 'Jobs' | 'Locations' | 'Weapons'
---- @param item string
---- @return table
+--- @param namespace 'Vehicles' | 'VehicleHashes' | 'Items' | 'Gangs' | 'Jobs' | 'Locations' | 'Weapons' | 'StarterItems'
+--- @param item string?
+--- @return table?
 function GetShared(namespace, item)
     local ns = QBCore.Shared[namespace]
-    return ns and ns[item]
+    if not ns then return nil end
+
+    return item and ns[item] or ns
 end
 
 exports('GetShared', GetShared)
