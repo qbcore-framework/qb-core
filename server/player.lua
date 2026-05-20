@@ -13,6 +13,13 @@ local varargMethods       = {
 }
 local noargMethods        = { 'GetName', 'Save', 'Logout' }
 
+local function isCallable(value)
+    if type(value) == 'function' then return true end
+    if type(value) == 'table' and type(rawget(value, '__cfx_functionReference')) == 'string' then return true end
+    local mt = getmetatable(value)
+    return mt and type(mt.__call) == 'function'
+end
+
 local function buildMethodTable(player)
     local t = {}
     for _, name in ipairs(varargMethods) do
@@ -275,14 +282,14 @@ function Player:Logout()
 end
 
 function Player:AddMethod(methodName, handler)
-    if type(methodName) ~= 'string' or type(handler) ~= 'function' then return false end
+    if type(methodName) ~= 'string' or not isCallable(handler) then return false end
     self[methodName]           = handler
     self.Functions[methodName] = handler
     return true
 end
 
 function Player:AddField(fieldName, data)
-    if type(fieldName) ~= 'string' or type(data) == 'function' then return false end
+    if type(fieldName) ~= 'string' or isCallable(data) then return false end
     self[fieldName] = data
     return true
 end
@@ -641,8 +648,23 @@ end
 
 local function buildInterface(internalPlayer)
     if not internalPlayer then return nil end
-    local iface = buildMethodTable(internalPlayer)
+    local iface, methods = {}, {}
+
+    for methodName, handler in pairs(internalPlayer.Functions) do
+        if isCallable(handler) then
+            iface[methodName] = handler
+            methods[methodName] = handler
+        end
+    end
+
+    for fieldName, data in pairs(internalPlayer) do
+        if fieldName ~= 'PlayerData' and fieldName ~= 'Functions' and fieldName ~= 'Offline' and not isCallable(data) then
+            iface[fieldName] = data
+        end
+    end
+
     iface.PlayerData = internalPlayer.PlayerData
+    iface.Functions = methods
     return iface
 end
 
