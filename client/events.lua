@@ -178,7 +178,7 @@ RegisterNetEvent('QBCore:Client:VehicleInfo', function(info)
     }
 
     TriggerEvent('QBCore:Client:' .. info.event .. 'Vehicle', data)
-    data.vehicle = NetworkGetEntityIsNetworked(vehicle) and NetworkGetNetworkIdFromEntity(info.vehicle) or 0
+    data.vehicle = NetworkGetEntityIsNetworked(info.vehicle) and NetworkGetNetworkIdFromEntity(info.vehicle) or 0
     TriggerServerEvent('QBCore:Server:' .. info.event .. 'Vehicle', data)
 end)
 
@@ -186,6 +186,12 @@ end)
 
 RegisterNetEvent('QBCore:Player:SetPlayerData', function(val)
     QBCore.PlayerData = val
+end)
+
+RegisterNetEvent('QBCore:Player:UpdatePlayerDataField', function(key, val)
+    if QBCore.PlayerData and key then
+        QBCore.PlayerData[key] = val
+    end
 end)
 
 RegisterNetEvent('QBCore:Player:UpdatePlayerData', function()
@@ -283,16 +289,18 @@ end)
 local lastVehicleData = {}
 local THREAD_INTERVAl_CHECKER = 1000
 
--- Vehicle thread for entering event
+-- Thread for vehicle entering event
 CreateThread(function()
     local entering = false
     while true do
         if LocalPlayer.state.isLoggedIn then
             local ped = PlayerPedId()
-            local vehicle = GetVehiclePedIsTryingToEnter(PlayerPedId())
-            if vehicle ~= 0 and not entering then
-                entering = true
-                TriggerEvent('QBCore:Client:VehicleInfo', {vehicle = vehicle, seat = GetSeatPedIsTryingToEnter(ped), name = GetEntityModel(vehicle), event = 'Entering'})
+            local vehicle = GetVehiclePedIsTryingToEnter(ped)
+            if vehicle ~= 0 then
+                if not entering then
+                    entering = true
+                    TriggerEvent('QBCore:Client:VehicleInfo', {vehicle = vehicle, seat = GetSeatPedIsTryingToEnter(ped), name = GetEntityModel(vehicle), event = 'Entering'})
+                end
             elseif entering then
                 entering = false
             end
