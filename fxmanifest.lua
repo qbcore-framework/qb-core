@@ -11,6 +11,7 @@ shared_scripts {
     'locale/en.lua',
     'locale/*.lua',
     'shared/main.lua',
+    'shared/functions.lua',
     'shared/items.lua',
     'shared/jobs.lua',
     'shared/vehicles.lua',
@@ -20,7 +21,6 @@ shared_scripts {
 }
 
 client_scripts {
-    'client/main.lua',
     'client/functions.lua',
     'client/loops.lua',
     'client/events.lua',
@@ -29,7 +29,6 @@ client_scripts {
 
 server_scripts {
     '@oxmysql/lib/MySQL.lua',
-    'server/main.lua',
     'server/functions.lua',
     'server/player.lua',
     'server/events.lua',

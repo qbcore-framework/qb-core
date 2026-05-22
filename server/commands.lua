@@ -92,7 +92,7 @@ QBCore.Commands.Add('tp', Lang:t('command.tp.help'), { { name = Lang:t('command.
                 TriggerClientEvent('QBCore:Notify', source, Lang:t('error.not_online'), 'error')
             end
         else
-            local location = QBShared.Locations[args[1]]
+            local location = QBCore.Shared.Locations[args[1]]
             if location then
                 TriggerClientEvent('QBCore:Command:TeleportToCoords', source, location.x, location.y, location.z, location.w)
             else
@@ -101,12 +101,12 @@ QBCore.Commands.Add('tp', Lang:t('command.tp.help'), { { name = Lang:t('command.
         end
     else
         if args[1] and args[2] and args[3] then
-            local x = tonumber((args[1]:gsub(',', ''))) + .0
-            local y = tonumber((args[2]:gsub(',', ''))) + .0
-            local z = tonumber((args[3]:gsub(',', ''))) + .0
-            local heading = args[4] and tonumber((args[4]:gsub(',', ''))) + .0 or false
-            if x ~= 0 and y ~= 0 and z ~= 0 then
-                TriggerClientEvent('QBCore:Command:TeleportToCoords', source, x, y, z, heading)
+            local x = tonumber((args[1]:gsub(',', '')))
+            local y = tonumber((args[2]:gsub(',', '')))
+            local z = tonumber((args[3]:gsub(',', '')))
+            local heading = args[4] and tonumber((args[4]:gsub(',', ''))) or false
+            if x and y and z then
+                TriggerClientEvent('QBCore:Command:TeleportToCoords', source, x + .0, y + .0, z + .0, heading and heading + .0 or false)
             else
                 TriggerClientEvent('QBCore:Notify', source, Lang:t('error.wrong_format'), 'error')
             end
@@ -240,7 +240,9 @@ end, 'admin')
 -- Job
 
 QBCore.Commands.Add('job', Lang:t('command.job.help'), {}, false, function(source)
-    local PlayerJob = QBCore.Functions.GetPlayer(source).PlayerData.job
+    local Player = QBCore.Functions.GetPlayer(source)
+    if not Player then return end
+    local PlayerJob = Player.PlayerData.job
     TriggerClientEvent('QBCore:Notify', source, Lang:t('info.job_info', { value = PlayerJob.label, value2 = PlayerJob.grade.name, value3 = PlayerJob.onduty }))
 end, 'user')
 
@@ -256,7 +258,9 @@ end, 'admin')
 -- Gang
 
 QBCore.Commands.Add('gang', Lang:t('command.gang.help'), {}, false, function(source)
-    local PlayerGang = QBCore.Functions.GetPlayer(source).PlayerData.gang
+    local Player = QBCore.Functions.GetPlayer(source)
+    if not Player then return end
+    local PlayerGang = Player.PlayerData.gang
     TriggerClientEvent('QBCore:Notify', source, Lang:t('info.gang_info', { value = PlayerGang.label, value2 = PlayerGang.grade.name }))
 end, 'user')
 

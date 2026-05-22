@@ -1,3 +1,4 @@
+QBCore.PlayerData = {}
 QBCore.Functions = {}
 
 -- Callbacks
@@ -372,12 +373,23 @@ end
 
 -- Vehicle
 
-function QBCore.Functions.LoadModel(model)
-    if HasModelLoaded(model) then return end
-    RequestModel(model)
-    while not HasModelLoaded(model) do
+function QBCore.Functions.LoadModel(model, timeout)
+    timeout = timeout or 5000
+    local modelName = model
+    if type(modelName) ~= 'number' then modelName = joaat(model) end
+    if HasModelLoaded(modelName) then return true, model end
+
+    if not IsModelValid(modelName) and not IsModelInCdimage(modelName) then
+        print(('[QBCore] Model does not exist: %s'):format(modelName or model))
+        return false, modelName
+    end
+
+    RequestModel(modelName)
+    local count = GetGameTimer() + timeout
+    while not HasModelLoaded(modelName) and GetGameTimer() < count do
         Wait(0)
     end
+    return HasModelLoaded(modelName), modelName
 end
 
 function QBCore.Functions.SpawnVehicle(model, cb, coords, isnetworked, teleportInto)
@@ -896,12 +908,20 @@ function QBCore.Functions.DrawText3D(x, y, z, text)
     ClearDrawOrigin()
 end
 
-function QBCore.Functions.RequestAnimDict(animDict)
-    if HasAnimDictLoaded(animDict) then return end
+function QBCore.Functions.RequestAnimDict(animDict, timeout)
+    timeout = timeout or 5000
+    if HasAnimDictLoaded(animDict) then return true, animDict end
+    if not DoesAnimDictExist(animDict) then
+        print(('[QBCore] Animation dictionary does not exist: %s'):format(animDict))
+        return false, animDict
+    end
+
     RequestAnimDict(animDict)
-    while not HasAnimDictLoaded(animDict) do
+    local count = GetGameTimer() + timeout
+    while not HasAnimDictLoaded(animDict) and GetGameTimer() < count do
         Wait(0)
     end
+    return HasAnimDictLoaded(animDict), animDict
 end
 
 function QBCore.Functions.GetClosestBone(entity, list)
@@ -964,20 +984,30 @@ function QBCore.Functions.SpawnClear(coords, radius)
     return true
 end
 
-function QBCore.Functions.LoadAnimSet(animSet)
-    if HasAnimSetLoaded(animSet) then return end
+function QBCore.Functions.LoadAnimSet(animSet, timeout)
+    timeout = timeout or 5000
+    if HasAnimSetLoaded(animSet) then return true, animSet end
     RequestAnimSet(animSet)
-    while not HasAnimSetLoaded(animSet) do
+
+    local count = GetGameTimer() + timeout
+    while not HasAnimSetLoaded(animSet) and GetGameTimer() < count do
         Wait(0)
     end
+
+    return HasAnimSetLoaded(animSet), animSet
 end
 
-function QBCore.Functions.LoadParticleDictionary(dictionary)
-    if HasNamedPtfxAssetLoaded(dictionary) then return end
+function QBCore.Functions.LoadParticleDictionary(dictionary, timeout)
+    timeout = timeout or 5000
+    if HasNamedPtfxAssetLoaded(dictionary) then return true, dictionary end
     RequestNamedPtfxAsset(dictionary)
-    while not HasNamedPtfxAssetLoaded(dictionary) do
+
+    local count = GetGameTimer() + timeout
+    while not HasNamedPtfxAssetLoaded(dictionary) and GetGameTimer() < count do
         Wait(0)
     end
+
+    return HasNamedPtfxAssetLoaded(dictionary), dictionary
 end
 
 function QBCore.Functions.StartParticleAtCoord(dict, ptName, looped, coords, rot, scale, alpha, color, duration)

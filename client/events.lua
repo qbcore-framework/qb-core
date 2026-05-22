@@ -1,6 +1,3 @@
--- Player load and unload handling
--- New method for checking if logged in across all scripts (optional)
--- if LocalPlayer.state['isLoggedIn'] then
 RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     ShutdownLoadingScreenNui()
     LocalPlayer.state:set('isLoggedIn', true, false)
@@ -17,6 +14,7 @@ RegisterNetEvent('QBCore:Client:PvpHasToggled', function(pvp_state)
     SetCanAttackFriendly(PlayerPedId(), pvp_state, false)
     NetworkSetFriendlyFireOption(pvp_state)
 end)
+
 -- Teleport Commands
 
 RegisterNetEvent('QBCore:Command:TeleportToPlayer', function(coords)
@@ -184,28 +182,21 @@ end)
 
 -- Other stuff
 
-RegisterNetEvent('QBCore:Player:SetPlayerData', function(val)
-    QBCore.PlayerData = val
-end)
-
-RegisterNetEvent('QBCore:Player:UpdatePlayerDataField', function(key, val)
-    if QBCore.PlayerData and key then
+RegisterNetEvent('QBCore:Client:OnPlayerUpdated', function(key, val)
+    if key == 'all' then
+        QBCore.PlayerData = val
+        TriggerEvent('QBCore:Player:SetPlayerData', val)
+        TriggerEvent('QBCore:Client:OnJobUpdate', val.job)
+        TriggerEvent('QBCore:Client:OnGangUpdate', val.gang)
+    elseif QBCore.PlayerData and key then
         QBCore.PlayerData[key] = val
+        if key == 'job' then TriggerEvent('QBCore:Client:OnJobUpdate', val) end
+        if key == 'gang' then TriggerEvent('QBCore:Client:OnGangUpdate', val) end
     end
-end)
-
-RegisterNetEvent('QBCore:Player:UpdatePlayerData', function()
-    TriggerServerEvent('QBCore:UpdatePlayer')
 end)
 
 RegisterNetEvent('QBCore:Notify', function(text, type, length, icon)
     QBCore.Functions.Notify(text, type, length, icon)
-end)
-
--- This event is exploitable and should not be used. It has been deprecated, and will be removed soon.
-RegisterNetEvent('QBCore:Client:UseItem', function(item)
-    QBCore.Debug(string.format('%s triggered QBCore:Client:UseItem by ID %s with the following data. This event is deprecated due to exploitation, and will be removed soon. Check qb-inventory for the right use on this event.', GetInvokingResource(), GetPlayerServerId(PlayerId())))
-    QBCore.Debug(item)
 end)
 
 RegisterNUICallback('getNotifyConfig', function(_, cb)
