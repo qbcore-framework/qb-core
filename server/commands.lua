@@ -21,10 +21,6 @@ function QBCore.Commands.Add(name, help, arguments, argsrequired, callback, perm
     if permission == 'user' then restricted = false end      -- allow all users to use command
 
     RegisterCommand(name, function(source, args, rawCommand) -- Register command within fivem
-
-        TriggerEvent('QBCore:Server:PreCommandExecution', source, name, args, rawCommand)
-        if WasEventCanceled() then return end
-
         if argsrequired and #args < #arguments then
             return TriggerClientEvent('chat:addMessage', source, {
                 color = { 255, 0, 0 },
@@ -32,6 +28,10 @@ function QBCore.Commands.Add(name, help, arguments, argsrequired, callback, perm
                 args = { 'System', Lang:t('error.missing_args2') }
             })
         end
+
+        TriggerEvent('QBCore:Server:PreCommandExecution', source, name, args, rawCommand)
+        if WasEventCanceled() then return end
+
         callback(source, args, rawCommand)
     end, restricted)
 
