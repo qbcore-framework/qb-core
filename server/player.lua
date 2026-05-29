@@ -577,7 +577,7 @@ function QBCore.Player.ForceDeleteCharacter(citizenid)
     if existing then
         local src = existing.PlayerData.source
         -- clear refs to prevent playerDropped from saving
-        QBCore.Players[src] = nil 
+        QBCore.Players[src] = nil
         QBCore.PlayersByCitizenId[citizenid] = nil
         DropPlayer(src, 'An admin deleted the character which you are currently using')
     end
