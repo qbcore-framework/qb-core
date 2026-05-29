@@ -575,7 +575,11 @@ function QBCore.Player.ForceDeleteCharacter(citizenid)
     local queries  = {}
     local existing = QBCore.Functions.GetPlayerByCitizenId(citizenid)
     if existing then
-        DropPlayer(existing.PlayerData.source, 'An admin deleted the character which you are currently using')
+        local src = existing.PlayerData.source
+        -- clear refs to prevent playerDropped from saving
+        QBCore.Players[src] = nil 
+        QBCore.PlayersByCitizenId[citizenid] = nil
+        DropPlayer(src, 'An admin deleted the character which you are currently using')
     end
     for i = 1, #playertables do
         queries[i] = { query = query:format(playertables[i].table), values = { citizenid } }
