@@ -28,6 +28,10 @@ function QBCore.Commands.Add(name, help, arguments, argsrequired, callback, perm
                 args = { 'System', Lang:t('error.missing_args2') }
             })
         end
+
+        TriggerEvent('QBCore:Server:PreCommandExecution', source, name, args, rawCommand)
+        if WasEventCanceled() then return end
+
         callback(source, args, rawCommand)
     end, restricted)
 
